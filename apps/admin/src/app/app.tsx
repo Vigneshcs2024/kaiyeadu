@@ -1,4 +1,5 @@
 import styles from './app.module.scss';
+import { Sample } from '@kaiyeadu/ui';
 
 import { ReactComponent as Logo } from './logo.svg';
 import star from './star.svg';
@@ -14,6 +15,7 @@ export function App() {
       </header>
       <main>
         <h2>Resources &amp; Tools</h2>
+        <Sample />
         <p>Thank you for using and showing some ♥ for Nx.</p>
         <div className="flex github-star-container">
           <a
