@@ -1,3 +1,3 @@
-export interface Sample {
+export interface SampleType {
   [key: string]: string;
 }
