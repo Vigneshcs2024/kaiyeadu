@@ -3,6 +3,7 @@
   "projects": {
     "admin": "apps/admin",
     "api": "apps/api",
+    "api-interfaces": "libs/api-interfaces",
     "user": "apps/client"
   }
 }
