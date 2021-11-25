@@ -1,6 +1,8 @@
 {
   "version": 2,
   "projects": {
-    "api": "apps/api"
+    "admin": "apps/admin",
+    "api": "apps/api",
+    "user": "apps/client"
   }
 }
