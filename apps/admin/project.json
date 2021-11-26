@@ -55,14 +55,6 @@
 			"options": {
 				"lintFilePatterns": ["apps/admin/**/*.{ts,tsx,js,jsx}"]
 			}
-		},
-		"test": {
-			"executor": "@nrwl/jest:jest",
-			"outputs": ["coverage/apps/admin"],
-			"options": {
-				"jestConfig": "apps/admin/jest.config.js",
-				"passWithNoTests": true
-			}
 		}
 	},
 	"tags": []
