@@ -1,11 +1,11 @@
 {
-  "version": 2,
-  "projects": {
-    "admin": "apps/admin",
-    "api": "apps/api",
-    "api-interfaces": "libs/api-interfaces",
-    "client": "apps/client",
-    "ui": "libs/ui",
-    "mobile": "apps/mobile"
-  }
+	"version": 2,
+	"projects": {
+		"admin": "apps/admin",
+		"api": "apps/api",
+		"api-interfaces": "libs/api-interfaces",
+		"client": "apps/client",
+		"ui": "libs/ui",
+		"mobile": "apps/mobile"
+	}
 }

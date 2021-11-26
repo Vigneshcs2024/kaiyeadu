@@ -4,11 +4,11 @@ import './sample.module.scss';
 export interface SampleProps {}
 
 export function Sample(props: SampleProps) {
-  return (
-    <div>
-      <h1>Welcome to Sample!</h1>
-    </div>
-  );
+	return (
+		<div>
+			<h1>Welcome to Sample!</h1>
+		</div>
+	);
 }
 
 export default Sample;
