@@ -4,7 +4,8 @@ dotenv.config({ allowEmptyValues: true });
 import config from 'config';
 import express from 'express';
 import pc from 'picocolors';
-import { setup, logger, db } from './root';
+import { setup, db } from './root';
+import { logger } from './tools';
 
 const app = express();
 

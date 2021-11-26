@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import morgan from 'morgan';
 import pc from 'picocolors';
 
@@ -10,7 +11,7 @@ import pc from 'picocolors';
  * affect the performance of your app and slow down your server.
  */
 
-export default morgan((tokens, req, res) => {
+export default morgan((tokens, req: Request, res: Response) => {
 	const { statusCode, methodName, requestURL, responseLength, responseTime, time, date } =
 		extractAttributes(tokens, req, res);
 
@@ -22,7 +23,7 @@ export default morgan((tokens, req, res) => {
 	return `[${date} ${time}] ${coloredStatus} | ${coloredMethod} ${requestURL} | ${coloredLengthInBytes}, ${coloredResponseTime}`;
 });
 
-function extractAttributes(tokens, req, res) {
+function extractAttributes(tokens, req: Request, res: Response) {
 	/**
 	 * Extracts required attributes from the request
 	 */
@@ -37,7 +38,7 @@ function extractAttributes(tokens, req, res) {
 	return { statusCode, methodName, requestURL, responseLength, responseTime, time, date };
 }
 
-function colorizeStatusCodes(statusCode) {
+function colorizeStatusCodes(statusCode: number) {
 	/**
 	 * Adds chalk colors to the status codes:
 	 * Code		|		Color
@@ -48,89 +49,65 @@ function colorizeStatusCodes(statusCode) {
 	 * 5xx		|		red
 	 */
 
-	let colorizedStatus;
-	if (statusCode < 200) {
-		colorizedStatus = pc.gray(statusCode);
-	} else if (statusCode < 300) {
-		colorizedStatus = pc.green(statusCode);
-	} else if (statusCode < 400) {
-		colorizedStatus = pc.cyan(statusCode);
-	} else if (statusCode < 500) {
-		colorizedStatus = pc.yellow(statusCode);
-	} else {
-		colorizedStatus = pc.red(statusCode);
-	}
-	return colorizedStatus;
+	if (statusCode < 200) return pc.gray(statusCode);
+	if (statusCode < 300) return pc.green(statusCode);
+	if (statusCode < 400) return pc.cyan(statusCode);
+	if (statusCode < 500) return pc.yellow(statusCode);
+	if (statusCode >= 500) return pc.red(statusCode);
 }
 
-function colorizeMethod(methodName) {
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+function colorizeMethod(methodName: HttpMethod) {
 	/**
 	 * Adds chalk colors to the Http request methods:
 	 * Method			|		Color
 	 * Get				|		blue
-	 * Post, Put	|		magenta
+	 * Post, Put		|		magenta
 	 * patch			|		yellow
-	 * delete 		|		red
+	 * delete 			|		red
 	 */
-	let colorizedMethod;
 	switch (methodName) {
 		case 'GET':
-			colorizedMethod = pc.blue(methodName);
-			break;
+			return pc.blue(methodName);
 
 		case 'POST':
 		case 'PUT':
-			colorizedMethod = pc.magenta(methodName);
-			break;
+			return pc.magenta(methodName);
 
 		case 'PATCH':
-			colorizedMethod = pc.yellow(methodName);
-			break;
+			return pc.yellow(methodName);
 
 		case 'DELETE':
-			colorizedMethod = pc.red(methodName);
-			break;
+			return pc.red(methodName);
 
 		default:
-			break;
+			return methodName;
 	}
-	return colorizedMethod;
 }
 
-function customizeLength(length) {
+function customizeLength(length: number) {
 	/**
 	 * Colorizes length string based on the value and adds 'B' as unit.
 	 * size < 600 => default
 	 * 600 <= size < 3000 => yellow
 	 * size >= 3000 => red
 	 */
-	let customizedLength;
-	if (length >= 600 && length < 3000) {
-		customizedLength = pc.yellow(length + 'B');
-	} else if (length >= 3000) {
-		customizedLength = pc.red(length + 'B');
-	} else if (!length) {
-		customizedLength = '0B';
-	} else {
-		customizedLength = `${length}B`;
-	}
-	return customizedLength;
+	if (length >= 600 && length < 3000) return pc.yellow(`${length}B`);
+	if (length >= 3000) return pc.red(`${length}B`);
+	if (!length) return '0B';
+
+	return `${length}B`;
 }
 
-function customizeResponseTime(resTime) {
+function customizeResponseTime(resTime: number) {
 	/**
 	 * Colorizes response time string based on the value and adds 'ms' as unit.
 	 * size < 500 => default
 	 * 500 <= size < 1000 => yellow
 	 * size >= 1000 => red
 	 */
-	let coloredResponseTime;
-	if (resTime >= 500 && resTime < 1000) {
-		coloredResponseTime = pc.yellow(resTime + 'ms');
-	} else if (resTime >= 1000) {
-		coloredResponseTime = pc.red(resTime + 'ms');
-	} else {
-		coloredResponseTime = `${resTime}ms`;
-	}
-	return coloredResponseTime;
+	if (resTime >= 500 && resTime < 1000) return pc.yellow(`${resTime}ms`);
+	if (resTime >= 1000) return pc.red(`${resTime}ms`);
+
+	return `${resTime}ms`;
 }
