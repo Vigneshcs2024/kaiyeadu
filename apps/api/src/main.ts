@@ -3,8 +3,9 @@
  * This is only a minimal backend to get started.
  */
 
-import * as express from 'express';
+import 'dotenv';
 import * as config from 'config';
+import * as express from 'express';
 import { SampleType } from '@kaiyeadu/api-interfaces';
 
 const app = express();
