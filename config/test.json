@@ -5,6 +5,11 @@
 		"logging": {
 			"level": "warn",
 			"requests": false
+		},
+		"db": {
+			"database": "kaiyeadu_test",
+			"host": "localhost",
+			"provider": "mysql"
 		}
 	}
 }

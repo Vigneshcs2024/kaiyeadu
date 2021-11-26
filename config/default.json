@@ -5,6 +5,11 @@
 		"logging": {
 			"level": "debug",
 			"requests": true
+		},
+		"db": {
+			"database": "kaiyeadu",
+			"host": "localhost",
+			"provider": "mysql"
 		}
 	}
 }

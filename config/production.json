@@ -3,6 +3,10 @@
 		"logging": {
 			"level": "error",
 			"requests": false
+		},
+		"db": {
+			"database": "kaiyeadu",
+			"provider": "mysql"
 		}
 	}
 }
