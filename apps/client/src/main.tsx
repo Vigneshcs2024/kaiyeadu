@@ -2,17 +2,14 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import { SampleType } from '@kaiyeadu/api-interfaces';
-
-import App from './app/app';
+import { GlobalStyles } from '@kaiyeadu/ui';
 
 ReactDOM.render(
 	<StrictMode>
 		<BrowserRouter>
-			<App />
+			<GlobalStyles />
+			<p>Client Site</p>
 		</BrowserRouter>
 	</StrictMode>,
 	document.getElementById('root')
 );
-
-const sample: SampleType = { a: 'b' };
