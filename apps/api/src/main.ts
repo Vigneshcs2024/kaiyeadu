@@ -5,15 +5,13 @@ import config from 'config';
 import express from 'express';
 import pc from 'picocolors';
 import { logger } from './tools';
-import { db, setup_middlewares } from './root';
+import { db } from './root/connections';
+import { setup_middlewares, setup_routes } from './root/setup';
 
 const app = express();
 
 setup_middlewares(app);
-
-app.get('/api', (req, res) => {
-	res.send({ message: 'Welcome to api!' });
-});
+setup_routes(app);
 
 const port = config.get('api.port') ?? process.env.PORT ?? 5000;
 const server = app.listen(port, async () => {
