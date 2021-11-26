@@ -11,12 +11,12 @@ const app = express();
 const sample: SampleType = { a: 'b' };
 
 app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to api!' });
+	res.send({ message: 'Welcome to api!' });
 });
 
 const port = process.env.port || 3333;
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
-  console.log(`Shared Type variable: ${JSON.stringify(sample)}`);
+	console.log(`Listening at http://localhost:${port}/api`);
+	console.log(`Shared Type variable: ${JSON.stringify(sample)}`);
 });
 server.on('error', console.error);
