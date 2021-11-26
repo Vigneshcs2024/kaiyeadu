@@ -1,0 +1,8 @@
+{
+	"api": {
+		"logging": {
+			"level": "error",
+			"requests": false
+		}
+	}
+}

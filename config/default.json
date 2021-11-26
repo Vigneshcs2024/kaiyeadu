@@ -1,0 +1,10 @@
+{
+	"api": {
+		"host": "127.0.0.1",
+		"port": 5000,
+		"logging": {
+			"level": "debug",
+			"requests": true
+		}
+	}
+}

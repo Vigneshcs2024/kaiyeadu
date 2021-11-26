@@ -4,6 +4,7 @@
  */
 
 import * as express from 'express';
+import * as config from 'config';
 import { SampleType } from '@kaiyeadu/api-interfaces';
 
 const app = express();
@@ -14,7 +15,7 @@ app.get('/api', (req, res) => {
 	res.send({ message: 'Welcome to api!' });
 });
 
-const port = process.env.port || 5000;
+const port = process.env.port || config.get('api.port');
 const server = app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}/api`);
 	console.log(`Shared Type variable: ${JSON.stringify(sample)}`);
