@@ -40,7 +40,8 @@
 			"executor": "@nrwl/web:dev-server",
 			"options": {
 				"buildTarget": "admin:build",
-				"hmr": true
+				"hmr": true,
+				"port": 3000
 			},
 			"configurations": {
 				"production": {

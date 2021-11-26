@@ -40,7 +40,8 @@
 			"executor": "@nrwl/web:dev-server",
 			"options": {
 				"buildTarget": "client:build",
-				"hmr": true
+				"hmr": true,
+				"port": 4000
 			},
 			"configurations": {
 				"production": {
