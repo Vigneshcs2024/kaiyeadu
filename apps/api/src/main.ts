@@ -3,13 +3,14 @@
  * This is only a minimal backend to get started.
  */
 
-import 'dotenv';
+import dotenv from 'dotenv';
 import config from 'config';
 import express from 'express';
 import pc from 'picocolors';
 import { SampleType } from '@kaiyeadu/api-interfaces';
 import { setup, logger } from './root';
 
+dotenv.config();
 const app = express();
 
 setup(app);
