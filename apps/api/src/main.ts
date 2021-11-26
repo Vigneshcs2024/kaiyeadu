@@ -4,12 +4,12 @@ dotenv.config({ allowEmptyValues: true });
 import config from 'config';
 import express from 'express';
 import pc from 'picocolors';
-import { setup, db } from './root';
 import { logger } from './tools';
+import { db, setup_middlewares } from './root';
 
 const app = express();
 
-setup(app);
+setup_middlewares(app);
 
 app.get('/api', (req, res) => {
 	res.send({ message: 'Welcome to api!' });
