@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
+import theme from './theme.values';
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 
   * {
@@ -16,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: "Poppins", sans-serif;
+    font-family: ${theme.font};
     font-size: 1.8rem;
   }
 
@@ -61,5 +62,3 @@ const GlobalStyle = createGlobalStyle`
     list-style: none;
   }
 `;
-
-export default GlobalStyle;

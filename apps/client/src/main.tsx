@@ -1,15 +1,14 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 
-import { GlobalStyles } from '@kaiyeadu/ui';
+import { GlobalStyles, ThemeEngine } from '@kaiyeadu/ui/base';
 
 ReactDOM.render(
 	<StrictMode>
-		<BrowserRouter>
-			<GlobalStyles />
-			<p>Client Site</p>
-		</BrowserRouter>
+		<GlobalStyles />
+		<ThemeEngine>
+			<h1>Client app</h1>
+		</ThemeEngine>
 	</StrictMode>,
 	document.getElementById('root')
 );
