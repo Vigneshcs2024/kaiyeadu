@@ -6,8 +6,9 @@
 import 'dotenv';
 import config from 'config';
 import express from 'express';
+import pc from 'picocolors';
 import { SampleType } from '@kaiyeadu/api-interfaces';
-import { setup } from './root/setup';
+import { setup, logger } from './root';
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.get('/api', (req, res) => {
 
 const port = process.env.port || config.get('api.port');
 const server = app.listen(port, () => {
-	console.log(`Listening at http://localhost:${port}/api`);
-	console.log(`Shared Type variable: ${JSON.stringify(sample)}`);
+	logger.info(`Listening at ${pc.cyan(`http://localhost:${port}/api`)}`);
+	logger.debug(`Shared Type variable: ${JSON.stringify(sample)}`);
 });
-server.on('error', console.error);
+server.on('error', logger.error);
