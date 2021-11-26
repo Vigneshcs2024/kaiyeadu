@@ -4,11 +4,14 @@
  */
 
 import 'dotenv';
-import * as config from 'config';
-import * as express from 'express';
+import config from 'config';
+import express from 'express';
 import { SampleType } from '@kaiyeadu/api-interfaces';
+import { setup } from './root/setup';
 
 const app = express();
+
+setup(app);
 
 const sample: SampleType = { a: 'b' };
 
