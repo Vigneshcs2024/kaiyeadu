@@ -18,6 +18,7 @@
 		"express-rate-limit": "^5.5.1",
 		"helmet": "^4.6.0",
 		"http-status-codes": "^2.1.4",
+		"jwt-decode": "^3.1.2",
 		"morgan": "^1.10.0",
 		"mysql2": "^2.3.3",
 		"picocolors": "^1.0.0",
