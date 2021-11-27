@@ -21,6 +21,7 @@ const server = app.listen(port, async () => {
 	try {
 		await initDb();
 	} catch (e) {
+		console.error(e);
 		logger.error(e.stack);
 	}
 });

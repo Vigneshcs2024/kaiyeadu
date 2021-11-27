@@ -1,1 +1,2 @@
-export * from './User.model.type';
+export * from './user.model.type';
+export * from './police-station.model.type';

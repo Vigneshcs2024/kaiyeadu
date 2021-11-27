@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { db } from '../../root/connections';
 import { IUser, IUserInput } from '@kaiyeadu/api-interfaces/models';
+import { PoliceStation } from '../police-station/police-station.model';
 
 export class User extends Model<IUser, IUserInput> implements IUser {
 	public id!: string;
@@ -26,10 +27,6 @@ User.init(
 		police_station: {
 			type: DataTypes.UUID,
 			allowNull: false
-			// references: {
-			// 	model: 'police_stations',
-			// 	key: 'id'
-			// }
 		},
 		name: {
 			type: DataTypes.STRING,
@@ -60,3 +57,7 @@ User.init(
 		modelName: 'User'
 	}
 );
+
+User.belongsTo(PoliceStation, {
+	foreignKey: 'police_station'
+});
