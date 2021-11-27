@@ -22,6 +22,11 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 1.8rem;
   }
 
+  a,button{
+    text-decoration: none;
+    font-family: inherit;
+  }
+
   @media only screen and (max-width: 850px) {
     html {
       font-size: 56.25%;

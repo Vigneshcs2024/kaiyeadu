@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
 	return (
@@ -10,7 +11,10 @@ export default function Login() {
 				<h1>LOGIN</h1>
 				<TextField label='ID' />
 				<TextField label='Password' />
-				<Button title='login' onClick={() => null} />
+				<BottomContainer>
+					<Button title='login' onClick={() => null} />
+					<Link to='/'>Forgot Password</Link>
+				</BottomContainer>
 			</InnerContainer>
 		</BackgroundContainer>
 	);
@@ -24,5 +28,16 @@ const InnerContainer = styled.div`
 		color: ${p => p.theme.white};
 		text-align: center;
 		margin-bottom: 1.5em;
+	}
+`;
+const BottomContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	a {
+		margin-top: 2em;
+		color: ${p => p.theme.white};
 	}
 `;
