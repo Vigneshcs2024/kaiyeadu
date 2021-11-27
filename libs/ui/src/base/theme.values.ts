@@ -1,3 +1,3 @@
 export default {
-	font: 'Poppins, sans-serif'
+	font: 'Montserrat, sans-serif'
 };
