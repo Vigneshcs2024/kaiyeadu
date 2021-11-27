@@ -5,6 +5,7 @@
 		"api": "apps/api",
 		"api-interfaces": "libs/api-interfaces",
 		"client": "apps/client",
+		"hooks": "libs/hooks",
 		"mobile": "apps/mobile",
 		"ui": "libs/ui"
 	}

@@ -17,8 +17,9 @@
 		"baseUrl": ".",
 		"paths": {
 			"@kaiyeadu/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-			"@kaiyeadu/ui": ["libs/ui/src/index.ts"],
 			"@kaiyeadu/api-interfaces/*": ["libs/api-interfaces/src/*"],
+			"@kaiyeadu/hooks": ["libs/hooks/src/index.ts"],
+			"@kaiyeadu/ui": ["libs/ui/src/index.ts"],
 			"@kaiyeadu/ui/*": ["libs/ui/src/*"]
 		}
 	},
