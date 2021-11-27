@@ -11,10 +11,12 @@ export type TokenPair = {
 type Store = {
 	displayName: string;
 	tokens: TokenPair;
+	isAdmin: boolean;
 };
 
 type Payload = {
 	display_name: string;
+	is_admin: boolean;
 };
 
 export class SessionManager {
@@ -36,11 +38,16 @@ export class SessionManager {
 		return !!this.store?.tokens?.authToken;
 	}
 
+	public isAdmin(): boolean {
+		return this.store.isAdmin;
+	}
+
 	public setSession(tokens: TokenPair): void {
-		const { display_name } = decodeJwt(tokens.authToken) as Payload;
+		const { display_name, is_admin } = decodeJwt(tokens.authToken) as Payload;
 		this.store = {
 			tokens,
-			displayName: display_name
+			displayName: display_name,
+			isAdmin: is_admin
 		};
 		SessionManager.setStorage(this.store);
 	}
