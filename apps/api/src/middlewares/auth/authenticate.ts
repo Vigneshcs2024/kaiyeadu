@@ -1,4 +1,5 @@
 import { NextFunction, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { ClientError } from '../../errors/client.error';
 import { ApiRequest } from '../../types/ApiRequest.type';
 
@@ -9,5 +10,5 @@ export default function authenticatedUsersOnly(
 ) {
 	if (req.user) next();
 
-	throw new ClientError('You need to be logged in to perform this action');
+	throw new ClientError('You need to be logged in to perform this action', StatusCodes.FORBIDDEN);
 }
