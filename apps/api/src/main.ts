@@ -7,6 +7,7 @@ import pc from 'picocolors';
 import { logger } from './tools';
 import { db } from './root/connections';
 import { setup_middlewares, setup_routes } from './root/setup';
+import { initDb } from './root/setup/init-db';
 
 const app = express();
 
@@ -15,12 +16,12 @@ setup_routes(app);
 
 const port = config.get('api.port') ?? process.env.PORT ?? 5000;
 const server = app.listen(port, async () => {
-	logger.info(`Listening at ${pc.cyan(`http://localhost:${port}/api`)}`);
+	logger.info(`Listening at ${pc.cyan(`http://localhost:${port}`)}`);
 
 	try {
-		await db.authenticate();
-		logger.info(`DB connection established ${pc.green('successfully')}`);
+		await initDb();
 	} catch (e) {
+		console.error(e);
 		logger.error(e.stack);
 	}
 });

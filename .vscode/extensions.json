@@ -4,6 +4,7 @@
 		"esbenp.prettier-vscode",
 		"firsttris.vscode-jest-runner",
 		"dbaeumer.vscode-eslint",
-		"stepsize.stepsize"
+		"stepsize.stepsize",
+		"cweijan.vscode-mysql-client2"
 	]
 }

@@ -1,6 +1,10 @@
+import 'express-async-errors';
 import { Express } from 'express';
-import { pingRouter } from '../../modules/ping/ping.router';
+import { authRouter } from '../../modules/routers';
+import { errorHandler } from '../../tools/error-handler';
 
 export function setup_routes(app: Express) {
-	app.use('/ping', pingRouter);
+	app.use('/auth', authRouter);
+
+	app.use(errorHandler);
 }
