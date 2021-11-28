@@ -54,8 +54,8 @@ User.init(
 			allowNull: false,
 			defaultValue: 'user'
 		},
-		createdAt: DataTypes.DATE,
-		updatedAt: DataTypes.DATE
+		createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+		updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 	},
 	{
 		timestamps: true,

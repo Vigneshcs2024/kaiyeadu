@@ -16,7 +16,7 @@ setup_routes(app);
 
 const port = config.get('api.port') ?? process.env.PORT ?? 5000;
 const server = app.listen(port, async () => {
-	logger.info(`Listening at ${pc.cyan(`http://localhost:${port}/api`)}`);
+	logger.info(`Listening at ${pc.cyan(`http://localhost:${port}`)}`);
 
 	try {
 		await initDb();
