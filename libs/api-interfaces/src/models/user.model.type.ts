@@ -8,7 +8,7 @@ export interface IUser {
 	phone: string;
 	password: string;
 	designation: string;
-	kind: 'user' | 'admin' | 'master';
+	role: 'user' | 'admin' | 'master';
 	createdAt: Date;
 	updatedAt: Date;
 }
