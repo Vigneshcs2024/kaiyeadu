@@ -1,12 +1,13 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import Login from './pages/Login/Login';
+import { Login, Home } from './pages';
 
 export default function Router() {
 	return (
 		<Routes>
-			<Route path='/login' element={<Login />}></Route>
-			<Route path='*' element={<Navigate replace to='/login' />}></Route>
+			<Route path='/' element={<Home />} />
+			<Route path='/login' element={<Login />} />
+			<Route path='*' element={<Navigate replace to='/' />} />
 		</Routes>
 	);
 }

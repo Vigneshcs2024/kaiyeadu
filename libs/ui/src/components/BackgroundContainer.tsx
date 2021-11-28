@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import styled from 'styled-components';
 
-import { LogoLight } from '@kaiyeadu/ui/assets';
+import { LogoLight } from '../assets';
 
 interface props {
 	style?: CSSProperties;
