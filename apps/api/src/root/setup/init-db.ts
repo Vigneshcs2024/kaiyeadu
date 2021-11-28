@@ -7,7 +7,7 @@ import { PoliceStation } from '../../modules/police-station/police-station.model
 
 export async function initDb() {
 	await db.authenticate();
-	await PoliceStation.sync({ force: true });
+	await PoliceStation.sync({ alter: true });
 	await User.sync({ alter: true });
 	logger.info(`DB connection established & synced ${pc.green('successfully')}`);
 }
