@@ -1,14 +1,12 @@
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Login from './pages/Login/Login';
 
 export default function Router() {
 	return (
-		<Switch>
-			<Route path='/login' exact component={Login} />
-			<Route path='*'>
-				<Redirect to='/login' />
-			</Route>
-		</Switch>
+		<Routes>
+			<Route path='/login' element={<Login />}></Route>
+			<Route path='*' element={<Navigate replace to='/login' />}></Route>
+		</Routes>
 	);
 }
