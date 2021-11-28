@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
-import { Link } from 'react-router-dom';
 
 export default function Login() {
 	return (
