@@ -11,6 +11,7 @@ export class User extends Model<IUser, IUserInput> implements IUser {
 	public phone!: string;
 	public password!: string;
 	public designation!: string;
+	public kind!: 'user' | 'admin' | 'master';
 
 	public readonly createdAt!: Date;
 	public readonly updatedAt!: Date;
@@ -47,6 +48,11 @@ User.init(
 		designation: {
 			type: DataTypes.STRING,
 			allowNull: false
+		},
+		kind: {
+			type: DataTypes.ENUM('user', 'admin', 'master'),
+			allowNull: false,
+			defaultValue: 'user'
 		},
 		createdAt: DataTypes.DATE,
 		updatedAt: DataTypes.DATE
