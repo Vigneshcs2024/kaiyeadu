@@ -1,6 +1,6 @@
 import pc from 'picocolors';
-import { db } from '../connections';
-import { logger } from '../../tools';
+import { db } from '$api/root/connections';
+import { logger } from '$api/tools';
 
 import { User } from '../../modules/user/user.model';
 import { PoliceStation } from '../../modules/police-station/police-station.model';

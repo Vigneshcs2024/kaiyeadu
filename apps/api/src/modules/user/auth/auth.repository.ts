@@ -1,7 +1,7 @@
-import { AuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
-import { User } from '../user.model';
-import { ClientError } from '../../../errors';
 import { StatusCodes } from 'http-status-codes';
+import { AuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ClientError } from '$api/errors';
+import { User } from '../user.model';
 
 export async function login(credentials: AuthCredentialsDto) {
 	const user = await User.findOne({ where: { email: credentials.email } });

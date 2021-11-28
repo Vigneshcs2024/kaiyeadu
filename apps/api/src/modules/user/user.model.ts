@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '../../root/connections';
-import { IUser, IUserInput } from '@kaiyeadu/api-interfaces/models';
+import { db } from '$api/root/connections';
 import { PoliceStation } from '../police-station/police-station.model';
+import { IUser, IUserInput } from '@kaiyeadu/api-interfaces/models';
 
 export class User extends Model<IUser, IUserInput> implements IUser {
 	public id!: string;

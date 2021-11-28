@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { ClientError } from '../../../errors';
+import { ClientError } from '$api/errors';
 
 import * as authRepository from './auth.repository';
 

@@ -1,7 +1,7 @@
 import config from 'config';
 import express, { Express } from 'express';
 import helmet from 'helmet';
-import { rateLimiter, requestLogger } from '../../middlewares';
+import { rateLimiter, requestLogger } from '$api/middlewares';
 
 export function setup_middlewares(app: Express) {
 	app.disable('x-powered-by');
