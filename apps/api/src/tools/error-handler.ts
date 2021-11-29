@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { UniqueConstraintError } from 'sequelize/types';
+import { UniqueConstraintError } from 'sequelize';
 import { ClientError } from '$api/errors';
 import { logger } from './logger';
 
