@@ -15,7 +15,28 @@
 		"skipLibCheck": true,
 		"skipDefaultLibCheck": true,
 		"esModuleInterop": true,
-		"baseUrl": "."
+		"baseUrl": ".",
+		"paths": {
+			"@kaiyeadu/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+			"@kaiyeadu/api-interfaces/*": ["libs/api-interfaces/src/*"],
+			"@kaiyeadu/hooks": ["libs/hooks/src/index.ts"],
+			"@kaiyeadu/ui": ["libs/ui/src/index.ts"],
+			"@kaiyeadu/ui/*": ["libs/ui/src/*"],
+
+			//api
+			"$api/errors": ["apps/api/src/errors/index.ts"],
+			"$api/middlewares": ["apps/api/src/middlewares/index.ts"],
+			"$api/modules": ["apps/api/src/modules/index.ts"],
+			"$api/root": ["apps/api/src/root/index.ts"],
+			"$api/tools": ["apps/api/src/tools/index.ts"],
+			"$api/types": ["apps/api/src/types/index.ts"],
+			"$api/errors/*": ["apps/api/src/errors/*"],
+			"$api/middlewares/*": ["apps/api/src/middlewares/*"],
+			"$api/modules/*": ["apps/api/src/modules/*"],
+			"$api/root/*": ["apps/api/src/root/*"],
+			"$api/tools/*": ["apps/api/src/tools/*"],
+			"$api/types/*": ["apps/api/src/types/*"]
+		}
 	},
 	"exclude": ["node_modules", "tmp"]
 }
