@@ -10,6 +10,11 @@
 			"database": "kaiyeadu_test",
 			"host": "localhost",
 			"provider": "mysql"
+		},
+		"keys": {
+			"jwt": {
+				"secret": "secret"
+			}
 		}
 	}
 }
