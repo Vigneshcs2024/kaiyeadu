@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ClientError } from '$api/errors';
 import { ApiRequest } from '$api/types';
 
-export default function mastersOnly(req: ApiRequest, _res: Response, next: NextFunction) {
+export function mastersOnly(req: ApiRequest, _res: Response, next: NextFunction) {
 	if (req.user.role === 'master') next();
 
 	throw new ClientError(
