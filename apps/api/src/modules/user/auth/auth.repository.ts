@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 import { AuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
@@ -9,7 +10,7 @@ export async function login(credentials: AuthCredentialsDto) {
 		attributes: ['id', 'password', 'name', 'role', 'designation']
 	});
 
-	if (!user || user.password !== credentials.password) {
+	if (!user || (await bcrypt.compare(credentials.password, user.password))) {
 		throw new ClientError('Invalid credentials', StatusCodes.UNAUTHORIZED);
 	}
 
