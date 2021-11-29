@@ -35,10 +35,12 @@ User.init(
 		},
 		email: {
 			type: DataTypes.STRING,
+			unique: true,
 			allowNull: false
 		},
 		phone: {
 			type: DataTypes.STRING,
+			unique: true,
 			allowNull: false
 		},
 		password: {

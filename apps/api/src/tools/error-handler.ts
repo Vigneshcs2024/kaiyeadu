@@ -1,6 +1,8 @@
 import { Response, Request, NextFunction } from 'express';
-import { logger } from '.';
-import { ClientError } from '../errors';
+import { StatusCodes } from 'http-status-codes';
+import { UniqueConstraintError } from 'sequelize';
+import { ClientError } from '$api/errors';
+import { logger } from './logger';
 
 export const errorHandler = (
 	err: ClientError & Error,
@@ -8,15 +10,19 @@ export const errorHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	if (err.status >= 500) {
-		logger.error(err.stack);
-		return res.status(err.status || 500).send('Internal server error');
+	if (err instanceof UniqueConstraintError) {
+		return res.status(StatusCodes.CONFLICT).json({
+			message: 'The particular record already exists'
+		});
 	}
 
 	if (err.status) {
-		return res.status(err.status).send(err.message);
+		return res.status(err.status).json({ message: err.message });
 	}
 
 	logger.error(err.stack);
+	return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+		message: 'Internal server error'
+	});
 	next();
 };

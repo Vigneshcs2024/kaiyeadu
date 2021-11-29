@@ -15,6 +15,9 @@
 			"jwt": {
 				"secret": "secret"
 			}
+		},
+		"hashing": {
+			"saltRounds": 2
 		}
 	}
 }

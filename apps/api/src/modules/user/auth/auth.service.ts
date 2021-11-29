@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import config from 'config';
 import jwt from 'jsonwebtoken';
+import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 import { ClientError } from '$api/errors';
 
