@@ -3,6 +3,6 @@ import * as authService from './auth.service';
 
 const router = express.Router();
 
-router.get('/login', authService.login);
+router.post('/login', authService.login);
 
 export { router as authRouter };
