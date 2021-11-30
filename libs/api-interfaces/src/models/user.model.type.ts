@@ -1,5 +1,3 @@
-import { Optional } from 'sequelize';
-
 export interface IUser {
 	id: string;
 	police_station: string;
@@ -13,4 +11,4 @@ export interface IUser {
 	updatedAt: Date;
 }
 
-export type IUserInput = Optional<IUser, 'id' | 'createdAt' | 'updatedAt'>;
+export type IUserInput = Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>;

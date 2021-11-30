@@ -26,11 +26,15 @@ export async function createUser(req: ApiRequest, res: Response) {
 }
 
 export async function listUsers(req: ApiRequest, res: Response) {
-	const { pageNumber, resultsPerPage } = req.query;
+	const { page, count, q: search, f: filters, s: sort } = req.query;
 
 	const users = await userRepository.listUsers({
-		pageNumber: +pageNumber || 1,
-		resultsPerPage: +resultsPerPage || 10
+		params: {
+			search: search as string,
+			filters: JSON.parse(filters as string),
+			sort: JSON.parse(sort as string)
+		},
+		pagination: { pageNumber: +page || 1, resultsPerPage: +count || 10 }
 	});
 
 	return res.json({ message: 'Users fetched successfully', result: users });

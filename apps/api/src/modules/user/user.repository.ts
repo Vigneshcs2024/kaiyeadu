@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import config from 'config';
+import { Op } from 'sequelize/dist';
 import { CreateUserDto, ListUsersDto } from '@kaiyeadu/api-interfaces/dtos';
 import { User } from './user.model';
 
@@ -14,10 +15,17 @@ export async function createUser(userDetails: CreateUserDto) {
 	return user.save();
 }
 
-export async function listUsers({ pageNumber, resultsPerPage }: ListUsersDto) {
+export async function listUsers({ params, pagination }: ListUsersDto) {
 	return User.findAll({
-		offset: (pageNumber - 1) * resultsPerPage,
-		limit: resultsPerPage,
-		attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+		where: {
+			name: {
+				[Op.like]: `%${params.search ?? ''}%`
+			},
+			...params.filters
+		},
+		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage,
+		limit: pagination.resultsPerPage,
+		attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+		order: [[params.sort.key, params.sort.order]]
 	});
 }
