@@ -7,13 +7,6 @@ import * as userRepository from './user.repository';
 import { validateCreateUser } from './user.validation';
 
 export async function createUser(req: ApiRequest, res: Response) {
-	if (req.user.role === 'user') {
-		throw new ClientError(
-			'Not enough privileges to perform this action',
-			StatusCodes.FORBIDDEN
-		);
-	}
-
 	if (req.user.role === 'admin' && req.body.role !== 'user') {
 		throw new ClientError(
 			'Admins are privileged to create only users',
