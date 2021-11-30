@@ -10,7 +10,7 @@ export async function login(credentials: AuthCredentialsDto) {
 		attributes: ['id', 'password', 'name', 'role', 'designation']
 	});
 
-	if (!user || (await bcrypt.compare(credentials.password, user.password))) {
+	if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
 		throw new ClientError('Invalid credentials', StatusCodes.UNAUTHORIZED);
 	}
 
