@@ -24,3 +24,14 @@ export async function createUser(req: ApiRequest, res: Response) {
 		.status(StatusCodes.CREATED)
 		.json({ message: 'User was created', result: { id: user.id } });
 }
+
+export async function listUsers(req: ApiRequest, res: Response) {
+	const { pageNumber, resultsPerPage } = req.query;
+
+	const users = await userRepository.listUsers({
+		pageNumber: +pageNumber || 1,
+		resultsPerPage: +resultsPerPage || 10
+	});
+
+	return res.json({ message: 'Users fetched successfully', result: users });
+}

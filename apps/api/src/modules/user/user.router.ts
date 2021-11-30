@@ -1,9 +1,10 @@
-import { adminsOnly } from '$api/middlewares/auth';
 import express from 'express';
-import * as authService from './user.service';
+import { adminsOnly } from '$api/middlewares/auth';
+import * as userService from './user.service';
 
 const router = express.Router();
 
-router.post('/create', adminsOnly, authService.createUser);
+router.post('/create', adminsOnly, userService.createUser);
+router.get('/list', adminsOnly, userService.listUsers);
 
 export { router as userRouter };

@@ -1,6 +1,6 @@
+import Joi from 'joi';
 import { CreateUserDto } from '@kaiyeadu/api-interfaces/dtos';
 import { IUserInput } from '@kaiyeadu/api-interfaces/models';
-import Joi from 'joi';
 
 export function validateCreateUser(userDetails: CreateUserDto) {
 	const schema = Joi.object<IUserInput & CreateUserDto>({
