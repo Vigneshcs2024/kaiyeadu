@@ -21,11 +21,11 @@ export const errorHandler = (
 		});
 	}
 
-	if (err.status) {
+	if (err instanceof ClientError) {
 		return res.status(err.status).json({ message: err.message });
 	}
 
-	logger.error(err.stack);
+	logger.error((err as Error).stack);
 	return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
 		message: 'Internal server error'
 	});
