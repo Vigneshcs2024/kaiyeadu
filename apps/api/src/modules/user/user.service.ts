@@ -4,6 +4,7 @@ import { ApiRequest } from '$api/types';
 import { ClientError } from '$api/errors';
 
 import * as userRepository from './user.repository';
+import { validateCreateUser } from './user.validation';
 
 export async function createUser(req: ApiRequest, res: Response) {
 	if (req.user.role === 'user') {
@@ -21,18 +22,10 @@ export async function createUser(req: ApiRequest, res: Response) {
 	}
 
 	const { name, email, phone, police_station, password, designation, role } = req.body;
+	const userDetails = { name, email, phone, police_station, password, designation, role };
 
-	// todo: add JOI validation
-
-	const user = await userRepository.createUser({
-		name,
-		email,
-		phone,
-		police_station,
-		password,
-		designation,
-		role
-	});
+	await validateCreateUser(userDetails);
+	const user = await userRepository.createUser(userDetails);
 
 	return res
 		.status(StatusCodes.CREATED)

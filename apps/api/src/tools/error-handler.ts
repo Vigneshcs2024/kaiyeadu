@@ -1,15 +1,20 @@
 import { Response, Request, NextFunction } from 'express';
+import { ValidationError } from 'joi';
 import { StatusCodes } from 'http-status-codes';
 import { UniqueConstraintError } from 'sequelize';
 import { ClientError } from '$api/errors';
 import { logger } from './logger';
 
 export const errorHandler = (
-	err: ClientError & Error,
-	req: Request,
+	err: (ClientError & ValidationError) & Error,
+	_req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
+	if (err instanceof ValidationError || err.isJoi) {
+		return res.status(StatusCodes.BAD_REQUEST).json({ message: err.details[0].message });
+	}
+
 	if (err instanceof UniqueConstraintError) {
 		return res.status(StatusCodes.CONFLICT).json({
 			message: 'The particular record already exists'
