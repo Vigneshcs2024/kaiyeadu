@@ -28,9 +28,9 @@ const server = app.listen(port, async () => {
 
 process.on('SIGINT', () => {
 	db.close();
+	process.exit(0);
 });
 
 server.on('error', err => {
-	db.close();
 	logger.error(err);
 });
