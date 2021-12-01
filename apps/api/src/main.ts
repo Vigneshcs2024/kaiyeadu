@@ -14,9 +14,10 @@ const app = express();
 setup_middlewares(app);
 setup_routes(app);
 
-const port = config.get('api.port') ?? process.env.PORT ?? 5000;
-const server = app.listen(port, async () => {
-	logger.info(`Listening at ${pc.cyan(`http://localhost:${port}`)}`);
+const host = config.get<string>('api.host') ?? process.env.HOST ?? '127.0.0.1';
+const port = config.get<number>('api.port') ?? +process.env.PORT ?? 5000;
+const server = app.listen(port, host, async () => {
+	logger.info(`Listening at ${pc.cyan(`http://${host}:${port}`)}`);
 
 	try {
 		await initDb();
