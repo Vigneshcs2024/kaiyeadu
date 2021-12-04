@@ -42,7 +42,7 @@ export async function resetPassword(email: string) {
 		throw new ClientError('User cannot reset password', StatusCodes.FORBIDDEN);
 	}
 
-	const resetOtp = generateOTP(6, false);
+	const resetOtp = generateOTP(8, false);
 	user.password = await bcrypt.hash(resetOtp, config.get('api.hashing.saltRounds'));
 	await user.save();
 
