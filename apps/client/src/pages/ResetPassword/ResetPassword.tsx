@@ -1,9 +1,9 @@
 import { SectionWithNav, Sidebar } from '@kaiyeadu/ui/components';
 
-export default function Home() {
+export default function ResetPassword() {
 	return (
 		<SectionWithNav>
-			<h1>Home page</h1>
+			<h1>Reset Password</h1>
 		</SectionWithNav>
 	);
 }

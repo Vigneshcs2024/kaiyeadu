@@ -1,12 +1,26 @@
-import { ReactNode } from 'react';
+import { ReactChild } from 'react';
 import styled from 'styled-components';
 
+import { Sidebar } from '.';
+
 interface Props {
-	children: ReactNode;
+	children: ReactChild;
 }
 
 export default function SectionWithNav({ children }: Props) {
-	return <Section>{children}</Section>;
+	return (
+		<Section>
+			<Sidebar
+				content={[
+					{ title: 'Home', path: '/' },
+					{ title: 'Update Proposals', path: '/' },
+					{ title: 'Reset Password', path: '/reset' },
+					{ title: 'Logout' }
+				]}>
+				{children}
+			</Sidebar>
+		</Section>
+	);
 }
 
 const Section = styled.section`

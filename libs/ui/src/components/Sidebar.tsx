@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactChild, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from 'react-sidebar';
 import { Icon } from '@iconify/react';
@@ -13,9 +13,18 @@ interface SidebarProps {
 		path?: string;
 		fun?: () => void;
 	}[];
+	children: ReactChild;
 }
 
-function SidebarContent({ content }: SidebarProps) {
+interface ContentProps {
+	content: {
+		title: string;
+		path?: string;
+		fun?: () => void;
+	}[];
+}
+
+function SidebarContent({ content }: ContentProps) {
 	return (
 		<SidebarContainer>
 			<LogoImage src={Logo} alt='logo' />
@@ -36,7 +45,7 @@ function SidebarContent({ content }: SidebarProps) {
 	);
 }
 
-export default function SideBar({ content }: SidebarProps) {
+export default function SideBar({ content, children }: SidebarProps) {
 	const [sidebar, setSideBar] = useState(false);
 
 	return (
@@ -54,6 +63,7 @@ export default function SideBar({ content }: SidebarProps) {
 					color='white'
 				/>
 			</Navbar>
+			{children}
 		</Sidebar>
 	);
 }
