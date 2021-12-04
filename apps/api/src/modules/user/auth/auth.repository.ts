@@ -26,7 +26,7 @@ export async function createLoginPassword(gpf: string) {
 	}
 
 	const loginPassword = generateOTP(8);
-	user.password = await bcrypt.hash(loginPassword, config.get('hashing.saltRounds'));
+	user.password = await bcrypt.hash(loginPassword, config.get('api.hashing.saltRounds'));
 	await user.save();
 
 	return { user, loginPassword };
@@ -43,7 +43,7 @@ export async function resetPassword(email: string) {
 	}
 
 	const resetOtp = generateOTP(6, false);
-	user.password = await bcrypt.hash(resetOtp, config.get('hashing.saltRounds'));
+	user.password = await bcrypt.hash(resetOtp, config.get('api.hashing.saltRounds'));
 	await user.save();
 
 	return { user, resetOtp };
