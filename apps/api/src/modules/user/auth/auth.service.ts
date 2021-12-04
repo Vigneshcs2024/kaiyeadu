@@ -36,7 +36,11 @@ export async function login(req: Request, res: Response) {
 	const payload: PayloadObject = { id, name, designation, role };
 	const token = jwt.sign(payload, JWT_SECRET, { issuer: 'TNPOL', expiresIn: '1d' });
 
-	res.status(StatusCodes.CREATED).json({ message: 'Login successful', token });
+	res.status(StatusCodes.CREATED).json({
+		message: 'Login successful',
+		token,
+		isResetPassword: role !== 'user' && !isNaN(password)
+	});
 }
 
 export async function resetPassword(req: Request, res: Response) {
