@@ -14,6 +14,15 @@ export async function createUser(req: ApiRequest, res: Response) {
 		);
 	}
 
+	if (req.body.role === 'user') {
+		if (!req.body.gpf) {
+			throw new ClientError('Standard users need a GPF number ', StatusCodes.BAD_REQUEST);
+		}
+		if (req.body.password) {
+			throw new ClientError('Standard users cannot have a password', StatusCodes.BAD_REQUEST);
+		}
+	}
+
 	const { name, email, phone, police_station, password, designation, role } = req.body;
 	const userDetails = { name, email, phone, police_station, password, designation, role };
 

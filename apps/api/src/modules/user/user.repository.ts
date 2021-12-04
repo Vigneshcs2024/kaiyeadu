@@ -1,14 +1,13 @@
 import bcrypt from 'bcrypt';
 import config from 'config';
-import { Op } from 'sequelize/dist';
+import { Op } from 'sequelize';
 import { CreateUserDto, ListUsersDto } from '@kaiyeadu/api-interfaces/dtos';
 import { User } from './user.model';
 
 export async function createUser(userDetails: CreateUserDto) {
-	const hashedPassword = await bcrypt.hash(
-		userDetails.password,
-		config.get('hashing.saltRounds') ?? 10
-	);
+	const hashedPassword = userDetails.password
+		? await bcrypt.hash(userDetails.password, config.get('hashing.saltRounds') ?? 10)
+		: null;
 
 	const user = User.build({ ...userDetails, password: hashedPassword });
 
