@@ -34,7 +34,7 @@ export async function login(req: Request, res: Response) {
 	const { id, name, designation, role } = await authRepository.login({ email, password });
 
 	const payload: PayloadObject = { id, name, designation, role };
-	const token = jwt.sign(payload, JWT_SECRET, { issuer: 'TNPOL', expiresIn: '1h' });
+	const token = jwt.sign(payload, JWT_SECRET, { issuer: 'TNPOL', expiresIn: '1d' });
 
 	res.status(StatusCodes.CREATED).json({ message: 'Login successful', token });
 }
