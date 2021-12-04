@@ -40,12 +40,12 @@ User.init(
 		},
 		email: {
 			type: DataTypes.STRING,
-			unique: true,
+			unique: 'email',
 			allowNull: false
 		},
 		phone: {
 			type: DataTypes.STRING,
-			unique: true,
+			unique: 'phone',
 			allowNull: false
 		},
 		password: {
