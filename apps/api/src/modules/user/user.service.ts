@@ -39,9 +39,9 @@ export async function listUsers(req: ApiRequest, res: Response) {
 
 	const users = await userRepository.listUsers({
 		params: {
-			search: search as string,
-			filters: JSON.parse(filters as string),
-			sort: JSON.parse(sort as string)
+			search: search ? (search as string) : '',
+			filters: filters ? JSON.parse(filters as string) : [],
+			sort: sort ? JSON.parse(sort as string) : { key: 'name', order: 'asc' }
 		},
 		pagination: { pageNumber: +page || 1, resultsPerPage: +count || 10 }
 	});
