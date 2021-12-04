@@ -31,3 +31,20 @@ export async function createLoginPassword(gpf: string) {
 
 	return { user, loginPassword };
 }
+
+export async function resetPassword(email: string) {
+	const user = await User.findOne({ where: { email } });
+	if (!user) {
+		throw new ClientError('User not found', StatusCodes.UNAUTHORIZED);
+	}
+
+	if (user.role === 'user') {
+		throw new ClientError('User cannot reset password', StatusCodes.FORBIDDEN);
+	}
+
+	const resetOtp = generateOTP(6, false);
+	user.password = await bcrypt.hash(resetOtp, config.get('hashing.saltRounds'));
+	await user.save();
+
+	return { user, resetOtp };
+}
