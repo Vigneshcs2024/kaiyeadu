@@ -32,7 +32,7 @@ export async function listUsers({ params, pagination }: ListUsersDto) {
 }
 
 export async function updatePassword(userId: string, updatePasswordDetails: UpdatePasswordDto) {
-	const user = await User.findByPk(userId, { attributes: ['password'] });
+	const user = await User.findByPk(userId, { attributes: ['password', 'id'] });
 
 	if (!(await bcrypt.compare(updatePasswordDetails.currentPassword, user.password))) {
 		throw new ClientError('Incorrect password', StatusCodes.UNAUTHORIZED);
