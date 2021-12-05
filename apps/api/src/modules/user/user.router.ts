@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/create', adminsOnly, userService.createUser);
 router.get('/list', adminsOnly, userService.listUsers);
+router.get('/:id', adminsOnly, userService.getUser);
 
 router.patch('/update-password', adminsOnly, userService.updatePassword);
 

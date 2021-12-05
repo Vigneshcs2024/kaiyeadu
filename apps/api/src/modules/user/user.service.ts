@@ -59,3 +59,11 @@ export async function updatePassword(req: ApiRequest, res: Response) {
 
 	res.status(StatusCodes.OK).json({ message: 'Password updated successfully' });
 }
+
+export async function getUser(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+
+	const user = await userRepository.getUser(id);
+
+	return res.json({ message: 'User fetched successfully', result: user });
+}

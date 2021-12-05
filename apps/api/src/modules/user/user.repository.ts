@@ -31,6 +31,18 @@ export async function listUsers({ params, pagination }: ListUsersDto) {
 	});
 }
 
+export async function getUser(userId: string) {
+	const user = await User.findByPk(userId, {
+		attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'id'] }
+	});
+
+	if (!user) {
+		throw new ClientError('User not found', StatusCodes.NOT_FOUND);
+	}
+
+	return user;
+}
+
 export async function updatePassword(userId: string, updatePasswordDetails: UpdatePasswordDto) {
 	const user = await User.findByPk(userId, { attributes: ['password', 'id'] });
 
