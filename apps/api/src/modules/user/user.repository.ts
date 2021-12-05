@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
 import config from 'config';
+import { StatusCodes } from 'http-status-codes';
 import { Op } from 'sequelize';
-import { CreateUserDto, ListUsersDto } from '@kaiyeadu/api-interfaces/dtos';
+import { CreateUserDto, ListUsersDto, UpdatePasswordDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ClientError } from '$api/errors';
 import { User } from './user.model';
 
 export async function createUser(userDetails: CreateUserDto) {
@@ -27,4 +29,19 @@ export async function listUsers({ params, pagination }: ListUsersDto) {
 		attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
 		order: [[params.sort.key, params.sort.order]]
 	});
+}
+
+export async function updatePassword(userId: string, updatePasswordDetails: UpdatePasswordDto) {
+	const user = await User.findByPk(userId, { attributes: ['password'] });
+
+	if (!(await bcrypt.compare(updatePasswordDetails.currentPassword, user.password))) {
+		throw new ClientError('Incorrect password', StatusCodes.UNAUTHORIZED);
+	}
+
+	const hashedPassword = await bcrypt.hash(
+		updatePasswordDetails.newPassword,
+		config.get('api.hashing.saltRounds') ?? 10
+	);
+
+	return await user.update({ password: hashedPassword });
 }

@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { CreateUserDto } from '@kaiyeadu/api-interfaces/dtos';
+import { CreateUserDto, UpdatePasswordDto } from '@kaiyeadu/api-interfaces/dtos';
 import { IUserInput } from '@kaiyeadu/api-interfaces/models';
 
 export function validateCreateUser(userDetails: CreateUserDto) {
@@ -12,6 +12,15 @@ export function validateCreateUser(userDetails: CreateUserDto) {
 		police_station: Joi.string().min(36).max(36).required(),
 		designation: Joi.string().min(3).max(30).required(),
 		role: Joi.valid('user', 'admin', 'master').required()
+	});
+
+	return schema.validateAsync(userDetails);
+}
+
+export function validateUpdatePassword(userDetails: UpdatePasswordDto) {
+	const schema = Joi.object<UpdatePasswordDto>({
+		currentPassword: Joi.string().min(8).max(30),
+		newPassword: Joi.string().min(8).max(30)
 	});
 
 	return schema.validateAsync(userDetails);

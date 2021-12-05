@@ -19,3 +19,8 @@ export type ListUsersDto = {
 	};
 	pagination: { pageNumber: number; resultsPerPage: number };
 };
+
+export interface UpdatePasswordDto {
+	currentPassword: string;
+	newPassword: string;
+}

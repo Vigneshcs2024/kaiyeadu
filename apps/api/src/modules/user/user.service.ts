@@ -3,8 +3,9 @@ import { StatusCodes } from 'http-status-codes';
 import { ApiRequest } from '$api/types';
 import { ClientError } from '$api/errors';
 
+import { UpdatePasswordDto } from '@kaiyeadu/api-interfaces/dtos';
 import * as userRepository from './user.repository';
-import { validateCreateUser } from './user.validation';
+import { validateCreateUser, validateUpdatePassword } from './user.validation';
 
 export async function createUser(req: ApiRequest, res: Response) {
 	if (req.user.role === 'admin' && req.body.role !== 'user') {
@@ -47,4 +48,14 @@ export async function listUsers(req: ApiRequest, res: Response) {
 	});
 
 	return res.json({ message: 'Users fetched successfully', result: users });
+}
+
+export async function updatePassword(req: ApiRequest, res: Response) {
+	const { id: userId } = req.user;
+	const { currentPassword, newPassword }: UpdatePasswordDto = req.body;
+
+	await validateUpdatePassword({ currentPassword, newPassword });
+	await userRepository.updatePassword(userId, { currentPassword, newPassword });
+
+	res.status(StatusCodes.OK).json({ message: 'Password updated successfully' });
 }
