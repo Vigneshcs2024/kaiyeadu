@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ApiRequest } from '$api/types';
 import { ClientError } from '$api/errors';
 
-import { UpdatePasswordDto } from '@kaiyeadu/api-interfaces/dtos';
+import { UpdatePasswordDto, UpdateUserDto } from '@kaiyeadu/api-interfaces/dtos';
 import * as userRepository from './user.repository';
 import { validateCreateUser, validateUpdatePassword } from './user.validation';
 
@@ -66,4 +66,17 @@ export async function getUser(req: ApiRequest, res: Response) {
 	const user = await userRepository.getUser(id);
 
 	return res.json({ message: 'User fetched successfully', result: user });
+}
+
+export async function updateUser(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+	const { name, email, phone, police_station, designation, role }: UpdateUserDto = req.body;
+	const userDetails = { name, email, phone, police_station, designation, role };
+
+	// todo: check validations
+	await validateCreateUser(userDetails);
+
+	await userRepository.updateUser(id, userDetails);
+
+	res.status(StatusCodes.OK).json({ message: 'User updated successfully', result: { id } });
 }

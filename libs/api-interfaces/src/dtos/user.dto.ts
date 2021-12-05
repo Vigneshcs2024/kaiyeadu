@@ -24,3 +24,5 @@ export interface UpdatePasswordDto {
 	currentPassword: string;
 	newPassword: string;
 }
+
+export type UpdateUserDto = Partial<Omit<CreateUserDto, 'password'>>;
