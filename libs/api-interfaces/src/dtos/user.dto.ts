@@ -6,13 +6,13 @@ export type SortableParameters = keyof Omit<
 	IUserInput,
 	'password' | 'police_station' | 'designation' | 'role'
 >;
-export type FilterableParameters = Omit<IUserInput, 'name' | 'password' | 'email' | 'phone'>;
+export type FilterableUserParameters = Omit<IUserInput, 'name' | 'password' | 'email' | 'phone'>;
 
 export type ListUsersDto = {
 	page: number;
 	count: number;
 	q?: string;
-	f?: Partial<FilterableParameters>[];
+	f?: Partial<FilterableUserParameters>[];
 	s?: { key: SortableParameters; order: 'ASC' | 'DESC' };
 };
 

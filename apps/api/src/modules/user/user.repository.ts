@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { Op } from 'sequelize';
 import {
 	CreateUserDto,
-	FilterableParameters,
+	FilterableUserParameters,
 	SortableParameters,
 	UpdatePasswordDto,
 	UpdateUserDto
@@ -15,7 +15,7 @@ import { User } from './user.model';
 type ListUsersQuery = {
 	params: {
 		search?: string;
-		filters?: Array<Partial<FilterableParameters>>;
+		filters?: Array<Partial<FilterableUserParameters>>;
 		sort?: {
 			key: SortableParameters;
 			order: 'ASC' | 'DESC';
