@@ -9,15 +9,11 @@ export type SortableParameters = keyof Omit<
 export type FilterableParameters = Omit<IUserInput, 'name' | 'password' | 'email' | 'phone'>;
 
 export type ListUsersDto = {
-	params: {
-		search?: string;
-		filters?: Array<Partial<FilterableParameters>>;
-		sort?: {
-			key: SortableParameters;
-			order: 'ASC' | 'DESC';
-		};
-	};
-	pagination: { pageNumber: number; resultsPerPage: number };
+	page: number;
+	count: number;
+	q?: string;
+	f?: Partial<FilterableParameters>[];
+	s?: { key: SortableParameters; order: 'ASC' | 'DESC' };
 };
 
 export interface UpdatePasswordDto {

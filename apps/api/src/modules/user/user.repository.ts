@@ -4,12 +4,25 @@ import { StatusCodes } from 'http-status-codes';
 import { Op } from 'sequelize';
 import {
 	CreateUserDto,
-	ListUsersDto,
+	FilterableParameters,
+	SortableParameters,
 	UpdatePasswordDto,
 	UpdateUserDto
 } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { User } from './user.model';
+
+type ListUsersQuery = {
+	params: {
+		search?: string;
+		filters?: Array<Partial<FilterableParameters>>;
+		sort?: {
+			key: SortableParameters;
+			order: 'ASC' | 'DESC';
+		};
+	};
+	pagination: { pageNumber: number; resultsPerPage: number };
+};
 
 export async function createUser(userDetails: CreateUserDto) {
 	const hashedPassword = userDetails.password
@@ -21,7 +34,7 @@ export async function createUser(userDetails: CreateUserDto) {
 	return user.save();
 }
 
-export async function listUsers({ params, pagination }: ListUsersDto) {
+export async function listUsers({ params, pagination }: ListUsersQuery) {
 	return User.findAll({
 		where: {
 			name: {
@@ -60,7 +73,7 @@ export async function updatePassword(userId: string, updatePasswordDetails: Upda
 		config.get('api.hashing.saltRounds') ?? 10
 	);
 
-	return await user.update({ password: hashedPassword });
+	return user.update({ password: hashedPassword });
 }
 
 export async function updateUser(userId: string, userDetails: UpdateUserDto) {
