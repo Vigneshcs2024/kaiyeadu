@@ -2,7 +2,7 @@ import { Response, Request, NextFunction } from 'express';
 import { ValidationError } from 'joi';
 import { StatusCodes } from 'http-status-codes';
 import { UniqueConstraintError } from 'sequelize';
-import { ClientError } from '$api/errors';
+import { AuthenticationError, AuthorizationError, ClientError } from '$api/errors';
 import { logger } from './logger';
 
 export const errorHandler = (
@@ -19,6 +19,10 @@ export const errorHandler = (
 		return res.status(StatusCodes.CONFLICT).json({
 			message: 'The particular record already exists'
 		});
+	}
+
+	if (err instanceof AuthenticationError || err instanceof AuthorizationError) {
+		return res.status(err.status).json({ message: `${err.name}: ${err.message}` });
 	}
 
 	if (err instanceof ClientError) {
