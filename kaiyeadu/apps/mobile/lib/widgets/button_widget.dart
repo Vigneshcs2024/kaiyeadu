@@ -15,7 +15,7 @@ class ButtonWidget extends StatelessWidget {
       width: 187,
       height: 48,
       child: TextButton(
-        style: ButtonStyle(
+        style:ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
             backgroundColor: MaterialStateProperty.all<Color>(beginColor),
             elevation: MaterialStateProperty.all(5),
