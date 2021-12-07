@@ -5,7 +5,7 @@ import { ApiRequest } from '$api/types';
 import { ClientError } from '$api/errors';
 import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 
-export default async function parseAuthToken(req: ApiRequest, _res: Response, next: NextFunction) {
+export async function parseAuthToken(req: ApiRequest, _res: Response, next: NextFunction) {
 	const authHeader = req.headers.authorization;
 	if (!authHeader) {
 		throw new ClientError('Authorization header not set', StatusCodes.UNAUTHORIZED);
