@@ -12,3 +12,9 @@ export async function listPoliceStations() {
 export async function createPoliceStation(policeStationDetails: CreatePSDto) {
 	return await PoliceStation.create(policeStationDetails);
 }
+
+export async function getPoliceStation(id: string) {
+	return await PoliceStation.findByPk(id, {
+		attributes: { exclude: ['createdAt', 'updatedAt'] }
+	});
+}
