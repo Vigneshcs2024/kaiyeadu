@@ -4,5 +4,6 @@ import * as policeStationService from './police-station.service';
 const router = Router();
 
 router.get('/list', policeStationService.listStations);
+router.post('/create', policeStationService.createStation);
 
 export { router as policeStationRouter };
