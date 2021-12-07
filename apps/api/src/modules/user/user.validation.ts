@@ -9,7 +9,10 @@ export function validateCreateUser(userDetails: CreateUserDto) {
 		email: Joi.string().email().required(),
 		phone: Joi.string().min(10).max(10).required(),
 		password: Joi.string().min(8).max(30),
-		police_station: Joi.string().min(36).max(36).required(),
+		police_station: Joi.string().min(36).max(36).required().messages({
+			'string.min': `'police_station' must be a valid uuid`,
+			'string.max': `'police_station' must be a valid uuid`
+		}),
 		designation: Joi.string().min(3).max(30).required(),
 		role: Joi.valid('user', 'admin', 'master').required()
 	});
