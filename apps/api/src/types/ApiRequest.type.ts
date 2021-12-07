@@ -1,6 +1,6 @@
+import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 import { Request } from 'express';
-import { User } from '../modules/user/user.model';
 
 export interface ApiRequest extends Request {
-	user?: User;
+	user?: PayloadObject;
 }

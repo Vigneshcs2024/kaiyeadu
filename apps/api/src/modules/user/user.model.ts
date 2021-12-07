@@ -5,11 +5,12 @@ import { IUser, IUserInput } from '@kaiyeadu/api-interfaces/models';
 
 export class User extends Model<IUser, IUserInput> implements IUser {
 	public id!: string;
-	public police_station!: string;
 	public name!: string;
+	public gpf: string;
+	public police_station!: string;
 	public email!: string;
 	public phone!: string;
-	public password!: string;
+	public password: string;
 	public designation!: string;
 	public role!: 'user' | 'admin' | 'master';
 
@@ -25,27 +26,31 @@ User.init(
 			allowNull: false,
 			primaryKey: true
 		},
-		police_station: {
-			type: DataTypes.UUID,
-			allowNull: false
+		gpf: {
+			type: DataTypes.STRING,
+			allowNull: true
 		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		police_station: {
+			type: DataTypes.UUID,
+			allowNull: false
+		},
 		email: {
 			type: DataTypes.STRING,
-			unique: true,
+			unique: 'email',
 			allowNull: false
 		},
 		phone: {
 			type: DataTypes.STRING,
-			unique: true,
+			unique: 'phone',
 			allowNull: false
 		},
 		password: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		designation: {
 			type: DataTypes.STRING,
