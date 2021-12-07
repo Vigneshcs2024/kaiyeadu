@@ -5,7 +5,9 @@ import { ClientError } from '$api/errors';
 
 import { UpdatePasswordDto, UpdateUserDto } from '@kaiyeadu/api-interfaces/dtos';
 import * as userRepository from './user.repository';
-import { validateCreateUser, validateUpdatePassword } from './user.validation';
+import { validateCreateUser, validateUpdatePassword, validateUpdateUser } from './user.validation';
+import { logger } from '$api/tools';
+import { jsonPrettyPrint } from '$api/utilities';
 
 export async function createUser(req: ApiRequest, res: Response) {
 	if (req.user.role === 'admin' && req.body.role !== 'user') {
@@ -70,11 +72,12 @@ export async function getUser(req: ApiRequest, res: Response) {
 
 export async function updateUser(req: ApiRequest, res: Response) {
 	const { id } = req.params;
-	const { name, email, phone, police_station, designation, role }: UpdateUserDto = req.body;
-	const userDetails = { name, email, phone, police_station, designation, role };
+	const { name, email, phone, police_station, designation, role, gpf }: UpdateUserDto = req.body;
+	const userDetails = { name, email, phone, police_station, designation, role, gpf };
 
+	logger.debug(jsonPrettyPrint(userDetails));
 	// todo: check validations
-	await validateCreateUser(userDetails);
+	validateUpdateUser(userDetails);
 
 	await userRepository.updateUser(id, userDetails);
 
