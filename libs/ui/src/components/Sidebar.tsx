@@ -86,8 +86,6 @@ const LogoutButton = styled.button`
 `;
 
 const Navbar = styled.div`
-	width: 100vw;
-	height: auto;
 	background-color: ${p => p.theme.primary};
 	padding: 1rem 3rem;
 
