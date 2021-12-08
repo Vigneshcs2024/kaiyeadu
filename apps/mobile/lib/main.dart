@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primaryColor: beginColor,
         fontFamily: 'Montserrat',
       ),
-      initialRoute: HomePage.id,
+      initialRoute: LoginPage.id,
       routes: PageRoutes().routes(),
 
     );

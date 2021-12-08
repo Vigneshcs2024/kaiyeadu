@@ -45,9 +45,11 @@ class ContainerWidget extends StatelessWidget {
             SizedBox(height: 15,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+              children: const <Widget>[
                 Text("Showing "),
-                Text("10 "),
+                Text("20 ",style:TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),),
                 Text("out of 20 records"),
               ],
             )

@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:mobile/pages/otp_page1.dart';
+import 'package:mobile/pages/otp_page.dart';
 import 'package:mobile/utils/Color.dart';
 import 'package:mobile/utils/styles.dart';
 import 'package:mobile/widgets/button_widget.dart';
@@ -30,7 +30,8 @@ class _LoginPageState extends State<LoginPage> {
             )
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal: 25.0),
+            padding: const EdgeInsets.only(left: 25.0,right: 25.0,top: 35.0),
+           // padding: const EdgeInsets.symmetric(vertical: 35.0,horizontal: 25.0),
             child: ListView(
               children: <Widget>[
                 const SizedBox(height: 50,),
@@ -39,36 +40,26 @@ class _LoginPageState extends State<LoginPage> {
                 Center(child: Text('LOGIN',style: heading1,)),
                 const SizedBox(height: 35,),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0,horizontal: 15.0),
                   child:Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('ID',style: heading2,),
+                      Text('GPF ID',style: heading2,),
                       const SizedBox(height: 15,),
                       TextField(
                         keyboardType: TextInputType.emailAddress,
-                        decoration: kInputTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+                        decoration: kInputTextFieldDecoration.copyWith(hintText: 'Enter ID'),
                       ),
-                      const SizedBox(height: 25,),
-                      Text('Password',style: heading2,),
-                      const SizedBox(height: 15,),
-                      TextField(
-                        keyboardType: TextInputType.visiblePassword,
-                        obscureText: true,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        decoration: kInputTextFieldDecoration.copyWith(hintText: 'Enter Password'),
-                      ),
+
                       const SizedBox(height: 40,),
                       Center(
-                        child: ButtonWidget(textName: "LOGIN",onPressed: ()
+                        child: ButtonWidget(textName: "SEND OTP",onPressed: ()
                         {
-                          Navigator.pushNamed(context, OtpPage1.id);
+                          Navigator.pushNamed(context, OtpPage.id);
                         },
                         ),
                       ),
                       const SizedBox(height: 25,),
-                      Center(child: Text("Forgot Password?",style: button,))
                     ],
                   ),
                 ),

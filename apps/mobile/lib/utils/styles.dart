@@ -14,7 +14,7 @@ const TextStyle subhead2 =  TextStyle(fontSize: 14, color: Colors.black, fontWei
 const TextStyle button = TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold);
 const TextStyle body1 = TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400); //regular/normal/plainconst
 const TextStyle body2 = TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400); //medium
-
+const TextStyle tagLine = TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400);
 const TextStyle other = TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400); //other
 const BoxDecoration gradientBackground = BoxDecoration(
   gradient: LinearGradient(
@@ -34,7 +34,30 @@ const BoxDecoration backgroundImage = BoxDecoration(
     )
 );
 
+const BoxDecoration backgroundImage25 = BoxDecoration(
+    image: DecorationImage(
+        colorFilter: ColorFilter.mode(Color.fromRGBO(255, 255, 255, 0.1), BlendMode.dstATop),
+        image: AssetImage('images/logo.png'),
+        fit: BoxFit.none,
+      alignment: Alignment.center
+    )
+);
 
+// const containerDecoration = BoxDecoration(
+// border: const Border.all(
+// color: Colors.red[500],
+// ),
+// borderRadius: BorderRadius.all(Radius.circular(20)) );
+
+const BoxDecoration containerDecoration = BoxDecoration(
+  color: tagColor,
+  borderRadius: BorderRadius.all(Radius.circular(20)),
+);
+
+const BoxDecoration expansionTileDecoration = BoxDecoration(
+  color: containerColor,
+  borderRadius: BorderRadius.all(Radius.circular(8)),
+);
 
 const kSearchFieldDecoration = InputDecoration(
   hintText: 'Search',
@@ -64,10 +87,6 @@ const kSearchFieldDecoration = InputDecoration(
 
 const kInputTextFieldDecoration = InputDecoration(
   hintText: 'Enter the value.',
-  hintStyle: TextStyle(
-    fontStyle: FontStyle.italic,
-    color: beginColor
-  ),
   fillColor: Colors.white,
   filled: true,
   contentPadding:
