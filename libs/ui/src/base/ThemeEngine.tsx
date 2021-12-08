@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import { createContext, useContext } from 'react';
 import theme from './theme.values';
 
@@ -7,7 +8,17 @@ export const ThemeProvider = ThemeContext.Provider;
 export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeEngine({ children }: ThemeEngineProps) {
-	return <ThemeProvider value={theme}>{children}</ThemeProvider>;
+	return (
+		<>
+			<Helmet>
+				<link
+					rel='stylesheet'
+					href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap'
+				/>
+			</Helmet>
+			<ThemeProvider value={theme}>{children}</ThemeProvider>
+		</>
+	);
 }
 
 interface ThemeEngineProps {

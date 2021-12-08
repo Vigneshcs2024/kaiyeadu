@@ -9,7 +9,7 @@ export default function Login() {
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<InnerContainer>
 				<h1>LOGIN</h1>
-				<TextField label='ID' />
+				<TextField label='Email' />
 				<TextField label='Password' />
 				<BottomContainer>
 					<Button title='login' onClick={() => null} />
