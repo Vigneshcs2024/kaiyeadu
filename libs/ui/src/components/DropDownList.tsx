@@ -1,7 +1,7 @@
 import { SelectHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export function DropDownList({ children, items, label, ...rest }: DDLProps) {
+export function DropDownList({ children, items, label, tip, ...rest }: DDLProps) {
 	if (children) throw new Error('DropDownList: children is not supported');
 
 	return (
@@ -20,6 +20,9 @@ export function DropDownList({ children, items, label, ...rest }: DDLProps) {
 					)
 				)}
 			</select>
+			<p style={typeof tip !== 'string' ? { color: tip?.color } : {}}>
+				{typeof tip === 'string' ? tip : tip?.content} &nbsp;
+			</p>
 		</SelectContainer>
 	);
 }
@@ -30,6 +33,7 @@ interface DDLProps extends SelectHTMLAttributes<HTMLSelectElement> {
 	id: string;
 	label: string;
 	items: Option[] | string[];
+	tip?: string | { content: string; color: string };
 }
 
 const SelectContainer = styled.div`
@@ -39,7 +43,7 @@ const SelectContainer = styled.div`
 	flex-direction: column;
 
 	&:not(:last-child) {
-		margin-bottom: 2em;
+		margin-bottom: 0.4em;
 	}
 
 	@media only screen and (max-width: 600px) {
@@ -62,5 +66,10 @@ const SelectContainer = styled.div`
 
 	option {
 		font: inherit;
+	}
+
+	p {
+		font-size: 0.8em;
+		margin: 0.5rem;
 	}
 `;

@@ -12,8 +12,8 @@ export function AddUser() {
 					<TextField label='Email' type='email' />
 					<TextField label='Phone' type='tel' />
 					<TextField label='Police Station' />
+					<TextField label='Designation' />
 					<DropDownList label='Role' id='ddl' items={['user', 'admin', 'master']} />
-					<TextField label='Role' />
 					<Button type='submit'>Add User</Button>
 				</form>
 			</Layout>
@@ -27,10 +27,10 @@ const Layout = styled.main`
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
+	color: white;
 
 	h1 {
 		font-size: 4.5rem;
-		color: white;
 		margin: 1em;
 	}
 `;
