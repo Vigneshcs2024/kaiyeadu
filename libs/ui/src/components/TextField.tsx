@@ -41,6 +41,11 @@ const Container = styled.div`
 		padding: 1.3rem;
 		outline: none;
 		border: none;
+
+		&[type='password'] {
+			font-weight: bold;
+			letter-spacing: 0.4em;
+		}
 	}
 
 	p {

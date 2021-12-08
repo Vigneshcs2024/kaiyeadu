@@ -37,6 +37,7 @@ export default function Login() {
 					<TextField
 						label='Password'
 						name='password'
+						type='password'
 						value={formData.password}
 						onChange={handleChange}
 					/>
