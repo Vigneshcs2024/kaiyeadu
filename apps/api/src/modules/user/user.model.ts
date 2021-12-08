@@ -27,7 +27,7 @@ User.init(
 			primaryKey: true
 		},
 		gpf: {
-			type: DataTypes.STRING,
+			type: DataTypes.STRING(10),
 			allowNull: true
 		},
 		name: {
