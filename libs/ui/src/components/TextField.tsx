@@ -26,6 +26,7 @@ const Container = styled.div`
 	}
 
 	input {
+		font: inherit;
 		border-radius: 0.5rem;
 		padding: 1rem;
 		outline: none;
