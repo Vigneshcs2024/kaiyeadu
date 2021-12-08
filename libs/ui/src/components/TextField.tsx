@@ -5,14 +5,12 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	label: string;
 }
 
-const TextField: FC<InputProps> = ({ name, label, ...rest }) => {
-	return (
-		<Container>
-			{label && <label htmlFor={name}>{label}</label>}
-			<input id={name} {...rest} />
-		</Container>
-	);
-};
+const TextField: FC<InputProps> = ({ name, label, ...rest }) => (
+	<Container>
+		{label && <label htmlFor={name}>{label}</label>}
+		<input id={name} {...rest} />
+	</Container>
+);
 
 const Container = styled.div`
 	display: flex;
