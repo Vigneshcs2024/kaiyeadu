@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 interface props {
@@ -5,8 +6,8 @@ interface props {
 	title: string;
 }
 
-export default function Button({ onClick, title }: props) {
-	return <StyledButton onClick={onClick}>{title}</StyledButton>;
+export default function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
+	return <StyledButton onClick={props.onClick}>{props.title ?? props.children}</StyledButton>;
 }
 
 const StyledButton = styled.button`
