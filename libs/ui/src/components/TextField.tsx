@@ -16,8 +16,14 @@ const TextField: FC<InputProps> = ({ name, label, ...rest }) => {
 
 const Container = styled.div`
 	display: flex;
+	min-width: 45rem;
+	max-width: 90%;
 	flex-direction: column;
 	margin: 1em 0;
+
+	@media only screen and (max-width: 600px) {
+		min-width: 80%;
+	}
 
 	label {
 		color: ${p => p.theme.white};
