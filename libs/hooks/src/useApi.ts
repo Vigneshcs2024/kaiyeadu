@@ -1,5 +1,4 @@
 import axios from 'axios';
-import config from 'config';
 import { useMemo } from 'react';
 import { useAuthApi } from './AuthEngine';
 
@@ -9,9 +8,9 @@ export function useApi() {
 	const instance = useMemo(() => {
 		const instance = axios.create({
 			baseURL:
-				config.util.getEnv('NODE_ENV') === 'development'
-					? `${config.get('api.host')}:${config.get('api.port')}`
-					: config.get('apps.api-url')
+				process.env.NODE_ENV === 'development'
+					? 'http://localhost:5000'
+					: process.env.REACT_APP_API_URL
 		});
 		instance.defaults.headers.common.Authorization = `Bearer ${session.getAuthToken()}`;
 		return instance;
