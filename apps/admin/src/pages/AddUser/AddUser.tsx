@@ -1,4 +1,4 @@
-import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Button, DropDownList, TextField } from '@kaiyeadu/ui/components';
 import styled from 'styled-components';
 
 export function AddUser() {
@@ -12,7 +12,7 @@ export function AddUser() {
 					<TextField label='Email' type='email' />
 					<TextField label='Phone' type='tel' />
 					<TextField label='Police Station' />
-					<TextField label='Designation' />
+					<DropDownList label='Role' id='ddl' items={['user', 'admin', 'master']} />
 					<TextField label='Role' />
 					<Button type='submit'>Add User</Button>
 				</form>
