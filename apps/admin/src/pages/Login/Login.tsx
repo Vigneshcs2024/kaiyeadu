@@ -1,13 +1,14 @@
 import { ChangeEvent, FormEventHandler, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useApi } from '@kaiyeadu/hooks';
+import { useApi, useAuthApi } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
 import { login } from './login.service';
 
 export default function Login() {
 	const [formData, setFormData] = useState({ email: '', password: '' });
 	const { axiosInstance } = useApi();
+	const { session } = useAuthApi();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -15,9 +16,10 @@ export default function Login() {
 		setFormData(prevState => ({ ...prevState, [name]: value }));
 	};
 
-	const handleSubmit: FormEventHandler<HTMLFormElement> = e => {
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
 		e.preventDefault();
-		login(axiosInstance, formData);
+		const token = await login(axiosInstance, formData);
+		session.setSession(token);
 	};
 
 	return (
