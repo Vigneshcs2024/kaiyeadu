@@ -4,7 +4,7 @@ import { CreateUserDto, UpdatePasswordDto, UpdateUserDto } from '@kaiyeadu/api-i
 export function validateCreateUser(userDetails: CreateUserDto) {
 	const schema = Joi.object<CreateUserDto>({
 		name: Joi.string().min(3).max(30).required(),
-		gpf: Joi.string().alphanum(),
+		gpf: Joi.string().alphanum().min(10).max(10).required(),
 		email: Joi.string().email().required(),
 		phone: Joi.string().min(10).max(10).required(),
 		password: Joi.string().min(8).max(30),
@@ -31,7 +31,7 @@ export function validateUpdatePassword(userDetails: UpdatePasswordDto) {
 export function validateUpdateUser(userDetails: UpdateUserDto) {
 	const schema = Joi.object<CreateUserDto>({
 		name: Joi.string().min(3).max(30),
-		gpf: Joi.string().alphanum(),
+		gpf: Joi.string().alphanum().min(10).max(10),
 		email: Joi.string().email(),
 		phone: Joi.string().min(10).max(10),
 		password: Joi.string().min(8).max(30),
