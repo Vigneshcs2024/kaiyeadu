@@ -1,20 +1,48 @@
-import styled from 'styled-components';
+import { ChangeEvent, FormEventHandler, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import styled from 'styled-components';
+import { useApi } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
+import { login } from './login.service';
 
 export default function Login() {
+	const [formData, setFormData] = useState({ email: '', password: '' });
+	const { axiosInstance } = useApi();
+
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+
+		setFormData(prevState => ({ ...prevState, [name]: value }));
+	};
+
+	const handleSubmit: FormEventHandler<HTMLFormElement> = e => {
+		e.preventDefault();
+		login(axiosInstance, formData);
+	};
+
 	return (
 		<BackgroundContainer
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<InnerContainer>
 				<h1>LOGIN</h1>
-				<TextField label='Email' />
-				<TextField label='Password' />
-				<BottomContainer>
-					<Button title='login' onClick={() => null} />
-					<Link to='/'>Forgot Password</Link>
-				</BottomContainer>
+				<form onSubmit={handleSubmit}>
+					<TextField
+						label='Email'
+						name='email'
+						value={formData.email}
+						onChange={handleChange}
+					/>
+					<TextField
+						label='Password'
+						name='password'
+						value={formData.password}
+						onChange={handleChange}
+					/>
+					<BottomContainer>
+						<Button title='login' type='submit' />
+						<Link to='/'>Forgot Password</Link>
+					</BottomContainer>
+				</form>
 			</InnerContainer>
 		</BackgroundContainer>
 	);
