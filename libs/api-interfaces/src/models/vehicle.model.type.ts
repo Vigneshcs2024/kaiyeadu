@@ -1,12 +1,12 @@
 export interface IVehicle {
-    id: string;
-    criminal: string;
-    type: string;
-    reg_no: string;
-    description: string;
+	id: string;
+	criminal: string;
+	type: string;
+	reg_no: string;
+	description: string;
 
-    createdAt: Date;
-    updatedAt: Date;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
-export type IVehicleInput = Omit<IVehicle, "id" | "criminal" | "createdAt" | "updatedAt">;
+export type IVehicleInput = Omit<IVehicle, 'id' | 'criminal' | 'createdAt' | 'updatedAt'>;

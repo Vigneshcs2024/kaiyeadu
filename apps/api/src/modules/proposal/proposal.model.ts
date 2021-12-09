@@ -1,61 +1,54 @@
-import { Model, DataTypes } from "sequelize";
-import { db } from "../../root/connections";
-import { IProposal, IProposalInput } from "@kaiyeadu/api-interfaces/models";
+import { Model, DataTypes } from 'sequelize';
+import { db } from '../../root/connections';
+import { IProposal, IProposalInput } from '@kaiyeadu/api-interfaces/models';
 
 export class Proposal extends Model<IProposal, IProposalInput> implements IProposal {
-    id!: string;
-    criminal!: string;
-    created_by!: string;
-    created_at!: string;
-    description!: string;
+	id!: string;
+	criminal!: string;
+	created_by!: string;
+	created_at!: string;
+	description!: string;
 
-    readonly createdAt: Date;
-    readonly updatedAt: Date;
+	readonly createdAt: Date;
+	readonly updatedAt: Date;
 }
 
 Proposal.init(
-    {
-        id: 
-        {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-            allowNull: false,
-            primaryKey: true
-        },
-        criminal:
-        {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        created_by: 
-        {
-            type: DataTypes.UUID,
-            allowNull: false
-        },
-        created_at: 
-        {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        description: 
-        {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-        createdAt:
-        {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
-        },
-        updatedAt:
-        {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
-        }
-    },
-    {
-        tableName: "proposal",
-        sequelize: db,
-        timestamps: true
-    }
+	{
+		id: {
+			type: DataTypes.UUID,
+			defaultValue: DataTypes.UUIDV4,
+			allowNull: false,
+			primaryKey: true
+		},
+		criminal: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
+		created_by: {
+			type: DataTypes.UUID,
+			allowNull: false
+		},
+		created_at: {
+			type: DataTypes.DATE,
+			allowNull: false
+		},
+		description: {
+			type: DataTypes.TEXT,
+			allowNull: false
+		},
+		createdAt: {
+			type: DataTypes.DATE,
+			defaultValue: DataTypes.NOW
+		},
+		updatedAt: {
+			type: DataTypes.DATE,
+			defaultValue: DataTypes.NOW
+		}
+	},
+	{
+		tableName: 'proposal',
+		sequelize: db,
+		timestamps: true
+	}
 );
