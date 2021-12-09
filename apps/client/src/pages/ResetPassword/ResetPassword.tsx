@@ -10,7 +10,12 @@ export default function ResetPassword() {
 	return (
 		<SectionWithNav>
 			<BackgroundContainer
-				style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					minHeight: '91.75vh'
+				}}>
 				{step === 1 ? (
 					<InnerContainer>
 						<h1>RESET PASSWORD</h1>
