@@ -7,7 +7,7 @@ import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 
 import { logger } from '$api/tools';
 import * as authRepository from './auth.repository';
-import { validateLogin } from './auth.validation';
+import { validateLogin, validateLoginWithGPF } from './auth.validation';
 
 const JWT_SECRET = (config.get('keys.jwt.secret') ?? process.env.JWT_SECRET) as string;
 
@@ -32,6 +32,22 @@ export async function login(req: Request, res: Response) {
 
 	await validateLogin({ email, password });
 	const { id, name, designation, role } = await authRepository.login({ email, password });
+
+	const payload: PayloadObject = { id, name, designation, role };
+	const token = jwt.sign(payload, JWT_SECRET, { issuer: 'TNPOL', expiresIn: '1d' });
+
+	res.status(StatusCodes.CREATED).json({
+		message: 'Login successful',
+		token,
+		isResetPassword: role !== 'user' && !isNaN(password)
+	});
+}
+
+export async function loginWithGPF(req: Request, res: Response) {
+	const { gpf, password } = req.body;
+
+	await validateLoginWithGPF({ gpf, password });
+	const { id, name, designation, role } = await authRepository.login({ gpf, password });
 
 	const payload: PayloadObject = { id, name, designation, role };
 	const token = jwt.sign(payload, JWT_SECRET, { issuer: 'TNPOL', expiresIn: '1d' });
