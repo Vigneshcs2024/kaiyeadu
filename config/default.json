@@ -10,6 +10,14 @@
 			"database": "kaiyeadu",
 			"host": "localhost",
 			"provider": "mysql"
+		},
+		"keys": {
+			"jwt": {
+				"secret": "secret"
+			}
+		},
+		"hashing": {
+			"saltRounds": 5
 		}
 	}
 }

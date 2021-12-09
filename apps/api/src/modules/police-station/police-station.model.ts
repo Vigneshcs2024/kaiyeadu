@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '../../root/connections';
+import { db } from '$api/root/connections';
 import { IPoliceStation, IPoliceStationInput } from '@kaiyeadu/api-interfaces/models';
 
 export class PoliceStation
@@ -35,8 +35,8 @@ PoliceStation.init(
 			type: DataTypes.STRING,
 			allowNull: false
 		},
-		createdAt: DataTypes.DATE,
-		updatedAt: DataTypes.DATE
+		createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+		updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 	},
 	{
 		timestamps: true,

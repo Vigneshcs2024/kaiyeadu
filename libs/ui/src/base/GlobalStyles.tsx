@@ -1,9 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
+
 import theme from './theme.values';
 
 export const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
-
   * {
     box-sizing: inherit;
     padding: 0;
@@ -19,6 +18,11 @@ export const GlobalStyles = createGlobalStyle`
   body {
     font-family: ${theme.font};
     font-size: 1.8rem;
+  }
+
+  a,button{
+    text-decoration: none;
+    font-family: inherit;
   }
 
   @media only screen and (max-width: 850px) {

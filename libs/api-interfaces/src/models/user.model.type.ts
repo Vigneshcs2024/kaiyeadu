@@ -1,15 +1,15 @@
-import { Optional } from 'sequelize';
-
 export interface IUser {
 	id: string;
-	police_station: string;
 	name: string;
+	gpf?: string;
+	police_station: string;
 	email: string;
 	phone: string;
-	password: string;
+	password?: string;
 	designation: string;
+	role: 'user' | 'admin' | 'master';
 	createdAt: Date;
 	updatedAt: Date;
 }
 
-export type IUserInput = Optional<IUser, 'id' | 'createdAt' | 'updatedAt'>;
+export type IUserInput = Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>;

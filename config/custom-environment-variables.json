@@ -7,5 +7,10 @@
 		"host": "DB_HOST",
 		"username": "DB_USER",
 		"password": "DB_PASS"
+	},
+	"keys": {
+		"jwt": {
+			"secret": "JWT_SECRET"
+		}
 	}
 }
