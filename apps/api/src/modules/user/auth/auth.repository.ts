@@ -1,21 +1,29 @@
 import bcrypt from 'bcrypt';
 import config from 'config';
 import { StatusCodes } from 'http-status-codes';
-import { AuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
+import { AuthCredentialsDto, UserAuthCredentials } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { generateOTP } from '$api/utilities';
 import { User } from '../user.model';
 
-export async function login(credentials: AuthCredentialsDto) {
+export async function login({
+	email,
+	gpf,
+	password
+}: Partial<AuthCredentialsDto & UserAuthCredentials>) {
 	const user = await User.findOne({
-		where: { email: credentials.email },
+		where: email ? { email } : { gpf },
 		attributes: ['id', 'password', 'name', 'role', 'designation']
 	});
 
-	if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
-		throw new ClientError('Invalid credentials', StatusCodes.UNAUTHORIZED);
+	if (!user || !(await bcrypt.compare(password, user.password))) {
+		throw new ClientError('Invalid or expired credentials', StatusCodes.UNAUTHORIZED);
 	}
 
+	if (user.role === 'user') {
+		user.password = '';
+		await user.save();
+	}
 	return user;
 }
 

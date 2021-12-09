@@ -13,9 +13,9 @@ export default function SectionWithNav({ children }: Props) {
 			<Sidebar
 				content={[
 					{ title: 'Home', path: '/' },
-					{ title: 'Update Proposals', path: '/' },
+					{ title: 'Update Proposals', path: '/updateProposals' },
 					{ title: 'Reset Password', path: '/reset' },
-					{ title: 'Logout' }
+					{ title: 'Logout', path: '/login' }
 				]}>
 				{children}
 			</Sidebar>

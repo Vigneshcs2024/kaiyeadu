@@ -1,19 +1,22 @@
 import styled from 'styled-components';
+import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
 import { Link } from 'react-router-dom';
 
-import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
-
-export default function Login() {
+export default function ForgotPassword() {
 	return (
 		<BackgroundContainer
-			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center'
+			}}>
 			<InnerContainer>
-				<h1>LOGIN</h1>
+				<h1>Forgot Password</h1>
 				<TextField label='Email ID' />
-				<TextField label='Password' />
 				<BottomContainer>
-					<Button title='login' onClick={() => null} />
-					<Link to='/forgot'>Forgot Password</Link>
+					<Link to='/'>
+						<Button title='Submit' onClick={() => null} />
+					</Link>
 				</BottomContainer>
 			</InnerContainer>
 		</BackgroundContainer>
@@ -30,6 +33,7 @@ const InnerContainer = styled.div`
 		margin-bottom: 1.5em;
 	}
 `;
+
 const BottomContainer = styled.div`
 	display: flex;
 	justify-content: center;
