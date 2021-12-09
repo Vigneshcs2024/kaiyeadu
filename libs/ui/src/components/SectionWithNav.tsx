@@ -5,20 +5,13 @@ import { Sidebar } from '.';
 
 interface Props {
 	children: ReactChild;
+	content: { title: string; path?: string; fun?: () => void }[];
 }
 
-export default function SectionWithNav({ children }: Props) {
+export default function SectionWithNav({ children, content }: Props) {
 	return (
 		<Section>
-			<Sidebar
-				content={[
-					{ title: 'Home', path: '/' },
-					{ title: 'Update Proposals', path: '/updateProposals' },
-					{ title: 'Reset Password', path: '/reset' },
-					{ title: 'Logout', path: '/login' }
-				]}>
-				{children}
-			</Sidebar>
+			<Sidebar content={content}>{children}</Sidebar>
 		</Section>
 	);
 }
