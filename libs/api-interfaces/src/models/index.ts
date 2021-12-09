@@ -4,6 +4,8 @@ export * from './associates.model.type';
 export * from './bond.model.type';
 export * from './case.model.type';
 export * from './criminal.model.type';
+export * from './family-members.model.type';
+export * from './links.model.type';
 export * from './modus-operandi.model.type';
 export * from './occupation.model.type';
 export * from './operational_places.model.type';
