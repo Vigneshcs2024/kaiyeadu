@@ -6,7 +6,6 @@ export class Proposal extends Model<IProposal, IProposalInput> implements IPropo
 	id!: string;
 	criminal!: string;
 	created_by!: string;
-	created_at!: string;
 	description!: string;
 
 	readonly createdAt: Date;
@@ -27,10 +26,6 @@ Proposal.init(
 		},
 		created_by: {
 			type: DataTypes.UUID,
-			allowNull: false
-		},
-		created_at: {
-			type: DataTypes.DATE,
 			allowNull: false
 		},
 		description: {
