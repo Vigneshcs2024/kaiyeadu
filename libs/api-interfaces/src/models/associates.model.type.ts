@@ -10,7 +10,7 @@ export interface IAssociates {
 	updatedAt: Date;
 }
 
-export type IAssociatesImput = Omit<
+export type IAssociatesInput = Omit<
 	IAssociates,
 	'id' | 'criminal' | 'occupation' | 'createdAt' | 'updatedAt'
 >;

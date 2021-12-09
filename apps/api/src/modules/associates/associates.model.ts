@@ -1,10 +1,10 @@
 import { Model, DataTypes } from 'sequelize';
 import { db } from '$api/root/connections';
-import { IAssociates, IAssociatesImput } from '@kaiyeadu/api-interfaces/models';
+import { IAssociates, IAssociatesInput } from '@kaiyeadu/api-interfaces/models';
 import { Occupation } from '../occupation/occupation.model';
-// TOTO import criminal
+// TODO import criminal
 
-export class Associates extends Model<IAssociates, IAssociatesImput> implements IAssociates {
+export class Associates extends Model<IAssociates, IAssociatesInput> implements IAssociates {
 	id!: string;
 	criminal!: string;
 	occupation!: string;
