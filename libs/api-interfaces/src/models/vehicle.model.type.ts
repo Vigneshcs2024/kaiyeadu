@@ -1,5 +1,3 @@
-import { Optional } from "sequelize";
-
 export interface IVehicle {
     id: string;
     criminal: string;
@@ -11,4 +9,4 @@ export interface IVehicle {
     updatedAt: Date;
 }
 
-export type IVehicleInput = Optional<IVehicle, "id" | "criminal" | "createdAt" | "updatedAt">;
+export type IVehicleInput = Omit<IVehicle, "id" | "criminal" | "createdAt" | "updatedAt">;

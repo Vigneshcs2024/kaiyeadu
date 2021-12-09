@@ -1,63 +1,65 @@
 import { Model, DataTypes } from "sequelize";
 import { db } from "../../root/connections";
-import { IAddress, IAddressInput } from "@kaiyeadu/api-interfaces/models";
-import { Criminal } from "../criminal/criminal.model";
+import { ICase, ICaseInput } from "@kaiyeadu/api-interfaces/models";
+import { PoliceStation } from "../police-station/police-station.model";
+// TODO import criminal
 
-export class Address extends Model<IAddress, IAddressInput> implements IAddress {
+export class Case extends Model<ICase, ICaseInput> implements ICase {
     id: string;
     criminal: string;
-    type: string;
-    line1: string;
-    line2: string;
-    area: string;
-    city: string;
-    state: string;
+    police_station: string;
+    crime_number: number;
+    under_Section: string;
+    stage: string;
+    remarks: string;
+    date: Date;
 
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }
 
-Address.init(
+Case.init(
     {
-        id: 
+        id:
         {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
+            allowNull: false,
             primaryKey: true
         },
         criminal:
         {
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
             allowNull: false
         },
-        type:
+        police_station:
+        {
+            type: DataTypes.UUID,
+            allowNull: false
+        },
+        crime_number:
+        {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        under_Section:
         {
             type: DataTypes.STRING,
             allowNull: false
         },
-        line1:
+        stage:
         {
             type: DataTypes.STRING,
             allowNull: false
         },
-        line2:
+        remarks:
         {
             type: DataTypes.STRING,
             allowNull: false
         },
-        area:
+        date:
         {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        city:
-        {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        state:
-        {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: false
         },
         createdAt:
@@ -72,12 +74,18 @@ Address.init(
         }
     },
     {
+        timestamps: true,
         sequelize: db,
-        tableName: "Address",
-        timestamps: true
+        modelName: "Case",
     }
 );
 
-Address.belongsTo(Criminal, {
-    foreignKey: "criminal",
+
+Case.belongsTo(PoliceStation, {
+    foreignKey: "police_station",
 });
+
+
+// TODO Case.belongsTo(Criminal, {
+//     foreignKey: "criminal",
+// });

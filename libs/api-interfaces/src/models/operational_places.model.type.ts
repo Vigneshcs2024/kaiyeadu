@@ -1,5 +1,3 @@
-import { Optional } from "sequelize";
-
 export interface IOperational_places {
     id: string;
     criminal: string;
@@ -10,4 +8,4 @@ export interface IOperational_places {
     updatedAt: Date;
 }
 
-export type IOperational_placesInput = Optional<IOperational_places, "id" | "criminal" | "createdAt" | "updatedAt">;
+export type IOperational_placesInput = Omit<IOperational_places, "id" | "criminal" | "createdAt" | "updatedAt">;

@@ -1,5 +1,3 @@
-import { Optional } from "sequelize/dist";
-
 export interface IAddress {
     id: string;
     criminal: string;
@@ -14,4 +12,4 @@ export interface IAddress {
 	updatedAt: Date;   
 }
 
-export type IAddressInput = Optional<IAddress, "id" | "criminal" | "createdAt" | "updatedAt">;
+export type IAddressInput = Omit<IAddress, "id" | "criminal" | "createdAt" | "updatedAt">;

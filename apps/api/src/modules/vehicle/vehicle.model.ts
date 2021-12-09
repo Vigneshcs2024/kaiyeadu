@@ -45,8 +45,16 @@ Vehicle.init(
             type: DataTypes.TEXT,
             allowNull: true
         },
-        createdAt: DataTypes.DATE,
-        updatedAt: DataTypes.DATE
+        createdAt:
+        {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
+        },
+        updatedAt:
+        {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
+        }
     },
     {
         sequelize: db,

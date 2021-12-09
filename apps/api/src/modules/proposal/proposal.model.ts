@@ -4,6 +4,7 @@ import { IProposal, IProposalInput } from "@kaiyeadu/api-interfaces/models";
 
 export class Proposal extends Model<IProposal, IProposalInput> implements IProposal {
     id!: string;
+    criminal!: string;
     created_by!: string;
     created_at!: string;
     description!: string;
@@ -21,6 +22,11 @@ Proposal.init(
             allowNull: false,
             primaryKey: true
         },
+        criminal:
+        {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         created_by: 
         {
             type: DataTypes.UUID,
@@ -36,8 +42,16 @@ Proposal.init(
             type: DataTypes.TEXT,
             allowNull: false
         },
-        createdAt: DataTypes.DATE,
-        updatedAt: DataTypes.DATE
+        createdAt:
+        {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
+        },
+        updatedAt:
+        {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
+        }
     },
     {
         tableName: "proposal",
