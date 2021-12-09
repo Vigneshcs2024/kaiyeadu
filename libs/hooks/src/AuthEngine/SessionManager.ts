@@ -1,16 +1,11 @@
 import decodeJwt from 'jwt-decode';
 
-export type TokenPair = {
-	authToken: string;
-	refreshToken: string;
-};
-
 // ? The types below need to be updated to match the types in the backend
 // ? this can be done by using the type definitions from the backend (library)
 
 type Store = {
 	displayName: string;
-	tokens: TokenPair;
+	token: string;
 	isAdmin: boolean;
 };
 
@@ -35,34 +30,30 @@ export class SessionManager {
 	constructor(private store: Store = SessionManager.getStorage()) {}
 
 	public isAuthenticated(): boolean {
-		return !!this.store?.tokens?.authToken;
+		return !!this.store?.token;
 	}
 
 	public isAdmin(): boolean {
 		return this.store.isAdmin;
 	}
 
-	public setSession(tokens: TokenPair): void {
-		const { display_name, is_admin } = decodeJwt(tokens.authToken) as Payload;
+	public setSession(token: string): void {
+		const { display_name, is_admin } = decodeJwt(token) as Payload;
 		this.store = {
-			tokens,
+			token,
 			displayName: display_name,
 			isAdmin: is_admin
 		};
 		SessionManager.setStorage(this.store);
 	}
 
-	public updateTokens(tokens: TokenPair): void {
-		this.store.tokens = tokens;
+	public updateTokens(token: string): void {
+		this.store.token = token;
 		SessionManager.setStorage(this.store);
 	}
 
 	public getAuthToken(): string {
-		return this.store.tokens.authToken;
-	}
-
-	public getRefreshToken(): string {
-		return this.store.tokens.refreshToken;
+		return this.store.token;
 	}
 
 	public getDisplayName(): string {

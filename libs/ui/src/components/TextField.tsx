@@ -6,10 +6,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	tip?: string | { content: string; color: string };
 }
 
-const TextField: FC<InputProps> = ({ name, label, tip, ...rest }) => (
+const TextField: FC<InputProps> = ({ label, tip, ...rest }) => (
 	<Container>
-		{label && <label htmlFor={name}>{label}</label>}
-		<input id={name} {...rest} />
+		{label && <label htmlFor={rest.id ?? rest.name}>{label}</label>}
+		<input id={rest.id ?? rest.name} {...rest} />
 		<p style={typeof tip !== 'string' ? { color: tip?.color } : {}}>
 			{typeof tip === 'string' ? tip : tip?.content} &nbsp;
 		</p>
