@@ -11,7 +11,8 @@ import 'package:mobile/widgets/category_widget/personal_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String id = "ProfilePage";
-  const ProfilePage({Key? key}) : super(key: key);
+  final data;
+  const ProfilePage({this.data});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -22,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: -10,
-        title: Text("Lelouch Lamperouge"),
+        title: Text(widget.data["name"]),
         backgroundColor: beginColor,
       ),
       body: SingleChildScrollView(
@@ -32,7 +33,8 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(
               height: 270,
               width: double.infinity,
-              child: Image.asset('images/profile2.jpg',fit: BoxFit.cover,),
+              //child: Image.asset('images/profile2.jpg',fit: BoxFit.cover,),
+              child: Image.network(widget.data["image"],fit: BoxFit.cover,),
               ),
             SizedBox(height: 15,),
             Padding(
@@ -40,9 +42,9 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget> [
-                  const Text("Lelouch Lamperouge",style:heading3,),
+                  Text(widget.data["name"],style:heading3,),
                   SizedBox(height: 10,),
-                  Text("Mandaiyur Ps - HS No. 1234/80",style: heading4,),
+                  Text(widget.data["hs_number"],style: heading4,),
                   SizedBox(height: 10,),
                   Container(
                     height: 30,width: MediaQuery.of(context).size.width,
@@ -57,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(height: 10,),
-                  PersonalWidget(),
+                  PersonalWidget(data: widget.data,),
                   SizedBox(height: 10,),
                   FamilyWidget(),
                   SizedBox(height: 10,),

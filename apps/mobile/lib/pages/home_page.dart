@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/pages/login_page.dart';
 import 'package:mobile/pages/profile_page.dart';
+import 'package:mobile/services/api_manager.dart';
 import 'package:mobile/utils/Color.dart';
 import 'package:mobile/utils/styles.dart';
+import 'package:mobile/widgets/btn_widget_small.dart';
+import 'package:mobile/widgets/button_widget.dart';
 import 'package:mobile/widgets/container_widget.dart';
 import 'package:mobile/widgets/home_buttons.dart';
 
@@ -15,6 +18,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  late Future data;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    data = getPlanData();
+
+  }
+
+  Future getPlanData() {
+    String url = "https://my.api.mockaroo.com/sample.json?key=7b80fb60";
+    ApiManager apiManager = ApiManager(url);
+    var data =  apiManager.getData();
+    // data.then((value){
+    //   print('title: ${value["articles"][0]["title"]}');
+    // });
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,37 +67,61 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             ContainerWidget(),
             Expanded(
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 20,
-                  itemBuilder: (BuildContext context,int index){
-                    return InkWell(
-                      splashColor: beginColor,
-                      onTap: () {
-                        Navigator.pushNamed(context, ProfilePage.id);
-                      },
-                      child: ListTile(
-                        horizontalTitleGap: 1.0,
-                    //    minLeadingWidth: 2.0,
-                          leading: CircleAvatar(
-                            radius: 40,
-                            backgroundColor: Colors.white,
-                            backgroundImage: AssetImage('images/profile.jpg'),
-                          ),
-                          trailing: Text("Open\nCase",
-                            style: TextStyle(
-                                color: Colors.green,fontSize: 13),),
-                          title:Text("Lelouch Lamperouge"),
-                        subtitle:Text("Mandaiyur Ps - HS No. 1234/80") ,
-                      ),
-                    );
-                  }
+              child: FutureBuilder(
+                  future: getPlanData(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if(snapshot.hasData){
+                      return  buildListView(snapshot.data, context);
+                    }else{
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                  // child: buildListView()
               ),
             ),
           ],
         ),
       )
     );
+  }
+
+  ListView buildListView(data, BuildContext context) {
+    return ListView.builder(
+                shrinkWrap: true,
+                itemCount: data.length,
+                itemBuilder: (BuildContext context,int index){
+                  var dataValue = data[index];
+                  return InkWell(
+                    splashColor: beginColor,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(data: dataValue,),
+                          ));
+                      //Navigator.pushNamed(context, ProfilePage.id);
+                    },
+                    child: ListTile(
+                      horizontalTitleGap: 1.0,
+                  //    minLeadingWidth: 2.0,
+                        leading: CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.white,
+                          child: Image.network(dataValue["image"]),
+                        ),
+                        trailing:  ButtonWidgetSmall(textName: "Cases",onPressed: ()
+                        {
+                          //Navigator.pushNamed(context, OtpPage.id);
+                        },
+                        ),
+                      title: Text(dataValue["name"]),
+                      subtitle: Text(dataValue["hs_number"]),
+                      //   title:Text("Lelouch Lamperouge"),
+                      // subtitle:Text("Mandaiyur Ps - HS No. 1234/80") ,
+                    ),
+                  );
+                }
+            );
   }
 }
 
