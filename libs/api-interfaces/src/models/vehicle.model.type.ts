@@ -9,4 +9,4 @@ export interface IVehicle {
 	updatedAt: Date;
 }
 
-export type IVehicleInput = Omit<IVehicle, 'id' | 'criminal' | 'createdAt' | 'updatedAt'>;
+export type IVehicleInput = Omit<IVehicle, 'id' | 'createdAt' | 'updatedAt'>;
