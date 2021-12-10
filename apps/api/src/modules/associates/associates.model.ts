@@ -7,10 +7,9 @@ import { Occupation } from '../occupation/occupation.model';
 export class Associates extends Model<IAssociates, IAssociatesInput> implements IAssociates {
 	id!: string;
 	criminal!: string;
-	occupation!: string;
 	name!: string;
-	district!: string;
-	state!: string;
+	father_name!: string;
+	location!: string;
 
 	readonly createdAt!: Date;
 	readonly updatedAt!: Date;
@@ -28,19 +27,15 @@ Associates.init(
 			type: DataTypes.UUID,
 			allowNull: false
 		},
-		occupation: {
-			type: DataTypes.UUID,
-			allowNull: false
-		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
-		district: {
+		father_name: {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
-		state: {
+		location: {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
@@ -64,6 +59,6 @@ Associates.belongsTo(Occupation, {
 	foreignKey: 'occupation'
 });
 
-// TOTO Associates.belongsTo(Criminal, {
+// TODO Associates.belongsTo(Criminal, {
 //     foreignKey: 'criminal'
 // });
