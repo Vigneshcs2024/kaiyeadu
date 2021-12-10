@@ -1,11 +1,11 @@
 import { Model, DataTypes } from 'sequelize/dist';
 import { db } from '../../root/connections';
-import { IOperational_places, IOperational_placesInput } from '@kaiyeadu/api-interfaces/models';
+import { IOperationalPlaces, IOperationalPlacesInput } from '@kaiyeadu/api-interfaces/models';
 // TODO : import Criminal model
 
-export class Operational_places
-	extends Model<IOperational_places, IOperational_placesInput>
-	implements IOperational_places
+export class OperationalPlaces
+	extends Model<IOperationalPlaces, IOperationalPlacesInput>
+	implements IOperationalPlaces
 {
 	id: string;
 	criminal: string;
@@ -16,7 +16,7 @@ export class Operational_places
 	readonly updatedAt: Date;
 }
 
-Operational_places.init(
+OperationalPlaces.init(
 	{
 		id: {
 			type: DataTypes.UUID,
