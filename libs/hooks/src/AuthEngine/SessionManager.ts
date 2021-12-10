@@ -1,17 +1,14 @@
 import decodeJwt from 'jwt-decode';
+import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 
 // ? The types below need to be updated to match the types in the backend
 // ? this can be done by using the type definitions from the backend (library)
 
 type Store = {
-	displayName: string;
+	name: PayloadObject['name'];
 	token: string;
-	isAdmin: boolean;
-};
-
-type Payload = {
-	display_name: string;
-	is_admin: boolean;
+	role: PayloadObject['role'];
+	designation: PayloadObject['designation'];
 };
 
 export class SessionManager {
@@ -33,17 +30,17 @@ export class SessionManager {
 		return !!this.store?.token;
 	}
 
+	public getUserRole(): Store['role'] {
+		return this.store.role;
+	}
+
 	public isAdmin(): boolean {
-		return this.store.isAdmin;
+		return this.store.role !== 'user';
 	}
 
 	public setSession(token: string): void {
-		const { display_name, is_admin } = decodeJwt(token) as Payload;
-		this.store = {
-			token,
-			displayName: display_name,
-			isAdmin: is_admin
-		};
+		const { name, designation, role } = decodeJwt(token) as PayloadObject;
+		this.store = { token, name, role, designation };
 		SessionManager.setStorage(this.store);
 	}
 
@@ -57,6 +54,6 @@ export class SessionManager {
 	}
 
 	public getDisplayName(): string {
-		return this.store.displayName;
+		return this.store.name;
 	}
 }
