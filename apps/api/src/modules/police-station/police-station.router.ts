@@ -3,8 +3,9 @@ import * as policeStationService from './police-station.service';
 
 const router = Router();
 
-router.get('/:id', policeStationService.getPoliceStation);
-router.get('/list', policeStationService.listStations);
-router.post('/create', policeStationService.createStation);
+router.get('/:id', policeStationService.findById);
+router.get('/list', policeStationService.getList);
+router.get('/names', policeStationService.getNames);
+router.post('/create', policeStationService.create);
 
 export { router as policeStationRouter };
