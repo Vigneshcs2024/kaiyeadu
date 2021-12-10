@@ -33,7 +33,8 @@ export default function Home() {
 
 	return (
 		<SectionWithNav>
-			<BackgroundContainer>
+			<BackgroundContainer
+				style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 				<Table columns={columns} data={data} />
 			</BackgroundContainer>
 		</SectionWithNav>
