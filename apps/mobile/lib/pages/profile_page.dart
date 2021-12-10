@@ -2,11 +2,15 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:mobile/utils/Color.dart';
 import 'package:mobile/utils/styles.dart';
+import 'package:mobile/widgets/category_widget/contact_widget.dart';
+import 'package:mobile/widgets/category_widget/family_widget.dart';
+import 'package:mobile/widgets/category_widget/finance_widget.dart';
+import 'package:mobile/widgets/category_widget/link_widget.dart';
+import 'package:mobile/widgets/category_widget/personal_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String id = "ProfilePage";
   const ProfilePage({Key? key}) : super(key: key);
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -16,6 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: -10,
         title: Text("Lelouch Lamperouge"),
         backgroundColor: beginColor,
       ),
@@ -30,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             SizedBox(height: 15,),
             Padding(
-              padding: const EdgeInsets.only(left: 12,right: 12),
+              padding: const EdgeInsets.only(left: 18,right: 18,bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget> [
@@ -51,31 +56,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(height: 10,),
-                  Container(
-                    decoration: expansionTileDecoration.copyWith(border: Border.all(color:beginColor,width: 2)),
-                    child: ExpansionTile(
-                        title: Text('PERSONAL DETAILS ',style:heading5),
-                      childrenPadding: EdgeInsets.all(10),
-                      expandedAlignment: Alignment.topLeft,
-                     expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          children: [
-                            Text("FATHER'S NAME:",style:subhead1,), Text("  KING LAMPEROUGE",style:subhead2,),
-                          ],
-                        ),
-                        SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            Text("D.O.B: ",style:subhead1,),Text("7/05/2001",style:subhead2,),
-                          ],
-                        ),
-
-
-                      ],
-
-                    ),
-                  )
+                  PersonalWidget(),
+                  SizedBox(height: 10,),
+                  FamilyWidget(),
+                  SizedBox(height: 10,),
+                  ContactDetails(),
+                  SizedBox(height:10),
+                  FinanceWidget(),
+                  SizedBox(height:10),
+                  LinkWidget(),
+                  SizedBox(height:10),
                 ],
               ),
             )
