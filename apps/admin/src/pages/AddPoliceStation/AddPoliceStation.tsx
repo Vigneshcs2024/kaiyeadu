@@ -23,7 +23,7 @@ const Layout = styled.main`
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
-	color: white;
+	color: ${p => p.theme.white};
 
 	h1 {
 		font-size: 4.5rem;

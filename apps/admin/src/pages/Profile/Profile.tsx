@@ -54,6 +54,6 @@ const Layout = styled.main`
 	h1 {
 		font-size: 4rem;
 		margin: 1em;
-		color: white;
+		color: ${p => p.theme.white};
 	}
 `;
