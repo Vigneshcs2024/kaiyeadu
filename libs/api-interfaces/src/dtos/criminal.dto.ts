@@ -13,7 +13,7 @@ import {
 } from '../models';
 
 export interface CreateCriminalDto extends ICriminalInput {
-	category: string;
+	category: string; // todo: enum???? hs/ociu??
 	name: string;
 	alias_name: string;
 	father_name: string;

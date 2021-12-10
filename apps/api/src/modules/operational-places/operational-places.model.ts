@@ -1,4 +1,4 @@
-import { Model, DataTypes } from 'sequelize/dist';
+import { Model, DataTypes } from 'sequelize';
 import { db } from '$api/root/connections';
 import { IOperationalPlaces, IOperationalPlacesInput } from '@kaiyeadu/api-interfaces/models';
 // TODO : import Criminal model
