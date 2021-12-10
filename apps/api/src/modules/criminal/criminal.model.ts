@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '../../root/connections';
+import { db } from '$api/root/connections';
 import { ICriminal, ICriminalInput } from '@kaiyeadu/api-interfaces/models';
 import { Address } from '../address/address.model';
 

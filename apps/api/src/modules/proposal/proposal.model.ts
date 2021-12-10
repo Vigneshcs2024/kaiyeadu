@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '../../root/connections';
+import { db } from '$api/root/connections';
 import { IProposal, IProposalInput } from '@kaiyeadu/api-interfaces/models';
 
 export class Proposal extends Model<IProposal, IProposalInput> implements IProposal {
