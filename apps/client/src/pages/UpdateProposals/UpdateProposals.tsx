@@ -1,25 +1,23 @@
 import styled from 'styled-components';
-import { BackgroundContainer, Button, SectionWithNav, TextField } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
 
 export default function UpdateProposals() {
 	return (
-		<SectionWithNav>
-			<BackgroundContainer
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					minHeight: '91.75vh'
-				}}>
-				<InnerContainer>
-					<h1>Update Proposals</h1>
-					<TextField label='Changes to be made' />
-					<BottomContainer>
-						<Button title='Submit' onClick={() => null} />
-					</BottomContainer>
-				</InnerContainer>
-			</BackgroundContainer>
-		</SectionWithNav>
+		<BackgroundContainer
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				minHeight: '91.75vh'
+			}}>
+			<InnerContainer>
+				<h1>Update Proposals</h1>
+				<TextField label='Changes to be made' />
+				<BottomContainer>
+					<Button title='Submit' onClick={() => null} />
+				</BottomContainer>
+			</InnerContainer>
+		</BackgroundContainer>
 	);
 }
 
