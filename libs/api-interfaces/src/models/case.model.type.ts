@@ -12,7 +12,4 @@ export interface ICase {
 	updatedAt: Date;
 }
 
-export type ICaseInput = Omit<
-	ICase,
-	'id' | 'criminal' | 'police_station' | 'createdAt' | 'updatedAt'
->;
+export type ICaseInput = Omit<ICase, 'id' | 'createdAt' | 'updatedAt'>;

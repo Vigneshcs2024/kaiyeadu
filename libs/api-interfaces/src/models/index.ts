@@ -8,7 +8,7 @@ export * from './family-members.model.type';
 export * from './links.model.type';
 export * from './modus-operandi.model.type';
 export * from './occupation.model.type';
-export * from './operational_places.model.type';
+export * from './operational-places.model.type';
 export * from './police-station.model.type';
 export * from './proposal.model.type';
 export * from './user.model.type';

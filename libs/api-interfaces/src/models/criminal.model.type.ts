@@ -11,7 +11,7 @@ export interface ICriminal {
 	hs_number: number;
 	height: number;
 	identification_mark: string;
-	maritial_status: string;
+	marital_status: string;
 	advocate_name: string;
 	bank_account_number: string;
 	present_status: string;

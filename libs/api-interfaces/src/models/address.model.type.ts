@@ -12,4 +12,4 @@ export interface IAddress {
 	updatedAt: Date;
 }
 
-export type IAddressInput = Omit<IAddress, 'id' | 'criminal' | 'createdAt' | 'updatedAt'>;
+export type IAddressInput = Omit<IAddress, 'id' | 'createdAt' | 'updatedAt'>;

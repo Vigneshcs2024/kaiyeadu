@@ -7,4 +7,4 @@ export interface IOccupation {
 	updatedAt: Date;
 }
 
-export type IOccupationInput = Omit<IOccupation, 'id' | 'criminal' | 'createdAt' | 'updatedAt'>;
+export type IOccupationInput = Omit<IOccupation, 'id' | 'createdAt' | 'updatedAt'>;
