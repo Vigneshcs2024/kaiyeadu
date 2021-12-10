@@ -1,17 +1,42 @@
-import { SectionWithNav, Sidebar } from '@kaiyeadu/ui/components';
+import { useMemo } from 'react';
+
+import { BackgroundContainer, SectionWithNav } from '@kaiyeadu/ui/components';
+import Table from './Table';
+import data from './data';
 
 export default function Home() {
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'First Name',
+				accessor: 'first_name'
+			},
+			{
+				Header: 'Last Name',
+				accessor: 'last_name'
+			},
+			{
+				Header: 'Gender',
+				accessor: 'gender'
+			},
+			{
+				Header: 'HS Number',
+				accessor: 'hs_number'
+			},
+			{
+				Header: 'Date of Birth',
+				accessor: 'date_of_birth'
+			}
+		],
+		[]
+	);
+
 	return (
 		<SectionWithNav>
-			<Sidebar
-				content={[
-					{ title: 'Home', path: '/' },
-					{ title: 'Update Proposals', path: '/' },
-					{ title: 'Reset Password', path: '/' },
-					{ title: 'Logout' }
-				]}
-			/>
-			<h1>Home page</h1>
+			<BackgroundContainer
+				style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				<Table columns={columns} data={data} />
+			</BackgroundContainer>
 		</SectionWithNav>
 	);
 }
