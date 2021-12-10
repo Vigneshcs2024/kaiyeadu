@@ -6,6 +6,7 @@ import 'package:mobile/widgets/category_widget/contact_widget.dart';
 import 'package:mobile/widgets/category_widget/family_widget.dart';
 import 'package:mobile/widgets/category_widget/finance_widget.dart';
 import 'package:mobile/widgets/category_widget/link_widget.dart';
+import 'package:mobile/widgets/category_widget/other_details_widget.dart';
 import 'package:mobile/widgets/category_widget/personal_widget.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -66,6 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height:10),
                   LinkWidget(),
                   SizedBox(height:10),
+                  OtherDetailsWidget()
                 ],
               ),
             )
@@ -75,6 +77,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
+
 
 class TagWidget extends StatelessWidget {
 
