@@ -11,7 +11,6 @@ export const errorHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.error(err);
 	if (err instanceof ValidationError || err.isJoi) {
 		return res.status(StatusCodes.BAD_REQUEST).json({ message: err.details[0].message });
 	}
