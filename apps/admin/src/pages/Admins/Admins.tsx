@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import { BackgroundContainer } from '@kaiyeadu/ui/components';
 import Table from './Table'
-import data from './data'
+import data from './data';
 
-export default function Profile() {
+export default function Admins() {
 	const columns = useMemo(
 		() => [
 			{
@@ -35,7 +35,7 @@ export default function Profile() {
 	return (
 		<BackgroundContainer>
 			<Layout>
-				<h1>Profiles</h1>
+				<h1>Admins</h1>
 				<Table columns={columns} data={data} />
 			</Layout>
 		</BackgroundContainer>
