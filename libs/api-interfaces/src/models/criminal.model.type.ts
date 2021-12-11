@@ -15,7 +15,6 @@ export interface ICriminal {
 	advocate_name?: string;
 	bank_account_number?: string;
 	present_status?: string;
-	present_location?: string;
 	image_url?: string;
 	is_goondas?: boolean;
 	remarks?: string;

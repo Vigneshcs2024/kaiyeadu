@@ -19,7 +19,6 @@ export class Criminal extends Model<ICriminal, ICriminalInput> implements ICrimi
 	advocate_name?: string;
 	bank_account_number?: string;
 	present_status?: string;
-	present_location?: string;
 	image_url?: string;
 	is_goondas?: boolean;
 	remarks?: string;
@@ -93,10 +92,6 @@ Criminal.init(
 			allowNull: true
 		},
 		present_status: {
-			type: DataTypes.STRING,
-			allowNull: true
-		},
-		present_location: {
 			type: DataTypes.STRING,
 			allowNull: true
 		},
