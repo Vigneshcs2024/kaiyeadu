@@ -24,7 +24,8 @@ export default function Login() {
 
 	return (
 		<BackgroundContainer
-			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+			isLogin={true}>
 			<InnerContainer>
 				<h1>LOGIN</h1>
 				<form onSubmit={handleSubmit}>
@@ -51,9 +52,6 @@ export default function Login() {
 }
 
 const InnerContainer = styled.div`
-	width: 80%;
-	max-width: 400px;
-
 	h1 {
 		color: ${p => p.theme.white};
 		text-align: center;

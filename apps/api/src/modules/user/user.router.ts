@@ -9,6 +9,6 @@ router.get('/list', adminsOnly, userService.listUsers);
 router.get('/:id', adminsOnly, userService.getUser);
 router.patch('/:id', adminsOnly, userService.updateUser);
 
-router.patch('/update-password', adminsOnly, userService.updatePassword);
+router.put('/update-password', adminsOnly, userService.updatePassword);
 
 export { router as userRouter };
