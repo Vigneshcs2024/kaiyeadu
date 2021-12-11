@@ -6,14 +6,14 @@ import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components'
 export default function Login() {
 	return (
 		<BackgroundContainer
-			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+			isLogin={true}>
 			<InnerContainer>
 				<h1>LOGIN</h1>
 				<TextField label='Email ID' />
 				<TextField label='Password' />
 				<BottomContainer>
 					<Button title='login' onClick={() => null} />
-					<Link to='/forgot'>Forgot Password</Link>
 				</BottomContainer>
 			</InnerContainer>
 		</BackgroundContainer>
