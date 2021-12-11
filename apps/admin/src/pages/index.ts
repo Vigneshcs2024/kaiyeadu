@@ -3,6 +3,7 @@ export { default as Login } from './Login/Login';
 export { default as Profile } from './Profile/Profile';
 export {default as Records} from "./Records/Records";
 export {default as Requests} from "./Requests/Requests";
+export {default as Admins} from "./Admins/Admins";
 
 export * from './AddUser';
 export * from './AddPoliceStation';
