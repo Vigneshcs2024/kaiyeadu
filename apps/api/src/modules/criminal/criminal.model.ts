@@ -1,32 +1,30 @@
-import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
+import { DataTypes, Model } from 'sequelize';
 import { ICriminal, ICriminalInput } from '@kaiyeadu/api-interfaces/models';
-import { Address } from '../address/address.model';
+import { db } from '$api/root/connections';
 
 export class Criminal extends Model<ICriminal, ICriminalInput> implements ICriminal {
 	id: string;
-	category: string;
+	category: 'HS' | 'OCIU';
 	name: string;
-	alias_name: string;
-	father_name: string;
+	alias_name?: string;
+	father_name?: string;
 	dob: Date;
-	phone_number: number;
-	religion: string;
-	caste: string;
+	phone_number?: number;
+	religion?: string;
+	caste?: string;
 	hs_number: number;
-	height: number;
-	identification_mark: string;
-	marital_status: string;
-	advocate_name: string;
-	bank_account_number: string;
-	present_status: string;
-	present_location: string;
-	image_url: string;
-	isGoondas: boolean;
-	remarks: string;
-
-	readonly createdAt: Date;
-	readonly updatedAt: Date;
+	height?: number;
+	identification_mark?: string;
+	marital_status?: string;
+	advocate_name?: string;
+	bank_account_number?: string;
+	present_status?: string;
+	present_location?: string;
+	image_url?: string;
+	is_goondas?: boolean;
+	remarks?: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
 Criminal.init(
@@ -38,7 +36,7 @@ Criminal.init(
 			allowNull: false
 		},
 		category: {
-			type: DataTypes.STRING,
+			type: DataTypes.ENUM('HS', 'OCIU'),
 			allowNull: false
 		},
 		name: {
@@ -47,11 +45,11 @@ Criminal.init(
 		},
 		alias_name: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		father_name: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		dob: {
 			type: DataTypes.DATE,
@@ -59,59 +57,60 @@ Criminal.init(
 		},
 		phone_number: {
 			type: DataTypes.INTEGER,
-			allowNull: false
+			allowNull: true
 		},
 		religion: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		caste: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		hs_number: {
 			type: DataTypes.INTEGER,
+			unique: 'hs_number',
 			allowNull: false
 		},
 		height: {
 			type: DataTypes.INTEGER,
-			allowNull: false
+			allowNull: true
 		},
 		identification_mark: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		marital_status: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		advocate_name: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		bank_account_number: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		present_status: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		present_location: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		image_url: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
-		isGoondas: {
+		is_goondas: {
 			type: DataTypes.BOOLEAN,
-			allowNull: false
+			allowNull: true
 		},
 		remarks: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		createdAt: {
 			type: DataTypes.DATE,
@@ -128,7 +127,3 @@ Criminal.init(
 		modelName: 'Criminal'
 	}
 );
-
-Criminal.belongsTo(Address, {
-	foreignKey: 'present_location'
-});
