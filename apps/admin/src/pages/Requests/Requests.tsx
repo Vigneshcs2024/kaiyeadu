@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { BackgroundContainer, SectionWithNav } from '@kaiyeadu/ui/components';
 
 import Table from './Table';
-import data from './data';
+import data from "./data"
 
 export default function Requests() {
 	const columns = useMemo(
