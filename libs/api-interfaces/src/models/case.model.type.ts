@@ -3,7 +3,7 @@ export interface ICase {
 	criminal: string;
 	police_station: string;
 	crime_number: number;
-	under_Section: string;
+	under_section: string;
 	stage: string;
 	remarks: string;
 	date: Date;

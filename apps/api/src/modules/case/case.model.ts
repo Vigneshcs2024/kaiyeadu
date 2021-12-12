@@ -1,15 +1,14 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
 import { ICase, ICaseInput } from '@kaiyeadu/api-interfaces/models';
+import { db } from '$api/root/connections';
 import { PoliceStation } from '../police-station/police-station.model';
-// TODO import criminal
 
 export class Case extends Model<ICase, ICaseInput> implements ICase {
 	id: string;
 	criminal: string;
 	police_station: string;
 	crime_number: number;
-	under_Section: string;
+	under_section: string;
 	stage: string;
 	remarks: string;
 	date: Date;
@@ -38,7 +37,7 @@ Case.init(
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-		under_Section: {
+		under_section: {
 			type: DataTypes.STRING,
 			allowNull: false
 		},

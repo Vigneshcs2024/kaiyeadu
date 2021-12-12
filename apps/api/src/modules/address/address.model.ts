@@ -25,7 +25,7 @@ Address.init(
 			primaryKey: true
 		},
 		criminal: {
-			type: DataTypes.STRING,
+			type: DataTypes.UUID,
 			allowNull: false
 		},
 		type: {

@@ -21,7 +21,7 @@ Proposal.init(
 			primaryKey: true
 		},
 		criminal: {
-			type: DataTypes.STRING,
+			type: DataTypes.UUID,
 			allowNull: false
 		},
 		created_by: {
