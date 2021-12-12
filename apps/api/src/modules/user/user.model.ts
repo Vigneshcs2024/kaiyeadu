@@ -72,5 +72,6 @@ User.init(
 );
 
 User.belongsTo(PoliceStation, {
-	foreignKey: 'police_station'
+	foreignKey: 'police_station',
+	as: 'police_station_id'
 });

@@ -69,5 +69,6 @@ Address.init(
 );
 
 Address.belongsTo(Criminal, {
-	foreignKey: 'criminal'
+	foreignKey: 'criminal',
+	as: 'criminal_id'
 });

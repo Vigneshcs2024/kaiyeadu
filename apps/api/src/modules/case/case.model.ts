@@ -70,9 +70,6 @@ Case.init(
 );
 
 Case.belongsTo(PoliceStation, {
-	foreignKey: 'police_station'
+	foreignKey: 'police_station',
+	as: 'police_station_id'
 });
-
-// TODO Case.belongsTo(Criminal, {
-//     foreignKey: "criminal",
-// });
