@@ -6,7 +6,7 @@ export interface IFamily {
 	description: string;
 	occupation: string;
 
-	createAt: Date;
+	createdAt: Date;
 	updatedAt: Date;
 }
 
