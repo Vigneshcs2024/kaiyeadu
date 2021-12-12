@@ -40,10 +40,10 @@ export async function create(criminalDetails: CreateCriminalDto) {
 	await addLinks(criminal.id, links);
 	await addFamilyMembers(criminal.id, family_members);
 
-	addLastArrest(criminal.id, last_arrest);
-	addOccupation(criminal.id, occupation);
-	addOpPlaces(criminal.id, operational_places);
-	addVehicles(criminal.id, vehicles);
+	await addLastArrest(criminal.id, last_arrest);
+	await addOccupation(criminal.id, occupation);
+	await addOpPlaces(criminal.id, operational_places);
+	await addVehicles(criminal.id, vehicles);
 
 	return criminal;
 }

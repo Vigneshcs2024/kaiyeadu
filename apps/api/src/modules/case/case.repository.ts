@@ -9,7 +9,7 @@ export function create(caseDetails: ICaseInput) {
 
 export function addCases(criminal: string, cases: CaseDto[]) {
 	return Promise.all(
-		cases.map(caseItem => {
+		cases.map(async caseItem => {
 			const {
 				police_station,
 				crime_number,
@@ -29,13 +29,13 @@ export function addCases(criminal: string, cases: CaseDto[]) {
 				date
 			};
 
-			const $case = Case.build(commonDetails);
+			const $case = await Case.build(commonDetails).save();
 
-			if (!caseItem.is_active) return $case.save();
+			if (!caseItem.is_active) return $case;
 
 			// ! stage is present in both case and active case
 			const activeCase = ActiveCase.build({ ...activeCaseDetails, stage, case: $case.id });
-			return Promise.all([$case.save(), activeCase.save()]);
+			return Promise.all([$case, activeCase.save()]);
 		})
 	);
 }
