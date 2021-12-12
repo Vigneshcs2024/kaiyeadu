@@ -2,6 +2,8 @@ import { DataTypes, Model } from 'sequelize';
 import { IBond, IBondInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends on Criminal
+
 export class Bond extends Model<IBond, IBondInput> implements IBond {
 	id: string;
 	criminal: string;

@@ -2,6 +2,8 @@ import { Model, DataTypes } from 'sequelize';
 import { IProposal, IProposalInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends on Criminal & User
+
 export class Proposal extends Model<IProposal, IProposalInput> implements IProposal {
 	id!: string;
 	criminal!: string;

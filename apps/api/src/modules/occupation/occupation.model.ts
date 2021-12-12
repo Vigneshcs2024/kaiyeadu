@@ -2,6 +2,8 @@ import { Model, DataTypes } from 'sequelize';
 import { IOccupation, IOccupationInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends only on Criminal
+
 export class Occupation extends Model<IOccupation, IOccupationInput> implements IOccupation {
 	id!: string;
 	criminal!: string;

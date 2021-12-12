@@ -2,6 +2,8 @@ import { Model, DataTypes } from 'sequelize';
 import { IVehicle, IVehicleInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends only on Criminal
+
 export class Vehicle extends Model<IVehicle, IVehicleInput> implements IVehicle {
 	id: string;
 	criminal: string;

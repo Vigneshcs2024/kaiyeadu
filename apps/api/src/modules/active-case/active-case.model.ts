@@ -2,6 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import { IActiveCase, IActiveCaseInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Dependant on Criminal & Case models
 export class ActiveCase extends Model<IActiveCase, IActiveCaseInput> implements IActiveCase {
 	id: string;
 	criminal: string;
@@ -12,7 +13,7 @@ export class ActiveCase extends Model<IActiveCase, IActiveCaseInput> implements 
 	next_hearing: Date;
 	hearing_description: string;
 	accused_attend_status: boolean;
-	createAt: Date;
+	createdAt: Date;
 	updatedAt: Date;
 }
 
@@ -55,7 +56,7 @@ ActiveCase.init(
 			type: DataTypes.BOOLEAN,
 			allowNull: false
 		},
-		createAt: {
+		createdAt: {
 			type: DataTypes.DATE,
 			defaultValue: DataTypes.NOW
 		},

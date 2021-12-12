@@ -2,6 +2,8 @@ import { Model, DataTypes } from 'sequelize';
 import { IOperationalPlaces, IOperationalPlacesInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends only on Criminal
+
 export class OperationalPlaces
 	extends Model<IOperationalPlaces, IOperationalPlacesInput>
 	implements IOperationalPlaces

@@ -2,6 +2,8 @@ import { DataTypes, Model } from 'sequelize';
 import { IModusOperandi, IModusOperandiInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends only on Criminal
+
 export class ModusOperandi
 	extends Model<IModusOperandi, IModusOperandiInput>
 	implements IModusOperandi

@@ -3,6 +3,8 @@ import { IUser, IUserInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 import { PoliceStation } from '../police-station/police-station.model';
 
+// Depends only on PoliceStation
+
 export class User extends Model<IUser, IUserInput> implements IUser {
 	public id!: string;
 	public name!: string;

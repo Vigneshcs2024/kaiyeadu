@@ -2,6 +2,8 @@ import { DataTypes, Model } from 'sequelize';
 import { IFamily, IFamilyInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends on Criminal & Occupation
+
 export class FamilyMember extends Model<IFamily, IFamilyInput> implements IFamily {
 	id: string;
 	criminal: string;

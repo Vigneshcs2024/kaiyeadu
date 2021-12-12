@@ -2,6 +2,8 @@ import { DataTypes, Model } from 'sequelize';
 import { IAssociate, IAssociateInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends on criminal
+
 export class Associate extends Model<IAssociate, IAssociateInput> implements IAssociate {
 	id!: string;
 	criminal!: string;
@@ -31,11 +33,11 @@ Associate.init(
 		},
 		father_name: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		location: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		createdAt: {
 			type: DataTypes.DATE,

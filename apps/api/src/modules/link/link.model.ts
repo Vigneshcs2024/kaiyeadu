@@ -2,6 +2,8 @@ import { db } from '$api/root/connections';
 import { ILinks, ILinksInput } from '@kaiyeadu/api-interfaces/models';
 import { Model, DataTypes } from 'sequelize';
 
+// Depends on Criminal
+
 export class Link extends Model<ILinks, ILinksInput> implements ILinks {
 	id: string;
 	criminal: string;

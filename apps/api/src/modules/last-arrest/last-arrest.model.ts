@@ -2,6 +2,8 @@ import { DataTypes, Model } from 'sequelize';
 import { ILastArrest, ILastArrestInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Depends on Criminal
+
 export class LastArrest extends Model<ILastArrest, ILastArrestInput> {
 	id!: string;
 	criminal!: string;

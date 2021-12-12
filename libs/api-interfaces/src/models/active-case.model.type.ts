@@ -9,7 +9,7 @@ export interface IActiveCase {
 	hearing_description: string;
 	accused_attend_status: boolean;
 
-	createAt: Date;
+	createdAt: Date;
 	updatedAt: Date;
 }
 

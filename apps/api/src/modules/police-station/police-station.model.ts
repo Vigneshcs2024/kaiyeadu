@@ -2,6 +2,8 @@ import { Model, DataTypes } from 'sequelize';
 import { IPoliceStation, IPoliceStationInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Independent - User depends on this
+
 export class PoliceStation
 	extends Model<IPoliceStation, IPoliceStationInput>
 	implements IPoliceStation

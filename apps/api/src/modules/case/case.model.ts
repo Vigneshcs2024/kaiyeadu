@@ -3,6 +3,8 @@ import { ICase, ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 import { PoliceStation } from '../police-station/police-station.model';
 
+// Dependant on Criminal & PoliceStation
+
 export class Case extends Model<ICase, ICaseInput> implements ICase {
 	id: string;
 	criminal: string;
@@ -46,8 +48,8 @@ Case.init(
 			allowNull: false
 		},
 		remarks: {
-			type: DataTypes.STRING,
-			allowNull: false
+			type: DataTypes.TEXT,
+			allowNull: true
 		},
 		date: {
 			type: DataTypes.DATE,

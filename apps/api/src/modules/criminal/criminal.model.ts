@@ -2,6 +2,8 @@ import { DataTypes, Model } from 'sequelize';
 import { ICriminal, ICriminalInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 
+// Independent root model (other models depend on this)
+
 export class Criminal extends Model<ICriminal, ICriminalInput> implements ICriminal {
 	id: string;
 	category: 'HS' | 'OCIU';
