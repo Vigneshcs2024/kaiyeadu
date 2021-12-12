@@ -1,7 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
+import { IUser, IUserInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 import { PoliceStation } from '../police-station/police-station.model';
-import { IUser, IUserInput } from '@kaiyeadu/api-interfaces/models';
+
+// Depends only on PoliceStation
 
 export class User extends Model<IUser, IUserInput> implements IUser {
 	public id!: string;
@@ -67,10 +69,8 @@ User.init(
 	{
 		timestamps: true,
 		sequelize: db,
-		modelName: 'User'
+		modelName: 'users'
 	}
 );
 
-User.belongsTo(PoliceStation, {
-	foreignKey: 'police_station'
-});
+User.belongsTo(PoliceStation, { foreignKey: 'police_station', as: 'police_station_id' });

@@ -1,6 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
 import { IPoliceStation, IPoliceStationInput } from '@kaiyeadu/api-interfaces/models';
+import { db } from '$api/root/connections';
+
+// Independent - User depends on this
 
 export class PoliceStation
 	extends Model<IPoliceStation, IPoliceStationInput>
@@ -35,12 +37,18 @@ PoliceStation.init(
 			type: DataTypes.STRING,
 			allowNull: false
 		},
-		createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-		updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
+		createdAt: {
+			type: DataTypes.DATE,
+			defaultValue: DataTypes.NOW
+		},
+		updatedAt: {
+			type: DataTypes.DATE,
+			defaultValue: DataTypes.NOW
+		}
 	},
 	{
 		timestamps: true,
 		sequelize: db,
-		modelName: 'PoliceStation'
+		modelName: 'police_stations'
 	}
 );
