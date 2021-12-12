@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { IOccupation, IOccupationInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends only on Criminal
 
@@ -45,4 +46,4 @@ Occupation.init(
 	}
 );
 
-// TODO criminal as foreign key
+Occupation.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });

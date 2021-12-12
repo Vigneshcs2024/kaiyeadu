@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { IFamily, IFamilyInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends on Criminal & Occupation
 
@@ -59,3 +60,5 @@ FamilyMember.init(
 		timestamps: true
 	}
 );
+
+FamilyMember.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });
