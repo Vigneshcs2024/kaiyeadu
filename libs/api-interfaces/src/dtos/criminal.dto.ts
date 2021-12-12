@@ -6,6 +6,7 @@ import {
 	ICaseInput,
 	ICriminalInput,
 	IFamilyInput,
+	ILastArrestInput,
 	ILinksInput,
 	IOccupationInput,
 	IOperationalPlaceInput,
@@ -13,7 +14,7 @@ import {
 } from '../models';
 
 export interface CreateCriminalDto extends ICriminalInput {
-	category: ICriminalInput['category']; // todo: enum???? hs/ociu??
+	category: ICriminalInput['category'];
 	name: string;
 	alias_name: string;
 	father_name: string;
@@ -33,10 +34,10 @@ export interface CreateCriminalDto extends ICriminalInput {
 	remarks: string;
 
 	modus_operandi: string[];
-	case: CaseDto[];
-	active_cases: ActiveCaseDto[];
+	cases: CaseDto[];
 	links: LinkDto[];
 	family_members: FamilyMemberDto[];
+	last_arrest: LastArrestDto;
 	operational_places: OpPlaceDto[];
 	bond: BondDto;
 	occupation: OccupationDto[];
@@ -45,19 +46,22 @@ export interface CreateCriminalDto extends ICriminalInput {
 	vehicles: VehicleDto[];
 }
 
-type CaseDto = Omit<ICaseInput, 'criminal' | 'police_station'>;
-type ActiveCaseDto = Omit<IActiveCaseInput, 'criminal' | 'case'>;
-type LinkDto = Omit<ILinksInput, 'criminal'>;
-type FamilyMemberDto = Omit<IFamilyInput, 'criminal'>;
-type OpPlaceDto = Omit<IOperationalPlaceInput, 'criminal'>;
-type BondDto = Omit<IBondInput, 'criminal'>;
-type OccupationDto = Omit<IOccupationInput, 'criminal'>;
-type AddressDto = Omit<IAddressInput, 'criminal'>;
-type VehicleDto = Omit<IVehicleInput, 'criminal'>;
+export type LinkDto = Omit<ILinksInput, 'criminal'>;
+export type FamilyMemberDto = Omit<IFamilyInput, 'criminal'>;
+export type LastArrestDto = Omit<ILastArrestInput, 'criminal'>;
+export type OpPlaceDto = Omit<IOperationalPlaceInput, 'criminal'>;
+export type BondDto = Omit<IBondInput, 'criminal'>;
+export type OccupationDto = Omit<IOccupationInput, 'criminal'>;
+export type AddressDto = Omit<IAddressInput, 'criminal'>;
+export type VehicleDto = Omit<IVehicleInput, 'criminal'>;
 
-interface AssociatesDto extends Omit<IAssociateInput, 'criminal' | 'occupation'> {
+export interface AssociatesDto extends Omit<IAssociateInput, 'criminal' | 'occupation'> {
 	occupation: OccupationDto[];
 	name: string;
 	district: string;
 	state: string;
+}
+
+export interface CaseDto extends Omit<ICaseInput, 'criminal'>, IActiveCaseInput {
+	is_active: boolean;
 }
