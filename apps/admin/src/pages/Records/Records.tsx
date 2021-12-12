@@ -1,10 +1,8 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BackgroundContainer, SectionWithNav } from '@kaiyeadu/ui/components';
-
-import Table from "./Table"
-import data from "./data"
+import { BackgroundContainer, Table } from '@kaiyeadu/ui/components';
+import data from './data';
 
 export default function Records() {
 	const columns = useMemo(

@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BackgroundContainer, SectionWithNav } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Table } from '@kaiyeadu/ui/components';
 
-import Table from './Table';
-import data from "./data"
+import data from './data';
 
 export default function Requests() {
 	const columns = useMemo(
@@ -26,10 +25,10 @@ export default function Requests() {
 				accessor: 'request'
 			},
 			{
-				Header:"Accept"
+				Header: 'Accept'
 			},
 			{
-				Header:"Decline"
+				Header: 'Decline'
 			}
 		],
 		[]

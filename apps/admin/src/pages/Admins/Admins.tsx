@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BackgroundContainer } from '@kaiyeadu/ui/components';
-import Table from './Table'
+import { BackgroundContainer, Table } from '@kaiyeadu/ui/components';
 import data from './data';
 
 export default function Admins() {
