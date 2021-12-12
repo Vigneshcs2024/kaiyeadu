@@ -7,7 +7,7 @@ export interface ILinks {
 	city: string;
 	description: string;
 
-	createAt: Date;
+	createdAt: Date;
 	updatedAt: Date;
 }
 
