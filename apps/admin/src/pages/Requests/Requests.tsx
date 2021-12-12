@@ -2,30 +2,33 @@ import { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { BackgroundContainer, Table } from '@kaiyeadu/ui/components';
+
 import data from './data';
 
-export default function Profile() {
+export default function Requests() {
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'First Name',
-				accessor: 'first_name'
+				Header: 'Name',
+				accessor: 'name'
 			},
 			{
-				Header: 'Last Name',
-				accessor: 'last_name'
+				Header: 'Email Id',
+				accessor: 'email_id'
 			},
 			{
-				Header: 'Gender',
-				accessor: 'gender'
+				Header: 'Role',
+				accessor: 'role'
 			},
 			{
-				Header: 'HS Number',
-				accessor: 'hs_number'
+				Header: 'Request',
+				accessor: 'request'
 			},
 			{
-				Header: 'Date of Birth',
-				accessor: 'date_of_birth'
+				Header: 'Accept'
+			},
+			{
+				Header: 'Decline'
 			}
 		],
 		[]
@@ -34,7 +37,7 @@ export default function Profile() {
 	return (
 		<BackgroundContainer>
 			<Layout>
-				<h1>Profiles</h1>
+				<h1>Requests</h1>
 				<Table columns={columns} data={data} />
 			</Layout>
 		</BackgroundContainer>

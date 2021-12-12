@@ -12,7 +12,6 @@ export default [
 		first_name: 'Miran',
 		last_name: 'Enos',
 		gender: 'Polygender',
-		hs_number: 'a55e0dd9-1ce0-4ec2-a5aa-22a060dbbafc',
-		date_of_birth: '11/30/2020'
+		hs_number: 'a55e0dd9-1ce0-4ec2-a5aa-22a060dbbafc'
 	}
 ];
