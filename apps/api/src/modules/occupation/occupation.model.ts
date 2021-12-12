@@ -1,7 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
 import { IOccupation, IOccupationInput } from '@kaiyeadu/api-interfaces/models';
-// TOTO import criminal
+import { db } from '$api/root/connections';
 
 export class Occupation extends Model<IOccupation, IOccupationInput> implements IOccupation {
 	id!: string;
@@ -40,7 +39,7 @@ Occupation.init(
 	{
 		timestamps: true,
 		sequelize: db,
-		modelName: 'Occupation'
+		modelName: 'occupation'
 	}
 );
 

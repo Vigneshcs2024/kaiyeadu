@@ -119,6 +119,6 @@ Criminal.init(
 	{
 		sequelize: db,
 		timestamps: true,
-		modelName: 'Criminal'
+		modelName: 'criminals'
 	}
 );

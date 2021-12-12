@@ -1,7 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
 import { IVehicle, IVehicleInput } from '@kaiyeadu/api-interfaces/models';
-// TODO : import Criminal model
+import { db } from '$api/root/connections';
 
 export class Vehicle extends Model<IVehicle, IVehicleInput> implements IVehicle {
 	id: string;
@@ -51,7 +50,7 @@ Vehicle.init(
 	},
 	{
 		sequelize: db,
-		tableName: 'vehicle',
+		tableName: 'vehicles',
 		timestamps: true
 	}
 );

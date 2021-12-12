@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
 import { IProposal, IProposalInput } from '@kaiyeadu/api-interfaces/models';
+import { db } from '$api/root/connections';
 
 export class Proposal extends Model<IProposal, IProposalInput> implements IProposal {
 	id!: string;
@@ -42,7 +42,7 @@ Proposal.init(
 		}
 	},
 	{
-		tableName: 'proposal',
+		tableName: 'proposals',
 		sequelize: db,
 		timestamps: true
 	}

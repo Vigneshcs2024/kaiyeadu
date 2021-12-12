@@ -40,6 +40,6 @@ LastArrest.init(
 	{
 		timestamps: true,
 		sequelize: db,
-		modelName: 'LastArrest'
+		modelName: 'last_arrest'
 	}
 );

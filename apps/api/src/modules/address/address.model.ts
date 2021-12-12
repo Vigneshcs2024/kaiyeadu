@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
 import { IAddress, IAddressInput } from '@kaiyeadu/api-interfaces/models';
+import { db } from '$api/root/connections';
 import { Criminal } from '../criminal/criminal.model';
 
 export class Address extends Model<IAddress, IAddressInput> implements IAddress {
@@ -63,7 +63,7 @@ Address.init(
 	},
 	{
 		sequelize: db,
-		tableName: 'Address',
+		tableName: 'address',
 		timestamps: true
 	}
 );

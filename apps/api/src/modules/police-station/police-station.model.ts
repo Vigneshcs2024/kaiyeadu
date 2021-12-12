@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
 import { IPoliceStation, IPoliceStationInput } from '@kaiyeadu/api-interfaces/models';
+import { db } from '$api/root/connections';
 
 export class PoliceStation
 	extends Model<IPoliceStation, IPoliceStationInput>
@@ -47,6 +47,6 @@ PoliceStation.init(
 	{
 		timestamps: true,
 		sequelize: db,
-		modelName: 'PoliceStation'
+		modelName: 'police_stations'
 	}
 );

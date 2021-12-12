@@ -1,8 +1,6 @@
-import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
+import { DataTypes, Model } from 'sequelize';
 import { IAssociates, IAssociatesInput } from '@kaiyeadu/api-interfaces/models';
-import { Occupation } from '../occupation/occupation.model';
-// TODO import criminal
+import { db } from '$api/root/connections';
 
 export class Associates extends Model<IAssociates, IAssociatesInput> implements IAssociates {
 	id!: string;
@@ -50,15 +48,7 @@ Associates.init(
 	},
 	{
 		sequelize: db,
-		modelName: 'Associates',
+		modelName: 'associates',
 		timestamps: true
 	}
 );
-
-Associates.belongsTo(Occupation, {
-	foreignKey: 'occupation'
-});
-
-// TODO Associates.belongsTo(Criminal, {
-//     foreignKey: 'criminal'
-// });

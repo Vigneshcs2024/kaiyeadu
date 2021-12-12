@@ -1,7 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import { db } from '$api/root/connections';
 import { IOperationalPlaces, IOperationalPlacesInput } from '@kaiyeadu/api-interfaces/models';
-// TODO : import Criminal model
+import { db } from '$api/root/connections';
 
 export class OperationalPlaces
 	extends Model<IOperationalPlaces, IOperationalPlacesInput>
