@@ -1,6 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import { IActiveCase, IActiveCaseInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Case } from '../case/case.model';
+import { Criminal } from '../criminal/criminal.model';
 
 // Dependant on Criminal & Case models
 export class ActiveCase extends Model<IActiveCase, IActiveCaseInput> implements IActiveCase {
@@ -71,3 +73,6 @@ ActiveCase.init(
 		sequelize: db
 	}
 );
+
+ActiveCase.belongsTo(Case, { foreignKey: 'case', as: 'case_id' });
+ActiveCase.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });

@@ -2,6 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import { ICase, ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 import { PoliceStation } from '../police-station/police-station.model';
+import { Criminal } from '../criminal/criminal.model';
 
 // Dependant on Criminal & PoliceStation
 
@@ -67,11 +68,16 @@ Case.init(
 	{
 		timestamps: true,
 		sequelize: db,
-		modelName: 'Case'
+		modelName: 'cases'
 	}
 );
 
 Case.belongsTo(PoliceStation, {
 	foreignKey: 'police_station',
 	as: 'police_station_id'
+});
+
+Case.belongsTo(Criminal, {
+	foreignKey: 'criminal',
+	as: 'criminal_id'
 });
