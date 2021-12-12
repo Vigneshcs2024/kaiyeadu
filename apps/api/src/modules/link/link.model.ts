@@ -1,6 +1,7 @@
 import { db } from '$api/root/connections';
 import { ILinks, ILinksInput } from '@kaiyeadu/api-interfaces/models';
 import { Model, DataTypes } from 'sequelize';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends on Criminal
 
@@ -62,3 +63,5 @@ Link.init(
 		modelName: 'links'
 	}
 );
+
+Link.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_ids' });

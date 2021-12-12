@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { IModusOperandi, IModusOperandiInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends only on Criminal
 
@@ -46,3 +47,5 @@ ModusOperandi.init(
 		timestamps: true
 	}
 );
+
+Criminal.hasMany(ModusOperandi, { foreignKey: 'criminal', as: 'criminal_id' });

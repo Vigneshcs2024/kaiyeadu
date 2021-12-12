@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { ILastArrest, ILastArrestInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends on Criminal
 
@@ -45,3 +46,5 @@ LastArrest.init(
 		modelName: 'last_arrest'
 	}
 );
+
+LastArrest.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });

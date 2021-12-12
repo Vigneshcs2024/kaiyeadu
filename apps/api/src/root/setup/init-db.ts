@@ -7,6 +7,9 @@ import {
 	Case,
 	Criminal,
 	FamilyMember,
+	LastArrest,
+	Link,
+	ModusOperandi,
 	Occupation,
 	PoliceStation,
 	User
@@ -22,5 +25,8 @@ export async function initDb() {
 	await Address.sync({ alter: true });
 	await Occupation.sync({ alter: true });
 	await FamilyMember.sync({ alter: true });
+	await LastArrest.sync({ alter: true });
+	await Link.sync({ alter: true });
+	await ModusOperandi.sync({ alter: true });
 	logger.info(`DB connection established & synced ${pc.green('successfully')}`);
 }
