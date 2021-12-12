@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { IBond, IBondInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends on Criminal
 
@@ -53,3 +54,5 @@ Bond.init(
 		modelName: 'bonds'
 	}
 );
+
+Bond.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });

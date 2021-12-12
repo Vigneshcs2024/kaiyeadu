@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { IAssociate, IAssociateInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends on criminal
 
@@ -54,3 +55,5 @@ Associate.init(
 		timestamps: true
 	}
 );
+
+Associate.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });

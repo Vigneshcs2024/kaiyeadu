@@ -1,6 +1,6 @@
 export { ActiveCase } from './active-case/active-case.model';
 export { Address } from './address/address.model';
-export { Associate as Associates } from './associate/associate.model';
+export { Associate } from './associate/associate.model';
 export { Bond } from './bond/bond.model';
 export { Case } from './case/case.model';
 export { Criminal } from './criminal/criminal.model';

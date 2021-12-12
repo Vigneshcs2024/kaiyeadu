@@ -1,7 +1,7 @@
 import pc from 'picocolors';
 import { db } from '$api/root/connections';
 import { logger } from '$api/tools';
-import { ActiveCase, Case, Criminal, PoliceStation, User } from '$api/modules/models';
+import { ActiveCase, Address, Case, Criminal, PoliceStation, User } from '$api/modules/models';
 
 export async function initDb() {
 	await db.authenticate();
@@ -10,5 +10,6 @@ export async function initDb() {
 	await Criminal.sync({ alter: true });
 	await Case.sync({ alter: true });
 	await ActiveCase.sync({ alter: true });
+	await Address.sync({ alter: true });
 	logger.info(`DB connection established & synced ${pc.green('successfully')}`);
 }

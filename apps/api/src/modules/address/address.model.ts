@@ -3,6 +3,8 @@ import { IAddress, IAddressInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 import { Criminal } from '../criminal/criminal.model';
 
+// Dependent only on Criminal
+
 export class Address extends Model<IAddress, IAddressInput> implements IAddress {
 	id: string;
 	criminal: string;
