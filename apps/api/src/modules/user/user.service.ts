@@ -26,8 +26,8 @@ export async function createUser(req: ApiRequest, res: Response) {
 		}
 	}
 
-	const { name, email, phone, police_station, password, designation, role } = req.body;
-	const userDetails = { name, email, phone, police_station, password, designation, role };
+	const { name, email, gpf, phone, police_station, password, designation, role } = req.body;
+	const userDetails = { name, email, gpf, phone, police_station, password, designation, role };
 
 	await validateCreateUser(userDetails);
 	const user = await userRepository.createUser(userDetails);
