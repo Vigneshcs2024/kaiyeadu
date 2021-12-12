@@ -1,6 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import { IProposal, IProposalInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
+import { User } from '../user/user.model';
 
 // Depends on Criminal & User
 
@@ -49,3 +51,6 @@ Proposal.init(
 		timestamps: true
 	}
 );
+
+Proposal.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });
+User.hasMany(Proposal, { foreignKey: 'created_by', as: 'creator_id' });

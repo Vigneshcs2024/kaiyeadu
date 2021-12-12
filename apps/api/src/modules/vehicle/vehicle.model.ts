@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { IVehicle, IVehicleInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends only on Criminal
 
@@ -57,4 +58,4 @@ Vehicle.init(
 	}
 );
 
-// TODO - Add criminal as foreign key to criminal table
+Criminal.hasMany(Vehicle, { foreignKey: 'criminal', as: 'criminal' });

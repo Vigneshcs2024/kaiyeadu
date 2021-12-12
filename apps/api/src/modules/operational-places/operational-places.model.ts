@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { IOperationalPlaces, IOperationalPlacesInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { Criminal } from '../criminal/criminal.model';
 
 // Depends only on Criminal
 
@@ -53,4 +54,4 @@ OperationalPlaces.init(
 	}
 );
 
-// TODO - Add criminal as foreign key to criminal table
+OperationalPlaces.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });

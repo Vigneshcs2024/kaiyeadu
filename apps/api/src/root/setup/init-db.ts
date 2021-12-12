@@ -11,8 +11,13 @@ import {
 	Link,
 	ModusOperandi,
 	Occupation,
+	OperationalPlaces,
 	PoliceStation,
-	User
+	Proposal,
+	User,
+	Vehicle,
+	Associate,
+	Bond
 } from '$api/modules/models';
 
 export async function initDb() {
@@ -20,6 +25,8 @@ export async function initDb() {
 	await PoliceStation.sync({ alter: true });
 	await User.sync({ alter: true });
 	await Criminal.sync({ alter: true });
+	await Associate.sync({ alter: true });
+	await Bond.sync({ alter: true });
 	await Case.sync({ alter: true });
 	await ActiveCase.sync({ alter: true });
 	await Address.sync({ alter: true });
@@ -28,5 +35,8 @@ export async function initDb() {
 	await LastArrest.sync({ alter: true });
 	await Link.sync({ alter: true });
 	await ModusOperandi.sync({ alter: true });
+	await OperationalPlaces.sync({ alter: true });
+	await Proposal.sync({ alter: true });
+	await Vehicle.sync({ alter: true });
 	logger.info(`DB connection established & synced ${pc.green('successfully')}`);
 }
