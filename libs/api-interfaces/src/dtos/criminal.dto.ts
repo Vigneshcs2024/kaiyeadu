@@ -1,7 +1,7 @@
 import {
 	IActiveCaseInput,
 	IAddressInput,
-	IAssociatesInput,
+	IAssociateInput,
 	IBondInput,
 	ICaseInput,
 	ICriminalInput,
@@ -13,7 +13,7 @@ import {
 } from '../models';
 
 export interface CreateCriminalDto extends ICriminalInput {
-	category: string; // todo: enum???? hs/ociu??
+	category: ICriminalInput['category']; // todo: enum???? hs/ociu??
 	name: string;
 	alias_name: string;
 	father_name: string;
@@ -28,9 +28,8 @@ export interface CreateCriminalDto extends ICriminalInput {
 	advocate_name: string;
 	bank_account_number: string;
 	present_status: string;
-	present_location: string;
 	image_url: string;
-	isGoondas: boolean;
+	is_goondas: boolean;
 	remarks: string;
 
 	modus_operandi: string[];
@@ -56,7 +55,7 @@ type OccupationDto = Omit<IOccupationInput, 'criminal'>;
 type AddressDto = Omit<IAddressInput, 'criminal'>;
 type VehicleDto = Omit<IVehicleInput, 'criminal'>;
 
-interface AssociatesDto extends Omit<IAssociatesInput, 'criminal' | 'occupation'> {
+interface AssociatesDto extends Omit<IAssociateInput, 'criminal' | 'occupation'> {
 	occupation: OccupationDto[];
 	name: string;
 	district: string;

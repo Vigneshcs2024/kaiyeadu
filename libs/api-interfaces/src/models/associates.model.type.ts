@@ -1,4 +1,4 @@
-export interface IAssociates {
+export interface IAssociate {
 	id: string;
 	criminal: string;
 	name: string;
@@ -9,4 +9,4 @@ export interface IAssociates {
 	updatedAt: Date;
 }
 
-export type IAssociatesInput = Omit<IAssociates, 'id' | 'createdAt' | 'updatedAt'>;
+export type IAssociateInput = Omit<IAssociate, 'id' | 'createdAt' | 'updatedAt'>;
