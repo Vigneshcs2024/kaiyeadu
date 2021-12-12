@@ -9,7 +9,7 @@ export { LastArrest } from './last-arrest/last-arrest.model';
 export { Link } from './link/link.model';
 export { ModusOperandi } from './modus-operandi/modus-operandi.model';
 export { Occupation } from './occupation/occupation.model';
-export { OperationalPlaces } from './operational-places/operational-places.model';
+export { OperationalPlace } from './operational-places/operational-places.model';
 export { PoliceStation } from './police-station/police-station.model';
 export { Proposal } from './proposal/proposal.model';
 export { User } from './user/user.model';

@@ -1,13 +1,13 @@
 import { Model, DataTypes } from 'sequelize';
-import { IOperationalPlaces, IOperationalPlacesInput } from '@kaiyeadu/api-interfaces/models';
+import { IOperationalPlace, IOperationalPlaceInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 import { Criminal } from '../criminal/criminal.model';
 
 // Depends only on Criminal
 
-export class OperationalPlaces
-	extends Model<IOperationalPlaces, IOperationalPlacesInput>
-	implements IOperationalPlaces
+export class OperationalPlace
+	extends Model<IOperationalPlace, IOperationalPlaceInput>
+	implements IOperationalPlace
 {
 	id: string;
 	criminal: string;
@@ -18,7 +18,7 @@ export class OperationalPlaces
 	readonly updatedAt: Date;
 }
 
-OperationalPlaces.init(
+OperationalPlace.init(
 	{
 		id: {
 			type: DataTypes.UUID,
@@ -54,4 +54,4 @@ OperationalPlaces.init(
 	}
 );
 
-OperationalPlaces.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });
+OperationalPlace.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });

@@ -1,4 +1,4 @@
-export interface IOperationalPlaces {
+export interface IOperationalPlace {
 	id: string;
 	criminal: string;
 	state: string;
@@ -8,4 +8,4 @@ export interface IOperationalPlaces {
 	updatedAt: Date;
 }
 
-export type IOperationalPlacesInput = Omit<IOperationalPlaces, 'id' | 'createdAt' | 'updatedAt'>;
+export type IOperationalPlaceInput = Omit<IOperationalPlace, 'id' | 'createdAt' | 'updatedAt'>;

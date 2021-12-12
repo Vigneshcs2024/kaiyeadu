@@ -11,7 +11,7 @@ import {
 	Link,
 	ModusOperandi,
 	Occupation,
-	OperationalPlaces,
+	OperationalPlace,
 	PoliceStation,
 	Proposal,
 	User,
@@ -35,7 +35,7 @@ export async function initDb() {
 	await LastArrest.sync({ alter: true });
 	await Link.sync({ alter: true });
 	await ModusOperandi.sync({ alter: true });
-	await OperationalPlaces.sync({ alter: true });
+	await OperationalPlace.sync({ alter: true });
 	await Proposal.sync({ alter: true });
 	await Vehicle.sync({ alter: true });
 	logger.info(`DB connection established & synced ${pc.green('successfully')}`);

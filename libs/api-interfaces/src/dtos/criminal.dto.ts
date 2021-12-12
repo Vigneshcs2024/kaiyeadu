@@ -8,7 +8,7 @@ import {
 	IFamilyInput,
 	ILinksInput,
 	IOccupationInput,
-	IOperationalPlacesInput,
+	IOperationalPlaceInput,
 	IVehicleInput
 } from '../models';
 
@@ -49,7 +49,7 @@ type CaseDto = Omit<ICaseInput, 'criminal' | 'police_station'>;
 type ActiveCaseDto = Omit<IActiveCaseInput, 'criminal' | 'case'>;
 type LinkDto = Omit<ILinksInput, 'criminal'>;
 type FamilyMemberDto = Omit<IFamilyInput, 'criminal'>;
-type OpPlaceDto = Omit<IOperationalPlacesInput, 'criminal'>;
+type OpPlaceDto = Omit<IOperationalPlaceInput, 'criminal'>;
 type BondDto = Omit<IBondInput, 'criminal'>;
 type OccupationDto = Omit<IOccupationInput, 'criminal'>;
 type AddressDto = Omit<IAddressInput, 'criminal'>;
