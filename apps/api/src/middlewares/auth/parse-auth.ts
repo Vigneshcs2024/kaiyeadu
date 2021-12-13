@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { Response, NextFunction } from 'express';
+import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 import { ApiRequest } from '$api/types';
 import { AuthenticationError } from '$api/errors';
-import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 
 export async function parseAuthToken(req: ApiRequest, _res: Response, next: NextFunction) {
 	const authHeader = req.headers.authorization;
@@ -21,7 +21,6 @@ export async function parseAuthToken(req: ApiRequest, _res: Response, next: Next
 		}
 
 		req.user = decoded;
+		next();
 	});
-
-	next();
 }

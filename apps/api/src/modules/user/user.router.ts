@@ -6,9 +6,10 @@ const router = express.Router();
 
 router.post('/create', adminsOnly, userService.createUser);
 router.get('/list', adminsOnly, userService.listUsers);
-router.get('/:id', adminsOnly, userService.getUser);
-router.patch('/:id', adminsOnly, userService.updateUser);
 
-router.patch('/update-password', adminsOnly, userService.updatePassword);
+router.get('/get/:id', adminsOnly, userService.getUser);
+router.patch('/update/:id', adminsOnly, userService.updateUser);
+
+router.put('/update-password', adminsOnly, userService.updatePassword);
 
 export { router as userRouter };
