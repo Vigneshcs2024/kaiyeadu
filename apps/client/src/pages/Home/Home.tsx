@@ -33,7 +33,8 @@ export default function Home() {
 
 	return (
 		<BackgroundContainer
-			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+			pageTitle='Home'>
 			<Table columns={columns} data={data} />
 		</BackgroundContainer>
 	);

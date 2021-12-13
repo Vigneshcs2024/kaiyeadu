@@ -10,9 +10,15 @@ interface props {
 	style?: CSSProperties;
 	children: JSX.Element | JSX.Element[];
 	isLogin?: boolean;
+	pageTitle?: string;
 }
 
-export default function BackgroundContainer({ children, style, isLogin = false }: props) {
+export default function BackgroundContainer({
+	children,
+	style,
+	isLogin = false,
+	pageTitle
+}: props) {
 	const { session } = useAuthApi();
 
 	return isLogin ? (
@@ -30,7 +36,8 @@ export default function BackgroundContainer({ children, style, isLogin = false }
 				session.getUserRole() === 'admin' || session.getUserRole() === 'master'
 					? admin
 					: client
-			}>
+			}
+			pageTitle={pageTitle}>
 			<Section
 				style={{
 					backgroundImage: `linear-gradient(130deg, rgba(226, 30, 36, 0.6) 0%,rgba(6, 0, 167, 0.79)  100%),

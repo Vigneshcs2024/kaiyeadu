@@ -1,11 +1,10 @@
-import { BackgroundContainer, Button, DropDownList, TextField } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
 import styled from 'styled-components';
 
 export function AddStation() {
 	return (
-		<BackgroundContainer>
+		<BackgroundContainer pageTitle='Add Police Station'>
 			<Layout>
-				<h1>Add Police Station</h1>
 				<form>
 					<TextField label='Name' />
 					<TextField label='Area' />

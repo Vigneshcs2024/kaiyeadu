@@ -35,9 +35,8 @@ export default function Requests() {
 	);
 
 	return (
-		<BackgroundContainer>
+		<BackgroundContainer pageTitle='Requests'>
 			<Layout>
-				<h1>Requests</h1>
 				<Table columns={columns} data={data} />
 			</Layout>
 		</BackgroundContainer>

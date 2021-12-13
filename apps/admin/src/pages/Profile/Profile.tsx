@@ -32,9 +32,8 @@ export default function Profile() {
 	);
 
 	return (
-		<BackgroundContainer>
+		<BackgroundContainer pageTitle='Profiles'>
 			<Layout>
-				<h1>Profiles</h1>
 				<Table columns={columns} data={data} />
 			</Layout>
 		</BackgroundContainer>
