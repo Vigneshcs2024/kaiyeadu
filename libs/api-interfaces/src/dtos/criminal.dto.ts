@@ -54,14 +54,7 @@ export type BondDto = Omit<IBondInput, 'criminal'>;
 export type OccupationDto = Omit<IOccupationInput, 'criminal'>;
 export type AddressDto = Omit<IAddressInput, 'criminal'>;
 export type VehicleDto = Omit<IVehicleInput, 'criminal'>;
-
-export interface AssociatesDto extends Omit<IAssociateInput, 'criminal' | 'occupation'> {
-	occupation: OccupationDto[];
-	name: string;
-	district: string;
-	state: string;
-}
-
+export type AssociatesDto = Omit<IAssociateInput, 'criminal'>;
 export interface CaseDto extends Omit<ICaseInput, 'criminal'>, IActiveCaseInput {
 	is_active: boolean;
 }
