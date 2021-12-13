@@ -6,3 +6,10 @@ export function addOccupation(person: string, occupation: OccupationDto[]): Prom
 		occupation.map(occupation => Occupation.build({ ...occupation, criminal: person }).save())
 	);
 }
+
+export function getOccupationsOf(person: string): Promise<Occupation[]> {
+	return Occupation.findAll({
+		where: { criminal: person },
+		attributes: { exclude: ['criminal'] }
+	});
+}

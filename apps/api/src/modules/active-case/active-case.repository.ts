@@ -4,7 +4,8 @@ import { ActiveCase } from './active-case.model';
 
 export async function getActiveCasesOf(criminal: Criminal['id']) {
 	const activeCases = await ActiveCase.findAll({
-		where: { criminal }
+		where: { criminal },
+		attributes: { exclude: ['criminal'] }
 	});
 
 	const fullCaseDetails = await Promise.all(

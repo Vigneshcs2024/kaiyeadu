@@ -2,6 +2,7 @@ import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import { ActiveCase } from '../active-case/active-case.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
+import { getPSNameById } from '../police-station/police-station.repository';
 import { Case } from './case.model';
 
 export function create(caseDetails: ICaseInput) {
@@ -45,8 +46,12 @@ export function getCaseDetails(caseId: string) {
 	return Case.findByPk(caseId);
 }
 
-export function getAllCasesOf(criminal: string) {
-	return Case.findAll({ where: { criminal } });
+export async function getAllCasesOf(criminal: string) {
+	return Promise.all(
+		(await Case.findAll({ where: { criminal }, attributes: { exclude: ['criminal'] } })).map(
+			async c => ({ ...c, police_station: await getPSNameById(c.id) })
+		)
+	);
 }
 
 // this function is cpu intensive

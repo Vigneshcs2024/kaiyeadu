@@ -7,3 +7,10 @@ export function addFamilyMembers(criminal: Criminal['id'], familyMembers: Family
 		familyMembers.map(familyMember => FamilyMember.build({ ...familyMember, criminal }).save())
 	);
 }
+
+export function getFamilyMembersOf(criminal: Criminal['id']) {
+	return FamilyMember.findAll({
+		where: { criminal },
+		attributes: { exclude: ['criminal'] }
+	});
+}

@@ -12,3 +12,10 @@ export function addLinks(criminal: Criminal['id'], links: LinkDto[]): Promise<Li
 		)
 	);
 }
+
+export function getLinks(criminal: Criminal['id']): Promise<Link[]> {
+	return Link.findAll({
+		where: { criminal },
+		attributes: { exclude: ['criminal'] }
+	});
+}
