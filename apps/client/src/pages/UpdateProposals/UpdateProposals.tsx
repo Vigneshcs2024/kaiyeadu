@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BackgroundContainer, Button, TextField, TextArea } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Button, TextArea } from '@kaiyeadu/ui/components';
 
 export default function UpdateProposals() {
 	return (
@@ -9,9 +9,9 @@ export default function UpdateProposals() {
 				justifyContent: 'center',
 				alignItems: 'center',
 				minHeight: '91.75vh'
-			}}>
+			}}
+			pageTitle='Update Proposals'>
 			<InnerContainer>
-				<h1>Update Proposals</h1>
 				<TextArea label='Changes to be made' />
 				<BottomContainer>
 					<Button title='Submit' onClick={() => null} />

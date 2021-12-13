@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 export function AddUser() {
 	return (
-		<BackgroundContainer>
+		<BackgroundContainer pageTitle='Add User'>
 			<Layout>
-				<h1>Add User</h1>
 				<form>
 					<TextField label='Name' />
 					<TextField label='GPF Number' />

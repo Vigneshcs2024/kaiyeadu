@@ -32,9 +32,8 @@ export default function Records() {
 	);
 
 	return (
-		<BackgroundContainer>
+		<BackgroundContainer pageTitle='Records'>
 			<Layout>
-				<h1>Records</h1>
 				<Table columns={columns} data={data} />
 			</Layout>
 		</BackgroundContainer>
