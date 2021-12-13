@@ -10,7 +10,6 @@ export class ActiveCase extends Model<IActiveCase, IActiveCaseInput> implements 
 	criminal: string;
 	case: string;
 	court_name: string;
-	stage: string;
 	last_hearing: Date;
 	next_hearing: Date;
 	hearing_description: string;
@@ -35,10 +34,6 @@ ActiveCase.init(
 			allowNull: false
 		},
 		court_name: {
-			type: DataTypes.STRING,
-			allowNull: false
-		},
-		stage: {
 			type: DataTypes.STRING,
 			allowNull: false
 		},

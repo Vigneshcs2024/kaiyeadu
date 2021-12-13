@@ -36,7 +36,7 @@ export function addCases(criminal: string, cases: CaseDto[]) {
 			if (!caseItem.is_active) return $case;
 
 			// ! stage is present in both case and active case
-			const activeCase = ActiveCase.build({ ...activeCaseDetails, stage, case: $case.id });
+			const activeCase = ActiveCase.build({ ...activeCaseDetails, case: $case.id });
 			return Promise.all([$case, activeCase.save()]);
 		})
 	);

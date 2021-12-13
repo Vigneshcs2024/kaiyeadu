@@ -3,7 +3,6 @@ export interface IActiveCase {
 	criminal: string;
 	case: string;
 	court_name: string;
-	stage: string; // todo: enum
 	last_hearing: Date;
 	next_hearing: Date;
 	hearing_description: string;
