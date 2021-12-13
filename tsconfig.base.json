@@ -17,10 +17,10 @@
 		"baseUrl": ".",
 		"paths": {
 			"@kaiyeadu/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-			"@kaiyeadu/api-interfaces/*": ["libs/api-interfaces/src/*"],
+			"@kaiyeadu/api-interfaces/*": ["libs/api-interfaces/src/*/index.ts"],
 			"@kaiyeadu/hooks": ["libs/hooks/src/index.ts"],
 			"@kaiyeadu/ui": ["libs/ui/src/index.ts"],
-			"@kaiyeadu/ui/*": ["libs/ui/src/*"],
+			"@kaiyeadu/ui/*": ["libs/ui/src/*/index.ts"],
 
 			//api
 			"$api/errors": ["apps/api/src/errors/index.ts"],
