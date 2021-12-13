@@ -27,7 +27,16 @@ export async function createUser(req: ApiRequest, res: Response) {
 	}
 
 	const { name, email, gpf, phone, police_station, password, designation, role } = req.body;
-	const userDetails = { name, email, gpf, phone, police_station, password, designation, role };
+	const userDetails = {
+		name,
+		email,
+		gpf,
+		phone: +phone,
+		police_station,
+		password,
+		designation,
+		role
+	};
 
 	await validateCreateUser(userDetails);
 	const user = await userRepository.createUser(userDetails);
@@ -73,7 +82,7 @@ export async function getUser(req: ApiRequest, res: Response) {
 export async function updateUser(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 	const { name, email, phone, police_station, designation, role, gpf }: UpdateUserDto = req.body;
-	const userDetails = { name, email, phone, police_station, designation, role, gpf };
+	const userDetails = { name, email, phone: +phone, police_station, designation, role, gpf };
 
 	logger.debug(jsonPrettyPrint(userDetails));
 	// todo: check validations
