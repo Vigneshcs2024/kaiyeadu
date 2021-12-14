@@ -29,7 +29,7 @@ User.init(
 			primaryKey: true
 		},
 		gpf: {
-			type: DataTypes.STRING(10),
+			type: DataTypes.CHAR(10),
 			allowNull: true
 		},
 		name: {
@@ -46,7 +46,7 @@ User.init(
 			allowNull: false
 		},
 		phone: {
-			type: DataTypes.STRING({ length: 10 }),
+			type: DataTypes.CHAR({ length: 10 }),
 			unique: 'phone',
 			allowNull: false
 		},
