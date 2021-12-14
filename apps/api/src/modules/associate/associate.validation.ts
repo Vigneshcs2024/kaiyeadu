@@ -1,5 +1,5 @@
-import { IAssociateInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
+import { IAssociateInput } from '@kaiyeadu/api-interfaces/models';
 
 export function validateAssociate(associateOptions: IAssociateInput) {
 	const schema = Joi.object<IAssociateInput>({

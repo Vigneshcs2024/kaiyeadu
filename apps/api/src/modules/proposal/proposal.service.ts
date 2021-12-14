@@ -36,7 +36,7 @@ export async function list(req: ApiRequest, res: Response) {
 export async function getById(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 
-	await Joi.string().min(36).max(36).required().validateAsync(id);
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
 
 	const proposal = await proposalsRepo.getProposal(id);
 

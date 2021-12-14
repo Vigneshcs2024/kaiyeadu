@@ -1,11 +1,11 @@
 import Joi from 'joi';
-import { IModusOperandiInput } from 'libs/api-interfaces/src/models';
+import { IModusOperandiInput } from '@kaiyeadu/api-interfaces/models';
 
-export function modusOperandiCase(modusOptions: IModusOperandiInput) {
+export function modusOperandiCase(mo: IModusOperandiInput) {
 	const schema = Joi.object<IModusOperandiInput>({
 		criminal: Joi.string().required(),
-		type: Joi.string().required(),
+		type: Joi.string().required()
 	});
 
-	return schema.validateAsync(modusOptions);
+	return schema.validateAsync(mo);
 }

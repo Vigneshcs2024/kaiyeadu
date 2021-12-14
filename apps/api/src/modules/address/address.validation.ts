@@ -1,8 +1,9 @@
 import Joi from 'joi';
+import { IAddressInput } from 'libs/api-interfaces/src/models';
 
-export function validateCreateAddress(createAddressOptions) {
-	const schema = Joi.object({
-		criminal: Joi.string().max(36).min(36).required(),
+export function validateCreateAddress(createAddressOptions: IAddressInput) {
+	const schema = Joi.object<IAddressInput>({
+		criminal: Joi.string().uuid({ version: 'uuidv4' }).required(),
 		type: Joi.string().required(),
 		line1: Joi.string(),
 		line2: Joi.string(),

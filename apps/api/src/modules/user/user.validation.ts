@@ -35,7 +35,7 @@ export function validateUpdateUser(userDetails: UpdateUserDto) {
 		email: Joi.string().email(),
 		phone: Joi.number().min(4_444_444_444).max(9_999_999_999),
 		password: Joi.string().min(8).max(30),
-		police_station: Joi.string().min(36).max(36).messages({
+		police_station: Joi.string().uuid({ version: 'uuidv4' }).messages({
 			'string.min': `'police_station' must be a valid uuid`,
 			'string.max': `'police_station' must be a valid uuid`
 		}),
