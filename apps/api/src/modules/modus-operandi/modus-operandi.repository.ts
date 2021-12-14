@@ -6,8 +6,9 @@ export function addModusOperandi(
 	modusOperandi: string[],
 	transaction: Transaction
 ) {
-	return Promise.all(
-		modusOperandi.map(mo => ModusOperandi.build({ criminal, type: mo }).save({ transaction }))
+	return ModusOperandi.bulkCreate(
+		modusOperandi.map(mo => ({ criminal, type: mo })),
+		{ transaction }
 	);
 }
 

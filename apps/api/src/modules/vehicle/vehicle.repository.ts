@@ -8,7 +8,10 @@ export function addVehicles(
 	vehicles: VehicleDto[],
 	transaction: Transaction
 ) {
-	return Promise.all(vehicles.map(v => Vehicle.build({ ...v, criminal }).save({ transaction })));
+	return Vehicle.bulkCreate(
+		vehicles.map(vehicle => ({ criminal, ...vehicle })),
+		{ transaction }
+	);
 }
 
 export function getAllVehiclesOf(person: string, transaction?: Transaction): Promise<Vehicle[]> {

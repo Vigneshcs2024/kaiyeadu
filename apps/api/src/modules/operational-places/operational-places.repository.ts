@@ -8,8 +8,9 @@ export function addOpPlaces(
 	places: OpPlaceDto[],
 	transaction: Transaction
 ) {
-	return Promise.all(
-		places.map(place => OperationalPlace.build({ ...place, criminal }).save({ transaction }))
+	return OperationalPlace.bulkCreate(
+		places.map(place => ({ criminal, ...place })),
+		{ transaction }
 	);
 }
 

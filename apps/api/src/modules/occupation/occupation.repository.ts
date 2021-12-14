@@ -7,10 +7,9 @@ export function addOccupation(
 	occupation: OccupationDto[],
 	transaction: Transaction
 ): Promise<Occupation[]> {
-	return Promise.all(
-		occupation.map(occupation =>
-			Occupation.build({ ...occupation, criminal: person }).save({ transaction })
-		)
+	return Occupation.bulkCreate(
+		occupation.map(o => ({ criminal: person, ...o })),
+		{ transaction }
 	);
 }
 

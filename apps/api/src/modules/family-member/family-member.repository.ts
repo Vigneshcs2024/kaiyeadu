@@ -8,10 +8,9 @@ export function addFamilyMembers(
 	familyMembers: FamilyMemberDto[],
 	transaction: Transaction
 ): Promise<FamilyMember[]> {
-	return Promise.all(
-		familyMembers.map(familyMember =>
-			FamilyMember.build({ ...familyMember, criminal }).save({ transaction })
-		)
+	return FamilyMember.bulkCreate(
+		familyMembers.map(fm => ({ criminal, ...fm })),
+		{ transaction }
 	);
 }
 

@@ -7,10 +7,9 @@ export function addAssociates(
 	associates: AssociatesDto[],
 	transaction: Transaction
 ): Promise<Associate[]> {
-	return Promise.all(
-		associates.map(associate =>
-			Associate.build({ ...associate, criminal }).save({ transaction })
-		)
+	return Associate.bulkCreate(
+		associates.map(a => ({ criminal, ...a })),
+		{ transaction }
 	);
 }
 

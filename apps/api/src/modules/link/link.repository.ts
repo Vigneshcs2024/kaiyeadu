@@ -8,13 +8,9 @@ export function addLinks(
 	links: LinkDto[],
 	transaction: Transaction
 ): Promise<Link[]> {
-	return Promise.all(
-		links.map(link =>
-			Link.build({
-				criminal,
-				...link
-			}).save({ transaction })
-		)
+	return Link.bulkCreate(
+		links.map(link => ({ criminal, ...link })),
+		{ transaction }
 	);
 }
 
