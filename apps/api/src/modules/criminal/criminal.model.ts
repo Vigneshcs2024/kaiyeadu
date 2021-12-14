@@ -62,7 +62,7 @@ Criminal.init(
 			allowNull: false
 		},
 		phone_number: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING({ length: 10 }),
 			allowNull: true
 		},
 		religion: {
