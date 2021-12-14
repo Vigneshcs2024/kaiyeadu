@@ -9,7 +9,7 @@ export interface ICriminal {
 	phone_number?: number;
 	religion?: string;
 	caste?: string;
-	hs_number: number;
+	hs_number: string;
 	height?: number;
 	identification_mark?: string;
 	marital_status?: string;

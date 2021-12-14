@@ -15,7 +15,7 @@ export class Criminal extends Model<ICriminal, ICriminalInput> implements ICrimi
 	phone_number?: number;
 	religion?: string;
 	caste?: string;
-	hs_number: number;
+	hs_number: string;
 	height?: number;
 	identification_mark?: string;
 	marital_status?: string;
@@ -74,7 +74,7 @@ Criminal.init(
 			allowNull: true
 		},
 		hs_number: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			unique: 'hs_number',
 			allowNull: false
 		},
