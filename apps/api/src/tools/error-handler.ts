@@ -52,8 +52,9 @@ export const errorHandler = (
 		return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Malformed request body' });
 	}
 
+	console.error(err);
 	logger.error((err as Error).stack);
-	return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+	res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
 		message: 'Internal server error'
 	});
 	next();

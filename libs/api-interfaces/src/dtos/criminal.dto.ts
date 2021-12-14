@@ -20,12 +20,12 @@ export interface CreateCriminalDto extends ICriminalInput {
 	father_name: string;
 	dob: Date;
 	phone_number: number;
-	religion: string;
-	caste: string;
+	religion: string; // make it enum
+	caste: string; // also enum
 	hs_number: string;
 	height: number;
 	identification_mark: string;
-	marital_status: string;
+	marital_status: string; // enum?
 	advocate_name: string;
 	bank_account_number: string;
 	present_status: string;

@@ -45,6 +45,7 @@ export async function create(criminalDetails: CreateCriminalDto) {
 		await addOpPlaces(criminal.id, operational_places, transaction);
 		await addVehicles(criminal.id, vehicles, transaction);
 		await addOccupation(criminal.id, occupation, transaction);
+
 		transaction.commit();
 		return criminal;
 	} catch (err) {

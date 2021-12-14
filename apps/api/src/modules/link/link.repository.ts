@@ -1,5 +1,6 @@
 import { Transaction } from 'sequelize';
 import { LinkDto } from '@kaiyeadu/api-interfaces/dtos';
+import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { Link } from './link.model';
 
@@ -8,6 +9,8 @@ export function addLinks(
 	links: LinkDto[],
 	transaction: Transaction
 ): Promise<Link[]> {
+	logger.debug('Creating Links...');
+
 	return Link.bulkCreate(
 		links.map(link => ({ criminal, ...link })),
 		{ transaction }

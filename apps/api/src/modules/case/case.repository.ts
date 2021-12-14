@@ -1,6 +1,7 @@
 import { Transaction } from 'sequelize';
 import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
+import { logger } from '$api/tools';
 import { ActiveCase } from '../active-case/active-case.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
 import { getPSNameById } from '../police-station/police-station.repository';
@@ -11,6 +12,8 @@ export function create(caseDetails: ICaseInput) {
 }
 
 export function addCases(criminal: string, cases: CaseDto[], transaction: Transaction) {
+	logger.debug('Creating cases...');
+
 	return Promise.all(
 		cases.map(async caseItem => {
 			const {

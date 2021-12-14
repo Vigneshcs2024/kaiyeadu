@@ -1,5 +1,6 @@
 import { Transaction } from 'sequelize';
 import { OpPlaceDto } from '@kaiyeadu/api-interfaces/dtos';
+import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { OperationalPlace } from './operational-places.model';
 
@@ -8,6 +9,7 @@ export function addOpPlaces(
 	places: OpPlaceDto[],
 	transaction: Transaction
 ) {
+	logger.debug('Creating Operational places...');
 	return OperationalPlace.bulkCreate(
 		places.map(place => ({ criminal, ...place })),
 		{ transaction }

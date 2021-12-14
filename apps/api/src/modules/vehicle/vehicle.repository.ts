@@ -1,5 +1,6 @@
 import { Transaction } from 'sequelize';
 import { VehicleDto } from '@kaiyeadu/api-interfaces/dtos';
+import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { Vehicle } from './vehicle.model';
 
@@ -8,6 +9,7 @@ export function addVehicles(
 	vehicles: VehicleDto[],
 	transaction: Transaction
 ) {
+	logger.debug('Creating Vehicles...');
 	return Vehicle.bulkCreate(
 		vehicles.map(vehicle => ({ criminal, ...vehicle })),
 		{ transaction }

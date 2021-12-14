@@ -1,5 +1,6 @@
 import { Transaction } from 'sequelize';
 import { LastArrestDto } from '@kaiyeadu/api-interfaces/dtos';
+import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { LastArrest } from './last-arrest.model';
 
@@ -8,6 +9,7 @@ export function addLastArrest(
 	lastArrest: LastArrestDto,
 	transaction: Transaction
 ) {
+	logger.debug('Creating Last Arrest details...');
 	return LastArrest.build({ ...lastArrest, criminal }).save({ transaction });
 }
 

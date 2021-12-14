@@ -1,4 +1,5 @@
 import { Transaction } from 'sequelize';
+import { logger } from '$api/tools';
 import { Occupation } from './occupation.model';
 
 export function addOccupation(
@@ -6,6 +7,7 @@ export function addOccupation(
 	occupation: string[],
 	transaction: Transaction
 ): Promise<Occupation[]> {
+	logger.debug('Creating occupations...');
 	return Occupation.bulkCreate(
 		occupation.map(occ => ({ criminal: person, name: occ })),
 		{ transaction }

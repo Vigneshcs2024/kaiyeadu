@@ -1,3 +1,4 @@
+import { logger } from '$api/tools';
 import { Transaction } from 'sequelize';
 import { ModusOperandi } from './modus-operandi.model';
 
@@ -6,6 +7,8 @@ export function addModusOperandi(
 	modusOperandi: string[],
 	transaction: Transaction
 ) {
+	logger.debug('Creating MOs...');
+
 	return ModusOperandi.bulkCreate(
 		modusOperandi.map(mo => ({ criminal, type: mo })),
 		{ transaction }

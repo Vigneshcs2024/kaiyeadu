@@ -9,7 +9,13 @@ export function validateCases(caseDetails: CaseDto[]) {
 			under_section: Joi.string().required(),
 			stage: Joi.string().required(),
 			remarks: Joi.string(),
-			date: Joi.date().required()
+			date: Joi.date().required(),
+			is_active: Joi.boolean().required(),
+			court_name: Joi.string(),
+			last_hearing: Joi.date(),
+			next_hearing: Joi.date(),
+			hearing_description: Joi.string(),
+			accused_attend_status: Joi.boolean()
 		})
 	);
 

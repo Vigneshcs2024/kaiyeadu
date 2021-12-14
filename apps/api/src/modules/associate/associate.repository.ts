@@ -1,5 +1,6 @@
 import { Transaction } from 'sequelize';
 import { AssociatesDto } from '@kaiyeadu/api-interfaces/dtos';
+import { logger } from '$api/tools';
 import { Associate } from './associate.model';
 
 export function addAssociates(
@@ -7,6 +8,8 @@ export function addAssociates(
 	associates: AssociatesDto[],
 	transaction: Transaction
 ): Promise<Associate[]> {
+	logger.debug('Creating Associates...');
+
 	return Associate.bulkCreate(
 		associates.map(a => ({ criminal, ...a })),
 		{ transaction }

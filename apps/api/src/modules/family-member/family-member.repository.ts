@@ -1,5 +1,6 @@
 import { Transaction } from 'sequelize';
 import { FamilyMemberDto } from '@kaiyeadu/api-interfaces/dtos';
+import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { FamilyMember } from './family-member.model';
 
@@ -8,6 +9,8 @@ export function addFamilyMembers(
 	familyMembers: FamilyMemberDto[],
 	transaction: Transaction
 ): Promise<FamilyMember[]> {
+	logger.debug('Creating Family Members...');
+
 	return FamilyMember.bulkCreate(
 		familyMembers.map(fm => ({ criminal, ...fm })),
 		{ transaction }
