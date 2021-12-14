@@ -18,7 +18,8 @@ export default function Home() {
 				justifyContent: 'center',
 				alignItems: 'center',
 				flexWrap: 'wrap'
-			}}>
+			}}
+			pageTitle='Home'>
 			{list.map((val, ind) => {
 				return (
 					<Container key={ind}>

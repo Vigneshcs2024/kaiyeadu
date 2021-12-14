@@ -32,9 +32,8 @@ export default function Admins() {
 	);
 
 	return (
-		<BackgroundContainer>
+		<BackgroundContainer pageTitle='Admins'>
 			<Layout>
-				<h1>Admins</h1>
 				<Table columns={columns} data={data} />
 			</Layout>
 		</BackgroundContainer>
