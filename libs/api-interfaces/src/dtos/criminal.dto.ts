@@ -13,8 +13,9 @@ import {
 } from '../models';
 
 export interface CreateCriminalDto extends ICriminalInput {
-	category: ICriminalInput['category'];
 	name: string;
+	category: ICriminalInput['category'];
+	grade: ICriminalInput['grade'];
 	alias_name: string;
 	father_name: string;
 	dob: Date;
