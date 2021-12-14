@@ -48,6 +48,10 @@ export const errorHandler = (
 		return res.status(err.status).json({ message: err.message });
 	}
 
+	if ((err as Error) instanceof SyntaxError) {
+		return res.status(StatusCodes.BAD_REQUEST).json({ message: 'Malformed request body' });
+	}
+
 	logger.error((err as Error).stack);
 	return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
 		message: 'Internal server error'
