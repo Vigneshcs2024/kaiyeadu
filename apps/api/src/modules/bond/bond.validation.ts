@@ -1,7 +1,7 @@
 import { IBondInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
 
-export function validateBond(bondOptions: IBondInput) {
+export function validateBond(bondDetails: IBondInput) {
 	const schema = Joi.object<IBondInput>({
 		criminal: Joi.string().required(),
 		details: Joi.string().required(),
@@ -9,5 +9,5 @@ export function validateBond(bondOptions: IBondInput) {
 		period: Joi.number().required()
 	});
 
-	return schema.validateAsync(bondOptions);
+	return schema.validateAsync(bondDetails);
 }

@@ -1,3 +1,4 @@
+import { Transaction } from 'sequelize';
 import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import { ActiveCase } from '../active-case/active-case.model';
@@ -9,7 +10,7 @@ export function create(caseDetails: ICaseInput) {
 	return Case.build(caseDetails).save();
 }
 
-export function addCases(criminal: string, cases: CaseDto[]) {
+export function addCases(criminal: string, cases: CaseDto[], transaction: Transaction) {
 	return Promise.all(
 		cases.map(async caseItem => {
 			const {
@@ -31,35 +32,38 @@ export function addCases(criminal: string, cases: CaseDto[]) {
 				date
 			};
 
-			const $case = await Case.build(commonDetails).save();
+			const $case = await Case.build(commonDetails).save({ transaction });
 
 			if (!caseItem.is_active) return $case;
 
-			// ! stage is present in both case and active case
 			const activeCase = ActiveCase.build({ ...activeCaseDetails, case: $case.id });
-			return Promise.all([$case, activeCase.save()]);
+			return Promise.all([$case, activeCase.save({ transaction })]);
 		})
 	);
 }
 
-export function getCaseDetails(caseId: string) {
-	return Case.findByPk(caseId);
+export function getCaseDetails(caseId: string, transaction?: Transaction) {
+	return Case.findByPk(caseId, { transaction });
 }
 
-export async function getAllCasesOf(criminal: string) {
+export async function getAllCasesOf(criminal: string, transaction?: Transaction) {
 	return Promise.all(
-		(await Case.findAll({ where: { criminal }, attributes: { exclude: ['criminal'] } })).map(
-			async c => ({ ...c, police_station: await getPSNameById(c.id) })
-		)
+		(
+			await Case.findAll({
+				where: { criminal },
+				attributes: { exclude: ['criminal'] },
+				transaction
+			})
+		).map(async c => ({ ...c, police_station: await getPSNameById(c.id) }))
 	);
 }
 
 // this function is cpu intensive
 // ! unsure of logic
-export async function getInactiveCasesOf(criminal: string) {
-	const allCases = await getAllCasesOf(criminal);
+export async function getInactiveCasesOf(criminal: string, transaction?: Transaction) {
+	const allCases = await getAllCasesOf(criminal, transaction);
 
-	const activeCases = await getActiveCasesOf(criminal);
+	const activeCases = await getActiveCasesOf(criminal, transaction);
 
 	return allCases.filter(c => !activeCases.some(ac => ac.crime_number === c.crime_number));
 }

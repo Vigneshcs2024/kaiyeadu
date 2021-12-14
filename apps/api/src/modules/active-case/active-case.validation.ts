@@ -1,5 +1,5 @@
-import { IActiveCaseInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
+import { IActiveCaseInput } from '@kaiyeadu/api-interfaces/models';
 
 export function activeCaseValidate(activeCaseOptions: IActiveCaseInput) {
 	const schema = Joi.object<IActiveCaseInput>({

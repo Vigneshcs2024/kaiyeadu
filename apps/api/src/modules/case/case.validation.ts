@@ -1,8 +1,7 @@
 import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
 
-
-export function validateCase(caseOptions: ICaseInput) {
+export function validateCase(caseDetails: ICaseInput) {
 	const schema = Joi.object<ICaseInput>({
 		criminal: Joi.string().required(),
 		police_station: Joi.string().required(),
@@ -13,5 +12,5 @@ export function validateCase(caseOptions: ICaseInput) {
 		date: Joi.date().required()
 	});
 
-	return schema.validateAsync(caseOptions);
+	return schema.validateAsync(caseDetails);
 }

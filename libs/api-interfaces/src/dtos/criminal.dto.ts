@@ -22,7 +22,7 @@ export interface CreateCriminalDto extends ICriminalInput {
 	phone_number: number;
 	religion: string;
 	caste: string;
-	hs_number: number;
+	hs_number: string;
 	height: number;
 	identification_mark: string;
 	marital_status: string;
@@ -41,7 +41,7 @@ export interface CreateCriminalDto extends ICriminalInput {
 	operational_places: OpPlaceDto[];
 	bond: BondDto;
 	occupation: OccupationDto[];
-	present_address: AddressDto;
+	present_address: AddressDto[];
 	associates: AssociatesDto[];
 	vehicles: VehicleDto[];
 }

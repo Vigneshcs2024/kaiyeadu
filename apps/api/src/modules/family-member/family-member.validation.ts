@@ -1,7 +1,7 @@
-import { IFamilyInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
+import { IFamilyInput } from '@kaiyeadu/api-interfaces/models';
 
-export function validateFamilyMember(familyMemberOptions: IFamilyInput) {
+export function validateFamilyMember(member: IFamilyInput) {
 	const schema = Joi.object<IFamilyInput>({
 		criminal: Joi.string().required(),
 		name: Joi.string().required(),
@@ -10,5 +10,5 @@ export function validateFamilyMember(familyMemberOptions: IFamilyInput) {
 		occupation: Joi.string()
 	});
 
-	return schema.validateAsync(familyMemberOptions);
+	return schema.validateAsync(member);
 }

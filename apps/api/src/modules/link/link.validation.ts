@@ -1,7 +1,7 @@
-import { ILinksInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
+import { ILinksInput } from '@kaiyeadu/api-interfaces/models';
 
-export function validateLink(linkOptions: ILinksInput) {
+export function validateLink(link: ILinksInput) {
 	const schema = Joi.object<ILinksInput>({
 		criminal: Joi.string().required(),
 
@@ -12,5 +12,5 @@ export function validateLink(linkOptions: ILinksInput) {
 		description: Joi.string()
 	});
 
-	return schema.validateAsync(linkOptions);
+	return schema.validateAsync(link);
 }
