@@ -36,7 +36,7 @@ export function addCases(criminal: string, cases: CaseDto[], transaction: Transa
 
 			if (!caseItem.is_active) return $case;
 
-			const activeCase = ActiveCase.build({ ...activeCaseDetails, case: $case.id });
+			const activeCase = ActiveCase.build({ ...activeCaseDetails, case: $case.id, criminal });
 			return Promise.all([$case, activeCase.save({ transaction })]);
 		})
 	);

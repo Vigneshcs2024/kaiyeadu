@@ -1,13 +1,14 @@
-import { IVehicleInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
+import { VehicleDto } from '@kaiyeadu/api-interfaces/dtos';
 
-export function validateAddVehicle(vehicle: IVehicleInput) {
-	const schema = Joi.object<IVehicleInput>({
-		criminal: Joi.string().uuid({ version: 'uuidv4' }).required(),
-		description: Joi.string(),
-		reg_no: Joi.string(),
-		type: Joi.string()
-	});
+export function validateAddVehicles(vehicle: VehicleDto[]) {
+	const schema = Joi.array().items(
+		Joi.object<VehicleDto>({
+			description: Joi.string(),
+			reg_no: Joi.string(),
+			type: Joi.string()
+		})
+	);
 
 	return schema.validateAsync(vehicle);
 }

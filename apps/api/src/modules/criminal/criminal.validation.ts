@@ -1,8 +1,8 @@
 import Joi from 'joi';
-import { CreateCriminalDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ICriminalInput } from 'libs/api-interfaces/src/models';
 
-export function validateCreateCriminal(criminalDetails: CreateCriminalDto) {
-	const schema: Joi.ObjectSchema<CreateCriminalDto> = Joi.object({
+export function validateCreateCriminal(criminalDetails: ICriminalInput) {
+	const schema: Joi.ObjectSchema<ICriminalInput> = Joi.object({
 		name: Joi.string().required(),
 		alias_name: Joi.string().required(),
 		category: Joi.valid('HS', 'OCIU').required(),

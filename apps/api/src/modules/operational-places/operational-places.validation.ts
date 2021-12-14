@@ -1,12 +1,13 @@
 import Joi from 'joi';
-import { IOperationalPlaceInput } from '@kaiyeadu/api-interfaces/models';
+import { OpPlaceDto } from '@kaiyeadu/api-interfaces/dtos';
 
-export function validateOperationalPlaces(opPlace: IOperationalPlaceInput) {
-	const schema = Joi.object<IOperationalPlaceInput>({
-		criminal: Joi.string().required(),
-		state: Joi.string(),
-		district: Joi.string()
-	});
+export function validateOperationalPlaces(opPlace: OpPlaceDto[]) {
+	const schema = Joi.array().items(
+		Joi.object<OpPlaceDto>({
+			state: Joi.string(),
+			district: Joi.string()
+		})
+	);
 
 	return schema.validateAsync(opPlace);
 }

@@ -1,16 +1,17 @@
-import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
+import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 
-export function validateCase(caseDetails: ICaseInput) {
-	const schema = Joi.object<ICaseInput>({
-		criminal: Joi.string().required(),
-		police_station: Joi.string().required(),
-		crime_number: Joi.number().required(),
-		under_section: Joi.string().required(),
-		stage: Joi.string().required(),
-		remarks: Joi.string(),
-		date: Joi.date().required()
-	});
+export function validateCases(caseDetails: CaseDto[]) {
+	const schema = Joi.array().items(
+		Joi.object<CaseDto>({
+			police_station: Joi.string().required(),
+			crime_number: Joi.number().required(),
+			under_section: Joi.string().required(),
+			stage: Joi.string().required(),
+			remarks: Joi.string(),
+			date: Joi.date().required()
+		})
+	);
 
 	return schema.validateAsync(caseDetails);
 }

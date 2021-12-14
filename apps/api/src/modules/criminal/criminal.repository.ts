@@ -22,7 +22,7 @@ export async function create(criminalDetails: CreateCriminalDto) {
 		last_arrest,
 		bond,
 		occupation,
-		present_address,
+		addresses,
 		associates,
 		vehicles,
 		cases,
@@ -37,7 +37,7 @@ export async function create(criminalDetails: CreateCriminalDto) {
 		await addModusOperandi(criminal.id, modus_operandi, transaction);
 		await addCases(criminal.id, cases, transaction);
 		await addBond(criminal.id, bond, transaction);
-		await addAddress(criminal.id, present_address, transaction);
+		await addAddress(criminal.id, addresses, transaction);
 		await addAssociates(criminal.id, associates, transaction);
 		await addLinks(criminal.id, links, transaction);
 		await addFamilyMembers(criminal.id, family_members, transaction);

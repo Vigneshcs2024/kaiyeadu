@@ -1,9 +1,8 @@
-import { IBondInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
+import { BondDto } from '@kaiyeadu/api-interfaces/dtos';
 
-export function validateBond(bondDetails: IBondInput) {
-	const schema = Joi.object<IBondInput>({
-		criminal: Joi.string().required(),
+export function validateBond(bondDetails: BondDto) {
+	const schema = Joi.object<BondDto>({
 		details: Joi.string().required(),
 		type: Joi.string().required(),
 		period: Joi.number().required()

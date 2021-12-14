@@ -1,9 +1,8 @@
-import { ILastArrestInput } from '@kaiyeadu/api-interfaces/models';
 import Joi from 'joi';
+import { LastArrestDto } from '@kaiyeadu/api-interfaces/dtos';
 
-export function validateLastArrest(lastArrestOptions: ILastArrestInput) {
-	const schema = Joi.object<ILastArrestInput>({
-		criminal: Joi.string().required(),
+export function validateLastArrest(lastArrestOptions: LastArrestDto) {
+	const schema = Joi.object<LastArrestDto>({
 		section: Joi.string().required(),
 		date: Joi.date().required(),
 		kind: Joi.string().required()

@@ -1,16 +1,16 @@
 import Joi from 'joi';
-import { ILinksInput } from '@kaiyeadu/api-interfaces/models';
+import { LinkDto } from 'libs/api-interfaces/src/dtos';
 
-export function validateLink(link: ILinksInput) {
-	const schema = Joi.object<ILinksInput>({
-		criminal: Joi.string().required(),
-
-		name: Joi.string().required(),
-		alias_name: Joi.string(),
-		father_name: Joi.string(),
-		city: Joi.string(),
-		description: Joi.string()
-	});
+export function validateLinks(link: LinkDto[]) {
+	const schema = Joi.array().items(
+		Joi.object<LinkDto>({
+			name: Joi.string().required(),
+			alias_name: Joi.string(),
+			father_name: Joi.string(),
+			city: Joi.string(),
+			description: Joi.string()
+		})
+	);
 
 	return schema.validateAsync(link);
 }

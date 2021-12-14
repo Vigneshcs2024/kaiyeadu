@@ -1,14 +1,13 @@
 import { Transaction } from 'sequelize';
-import { OccupationDto } from '@kaiyeadu/api-interfaces/dtos';
 import { Occupation } from './occupation.model';
 
 export function addOccupation(
 	person: string,
-	occupation: OccupationDto[],
+	occupation: string[],
 	transaction: Transaction
 ): Promise<Occupation[]> {
 	return Occupation.bulkCreate(
-		occupation.map(o => ({ criminal: person, ...o })),
+		occupation.map(occ => ({ criminal: person, name: occ })),
 		{ transaction }
 	);
 }
