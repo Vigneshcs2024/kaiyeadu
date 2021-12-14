@@ -30,7 +30,10 @@ User.init(
 		},
 		gpf: {
 			type: DataTypes.STRING(10),
-			allowNull: true
+			allowNull: true,
+			validate: {
+				isAlphanumeric: true
+			}
 		},
 		name: {
 			type: DataTypes.STRING,
@@ -43,7 +46,10 @@ User.init(
 		email: {
 			type: DataTypes.STRING,
 			unique: 'email',
-			allowNull: false
+			allowNull: false,
+			validate: {
+				isEmail: true
+			}
 		},
 		phone: {
 			type: DataTypes.NUMBER({ length: 10 }),
