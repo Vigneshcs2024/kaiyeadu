@@ -30,19 +30,17 @@ export async function create(criminalDetails: CreateCriminalDto) {
 
 	const criminal = await Criminal.build(rest).save();
 
-	await Promise.all([
-		addModusOperandi(criminal.id, modus_operandi),
-		addCases(criminal.id, cases),
-		addBond(criminal.id, bond),
-		addAddress(criminal.id, present_address),
-		addAssociates(criminal.id, associates),
-		addLinks(criminal.id, links),
-		addFamilyMembers(criminal.id, family_members),
-		addLastArrest(criminal.id, last_arrest),
-		addOpPlaces(criminal.id, operational_places),
-		addVehicles(criminal.id, vehicles),
-		addOccupation(criminal.id, occupation)
-	]);
+	await addModusOperandi(criminal.id, modus_operandi);
+	await addCases(criminal.id, cases);
+	await addBond(criminal.id, bond);
+	await addAddress(criminal.id, present_address);
+	await addAssociates(criminal.id, associates);
+	await addLinks(criminal.id, links);
+	await addFamilyMembers(criminal.id, family_members);
+	await addLastArrest(criminal.id, last_arrest);
+	await addOpPlaces(criminal.id, operational_places);
+	await addVehicles(criminal.id, vehicles);
+	await addOccupation(criminal.id, occupation);
 
 	return criminal;
 }
