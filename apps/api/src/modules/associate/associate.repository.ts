@@ -1,12 +1,23 @@
+import { Transaction } from 'sequelize';
 import { AssociatesDto } from '@kaiyeadu/api-interfaces/dtos';
 import { Associate } from './associate.model';
 
-export function addAssociates(criminal: string, associates: AssociatesDto[]): Promise<Associate[]> {
+export function addAssociates(
+	criminal: string,
+	associates: AssociatesDto[],
+	transaction: Transaction
+): Promise<Associate[]> {
 	return Promise.all(
-		associates.map(associate => Associate.build({ ...associate, criminal }).save())
+		associates.map(associate =>
+			Associate.build({ ...associate, criminal }).save({ transaction })
+		)
 	);
 }
 
-export function getAssociatesOf(criminal: string): Promise<Associate[]> {
-	return Associate.findAll({ where: { criminal }, attributes: { exclude: ['criminal'] } });
+export function getAssociatesOf(criminal: string, transaction?: Transaction): Promise<Associate[]> {
+	return Associate.findAll({
+		where: { criminal },
+		attributes: { exclude: ['criminal'] },
+		transaction
+	});
 }

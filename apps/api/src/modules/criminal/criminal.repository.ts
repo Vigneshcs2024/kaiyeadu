@@ -1,4 +1,5 @@
 import { CreateCriminalDto } from '@kaiyeadu/api-interfaces/dtos';
+import { db } from '$api/root/connections';
 import { addAddress } from '../address/address.repository';
 import { addAssociates } from '../associate/associate.repository';
 import { addBond } from '../bond/bond.repository';
@@ -28,19 +29,26 @@ export async function create(criminalDetails: CreateCriminalDto) {
 		...rest
 	} = criminalDetails;
 
-	const criminal = await Criminal.build(rest).save();
+	const transaction = await db.transaction();
 
-	await addModusOperandi(criminal.id, modus_operandi);
-	await addCases(criminal.id, cases);
-	await addBond(criminal.id, bond);
-	await addAddress(criminal.id, present_address);
-	await addAssociates(criminal.id, associates);
-	await addLinks(criminal.id, links);
-	await addFamilyMembers(criminal.id, family_members);
-	await addLastArrest(criminal.id, last_arrest);
-	await addOpPlaces(criminal.id, operational_places);
-	await addVehicles(criminal.id, vehicles);
-	await addOccupation(criminal.id, occupation);
+	try {
+		const criminal = await Criminal.build(rest).save({ transaction });
 
-	return criminal;
+		await addModusOperandi(criminal.id, modus_operandi, transaction);
+		await addCases(criminal.id, cases, transaction);
+		await addBond(criminal.id, bond, transaction);
+		await addAddress(criminal.id, present_address, transaction);
+		await addAssociates(criminal.id, associates, transaction);
+		await addLinks(criminal.id, links, transaction);
+		await addFamilyMembers(criminal.id, family_members, transaction);
+		await addLastArrest(criminal.id, last_arrest, transaction);
+		await addOpPlaces(criminal.id, operational_places, transaction);
+		await addVehicles(criminal.id, vehicles, transaction);
+		await addOccupation(criminal.id, occupation, transaction);
+		transaction.commit();
+		return criminal;
+	} catch (err) {
+		await transaction.rollback();
+		throw err;
+	}
 }

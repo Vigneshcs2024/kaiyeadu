@@ -41,7 +41,7 @@ export interface CreateCriminalDto extends ICriminalInput {
 	operational_places: OpPlaceDto[];
 	bond: BondDto;
 	occupation: OccupationDto[];
-	present_address: AddressDto;
+	present_address: AddressDto[];
 	associates: AssociatesDto[];
 	vehicles: VehicleDto[];
 }
