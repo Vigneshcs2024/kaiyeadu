@@ -1,5 +1,7 @@
+import { ListCriminalsDto } from '@kaiyeadu/api-interfaces/dtos';
 import Joi from 'joi';
-import { ICriminalInput } from 'libs/api-interfaces/src/models';
+import { ICriminalInput } from '@kaiyeadu/api-interfaces/models';
+import { ListCriminalsQuery } from './criminal.repository';
 
 export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 	const schema: Joi.ObjectSchema<ICriminalInput> = Joi.object({
@@ -28,4 +30,35 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 	});
 
 	return schema.validateAsync(criminalDetails);
+}
+
+export function validateListCriminalsQuery(options: ListCriminalsDto) {
+	const schema: Joi.ObjectSchema<ListCriminalsDto> = Joi.object({
+		page: Joi.number().min(1).default(1),
+		count: Joi.number().min(1).max(100).default(10),
+		q: Joi.string().default(''),
+		f: Joi.object<ListCriminalsQuery['params']['filters']>({
+			caste: Joi.string(),
+			category: Joi.string().valid('HS', 'OCIU'),
+			grade: Joi.string().valid('A+', 'A', 'B', 'C'),
+			is_goondas: Joi.boolean(),
+			marital_status: Joi.string(),
+			present_status: Joi.string(),
+			religion: Joi.string()
+		}),
+		s: Joi.object<ListCriminalsQuery['params']['sort']>({
+			key: Joi.string().valid(
+				'category',
+				'grade',
+				'name',
+				'alias_name',
+				'dob',
+				'hs_number',
+				'height'
+			),
+			order: Joi.string().valid('ASC', 'DESC')
+		})
+	});
+
+	return schema.validateAsync(options);
 }

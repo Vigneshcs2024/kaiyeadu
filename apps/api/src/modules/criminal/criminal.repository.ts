@@ -120,7 +120,7 @@ export async function getListMinimal({ params, pagination }: ListCriminalsQuery)
 	});
 }
 
-type ListCriminalsQuery = {
+export type ListCriminalsQuery = {
 	params: {
 		search?: string;
 		filters?: Partial<FilterableCriminalParams>;

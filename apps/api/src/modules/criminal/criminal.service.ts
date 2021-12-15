@@ -5,7 +5,7 @@ import { CreateCriminalDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ApiRequest } from '$api/types';
 import { validateCreateAddresses } from '../address/address.validation';
 import { validateLinks } from '../link/link.validation';
-import { validateCreateCriminal } from './criminal.validation';
+import { validateCreateCriminal, validateListCriminalsQuery } from './criminal.validation';
 import * as criminalRepo from './criminal.repository';
 import { validateFamilyMembers } from '../family-member/family-member.validation';
 import { validateOperationalPlaces } from '../operational-places/operational-places.validation';
@@ -74,8 +74,8 @@ export async function getDetails(req: ApiRequest, res: Response) {
 export async function getMinimalList(req: ApiRequest, res: Response) {
 	const mp = new URLSearchParams(req.url);
 	const options = {
-		count: mp.get('count'),
-		page: mp.get('page'),
+		count: +mp.get('count'),
+		page: +mp.get('page'),
 		f: JSON.parse(mp.get('f')),
 		q: mp.get('q'),
 		s: JSON.parse(mp.get('s'))
@@ -83,7 +83,7 @@ export async function getMinimalList(req: ApiRequest, res: Response) {
 
 	logger.debug(jsonPrettyPrint(options));
 
-	// todo: add validation for count, page, f, q, s
+	await validateListCriminalsQuery(options);
 
 	const criminals = await criminalRepo.getListMinimal({
 		pagination: {
