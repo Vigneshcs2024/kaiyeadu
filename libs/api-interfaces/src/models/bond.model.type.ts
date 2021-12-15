@@ -4,6 +4,8 @@ export interface IBond {
 	details: string;
 	type: string; // todo: probably enum?
 	period: number;
+	is_active: boolean;
+	expiry: Date;
 
 	createdAt: Date;
 	updatedAt: Date;
