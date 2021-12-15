@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { CreateCriminalDto } from '@kaiyeadu/api-interfaces/dtos';
+import { CreateCriminalDto, ListCriminalsDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ApiRequest } from '$api/types';
 import { validateCreateAddresses } from '../address/address.validation';
 import { validateLinks } from '../link/link.validation';
@@ -66,5 +66,28 @@ export async function getDetails(req: ApiRequest, res: Response) {
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminal details retrieved successfully',
 		result: criminal
+	});
+}
+
+export async function getMinimalList(req: ApiRequest, res: Response) {
+	const { count, page, f, q, s } = req.query;
+
+	// todo: add validation for count, page, f, q, s
+
+	const criminals = await criminalRepo.getListMinimal({
+		pagination: {
+			pageNumber: +page,
+			resultsPerPage: +count
+		},
+		params: {
+			filters: f as ListCriminalsDto['f'],
+			search: q as string,
+			sort: s as ListCriminalsDto['s']
+		}
+	});
+
+	return res.status(StatusCodes.OK).json({
+		message: 'Criminals retrieved successfully',
+		result: criminals
 	});
 }

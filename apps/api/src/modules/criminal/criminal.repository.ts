@@ -1,4 +1,10 @@
-import { CreateCriminalDto, CriminalDto } from '@kaiyeadu/api-interfaces/dtos';
+import { Op } from 'sequelize';
+import {
+	CreateCriminalDto,
+	CriminalDto,
+	FilterableCriminalParams,
+	SortableCriminalParameters
+} from '@kaiyeadu/api-interfaces/dtos';
 import { db } from '$api/root/connections';
 import { addAddress, getAddressesOf } from '../address/address.repository';
 import { addAssociates, getAssociatesOf } from '../associate/associate.repository';
@@ -88,3 +94,31 @@ export async function getCompleteDetails(id: string) {
 
 	return fullDetails;
 }
+
+export async function getListMinimal({ params, pagination }: ListCriminalsQuery) {
+	return await Criminal.findAll({
+		where: {
+			name: {
+				[Op.like]: `%${params.search ?? ''}%`
+			},
+			...params.filters
+		},
+		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage || 0,
+		limit: pagination.resultsPerPage || 10,
+		attributes: ['name', 'image_url', 'hs_number', 'id'],
+		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
+		raw: true
+	});
+}
+
+type ListCriminalsQuery = {
+	params: {
+		search?: string;
+		filters?: Array<Partial<FilterableCriminalParams>>;
+		sort?: {
+			key: SortableCriminalParameters;
+			order: 'ASC' | 'DESC';
+		};
+	};
+	pagination: { pageNumber: number; resultsPerPage: number };
+};

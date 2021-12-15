@@ -85,3 +85,20 @@ export interface CriminalDto extends ICriminal {
 	occupation: Omit<IOccupation, 'criminal'>[];
 	bonds: Omit<IBond, 'criminal'>[];
 }
+
+export type SortableCriminalParameters = keyof Pick<
+	ICriminalInput,
+	'name' | 'alias_name' | 'category' | 'hs_number' | 'height' | 'dob' | 'grade'
+>;
+export type FilterableCriminalParams = Pick<
+	ICriminalInput,
+	'caste' | 'category' | 'grade' | 'marital_status' | 'religion' | 'is_goondas' | 'present_status'
+>;
+
+export type ListCriminalsDto = {
+	page: number;
+	count: number;
+	q?: string;
+	f?: Partial<FilterableCriminalParams>[];
+	s?: { key: SortableCriminalParameters; order: 'ASC' | 'DESC' };
+};

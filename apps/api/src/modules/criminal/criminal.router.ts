@@ -6,5 +6,6 @@ const router = Router();
 
 router.post('/create', adminsOnly, criminalService.create);
 router.get('/details/:id', criminalService.getDetails);
+router.get('/minimal-list', criminalService.getMinimalList);
 
 export { router as criminalRouter };

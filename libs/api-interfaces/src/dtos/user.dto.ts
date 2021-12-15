@@ -2,7 +2,7 @@ import { IUserInput } from '../models';
 
 export type CreateUserDto = IUserInput;
 
-export type SortableParameters = keyof Omit<
+export type SortableUserParameters = keyof Omit<
 	IUserInput,
 	'password' | 'police_station' | 'designation' | 'role'
 >;
@@ -13,7 +13,7 @@ export type ListUsersDto = {
 	count: number;
 	q?: string;
 	f?: Partial<FilterableUserParameters>[];
-	s?: { key: SortableParameters; order: 'ASC' | 'DESC' };
+	s?: { key: SortableUserParameters; order: 'ASC' | 'DESC' };
 };
 
 export interface UpdatePasswordDto {
