@@ -17,7 +17,7 @@ export function addLinks(
 	);
 }
 
-export function getLinks(criminal: Criminal['id'], transaction: Transaction): Promise<Link[]> {
+export function getLinks(criminal: Criminal['id'], transaction?: Transaction): Promise<Link[]> {
 	return Link.findAll({
 		where: { criminal },
 		attributes: { exclude: ['criminal'] },

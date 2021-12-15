@@ -4,10 +4,13 @@ import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { Bond } from './bond.model';
 
-export function addBond(criminal: Criminal['id'], bond: BondDto, transaction: Transaction) {
+export function addBonds(criminal: Criminal['id'], bonds: BondDto[], transaction: Transaction) {
 	logger.debug('Creating Bonds...');
 
-	return Bond.build({ ...bond, criminal }).save({ transaction });
+	return Bond.bulkCreate(
+		bonds.map(b => ({ ...b, criminal })),
+		{ transaction }
+	);
 }
 
 export function getBondsOf(criminal: Criminal['id'], transaction?: Transaction) {
