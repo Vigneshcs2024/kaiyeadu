@@ -20,6 +20,7 @@ export function getAllVehiclesOf(person: string, transaction?: Transaction): Pro
 	return Vehicle.findAll({
 		where: { criminal: person },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 }

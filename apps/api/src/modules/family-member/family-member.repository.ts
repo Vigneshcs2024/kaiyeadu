@@ -21,6 +21,7 @@ export function getFamilyMembersOf(criminal: Criminal['id'], transaction?: Trans
 	return FamilyMember.findAll({
 		where: { criminal },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 }

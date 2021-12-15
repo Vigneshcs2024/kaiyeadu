@@ -53,3 +53,18 @@ export async function create(req: ApiRequest, res: Response) {
 		result: criminal.id
 	});
 }
+
+export async function getDetails(req: ApiRequest, res: Response) {
+	if (!req.params.id || req.params.id.length !== 36) {
+		return res.status(StatusCodes.BAD_REQUEST).json({
+			message: 'Missing or invalid criminal ID'
+		});
+	}
+
+	const criminal = await criminalRepo.getCompleteDetails(req.params.id);
+
+	return res.status(StatusCodes.OK).json({
+		message: 'Criminal details retrieved successfully',
+		result: criminal
+	});
+}

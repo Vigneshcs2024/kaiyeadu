@@ -7,7 +7,8 @@ export async function getActiveCasesOf(criminal: Criminal['id'], transaction?: T
 	const activeCases = await ActiveCase.findAll({
 		where: { criminal },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 
 	const fullCaseDetails = await Promise.all(

@@ -46,7 +46,7 @@ export function addCases(criminal: string, cases: CaseDto[], transaction: Transa
 }
 
 export function getCaseDetails(caseId: string, transaction?: Transaction) {
-	return Case.findByPk(caseId, { transaction });
+	return Case.findByPk(caseId, { transaction, raw: true });
 }
 
 export async function getAllCasesOf(criminal: string, transaction?: Transaction) {
@@ -55,9 +55,10 @@ export async function getAllCasesOf(criminal: string, transaction?: Transaction)
 			await Case.findAll({
 				where: { criminal },
 				attributes: { exclude: ['criminal'] },
-				transaction
+				transaction,
+				raw: true
 			})
-		).map(async c => ({ ...c, police_station: await getPSNameById(c.id) }))
+		).map(async c => ({ ...c, police_station: await getPSNameById(c.police_station) }))
 	);
 }
 

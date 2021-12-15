@@ -16,5 +16,9 @@ export function addModusOperandi(
 }
 
 export function getModusOperandi(criminal: string) {
-	return ModusOperandi.findAll({ where: { criminal }, attributes: { exclude: ['criminal'] } });
+	return ModusOperandi.findAll({
+		where: { criminal },
+		attributes: { exclude: ['criminal'] },
+		raw: true
+	});
 }

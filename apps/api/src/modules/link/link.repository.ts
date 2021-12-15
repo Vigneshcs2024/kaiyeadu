@@ -21,6 +21,7 @@ export function getLinks(criminal: Criminal['id'], transaction?: Transaction): P
 	return Link.findAll({
 		where: { criminal },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 }

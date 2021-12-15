@@ -20,6 +20,7 @@ export function getOpPlacesOf(criminal: Criminal['id'], transaction?: Transactio
 	return OperationalPlace.findAll({
 		where: { criminal },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 }

@@ -5,5 +5,6 @@ import * as criminalService from './criminal.service';
 const router = Router();
 
 router.post('/create', adminsOnly, criminalService.create);
+router.get('/details/:id', criminalService.getDetails);
 
 export { router as criminalRouter };

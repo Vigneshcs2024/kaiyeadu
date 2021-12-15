@@ -35,5 +35,5 @@ export async function getById(id: string) {
 }
 
 export async function getPSNameById(id: string) {
-	return (await PoliceStation.findByPk(id, { attributes: ['name'] })).name;
+	return (await PoliceStation.findByPk(id, { attributes: ['name'], raw: true })).name;
 }

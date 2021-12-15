@@ -55,8 +55,8 @@ export async function create(criminalDetails: CreateCriminalDto) {
 	}
 }
 
-export async function findById(id: string) {
-	const criminal = await Criminal.findByPk(id);
+export async function getCompleteDetails(id: string) {
+	const criminal = await Criminal.findByPk(id, { raw: true });
 	const activeCases = await getActiveCasesOf(id);
 	const cases = await getInactiveCasesOf(id);
 	const addresses = await getAddressesOf(id);

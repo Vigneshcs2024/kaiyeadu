@@ -17,6 +17,7 @@ export function getBondsOf(criminal: Criminal['id'], transaction?: Transaction) 
 	return Bond.findAll({
 		where: { criminal },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 }

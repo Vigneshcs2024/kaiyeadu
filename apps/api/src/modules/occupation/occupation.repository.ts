@@ -18,6 +18,7 @@ export function getOccupationsOf(person: string, transaction?: Transaction): Pro
 	return Occupation.findAll({
 		where: { criminal: person },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 }
