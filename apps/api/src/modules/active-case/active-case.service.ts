@@ -1,8 +1,8 @@
+import Joi from 'joi';
 import { Response } from 'express';
 import { ApiRequest } from '$api/types';
 import * as repo from './active-case.repository';
 import { StatusCodes } from 'http-status-codes';
-import Joi from 'joi';
 
 export async function getAll(req: ApiRequest, res: Response) {
 	const { criminal_id } = req.params;
