@@ -98,9 +98,18 @@ export async function getCompleteDetails(id: string) {
 export async function getListMinimal({ params, pagination }: ListCriminalsQuery) {
 	return await Criminal.findAll({
 		where: {
-			name: {
-				[Op.like]: `%${params.search ?? ''}%`
-			},
+			[Op.or]: [
+				{
+					name: {
+						[Op.like]: `%${params.search ?? ''}%`
+					}
+				},
+				{
+					alias_name: {
+						[Op.like]: `%${params.search ?? ''}%`
+					}
+				}
+			],
 			...params.filters
 		},
 		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage || 0,
