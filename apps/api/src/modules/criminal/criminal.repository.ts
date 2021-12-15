@@ -123,7 +123,7 @@ export async function getListMinimal({ params, pagination }: ListCriminalsQuery)
 type ListCriminalsQuery = {
 	params: {
 		search?: string;
-		filters?: Array<Partial<FilterableCriminalParams>>;
+		filters?: Partial<FilterableCriminalParams>;
 		sort?: {
 			key: SortableCriminalParameters;
 			order: 'ASC' | 'DESC';

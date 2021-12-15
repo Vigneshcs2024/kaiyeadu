@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { CreateCriminalDto, ListCriminalsDto } from '@kaiyeadu/api-interfaces/dtos';
+import { CreateCriminalDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ApiRequest } from '$api/types';
 import { validateCreateAddresses } from '../address/address.validation';
 import { validateLinks } from '../link/link.validation';
@@ -14,6 +14,8 @@ import { validateBond } from '../bond/bond.validation';
 import { validateAddAssociates } from '../associate/associate.validation';
 import { validateAddVehicles } from '../vehicle/vehicle.validation';
 import { validateCases } from '../case/case.validation';
+import { logger } from '$api/tools';
+import { jsonPrettyPrint } from '$api/utilities';
 
 export async function create(req: ApiRequest, res: Response) {
 	const {
@@ -70,19 +72,28 @@ export async function getDetails(req: ApiRequest, res: Response) {
 }
 
 export async function getMinimalList(req: ApiRequest, res: Response) {
-	const { count, page, f, q, s } = req.query;
+	const mp = new URLSearchParams(req.url);
+	const options = {
+		count: mp.get('count'),
+		page: mp.get('page'),
+		f: JSON.parse(mp.get('f')),
+		q: mp.get('q'),
+		s: JSON.parse(mp.get('s'))
+	};
+
+	logger.debug(jsonPrettyPrint(options));
 
 	// todo: add validation for count, page, f, q, s
 
 	const criminals = await criminalRepo.getListMinimal({
 		pagination: {
-			pageNumber: +page,
-			resultsPerPage: +count
+			pageNumber: +options.page,
+			resultsPerPage: +options.count
 		},
 		params: {
-			filters: f as ListCriminalsDto['f'],
-			search: q as string,
-			sort: s as ListCriminalsDto['s']
+			filters: options.f,
+			search: options.q,
+			sort: options.s
 		}
 	});
 
