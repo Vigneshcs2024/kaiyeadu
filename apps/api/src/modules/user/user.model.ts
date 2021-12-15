@@ -11,7 +11,7 @@ export class User extends Model<IUser, IUserInput> implements IUser {
 	public gpf: string;
 	public police_station!: string;
 	public email!: string;
-	public phone!: string;
+	public phone!: number;
 	public password: string;
 	public designation!: string;
 	public role!: 'user' | 'admin' | 'master';
@@ -29,8 +29,11 @@ User.init(
 			primaryKey: true
 		},
 		gpf: {
-			type: DataTypes.STRING(10),
-			allowNull: true
+			type: DataTypes.CHAR(10),
+			allowNull: true,
+			validate: {
+				isAlphanumeric: true
+			}
 		},
 		name: {
 			type: DataTypes.STRING,
@@ -43,10 +46,13 @@ User.init(
 		email: {
 			type: DataTypes.STRING,
 			unique: 'email',
-			allowNull: false
+			allowNull: false,
+			validate: {
+				isEmail: true
+			}
 		},
 		phone: {
-			type: DataTypes.STRING,
+			type: DataTypes.CHAR({ length: 10 }),
 			unique: 'phone',
 			allowNull: false
 		},

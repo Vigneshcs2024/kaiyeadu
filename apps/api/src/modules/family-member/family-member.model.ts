@@ -40,7 +40,7 @@ FamilyMember.init(
 			allowNull: true
 		},
 		occupation: {
-			type: DataTypes.UUID,
+			type: DataTypes.STRING,
 			allowNull: true
 		},
 		createdAt: {

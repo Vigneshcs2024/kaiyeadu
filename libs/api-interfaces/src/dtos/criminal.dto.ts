@@ -8,24 +8,24 @@ import {
 	IFamilyInput,
 	ILastArrestInput,
 	ILinksInput,
-	IOccupationInput,
 	IOperationalPlaceInput,
 	IVehicleInput
 } from '../models';
 
 export interface CreateCriminalDto extends ICriminalInput {
-	category: ICriminalInput['category'];
 	name: string;
+	category: ICriminalInput['category'];
+	grade: ICriminalInput['grade'];
 	alias_name: string;
 	father_name: string;
 	dob: Date;
 	phone_number: number;
-	religion: string;
-	caste: string;
-	hs_number: number;
+	religion: string; // make it enum
+	caste: string; // also enum
+	hs_number: string;
 	height: number;
 	identification_mark: string;
-	marital_status: string;
+	marital_status: string; // enum?
 	advocate_name: string;
 	bank_account_number: string;
 	present_status: string;
@@ -40,8 +40,8 @@ export interface CreateCriminalDto extends ICriminalInput {
 	last_arrest: LastArrestDto;
 	operational_places: OpPlaceDto[];
 	bond: BondDto;
-	occupation: OccupationDto[];
-	present_address: AddressDto;
+	occupation: string[];
+	addresses: AddressDto[];
 	associates: AssociatesDto[];
 	vehicles: VehicleDto[];
 }
@@ -51,17 +51,9 @@ export type FamilyMemberDto = Omit<IFamilyInput, 'criminal'>;
 export type LastArrestDto = Omit<ILastArrestInput, 'criminal'>;
 export type OpPlaceDto = Omit<IOperationalPlaceInput, 'criminal'>;
 export type BondDto = Omit<IBondInput, 'criminal'>;
-export type OccupationDto = Omit<IOccupationInput, 'criminal'>;
 export type AddressDto = Omit<IAddressInput, 'criminal'>;
 export type VehicleDto = Omit<IVehicleInput, 'criminal'>;
-
-export interface AssociatesDto extends Omit<IAssociateInput, 'criminal' | 'occupation'> {
-	occupation: OccupationDto[];
-	name: string;
-	district: string;
-	state: string;
-}
-
-export interface CaseDto extends Omit<ICaseInput, 'criminal'>, IActiveCaseInput {
+export type AssociatesDto = Omit<IAssociateInput, 'criminal'>;
+export interface CaseDto extends Omit<ICaseInput, 'criminal'>, Omit<IActiveCaseInput, 'criminal'> {
 	is_active: boolean;
 }

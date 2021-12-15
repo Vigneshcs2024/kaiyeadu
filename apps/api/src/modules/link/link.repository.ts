@@ -1,14 +1,26 @@
+import { Transaction } from 'sequelize';
 import { LinkDto } from '@kaiyeadu/api-interfaces/dtos';
+import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { Link } from './link.model';
 
-export function addLinks(criminal: Criminal['id'], links: LinkDto[]): Promise<Link[]> {
-	return Promise.all(
-		links.map(link =>
-			Link.build({
-				criminal,
-				...link
-			}).save()
-		)
+export function addLinks(
+	criminal: Criminal['id'],
+	links: LinkDto[],
+	transaction: Transaction
+): Promise<Link[]> {
+	logger.debug('Creating Links...');
+
+	return Link.bulkCreate(
+		links.map(link => ({ criminal, ...link })),
+		{ transaction }
 	);
+}
+
+export function getLinks(criminal: Criminal['id'], transaction: Transaction): Promise<Link[]> {
+	return Link.findAll({
+		where: { criminal },
+		attributes: { exclude: ['criminal'] },
+		transaction
+	});
 }

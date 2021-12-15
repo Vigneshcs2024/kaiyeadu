@@ -4,7 +4,7 @@ export interface IUser {
 	gpf?: string;
 	police_station: string;
 	email: string;
-	phone: string;
+	phone: number;
 	password?: string;
 	designation: string;
 	role: 'user' | 'admin' | 'master';

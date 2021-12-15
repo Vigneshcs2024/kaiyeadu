@@ -7,6 +7,7 @@ import { db } from '$api/root/connections';
 export class Criminal extends Model<ICriminal, ICriminalInput> implements ICriminal {
 	id: string;
 	category: 'HS' | 'OCIU';
+	grade: 'A+' | 'A' | 'B' | 'C';
 	name: string;
 	alias_name?: string;
 	father_name?: string;
@@ -14,7 +15,7 @@ export class Criminal extends Model<ICriminal, ICriminalInput> implements ICrimi
 	phone_number?: number;
 	religion?: string;
 	caste?: string;
-	hs_number: number;
+	hs_number: string;
 	height?: number;
 	identification_mark?: string;
 	marital_status?: string;
@@ -40,6 +41,10 @@ Criminal.init(
 			type: DataTypes.ENUM('HS', 'OCIU'),
 			allowNull: false
 		},
+		grade: {
+			type: DataTypes.ENUM('A+', 'A', 'B', 'C'),
+			allowNull: false
+		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false
@@ -57,7 +62,7 @@ Criminal.init(
 			allowNull: false
 		},
 		phone_number: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.CHAR({ length: 10 }),
 			allowNull: true
 		},
 		religion: {
@@ -69,7 +74,7 @@ Criminal.init(
 			allowNull: true
 		},
 		hs_number: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			unique: 'hs_number',
 			allowNull: false
 		},

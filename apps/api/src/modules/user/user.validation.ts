@@ -6,7 +6,7 @@ export function validateCreateUser(userDetails: CreateUserDto) {
 		name: Joi.string().min(3).max(30).required(),
 		gpf: Joi.string().alphanum().min(10).max(10).required(),
 		email: Joi.string().email().required(),
-		phone: Joi.string().min(10).max(10).required(),
+		phone: Joi.number().min(4_444_444_444).max(9_999_999_999).required(),
 		password: Joi.string().min(8).max(30),
 		police_station: Joi.string().min(36).max(36).required().messages({
 			'string.min': `'police_station' must be a valid uuid`,
@@ -33,9 +33,9 @@ export function validateUpdateUser(userDetails: UpdateUserDto) {
 		name: Joi.string().min(3).max(30),
 		gpf: Joi.string().alphanum().min(10).max(10),
 		email: Joi.string().email(),
-		phone: Joi.string().min(10).max(10),
+		phone: Joi.number().min(4_444_444_444).max(9_999_999_999),
 		password: Joi.string().min(8).max(30),
-		police_station: Joi.string().min(36).max(36).messages({
+		police_station: Joi.string().uuid({ version: 'uuidv4' }).messages({
 			'string.min': `'police_station' must be a valid uuid`,
 			'string.max': `'police_station' must be a valid uuid`
 		}),

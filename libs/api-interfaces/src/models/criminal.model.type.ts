@@ -1,6 +1,7 @@
 export interface ICriminal {
 	id: string;
 	category: 'HS' | 'OCIU';
+	grade: 'A+' | 'A' | 'B' | 'C';
 	name: string;
 	alias_name?: string;
 	father_name?: string;
@@ -8,7 +9,7 @@ export interface ICriminal {
 	phone_number?: number;
 	religion?: string;
 	caste?: string;
-	hs_number: number;
+	hs_number: string;
 	height?: number;
 	identification_mark?: string;
 	marital_status?: string;

@@ -33,3 +33,7 @@ export async function getById(id: string) {
 		attributes: { exclude: ['createdAt', 'updatedAt'] }
 	});
 }
+
+export async function getPSNameById(id: string) {
+	return (await PoliceStation.findByPk(id, { attributes: ['name'] })).name;
+}
