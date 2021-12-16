@@ -35,9 +35,9 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 
 export function validateListCriminalsQuery(options: ListCriminalsQueryDto) {
 	const schema: Joi.ObjectSchema<ListCriminalsQueryDto> = Joi.object({
-		page: Joi.number().min(1).default(1),
-		count: Joi.number().min(1).max(100).default(10),
-		q: Joi.string().default(''),
+		page: Joi.number().min(1).allow(null),
+		count: Joi.number().min(1).max(100).allow(null),
+		q: Joi.string().allow('', null),
 		f: Joi.object<ListCriminalsQuery['params']['filters']>({
 			caste: Joi.string(),
 			category: Joi.string().valid('HS', 'OCIU'),
@@ -46,7 +46,7 @@ export function validateListCriminalsQuery(options: ListCriminalsQueryDto) {
 			marital_status: Joi.string(),
 			present_status: Joi.string(),
 			religion: Joi.string()
-		}),
+		}).allow(null),
 		s: Joi.object<ListCriminalsQuery['params']['sort']>({
 			key: Joi.string().valid(
 				'category',
@@ -58,7 +58,7 @@ export function validateListCriminalsQuery(options: ListCriminalsQueryDto) {
 				'height'
 			),
 			order: Joi.string().valid('ASC', 'DESC')
-		})
+		}).allow(null)
 	});
 
 	return schema.validateAsync(options);
