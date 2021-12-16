@@ -102,3 +102,17 @@ export async function getMinimalList(req: ApiRequest, res: Response) {
 		result: criminals
 	});
 }
+
+export async function updatePersonalDetails(req: ApiRequest, res: Response) {
+	const { body: updates } = req;
+
+	// this will work, but we need to change it
+	await validateCreateCriminal(updates);
+
+	const criminal = await criminalRepo.update(req.params.id, updates);
+
+	return res.status(StatusCodes.OK).json({
+		message: 'Criminal updated successfully',
+		result: criminal
+	});
+}

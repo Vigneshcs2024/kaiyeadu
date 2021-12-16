@@ -39,6 +39,8 @@ export interface CreateCriminalDto extends ICriminalInput {
 	vehicles: VehicleDto[];
 }
 
+export type UpdateCriminalPersonalDetailsDto = Partial<ICriminalInput>;
+
 export type LinkDto = Omit<ILinksInput, 'criminal'>;
 export type FamilyMemberDto = Omit<IFamilyInput, 'criminal'>;
 export type LastArrestDto = Omit<ILastArrestInput, 'criminal'>;
