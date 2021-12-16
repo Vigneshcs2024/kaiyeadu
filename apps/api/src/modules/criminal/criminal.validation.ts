@@ -9,6 +9,7 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 		alias_name: Joi.string().required(),
 		category: Joi.valid('HS', 'OCIU').required(),
 		grade: Joi.valid('A+', 'A', 'B', 'C'),
+		gender: Joi.valid('Male', 'Female', 'Transgender', 'Other'),
 		father_name: Joi.string(),
 		dob: Joi.date()
 			.less(new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 18))
@@ -20,7 +21,7 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 		hs_number: Joi.string().required(),
 		height: Joi.number().min(120).max(250),
 		identification_mark: Joi.string(),
-		marital_status: Joi.string(),
+		marital_status: Joi.string().valid('Unmarried', 'Married', 'Divorced', 'Widowed'),
 		advocate_name: Joi.string(),
 		bank_account_number: Joi.string(),
 		present_status: Joi.string(),
