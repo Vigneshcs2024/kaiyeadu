@@ -9,7 +9,7 @@ export class FamilyMember extends Model<IFamily, IFamilyInput> implements IFamil
 	id: string;
 	criminal: string;
 	name: string;
-	type: string;
+	relation: 'Father' | 'Mother' | 'Brother' | 'Sister' | 'Spouse' | 'Son' | 'Daughter' | 'Other';
 	description: string;
 	occupation: string;
 	createdAt: Date;
@@ -31,8 +31,17 @@ FamilyMember.init(
 			type: DataTypes.STRING,
 			allowNull: false
 		},
-		type: {
-			type: DataTypes.STRING,
+		relation: {
+			type: DataTypes.ENUM(
+				'Father',
+				'Mother',
+				'Brother',
+				'Sister',
+				'Spouse',
+				'Son',
+				'Daughter',
+				'Other'
+			),
 			allowNull: false
 		},
 		description: {

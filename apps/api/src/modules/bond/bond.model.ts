@@ -9,9 +9,10 @@ export class Bond extends Model<IBond, IBondInput> implements IBond {
 	id: string;
 	criminal: string;
 	details: string;
-	type: string;
+	type: '110CRPC' | '109CRPC' | '107CRPC';
 	period: number;
 	is_active: boolean;
+	bound_down_details: string;
 	expiry: Date;
 
 	createdAt: Date;
@@ -45,6 +46,10 @@ Bond.init(
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: true
+		},
+		bound_down_details: {
+			type: DataTypes.TEXT,
+			allowNull: true
 		},
 		expiry: {
 			type: DataTypes.DATE,

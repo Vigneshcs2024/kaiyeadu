@@ -6,7 +6,7 @@ export interface IUser {
 	email: string;
 	phone: number;
 	password?: string;
-	designation: string;
+	designation: string; // todo: need to choose enum
 	role: 'user' | 'admin' | 'master';
 	createdAt: Date;
 	updatedAt: Date;

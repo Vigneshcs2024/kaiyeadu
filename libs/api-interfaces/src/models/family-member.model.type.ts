@@ -2,7 +2,7 @@ export interface IFamily {
 	id: string;
 	criminal: string;
 	name: string;
-	type: string; // todo enum
+	relation: 'Father' | 'Mother' | 'Brother' | 'Sister' | 'Spouse' | 'Son' | 'Daughter' | 'Other';
 	description: string;
 	occupation: string;
 
