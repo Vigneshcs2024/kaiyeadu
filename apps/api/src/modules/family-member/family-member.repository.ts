@@ -11,6 +11,8 @@ export function addFamilyMembers(
 ): Promise<FamilyMember[]> {
 	logger.debug('Creating Family Members...');
 
+	if (!familyMembers?.length) return Promise.resolve([]);
+
 	return FamilyMember.bulkCreate(
 		familyMembers.map(fm => ({ criminal, ...fm })),
 		{ transaction }

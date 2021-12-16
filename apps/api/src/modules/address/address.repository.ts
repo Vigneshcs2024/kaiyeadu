@@ -7,6 +7,8 @@ import { Address } from './address.model';
 export function addAddress(criminal: string, addresses: AddressDto[], transaction: Transaction) {
 	logger.debug('Creating Addresses...');
 
+	if (!addresses?.length) return Promise.resolve([]);
+
 	return Promise.all(addresses.map(a => Address.create({ criminal, ...a }, { transaction })));
 
 	// return Address.bulkCreate(addresses.map(a => ({ criminal, ...a }), { transaction }));

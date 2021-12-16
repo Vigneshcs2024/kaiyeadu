@@ -14,6 +14,8 @@ export function create(caseDetails: ICaseInput) {
 export function addCases(criminal: string, cases: CaseDto[], transaction: Transaction) {
 	logger.debug('Creating cases...');
 
+	if (!cases?.length) return Promise.resolve([]);
+
 	return Promise.all(
 		cases.map(async caseItem => {
 			const {

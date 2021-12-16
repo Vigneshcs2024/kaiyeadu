@@ -10,6 +10,9 @@ export function addVehicles(
 	transaction: Transaction
 ) {
 	logger.debug('Creating Vehicles...');
+
+	if (!vehicles?.length) return Promise.resolve([]);
+
 	return Vehicle.bulkCreate(
 		vehicles.map(vehicle => ({ criminal, ...vehicle })),
 		{ transaction }
