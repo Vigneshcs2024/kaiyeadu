@@ -8,9 +8,13 @@ export function validateBond(bonds: BondDto[]) {
 	const schema = Joi.array().items(
 		Joi.object<BondDto>({
 			details: Joi.string().required(),
-			type: Joi.string().required().messages({ 'any.required': 'Bond type is required' }),
+			type: Joi.string()
+				.required()
+				.valid('110CRPC', '109CRPC', '107CRPC')
+				.messages({ 'any.required': 'Bond type is required' }),
 			period: Joi.number().required(),
 			is_active: Joi.boolean().required(),
+			bound_down_details: Joi.string(),
 			expiry: Joi.date().required()
 		})
 	);
