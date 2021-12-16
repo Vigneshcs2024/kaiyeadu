@@ -8,6 +8,9 @@ export function addOccupation(
 	transaction: Transaction
 ): Promise<Occupation[]> {
 	logger.debug('Creating occupations...');
+
+	if (!occupation?.length) return Promise.resolve([]);
+
 	return Occupation.bulkCreate(
 		occupation.map(occ => ({ criminal: person, name: occ })),
 		{ transaction }

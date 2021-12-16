@@ -10,6 +10,9 @@ export function addLastArrest(
 	transaction: Transaction
 ) {
 	logger.debug('Creating Last Arrest details...');
+
+	if (!lastArrest) return Promise.resolve(null);
+
 	return LastArrest.build({ ...lastArrest, criminal }).save({ transaction });
 }
 

@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { ListCriminalsDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ListCriminalsQueryDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ICriminalInput } from '@kaiyeadu/api-interfaces/models';
 import { ListCriminalsQuery } from './criminal.repository';
 
@@ -9,6 +9,7 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 		alias_name: Joi.string().required(),
 		category: Joi.valid('HS', 'OCIU').required(),
 		grade: Joi.valid('A+', 'A', 'B', 'C'),
+		gender: Joi.valid('Male', 'Female', 'Transgender', 'Other'),
 		father_name: Joi.string(),
 		dob: Joi.date()
 			.less(new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 18))
@@ -20,7 +21,7 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 		hs_number: Joi.string().required(),
 		height: Joi.number().min(120).max(250),
 		identification_mark: Joi.string(),
-		marital_status: Joi.string(),
+		marital_status: Joi.string().valid('Unmarried', 'Married', 'Divorced', 'Widowed'),
 		advocate_name: Joi.string(),
 		bank_account_number: Joi.string(),
 		present_status: Joi.string(),
@@ -32,11 +33,11 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 	return schema.validateAsync(criminalDetails);
 }
 
-export function validateListCriminalsQuery(options: ListCriminalsDto) {
-	const schema: Joi.ObjectSchema<ListCriminalsDto> = Joi.object({
-		page: Joi.number().min(1).default(1),
-		count: Joi.number().min(1).max(100).default(10),
-		q: Joi.string().default(''),
+export function validateListCriminalsQuery(options: ListCriminalsQueryDto) {
+	const schema: Joi.ObjectSchema<ListCriminalsQueryDto> = Joi.object({
+		page: Joi.number().min(1).allow(null),
+		count: Joi.number().min(1).max(100).allow(null),
+		q: Joi.string().allow('', null),
 		f: Joi.object<ListCriminalsQuery['params']['filters']>({
 			caste: Joi.string(),
 			category: Joi.string().valid('HS', 'OCIU'),
@@ -45,7 +46,7 @@ export function validateListCriminalsQuery(options: ListCriminalsDto) {
 			marital_status: Joi.string(),
 			present_status: Joi.string(),
 			religion: Joi.string()
-		}),
+		}).allow(null),
 		s: Joi.object<ListCriminalsQuery['params']['sort']>({
 			key: Joi.string().valid(
 				'category',
@@ -57,7 +58,7 @@ export function validateListCriminalsQuery(options: ListCriminalsDto) {
 				'height'
 			),
 			order: Joi.string().valid('ASC', 'DESC')
-		})
+		}).allow(null)
 	});
 
 	return schema.validateAsync(options);

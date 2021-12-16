@@ -3,7 +3,8 @@ import {
 	CreateCriminalDto,
 	CriminalDto,
 	FilterableCriminalParams,
-	SortableCriminalParameters
+	SortableCriminalParameters,
+	UpdateCriminalPersonalDetailsDto
 } from '@kaiyeadu/api-interfaces/dtos';
 import { db } from '$api/root/connections';
 import { addAddress, getAddressesOf } from '../address/address.repository';
@@ -118,6 +119,10 @@ export async function getListMinimal({ params, pagination }: ListCriminalsQuery)
 		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
 		raw: true
 	});
+}
+
+export function update(id: string, updates: UpdateCriminalPersonalDetailsDto) {
+	return Criminal.update(updates, { where: { id } });
 }
 
 export type ListCriminalsQuery = {

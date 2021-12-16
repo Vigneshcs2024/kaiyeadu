@@ -34,5 +34,5 @@ export async function getProposalsOf(user: string) {
 }
 
 export function getProposal(id: string) {
-	return Proposal.findByPk(id);
+	return Proposal.findByPk(id, { raw: true });
 }

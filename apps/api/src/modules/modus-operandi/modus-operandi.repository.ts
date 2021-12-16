@@ -9,6 +9,8 @@ export function addModusOperandi(
 ) {
 	logger.debug('Creating MOs...');
 
+	if (!modusOperandi?.length) return Promise.resolve([]);
+
 	return ModusOperandi.bulkCreate(
 		modusOperandi.map(mo => ({ criminal, type: mo })),
 		{ transaction }

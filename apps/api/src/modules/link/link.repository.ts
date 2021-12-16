@@ -11,6 +11,8 @@ export function addLinks(
 ): Promise<Link[]> {
 	logger.debug('Creating Links...');
 
+	if (!links?.length) return Promise.resolve([]);
+
 	return Link.bulkCreate(
 		links.map(link => ({ criminal, ...link })),
 		{ transaction }

@@ -10,6 +10,8 @@ export function addAssociates(
 ): Promise<Associate[]> {
 	logger.debug('Creating Associates...');
 
+	if (!associates?.length) return Promise.resolve([]);
+
 	return Associate.bulkCreate(
 		associates.map(a => ({ criminal, ...a })),
 		{ transaction }

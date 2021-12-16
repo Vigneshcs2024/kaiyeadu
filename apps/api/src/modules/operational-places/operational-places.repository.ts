@@ -10,6 +10,9 @@ export function addOpPlaces(
 	transaction: Transaction
 ) {
 	logger.debug('Creating Operational places...');
+
+	if (!places?.length) return Promise.resolve([]);
+
 	return OperationalPlace.bulkCreate(
 		places.map(place => ({ criminal, ...place })),
 		{ transaction }

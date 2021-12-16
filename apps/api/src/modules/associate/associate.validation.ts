@@ -7,6 +7,7 @@ export function validateAssociate(associate: IAssociateInput) {
 		criminal: Joi.string().required(),
 		name: Joi.string().required(),
 		father_name: Joi.string(),
+		gender: Joi.valid('Male', 'Female', 'Transgender', 'Other'),
 		location: Joi.string()
 	});
 
@@ -18,6 +19,7 @@ export function validateAddAssociates(associates: AssociatesDto[]) {
 		Joi.object<AssociatesDto>({
 			name: Joi.string().required(),
 			father_name: Joi.string(),
+			gender: Joi.valid('Male', 'Female', 'Transgender', 'Other'),
 			location: Joi.string()
 		})
 	);

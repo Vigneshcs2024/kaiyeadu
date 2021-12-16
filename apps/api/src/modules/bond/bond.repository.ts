@@ -7,6 +7,8 @@ import { Bond } from './bond.model';
 export function addBonds(criminal: Criminal['id'], bonds: BondDto[], transaction: Transaction) {
 	logger.debug('Creating Bonds...');
 
+	if (!bonds?.length) return Promise.resolve([]);
+
 	return Bond.bulkCreate(
 		bonds.map(b => ({ ...b, criminal })),
 		{ transaction }
