@@ -8,7 +8,17 @@ export function validateFamilyMembers(member: FamilyMemberDto[]) {
 	const schema = Joi.array().items(
 		Joi.object<FamilyMemberDto>({
 			name: Joi.string().required(),
-			type: Joi.string()
+			relation: Joi.string()
+				.valid(
+					'Father',
+					'Mother',
+					'Brother',
+					'Sister',
+					'Spouse',
+					'Son',
+					'Daughter',
+					'Other'
+				)
 				.required()
 				.messages({ 'any.required': 'Family member type is required' }),
 			description: Joi.string(),
