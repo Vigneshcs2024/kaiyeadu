@@ -2,7 +2,9 @@ import Joi from 'joi';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { CreateCriminalDto } from '@kaiyeadu/api-interfaces/dtos';
+import { logger } from '$api/tools';
 import { ApiRequest } from '$api/types';
+import { jsonPrettyPrint } from '$api/utilities';
 import { validateCreateAddresses } from '../address/address.validation';
 import { validateLinks } from '../link/link.validation';
 import { validateCreateCriminal, validateListCriminalsQuery } from './criminal.validation';
@@ -14,8 +16,6 @@ import { validateBond } from '../bond/bond.validation';
 import { validateAddAssociates } from '../associate/associate.validation';
 import { validateAddVehicles } from '../vehicle/vehicle.validation';
 import { validateCases } from '../case/case.validation';
-import { logger } from '$api/tools';
-import { jsonPrettyPrint } from '$api/utilities';
 
 export async function create(req: ApiRequest, res: Response) {
 	const {

@@ -1,5 +1,5 @@
-import { logger } from '$api/tools';
 import { Transaction } from 'sequelize';
+import { logger } from '$api/tools';
 import { ModusOperandi } from './modus-operandi.model';
 
 export function addModusOperandi(

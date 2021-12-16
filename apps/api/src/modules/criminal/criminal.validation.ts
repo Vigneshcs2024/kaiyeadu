@@ -1,5 +1,5 @@
-import { ListCriminalsDto } from '@kaiyeadu/api-interfaces/dtos';
 import Joi from 'joi';
+import { ListCriminalsDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ICriminalInput } from '@kaiyeadu/api-interfaces/models';
 import { ListCriminalsQuery } from './criminal.repository';
 
