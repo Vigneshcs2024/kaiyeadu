@@ -1,5 +1,5 @@
-import { CreatePSDto } from '@kaiyeadu/api-interfaces/dtos';
 import { Op } from 'sequelize';
+import { CreatePSDto } from '@kaiyeadu/api-interfaces/dtos';
 import { User } from '../user/user.model';
 import { PoliceStation } from './police-station.model';
 
@@ -35,5 +35,5 @@ export async function getById(id: string) {
 }
 
 export async function getPSNameById(id: string) {
-	return (await PoliceStation.findByPk(id, { attributes: ['name'] })).name;
+	return (await PoliceStation.findByPk(id, { attributes: ['name'], raw: true })).name;
 }

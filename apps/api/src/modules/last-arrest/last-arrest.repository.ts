@@ -17,6 +17,7 @@ export function getLastArrest(criminal: Criminal['id'], transaction?: Transactio
 	return LastArrest.findOne({
 		where: { criminal },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 }

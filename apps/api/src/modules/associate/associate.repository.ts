@@ -20,6 +20,7 @@ export function getAssociatesOf(criminal: string, transaction?: Transaction): Pr
 	return Associate.findAll({
 		where: { criminal },
 		attributes: { exclude: ['criminal'] },
-		transaction
+		transaction,
+		raw: true
 	});
 }

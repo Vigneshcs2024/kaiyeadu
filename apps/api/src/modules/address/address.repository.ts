@@ -13,5 +13,9 @@ export function addAddress(criminal: string, addresses: AddressDto[], transactio
 }
 
 export function getAddressesOf(criminal: Criminal['id']): Promise<Address[]> {
-	return Address.findAll({ where: { criminal }, attributes: { exclude: ['criminal'] } });
+	return Address.findAll({
+		where: { criminal },
+		attributes: { exclude: ['criminal'] },
+		raw: true
+	});
 }

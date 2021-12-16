@@ -1,5 +1,5 @@
-import { logger } from '$api/tools';
 import { Transaction } from 'sequelize';
+import { logger } from '$api/tools';
 import { ModusOperandi } from './modus-operandi.model';
 
 export function addModusOperandi(
@@ -16,5 +16,9 @@ export function addModusOperandi(
 }
 
 export function getModusOperandi(criminal: string) {
-	return ModusOperandi.findAll({ where: { criminal }, attributes: { exclude: ['criminal'] } });
+	return ModusOperandi.findAll({
+		where: { criminal },
+		attributes: { exclude: ['criminal'] },
+		raw: true
+	});
 }

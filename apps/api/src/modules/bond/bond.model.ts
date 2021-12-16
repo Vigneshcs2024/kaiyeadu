@@ -11,6 +11,8 @@ export class Bond extends Model<IBond, IBondInput> implements IBond {
 	details: string;
 	type: string;
 	period: number;
+	is_active: boolean;
+	expiry: Date;
 
 	createdAt: Date;
 	updatedAt: Date;
@@ -37,6 +39,15 @@ Bond.init(
 		},
 		period: {
 			type: DataTypes.INTEGER,
+			allowNull: false
+		},
+		is_active: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: true
+		},
+		expiry: {
+			type: DataTypes.DATE,
 			allowNull: false
 		},
 		createdAt: {

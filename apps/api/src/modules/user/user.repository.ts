@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 import {
 	CreateUserDto,
 	FilterableUserParameters,
-	SortableParameters,
+	SortableUserParameters,
 	UpdatePasswordDto,
 	UpdateUserDto
 } from '@kaiyeadu/api-interfaces/dtos';
@@ -17,7 +17,7 @@ type ListUsersQuery = {
 		search?: string;
 		filters?: Array<Partial<FilterableUserParameters>>;
 		sort?: {
-			key: SortableParameters;
+			key: SortableUserParameters;
 			order: 'ASC' | 'DESC';
 		};
 	};
@@ -45,7 +45,8 @@ export async function listUsers({ params, pagination }: ListUsersQuery) {
 		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage,
 		limit: pagination.resultsPerPage,
 		attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-		order: [[params.sort.key, params.sort.order]]
+		order: [[params.sort.key, params.sort.order]],
+		raw: true
 	});
 }
 
