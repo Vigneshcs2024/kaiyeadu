@@ -11,14 +11,15 @@ export class Criminal extends Model<ICriminal, ICriminalInput> implements ICrimi
 	name: string;
 	alias_name?: string;
 	father_name?: string;
+	gender: 'Male' | 'Female' | 'Transgender' | 'Other';
 	dob: Date;
 	phone_number?: number;
 	religion?: string;
 	caste?: string;
+	marital_status?: 'Married' | 'Unmarried' | 'Divorced' | 'Widowed';
 	hs_number: string;
 	height?: number;
 	identification_mark?: string;
-	marital_status?: string;
 	advocate_name?: string;
 	bank_account_number?: string;
 	present_status?: string;
@@ -61,6 +62,9 @@ Criminal.init(
 			type: DataTypes.DATE,
 			allowNull: false
 		},
+		gender: {
+			type: DataTypes.ENUM('Male', 'Female', 'Transgender', 'Other')
+		},
 		phone_number: {
 			type: DataTypes.CHAR({ length: 10 }),
 			allowNull: true
@@ -87,7 +91,7 @@ Criminal.init(
 			allowNull: true
 		},
 		marital_status: {
-			type: DataTypes.STRING,
+			type: DataTypes.ENUM('Married', 'Unmarried', 'Divorced', 'Widowed'),
 			allowNull: true
 		},
 		advocate_name: {

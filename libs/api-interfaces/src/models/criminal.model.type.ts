@@ -5,6 +5,7 @@ export interface ICriminal {
 	name: string;
 	alias_name?: string;
 	father_name?: string;
+	gender: 'Male' | 'Female' | 'Transgender' | 'Other';
 	dob: Date;
 	phone_number?: number;
 	religion?: string;
@@ -12,7 +13,7 @@ export interface ICriminal {
 	hs_number: string;
 	height?: number;
 	identification_mark?: string;
-	marital_status?: string;
+	marital_status?: 'Married' | 'Unmarried' | 'Divorced' | 'Widowed';
 	advocate_name?: string;
 	bank_account_number?: string;
 	present_status?: string;

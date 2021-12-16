@@ -26,26 +26,6 @@ import {
 } from '../models';
 
 export interface CreateCriminalDto extends ICriminalInput {
-	name: string;
-	category: ICriminalInput['category'];
-	grade: ICriminalInput['grade'];
-	alias_name: string;
-	father_name: string;
-	dob: Date;
-	phone_number: number;
-	religion: string; // make it enum
-	caste: string; // also enum
-	hs_number: string;
-	height: number;
-	identification_mark: string;
-	marital_status: string; // enum?
-	advocate_name: string;
-	bank_account_number: string;
-	present_status: string;
-	image_url: string;
-	is_goondas: boolean;
-	remarks: string;
-
 	modus_operandi: string[];
 	cases: CaseDto[];
 	links: LinkDto[];
@@ -95,7 +75,7 @@ export type FilterableCriminalParams = Pick<
 	'caste' | 'category' | 'grade' | 'marital_status' | 'religion' | 'is_goondas' | 'present_status'
 >;
 
-export type ListCriminalsDto = {
+export type ListCriminalsQueryDto = {
 	page: number;
 	count: number;
 	q?: string;

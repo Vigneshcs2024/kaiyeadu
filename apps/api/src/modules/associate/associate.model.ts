@@ -10,6 +10,7 @@ export class Associate extends Model<IAssociate, IAssociateInput> implements IAs
 	criminal!: string;
 	name!: string;
 	father_name!: string;
+	gender: 'Male' | 'Female' | 'Transgender' | 'Other';
 	location!: string;
 
 	readonly createdAt!: Date;
@@ -35,6 +36,11 @@ Associate.init(
 		father_name: {
 			type: DataTypes.STRING,
 			allowNull: true
+		},
+		gender: {
+			type: DataTypes.ENUM('Male', 'Female', 'Transgender', 'Other'),
+			defaultValue: 'Male',
+			allowNull: false
 		},
 		location: {
 			type: DataTypes.STRING,

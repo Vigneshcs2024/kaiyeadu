@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { ListCriminalsDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ListCriminalsQueryDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ICriminalInput } from '@kaiyeadu/api-interfaces/models';
 import { ListCriminalsQuery } from './criminal.repository';
 
@@ -32,8 +32,8 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 	return schema.validateAsync(criminalDetails);
 }
 
-export function validateListCriminalsQuery(options: ListCriminalsDto) {
-	const schema: Joi.ObjectSchema<ListCriminalsDto> = Joi.object({
+export function validateListCriminalsQuery(options: ListCriminalsQueryDto) {
+	const schema: Joi.ObjectSchema<ListCriminalsQueryDto> = Joi.object({
 		page: Joi.number().min(1).default(1),
 		count: Joi.number().min(1).max(100).default(10),
 		q: Joi.string().default(''),
