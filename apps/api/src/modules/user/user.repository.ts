@@ -45,7 +45,8 @@ export async function listUsers({ params, pagination }: ListUsersQuery) {
 		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage,
 		limit: pagination.resultsPerPage,
 		attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
-		order: [[params.sort.key, params.sort.order]]
+		order: [[params.sort.key, params.sort.order]],
+		raw: true
 	});
 }
 

@@ -47,15 +47,27 @@ export async function createUser(req: ApiRequest, res: Response) {
 }
 
 export async function listUsers(req: ApiRequest, res: Response) {
-	const { page, count, q: search, f: filters, s: sort } = req.query;
+	const mp = new URLSearchParams(req.url);
+	const options = {
+		count: +mp.get('count'),
+		page: +mp.get('page'),
+		f: JSON.parse(mp.get('f')),
+		q: mp.get('q'),
+		s: JSON.parse(mp.get('s'))
+	};
+
+	logger.debug(jsonPrettyPrint(options));
 
 	const users = await userRepository.listUsers({
 		params: {
-			search: search ? (search as string) : '',
-			filters: filters ? JSON.parse(filters as string) : [],
-			sort: sort ? JSON.parse(sort as string) : { key: 'name', order: 'asc' }
+			search: options.q,
+			filters: options.f ?? [],
+			sort: options.s ?? { key: 'name', order: 'asc' }
 		},
-		pagination: { pageNumber: +page || 1, resultsPerPage: +count || 10 }
+		pagination: {
+			pageNumber: options.page || 1,
+			resultsPerPage: options.count || 10
+		}
 	});
 
 	return res.json({ message: 'Users fetched successfully', result: users });
