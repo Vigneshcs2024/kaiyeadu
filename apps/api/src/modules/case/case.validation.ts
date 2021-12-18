@@ -5,7 +5,7 @@ export function validateCases(caseDetails: CaseDto[]) {
 	const schema = Joi.array().items(
 		Joi.object<CaseDto>({
 			police_station: Joi.string().required(),
-			crime_number: Joi.number().required(),
+			crime_number: Joi.string().required(),
 			under_section: Joi.string().required(),
 			stage: Joi.string().required(),
 			remarks: Joi.string(),
