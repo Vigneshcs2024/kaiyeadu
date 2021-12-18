@@ -10,7 +10,7 @@ export function setup_middlewares(app: Express) {
 	app.use(express.json());
 	app.use(cors());
 
-	if (config.get('api.logging.requests')) app.use(requestLogger);
+	if (config.get('logging.requests')) app.use(requestLogger);
 
 	app.use(helmet());
 }

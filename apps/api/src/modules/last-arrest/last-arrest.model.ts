@@ -9,6 +9,7 @@ export class LastArrest extends Model<ILastArrest, ILastArrestInput> {
 	id!: string;
 	criminal!: string;
 	section!: string;
+	crime_number!: string;
 
 	date!: Date;
 	kind!: string;
@@ -27,6 +28,10 @@ LastArrest.init(
 		},
 		criminal: {
 			type: DataTypes.UUID,
+			allowNull: false
+		},
+		crime_number: {
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		section: {
@@ -48,3 +53,6 @@ LastArrest.init(
 );
 
 LastArrest.belongsTo(Criminal, { foreignKey: 'criminal', as: 'criminal_id' });
+
+// This is not needed r.n
+// LastArrest.belongsTo(Case, { foreignKey: 'crime_number', targetKey: 'crime_number' });

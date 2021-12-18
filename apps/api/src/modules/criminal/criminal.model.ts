@@ -22,7 +22,7 @@ export class Criminal extends Model<ICriminal, ICriminalInput> implements ICrimi
 	identification_mark?: string;
 	advocate_name?: string;
 	bank_account_number?: string;
-	present_status?: string;
+	present_status?: 'Active' | 'Dormant' | 'Inactive' | 'Absconded' | 'Imprisoned' | 'Unknown';
 	image_url?: string;
 	is_goondas?: boolean;
 	remarks?: string;
@@ -103,7 +103,14 @@ Criminal.init(
 			allowNull: true
 		},
 		present_status: {
-			type: DataTypes.STRING,
+			type: DataTypes.ENUM(
+				'Active',
+				'Dormant',
+				'Inactive',
+				'Absconded',
+				'Imprisoned',
+				'Unknown'
+			),
 			allowNull: true
 		},
 		image_url: {

@@ -69,6 +69,6 @@ const getTransports = environment => {
 };
 
 export const logger = winston.createLogger({
-	level: config.get('api.logging.level'),
+	level: config.get('logging.level'),
 	...getTransports(config.util.getEnv('NODE_ENV'))
 });

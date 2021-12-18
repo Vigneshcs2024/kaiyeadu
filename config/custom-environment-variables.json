@@ -1,12 +1,19 @@
 {
-	"api": {
-		"host": "HOST",
-		"port": "PORT"
-	},
+	"host": "HOST",
+	"port": "PORT",
 	"db": {
 		"host": "DB_HOST",
 		"username": "DB_USER",
 		"password": "DB_PASS"
+	},
+	"mailer": {
+		"email": "MAIL_ID",
+		"password": "MAIL_PASS"
+	},
+	"twilio": {
+		"sid": "TWILIO_ACCOUNT_SID",
+		"authToken": "TWILIO_AUTH_TOKEN",
+		"phone": "TWILIO_PHONE"
 	},
 	"keys": {
 		"jwt": {

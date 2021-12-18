@@ -16,7 +16,7 @@ export interface ICriminal {
 	marital_status?: 'Married' | 'Unmarried' | 'Divorced' | 'Widowed';
 	advocate_name?: string;
 	bank_account_number?: string;
-	present_status?: string;
+	present_status?: 'Active' | 'Dormant' | 'Inactive' | 'Absconded' | 'Imprisoned' | 'Unknown';
 	image_url?: string;
 	is_goondas?: boolean;
 	remarks?: string;

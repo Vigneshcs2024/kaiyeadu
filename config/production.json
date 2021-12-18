@@ -1,15 +1,19 @@
 {
-	"api": {
-		"logging": {
-			"level": "error",
-			"requests": false
-		},
-		"db": {
-			"database": "kaiyeadu",
-			"provider": "mysql"
-		},
-		"hashing": {
-			"saltRounds": 10
-		}
+	"logging": {
+		"level": "error",
+		"requests": false
+	},
+	"db": {
+		"database": "kaiyeadu",
+		"provider": "mysql"
+	},
+	"mailer": {
+		"enable": true
+	},
+	"twilio": {
+		"enable": true
+	},
+	"hashing": {
+		"saltRounds": 10
 	}
 }
