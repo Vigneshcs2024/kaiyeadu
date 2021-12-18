@@ -1,12 +1,22 @@
 import config from 'config';
 import { createTransport } from 'nodemailer';
 
+type MailConfig = {
+	host: string;
+	port: number;
+	email: string;
+	password: string;
+	enable: boolean;
+};
+
+const mailConfig: MailConfig = config.get('mailer');
+
 export const mailService = createTransport({
-	host: 'smtp.mailgun.org',
-	port: 587,
+	host: mailConfig.host,
+	port: mailConfig.port,
 	auth: {
-		user: config.get('mailer.email') ?? process.env.MAIL_ID,
-		pass: config.get('mailer.password') ?? process.env.MAIL_PASS
+		user: mailConfig.email,
+		pass: mailConfig.password
 	},
 	tls: {
 		rejectUnauthorized: false

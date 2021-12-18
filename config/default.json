@@ -11,7 +11,9 @@
 		"provider": "mysql"
 	},
 	"mailer": {
-		"enable": false
+		"enable": false,
+		"host": "smtp.mailgun.org",
+		"port": 587
 	},
 	"keys": {
 		"jwt": {

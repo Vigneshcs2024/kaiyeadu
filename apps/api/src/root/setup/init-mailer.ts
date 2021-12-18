@@ -11,7 +11,7 @@ export async function verifyMailConnection() {
 			return;
 		}
 		await mailService.verify();
-		logger.info(`Connection to mail server ${pc.green('successful')}`);
+		logger.info(`Mail connection established ${pc.green('successfully')}`);
 	} catch (exp) {
 		logger.info(`Connection to mail server ${pc.red('failed')}`);
 		throw exp;

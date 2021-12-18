@@ -11,7 +11,8 @@
 		"provider": "mysql"
 	},
 	"mailer": {
-		"enable": true
+		"enable": true,
+		"email": "postmaster@sandbox48f95e50faee4a3696a9d794e03081d5.mailgun.org"
 	},
 	"keys": {
 		"jwt": {
