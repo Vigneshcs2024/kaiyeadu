@@ -26,7 +26,7 @@ type ListUsersQuery = {
 
 export async function createUser(userDetails: CreateUserDto) {
 	const hashedPassword = userDetails.password
-		? await bcrypt.hash(userDetails.password, config.get('api.hashing.saltRounds') ?? 10)
+		? await bcrypt.hash(userDetails.password, config.get('hashing.saltRounds') ?? 10)
 		: null;
 
 	const user = User.build({ ...userDetails, password: hashedPassword });
@@ -71,7 +71,7 @@ export async function updatePassword(userId: string, updatePasswordDetails: Upda
 
 	const hashedPassword = await bcrypt.hash(
 		updatePasswordDetails.newPassword,
-		config.get('api.hashing.saltRounds') ?? 10
+		config.get('hashing.saltRounds') ?? 10
 	);
 
 	return user.update({ password: hashedPassword });

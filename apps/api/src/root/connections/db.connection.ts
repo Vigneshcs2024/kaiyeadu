@@ -9,7 +9,7 @@ type DatabaseConfig = {
 	provider: 'mysql' | 'postgres' | 'mariadb';
 };
 
-const dbConfig: DatabaseConfig = config.get('api.db');
+const dbConfig: DatabaseConfig = config.get('db');
 
 // ? this is a temporary fixup -
 // !bug: config does not load envs
