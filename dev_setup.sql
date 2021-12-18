@@ -1,7 +1,7 @@
 CREATE DATABASE kaiyeadu_dev;
 /* Start the server and syncronize the tables */
 INSERT INTO
-  police_stations (id, name, area, distrcit)
+  police_stations (id, name, area, district)
 VALUES
   (
     'b3bdd993-51e3-4e80-aaa2-8b9b8d297b30',
