@@ -10,6 +10,9 @@
 	"mailer": {
 		"enable": true
 	},
+	"twilio": {
+		"enable": true
+	},
 	"hashing": {
 		"saltRounds": 10
 	}

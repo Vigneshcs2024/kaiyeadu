@@ -8,7 +8,7 @@ import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 import { logger } from '$api/tools';
 import * as authRepository from './auth.repository';
 import { validateLogin, validateLoginWithGPF } from './auth.validation';
-import { mailService } from '$api/root/connections/mail.connection';
+import { mailService, sendSms } from '$api/root/connections';
 
 const JWT_SECRET = (config.get('keys.jwt.secret') ?? process.env.JWT_SECRET) as string;
 
@@ -25,6 +25,8 @@ export async function getLoginPassword(req: Request, res: Response) {
 		subject: 'Kaiyeadu - Login Password',
 		text: `Your login password is ${loginPassword}`
 	});
+
+	await sendSms(`+91${user.phone}`, `Your Kaiyeadu login password is: ${loginPassword}`);
 
 	logger.debug(`User ${user.gpf} has been given a new login password: ${loginPassword}`);
 
@@ -77,6 +79,8 @@ export async function resetPassword(req: Request, res: Response) {
 		subject: 'Reset Password',
 		text: `Your reset password OTP is ${resetOtp}`
 	});
+
+	await sendSms(`+91${user.phone}`, `Your Kaiyeadu reset password is: ${resetOtp}`);
 
 	logger.debug(`User ${user.email} has been given a new temporary password: ${resetOtp}`);
 

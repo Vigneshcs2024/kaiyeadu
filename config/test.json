@@ -13,6 +13,9 @@
 	"mailer": {
 		"enable": false
 	},
+	"twilio": {
+		"enable": false
+	},
 	"keys": {
 		"jwt": {
 			"secret": "secret"

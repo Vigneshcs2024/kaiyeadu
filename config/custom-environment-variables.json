@@ -10,6 +10,11 @@
 		"email": "MAIL_ID",
 		"password": "MAIL_PASS"
 	},
+	"twilio": {
+		"sid": "TWILIO_ACCOUNT_SID",
+		"authToken": "TWILIO_AUTH_TOKEN",
+		"phone": "TWILIO_PHONE"
+	},
 	"keys": {
 		"jwt": {
 			"secret": "JWT_SECRET"
