@@ -8,7 +8,7 @@ import { Criminal } from '../criminal/criminal.model';
 export class Address extends Model<IAddress, IAddressInput> implements IAddress {
 	id: string;
 	criminal: string;
-	type: string;
+	type: 'Present' | 'Native' | 'Other';
 	line1: string;
 	line2: string;
 	area: string;
@@ -31,7 +31,7 @@ Address.init(
 			allowNull: false
 		},
 		type: {
-			type: DataTypes.STRING,
+			type: DataTypes.ENUM('Present', 'Native', 'Other'),
 			allowNull: false
 		},
 		line1: {
