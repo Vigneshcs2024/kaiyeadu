@@ -12,12 +12,15 @@ export async function getStats(req: ApiRequest, res: Response) {
 	const noOfProposalReqs = await Proposal.count({ where: { status: 'pending' } });
 
 	res.json({
-		users: noOfUsers,
-		admins: noOfAdmins,
-		super_users: noOfMasters,
-		stations: noOfStations,
-		cases: noOfCases,
-		criminals: noOfCriminals,
-		proposals: noOfProposalReqs
+		message: 'Statistics fetched successfully',
+		result: {
+			users: noOfUsers,
+			admins: noOfAdmins,
+			super_users: noOfMasters,
+			stations: noOfStations,
+			cases: noOfCases,
+			criminals: noOfCriminals,
+			proposals: noOfProposalReqs
+		}
 	});
 }
