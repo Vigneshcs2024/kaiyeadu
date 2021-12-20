@@ -8,7 +8,7 @@ import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 import { logger } from '$api/tools';
 import * as authRepository from './auth.repository';
 import { validateLogin, validateLoginWithGPF } from './auth.validation';
-import { mailService, sendSms } from '$api/root/connections';
+import { sendEmail, sendSms } from '$api/root/connections';
 
 const JWT_SECRET = (config.get('keys.jwt.secret') ?? process.env.JWT_SECRET) as string;
 
@@ -19,12 +19,11 @@ export async function getLoginPassword(req: Request, res: Response) {
 
 	const { user, loginPassword } = await authRepository.createLoginPassword(gpf);
 
-	await mailService.sendMail({
-		from: '"Kaiyeadu" <kaiyeadu@email.com>',
-		to: user.email,
-		subject: 'Kaiyeadu - Login Password',
-		text: `Your login password is ${loginPassword}`
-	});
+	await sendEmail(
+		user.email,
+		'Kaiyeadu - Login Password',
+		`Your login password is ${loginPassword}`
+	);
 
 	await sendSms(`+91${user.phone}`, `Your Kaiyeadu login password is: ${loginPassword}`);
 
@@ -73,12 +72,7 @@ export async function resetPassword(req: Request, res: Response) {
 	await Joi.string().email().required().validateAsync(email);
 	const { user, resetOtp } = await authRepository.resetPassword(email);
 
-	await mailService.sendMail({
-		from: '"Kaiyeadu" <kaiyeadu@email.com>',
-		to: email,
-		subject: 'Reset Password',
-		text: `Your reset password OTP is ${resetOtp}`
-	});
+	await sendEmail(email, 'Reset Password', `Your reset password OTP is ${resetOtp}`);
 
 	await sendSms(`+91${user.phone}`, `Your Kaiyeadu reset password is: ${resetOtp}`);
 
