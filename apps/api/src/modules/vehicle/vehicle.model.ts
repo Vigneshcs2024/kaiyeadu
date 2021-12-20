@@ -8,7 +8,7 @@ import { Criminal } from '../criminal/criminal.model';
 export class Vehicle extends Model<IVehicle, IVehicleInput> implements IVehicle {
 	id: string;
 	criminal: string;
-	type: string;
+	type: 'Two-Wheeler' | 'Three-Wheeler' | 'Four-Wheeler' | 'Heavy Vehicle';
 	reg_no: string;
 	description: string;
 
@@ -30,7 +30,7 @@ Vehicle.init(
 			allowNull: false
 		},
 		type: {
-			type: DataTypes.TEXT,
+			type: DataTypes.ENUM('Two-Wheeler', 'Three-Wheeler', 'Four-Wheeler', 'Heavy Vehicle'),
 			allowNull: false
 		},
 		reg_no: {

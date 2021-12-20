@@ -27,6 +27,7 @@ export function addCases(criminal: string, cases: CaseDto[], transaction: Transa
 				date,
 				...activeCaseDetails
 			} = caseItem;
+
 			const commonDetails: ICaseInput = {
 				criminal,
 				police_station,
@@ -37,6 +38,7 @@ export function addCases(criminal: string, cases: CaseDto[], transaction: Transa
 				date
 			};
 
+			// todo: find a way to throw if pol_st is not found
 			const $case = await Case.build(commonDetails).save({ transaction });
 
 			if (!caseItem.is_active) return $case;
@@ -68,7 +70,6 @@ export async function getAllCasesOf(criminal: string, transaction?: Transaction)
 }
 
 // this function is cpu intensive
-// ! unsure of logic
 export async function getInactiveCasesOf(criminal: string, transaction?: Transaction) {
 	const allCases = await getAllCasesOf(criminal, transaction);
 
