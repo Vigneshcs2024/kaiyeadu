@@ -1,4 +1,5 @@
 import { Op } from 'sequelize';
+import { StatusCodes } from 'http-status-codes';
 import {
 	CreateCriminalDto,
 	CriminalDto,
@@ -6,6 +7,7 @@ import {
 	SortableCriminalParameters,
 	UpdateCriminalPersonalDetailsDto
 } from '@kaiyeadu/api-interfaces/dtos';
+import { ClientError } from '$api/errors';
 import { db } from '$api/root/connections';
 import { addAddress, getAddressesOf } from '../address/address.repository';
 import { addAssociates, getAssociatesOf } from '../associate/associate.repository';
@@ -64,6 +66,11 @@ export async function create(criminalDetails: CreateCriminalDto) {
 
 export async function getCompleteDetails(id: string) {
 	const criminal = await Criminal.findByPk(id, { raw: true });
+
+	if (!criminal) {
+		throw new ClientError('Criminal not found', StatusCodes.NOT_FOUND);
+	}
+
 	const activeCases = await getActiveCasesOf(id);
 	const cases = await getInactiveCasesOf(id);
 	const addresses = await getAddressesOf(id);
