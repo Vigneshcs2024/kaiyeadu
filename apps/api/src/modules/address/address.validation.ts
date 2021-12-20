@@ -7,7 +7,10 @@ export function validateCreateAddresses(addresses: AddressDto[]) {
 
 	const schema = Joi.array().items(
 		Joi.object<AddressDto>({
-			type: Joi.string().required().messages({ 'any.required': 'Address type is required' }),
+			type: Joi.string()
+				.valid('Present', 'Native', 'Other')
+				.required()
+				.messages({ 'any.required': 'Address type is required' }),
 			line1: Joi.string(),
 			line2: Joi.string(),
 			area: Joi.string(),
