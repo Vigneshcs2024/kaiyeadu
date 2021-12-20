@@ -8,6 +8,7 @@ export function validateLastArrest(lastArrestOptions: LastArrestDto) {
 	const schema = Joi.object<LastArrestDto>({
 		section: Joi.string().required(),
 		date: Joi.date().required(),
+		crime_number: Joi.string().required(),
 		kind: Joi.string().required()
 	});
 
