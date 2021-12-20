@@ -5,5 +5,6 @@ const router = Router();
 
 router.get('/all/:criminal_id', caseService.getAll);
 router.get('/:criminal_id', caseService.getInactiveCases);
+router.patch('/update/:id', caseService.update);
 
 export { router as caseRouter };

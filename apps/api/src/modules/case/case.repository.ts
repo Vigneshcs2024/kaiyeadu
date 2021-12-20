@@ -1,11 +1,13 @@
 import { Transaction } from 'sequelize';
 import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
-import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
+import { IActiveCaseInput, ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import { logger } from '$api/tools';
 import { ActiveCase } from '../active-case/active-case.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
 import { getPSNameById } from '../police-station/police-station.repository';
 import { Case } from './case.model';
+import { db } from '$api/root/connections';
+import { ClientError } from '$api/errors';
 
 export function create(caseDetails: ICaseInput) {
 	return Case.build(caseDetails).save();
@@ -76,4 +78,53 @@ export async function getInactiveCasesOf(criminal: string, transaction?: Transac
 	const activeCases = await getActiveCasesOf(criminal, transaction);
 
 	return allCases.filter(c => !activeCases.some(ac => ac.crime_number === c.crime_number));
+}
+
+export async function update(
+	caseId: string,
+	details: ICaseInput & { is_active: boolean } & IActiveCaseInput
+) {
+	const transaction = await db.transaction();
+	const {
+		criminal,
+		police_station,
+		crime_number,
+		under_section,
+		stage,
+		remarks,
+		date,
+		is_active,
+		...acd
+	} = details;
+	const caseDetails = {
+		criminal,
+		police_station,
+		crime_number,
+		under_section,
+		stage,
+		remarks,
+		date
+	};
+
+	const $case = await Case.findByPk(caseId, { transaction });
+
+	if (!$case) throw new ClientError('Case not found', 404);
+
+	await $case.update(caseDetails, { transaction });
+
+	if (!is_active) {
+		await ActiveCase.destroy({ where: { case: caseId }, transaction });
+		await transaction.commit();
+		return $case;
+	}
+
+	const [activeCase] = await ActiveCase.findOrBuild({
+		where: { case: caseId, criminal },
+		transaction
+	});
+
+	await activeCase.update(acd, { transaction });
+	await transaction.commit();
+
+	return $case;
 }
