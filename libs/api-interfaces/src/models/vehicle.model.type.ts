@@ -1,7 +1,7 @@
 export interface IVehicle {
 	id: string;
 	criminal: string;
-	type: string;
+	type: 'Two-Wheeler' | 'Three-Wheeler' | 'Four-Wheeler' | 'Heavy Vehicle';
 	reg_no: string;
 	description: string;
 

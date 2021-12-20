@@ -20,7 +20,7 @@ export function validateFamilyMembers(member: FamilyMemberDto[]) {
 					'Other'
 				)
 				.required()
-				.messages({ 'any.required': 'Family member type is required' }),
+				.messages({ 'any.required': 'Family member relation is required' }),
 			description: Joi.string(),
 			occupation: Joi.string()
 		})
