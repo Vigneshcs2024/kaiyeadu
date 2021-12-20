@@ -11,6 +11,7 @@ export class Proposal extends Model<IProposal, IProposalInput> implements IPropo
 	criminal!: string;
 	created_by!: string;
 	description!: string;
+	status!: 'created' | 'updated' | 'rejected';
 
 	readonly createdAt: Date;
 	readonly updatedAt: Date;
@@ -35,6 +36,11 @@ Proposal.init(
 		description: {
 			type: DataTypes.TEXT,
 			allowNull: false
+		},
+		status: {
+			type: DataTypes.ENUM('created', 'updated', 'rejected'),
+			allowNull: false,
+			defaultValue: 'created'
 		},
 		createdAt: {
 			type: DataTypes.DATE,

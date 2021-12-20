@@ -1,3 +1,4 @@
+import { logger } from '$api/tools';
 import config from 'config';
 import { createTransport } from 'nodemailer';
 
@@ -22,3 +23,17 @@ export const mailService = createTransport({
 		rejectUnauthorized: false
 	}
 });
+
+export const sendEmail = (to: string, subject: string, text: string) => {
+	if (!mailConfig.enable) {
+		logger.info(`Suppressed email to ${to}: ${text}`);
+		return;
+	}
+
+	return mailService.sendMail({
+		from: '"Kaiyeadu" <no-reply@kaiyeadu.com',
+		to,
+		subject,
+		text
+	});
+};
