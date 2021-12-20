@@ -1,6 +1,7 @@
 export { activeCaseRouter } from './active-case/active-case.router';
 export { addressRouter } from './address/address.router';
 export { associateRouter } from './associate/associate.router';
+export { bondRouter } from './bond/bond.router';
 export { caseRouter } from './case/case.router';
 export { commonRouter } from './common/common.router';
 export { criminalRouter } from './criminal/criminal.router';

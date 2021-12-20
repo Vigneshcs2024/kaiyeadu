@@ -14,5 +14,5 @@ export async function update(req: ApiRequest, res: Response) {
 
 	return res
 		.status(StatusCodes.OK)
-		.json({ message: 'Associate updated successfully', data: updated });
+		.json({ message: 'Associate updated successfully', result: updated });
 }

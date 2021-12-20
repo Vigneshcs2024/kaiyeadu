@@ -7,6 +7,7 @@ import {
 	addressRouter,
 	associateRouter,
 	authRouter,
+	bondRouter,
 	caseRouter,
 	commonRouter,
 	criminalRouter,
@@ -19,6 +20,7 @@ export function setup_routes(app: Express) {
 	app.use('/address', parseAuthToken, addressRouter);
 	app.use('/associate', parseAuthToken, associateRouter);
 	app.use('/auth', authRouter);
+	app.use('/bond', parseAuthToken, bondRouter);
 	app.use('/cases', parseAuthToken, caseRouter);
 	app.use('/common', parseAuthToken, commonRouter);
 	app.use('/criminal', parseAuthToken, criminalRouter);
