@@ -5,6 +5,7 @@ import { errorHandler } from '$api/tools';
 import {
 	activeCaseRouter,
 	addressRouter,
+	associateRouter,
 	authRouter,
 	caseRouter,
 	commonRouter,
@@ -14,14 +15,15 @@ import {
 } from '$api/modules/routers';
 
 export function setup_routes(app: Express) {
-	app.use('/auth', authRouter);
-	app.use('/user', parseAuthToken, userRouter);
-	app.use('/police-station', parseAuthToken, adminsOnly, policeStationRouter);
-	app.use('/criminal', parseAuthToken, criminalRouter);
 	app.use('/active-cases', parseAuthToken, activeCaseRouter);
+	app.use('/address', parseAuthToken, addressRouter);
+	app.use('/associate', parseAuthToken, associateRouter);
+	app.use('/auth', authRouter);
 	app.use('/cases', parseAuthToken, caseRouter);
 	app.use('/common', parseAuthToken, commonRouter);
-	app.use('/address', parseAuthToken, addressRouter);
+	app.use('/criminal', parseAuthToken, criminalRouter);
+	app.use('/police-station', parseAuthToken, adminsOnly, policeStationRouter);
+	app.use('/user', parseAuthToken, userRouter);
 
 	app.use(errorHandler);
 }
