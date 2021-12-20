@@ -1,19 +1,24 @@
+import Joi from 'joi';
 import { Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { CreateProposalDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ClientError } from '$api/errors';
 import { ApiRequest } from '$api/types';
 
 import * as proposalsRepo from './proposal.repository';
-import { StatusCodes } from 'http-status-codes';
-import { ClientError } from '$api/errors';
-import Joi from 'joi';
 
 export async function add(req: ApiRequest, res: Response) {
-	const { criminal, description }: CreateProposalDto = req.body;
+	const { criminal, description, status }: CreateProposalDto = req.body;
 	const created_by = req.user.id;
 
 	// todo: validation
 
-	const { id } = await proposalsRepo.create({ criminal, description, created_by });
+	const { id } = await proposalsRepo.create({
+		criminal,
+		description,
+		created_by,
+		status
+	});
 	return res
 		.status(StatusCodes.CREATED)
 		.json({ message: 'Proposal created successfully', result: id });
