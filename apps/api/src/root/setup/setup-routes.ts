@@ -6,6 +6,7 @@ import {
 	activeCaseRouter,
 	authRouter,
 	caseRouter,
+	commonRouter,
 	criminalRouter,
 	policeStationRouter,
 	userRouter
@@ -18,6 +19,7 @@ export function setup_routes(app: Express) {
 	app.use('/criminal', parseAuthToken, criminalRouter);
 	app.use('/active-cases', parseAuthToken, activeCaseRouter);
 	app.use('/cases', parseAuthToken, caseRouter);
+	app.use('/common', parseAuthToken, commonRouter);
 
 	app.use(errorHandler);
 }
