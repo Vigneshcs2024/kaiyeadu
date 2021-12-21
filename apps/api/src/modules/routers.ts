@@ -8,6 +8,7 @@ export { criminalRouter } from './criminal/criminal.router';
 export { familyMemberRouter } from './family-member/family-member.router';
 export { lastArrestRouter } from './last-arrest/last-arrest.router';
 export { linkRouter } from './link/link.router';
+export { moRouter } from './modus-operandi/modus-operandi.router';
 export { policeStationRouter } from './police-station/police-station.router';
 export { proposalRouter } from './proposal/proposal.router';
 export { authRouter } from './user/auth/auth.router';
