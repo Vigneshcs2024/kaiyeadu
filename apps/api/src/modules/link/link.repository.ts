@@ -32,7 +32,7 @@ export function getLinks(criminal: Criminal['id'], transaction?: Transaction): P
 export async function update(id: string, details: Partial<LinkDto>) {
 	const link = await Link.findByPk(id);
 	if (!link) {
-		throw new ClientError('Link not found', 404);
+		throw new ClientError('The given id does not correspond to a link', 404);
 	}
 	return link.update(details);
 }
