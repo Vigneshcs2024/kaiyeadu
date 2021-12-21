@@ -3,6 +3,7 @@ import { VehicleDto } from '@kaiyeadu/api-interfaces/dtos';
 import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { Vehicle } from './vehicle.model';
+import { ClientError } from '$api/errors';
 
 export function addVehicles(
 	criminal: Criminal['id'],
@@ -26,4 +27,14 @@ export function getAllVehiclesOf(person: string, transaction?: Transaction): Pro
 		transaction,
 		raw: true
 	});
+}
+
+export async function update(id: string, vehicle: VehicleDto) {
+	const vehicleToUpdate = await Vehicle.findByPk(id);
+
+	if (!vehicleToUpdate) {
+		throw new ClientError('Vehicle not found', 404);
+	}
+
+	return vehicleToUpdate.update(vehicle);
 }

@@ -19,7 +19,8 @@ import {
 	operationalPlacesRouter,
 	policeStationRouter,
 	proposalRouter,
-	userRouter
+	userRouter,
+	vehicleRouter
 } from '$api/modules/routers';
 
 export function setup_routes(app: Express) {
@@ -40,6 +41,7 @@ export function setup_routes(app: Express) {
 	app.use('/police-station', parseAuthToken, policeStationRouter);
 	app.use('/proposal', parseAuthToken, proposalRouter);
 	app.use('/user', parseAuthToken, userRouter);
+	app.use('/vehicle', parseAuthToken, vehicleRouter);
 
 	app.use(errorHandler);
 }
