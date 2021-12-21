@@ -17,6 +17,7 @@ import {
 	moRouter,
 	occupationRouter,
 	policeStationRouter,
+	proposalRouter,
 	userRouter
 } from '$api/modules/routers';
 
@@ -35,6 +36,7 @@ export function setup_routes(app: Express) {
 	app.use('/modus-operandi', parseAuthToken, moRouter);
 	app.use('/occupation', parseAuthToken, occupationRouter);
 	app.use('/police-station', parseAuthToken, adminsOnly, policeStationRouter);
+	app.use('/proposal', parseAuthToken, proposalRouter);
 	app.use('/user', parseAuthToken, userRouter);
 
 	app.use(errorHandler);
