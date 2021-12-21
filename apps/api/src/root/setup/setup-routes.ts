@@ -13,6 +13,7 @@ import {
 	criminalRouter,
 	familyMemberRouter,
 	lastArrestRouter,
+	linkRouter,
 	policeStationRouter,
 	userRouter
 } from '$api/modules/routers';
@@ -28,6 +29,7 @@ export function setup_routes(app: Express) {
 	app.use('/criminal', parseAuthToken, criminalRouter);
 	app.use('/family-member', parseAuthToken, familyMemberRouter);
 	app.use('/last-arrest', parseAuthToken, lastArrestRouter);
+	app.use('/link', parseAuthToken, linkRouter);
 	app.use('/police-station', parseAuthToken, adminsOnly, policeStationRouter);
 	app.use('/user', parseAuthToken, userRouter);
 
