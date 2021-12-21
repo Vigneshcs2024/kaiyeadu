@@ -3,6 +3,7 @@ import { LastArrestDto } from '@kaiyeadu/api-interfaces/dtos';
 import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { LastArrest } from './last-arrest.model';
+import { ClientError } from '$api/errors';
 
 export function addLastArrest(
 	criminal: Criminal['id'],
@@ -23,4 +24,15 @@ export function getLastArrest(criminal: Criminal['id'], transaction?: Transactio
 		transaction,
 		raw: true
 	});
+}
+
+export async function update(id: string, details: Partial<LastArrestDto>) {
+	logger.debug('Updating Last Arrest details...');
+
+	const lastArrest = await LastArrest.findByPk(id);
+
+	if (!lastArrest)
+		throw new ClientError('The given id does not correspond to a last-arrest entry', 404);
+
+	return lastArrest.update(details);
 }
