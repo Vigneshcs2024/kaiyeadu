@@ -12,7 +12,7 @@ import * as criminalRepo from './criminal.repository';
 import { validateFamilyMembers } from '../family-member/family-member.validation';
 import { validateOperationalPlaces } from '../operational-places/operational-places.validation';
 import { validateLastArrest } from '../last-arrest/last-arrest.validation';
-import { validateBond } from '../bond/bond.validation';
+import { validateBonds } from '../bond/bond.validation';
 import { validateAddAssociates } from '../associate/associate.validation';
 import { validateAddVehicles } from '../vehicle/vehicle.validation';
 import { validateCases } from '../case/case.validation';
@@ -41,7 +41,7 @@ export async function create(req: ApiRequest, res: Response) {
 		validateFamilyMembers(family_members),
 		validateOperationalPlaces(operational_places),
 		validateLastArrest(last_arrest),
-		validateBond(bonds),
+		validateBonds(bonds),
 		Joi.array().items(Joi.string()).validateAsync(occupation),
 		validateAddAssociates(associates),
 		validateAddVehicles(vehicles),

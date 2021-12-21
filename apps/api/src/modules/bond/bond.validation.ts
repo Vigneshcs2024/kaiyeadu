@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { BondDto } from '@kaiyeadu/api-interfaces/dtos';
 import { logger } from '$api/tools';
 
-export function validateBond(bonds: BondDto[]) {
+export function validateBonds(bonds: BondDto[]) {
 	logger.debug('Validating: Bond');
 
 	const schema = Joi.array().items(

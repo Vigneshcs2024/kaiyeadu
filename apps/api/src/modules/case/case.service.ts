@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ApiRequest } from '$api/types';
 import * as caseRepo from './case.repository';
 import { validateCases } from './case.validation';
+import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 
 export async function getAll(req: ApiRequest, res: Response) {
 	const { criminal_id } = req.params;
@@ -31,7 +32,7 @@ export async function getInactiveCases(req: ApiRequest, res: Response) {
 
 export async function update(req: ApiRequest, res: Response) {
 	const { id } = req.params;
-	const { body: details } = req;
+	const { body: details }: { body: CaseDto } = req;
 
 	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
 	await validateCases([details]);
