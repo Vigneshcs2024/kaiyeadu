@@ -1,4 +1,6 @@
+import { ClientError } from '$api/errors';
 import { IProposalInput } from '@kaiyeadu/api-interfaces/models';
+import { StatusCodes } from 'http-status-codes';
 import { Proposal } from './proposal.model';
 
 export function create(proposal: IProposalInput) {
@@ -35,4 +37,14 @@ export async function getProposalsOf(user: string) {
 
 export function getProposal(id: string) {
 	return Proposal.findByPk(id, { raw: true });
+}
+
+export async function updateStatus(id: string, status: 'pending' | 'updated' | 'rejected') {
+	const proposal = await Proposal.findByPk(id);
+
+	if (!proposal) {
+		throw new ClientError('Proposal not found', StatusCodes.NOT_FOUND);
+	}
+
+	return proposal.update({ status });
 }

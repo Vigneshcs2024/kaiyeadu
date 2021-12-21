@@ -49,3 +49,17 @@ export async function getById(req: ApiRequest, res: Response) {
 		.status(StatusCodes.OK)
 		.json({ message: 'Proposal fetched successfully', result: proposal });
 }
+
+export async function updateStatus(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+	const { status } = req.body;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await Joi.string().valid('pending', 'updated', 'rejected').required().validateAsync(status);
+
+	const proposal = await proposalsRepo.updateStatus(id, status);
+
+	return res
+		.status(StatusCodes.OK)
+		.json({ message: 'Proposal updated successfully', result: proposal });
+}
