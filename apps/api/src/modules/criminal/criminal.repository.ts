@@ -128,8 +128,12 @@ export async function getListMinimal({ params, pagination }: ListCriminalsQuery)
 	});
 }
 
-export function update(id: string, updates: UpdateCriminalPersonalDetailsDto) {
-	return Criminal.update(updates, { where: { id } });
+export async function update(id: string, updates: UpdateCriminalPersonalDetailsDto) {
+	const criminal = await Criminal.findByPk(id);
+	if(!criminal) {
+		throw new ClientError('Could not find a criminal associated to the given id', 404);
+	}
+	return criminal.update(updates);
 }
 
 export type ListCriminalsQuery = {

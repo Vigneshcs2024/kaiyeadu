@@ -104,12 +104,14 @@ export async function getMinimalList(req: ApiRequest, res: Response) {
 }
 
 export async function updatePersonalDetails(req: ApiRequest, res: Response) {
+	const { id } = req.params;
 	const { body: updates } = req;
 
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
 	// this will work, but we need to change it
 	await validateCreateCriminal(updates);
 
-	const criminal = await criminalRepo.update(req.params.id, updates);
+	const criminal = await criminalRepo.update(id, updates);
 
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminal updated successfully',
