@@ -1,5 +1,6 @@
 import { Transaction } from 'sequelize';
 import { OpPlaceDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ClientError } from '$api/errors';
 import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { OperationalPlace } from './operational-places.model';
@@ -26,4 +27,13 @@ export function getOpPlacesOf(criminal: Criminal['id'], transaction?: Transactio
 		transaction,
 		raw: true
 	});
+}
+
+export async function update(id: string, placeDetails: OpPlaceDto) {
+	const lastArrest = await OperationalPlace.findByPk(id);
+
+	if (!lastArrest) {
+		throw new ClientError('The given id does not correspond to a Operational place', 404);
+	}
+	return lastArrest.update(placeDetails);
 }

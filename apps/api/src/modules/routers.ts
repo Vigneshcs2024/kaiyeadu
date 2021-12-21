@@ -10,6 +10,7 @@ export { lastArrestRouter } from './last-arrest/last-arrest.router';
 export { linkRouter } from './link/link.router';
 export { moRouter } from './modus-operandi/modus-operandi.router';
 export { occupationRouter } from './occupation/occupation.router';
+export { operationalPlacesRouter } from './operational-places/operational-places.router';
 export { policeStationRouter } from './police-station/police-station.router';
 export { proposalRouter } from './proposal/proposal.router';
 export { authRouter } from './user/auth/auth.router';
