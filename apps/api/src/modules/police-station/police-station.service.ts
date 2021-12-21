@@ -43,3 +43,17 @@ export async function create(req: ApiRequest, res: Response) {
 		.status(StatusCodes.CREATED)
 		.json({ message: 'Station created successfully', result: station.id });
 }
+
+export async function update(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+	const details: CreatePSDto = req.body;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await validateCreatePS(details);
+
+	const station = await repo.update(id, details);
+
+	return res
+		.status(StatusCodes.OK)
+		.json({ message: 'Station updated successfully', result: station });
+}

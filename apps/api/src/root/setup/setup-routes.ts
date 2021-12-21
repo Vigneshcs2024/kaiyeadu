@@ -1,6 +1,6 @@
 import 'express-async-errors';
 import { Express } from 'express';
-import { adminsOnly, parseAuthToken } from '$api/middlewares/auth';
+import { parseAuthToken } from '$api/middlewares/auth';
 import { errorHandler } from '$api/tools';
 import {
 	activeCaseRouter,
@@ -37,7 +37,7 @@ export function setup_routes(app: Express) {
 	app.use('/modus-operandi', parseAuthToken, moRouter);
 	app.use('/occupation', parseAuthToken, occupationRouter);
 	app.use('/operational-place', parseAuthToken, operationalPlacesRouter);
-	app.use('/police-station', parseAuthToken, adminsOnly, policeStationRouter);
+	app.use('/police-station', parseAuthToken, policeStationRouter);
 	app.use('/proposal', parseAuthToken, proposalRouter);
 	app.use('/user', parseAuthToken, userRouter);
 
