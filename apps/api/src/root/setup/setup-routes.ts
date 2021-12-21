@@ -11,6 +11,7 @@ import {
 	caseRouter,
 	commonRouter,
 	criminalRouter,
+	familyMemberRouter,
 	policeStationRouter,
 	userRouter
 } from '$api/modules/routers';
@@ -24,6 +25,7 @@ export function setup_routes(app: Express) {
 	app.use('/cases', parseAuthToken, caseRouter);
 	app.use('/common', parseAuthToken, commonRouter);
 	app.use('/criminal', parseAuthToken, criminalRouter);
+	app.use('/family-member', parseAuthToken, familyMemberRouter);
 	app.use('/police-station', parseAuthToken, adminsOnly, policeStationRouter);
 	app.use('/user', parseAuthToken, userRouter);
 
