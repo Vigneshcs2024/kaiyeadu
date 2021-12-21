@@ -15,6 +15,7 @@ import {
 	lastArrestRouter,
 	linkRouter,
 	moRouter,
+	occupationRouter,
 	policeStationRouter,
 	userRouter
 } from '$api/modules/routers';
@@ -32,6 +33,7 @@ export function setup_routes(app: Express) {
 	app.use('/last-arrest', parseAuthToken, lastArrestRouter);
 	app.use('/link', parseAuthToken, linkRouter);
 	app.use('/modus-operandi', parseAuthToken, moRouter);
+	app.use('/occupation', parseAuthToken, occupationRouter);
 	app.use('/police-station', parseAuthToken, adminsOnly, policeStationRouter);
 	app.use('/user', parseAuthToken, userRouter);
 
