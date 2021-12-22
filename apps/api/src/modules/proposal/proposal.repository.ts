@@ -1,6 +1,7 @@
-import { ClientError } from '$api/errors';
-import { IProposalInput } from '@kaiyeadu/api-interfaces/models';
 import { StatusCodes } from 'http-status-codes';
+import { Transaction } from 'sequelize';
+import { IProposalInput } from '@kaiyeadu/api-interfaces/models';
+import { ClientError } from '$api/errors';
 import { Proposal } from './proposal.model';
 
 export function create(proposal: IProposalInput) {
@@ -51,4 +52,8 @@ export async function updateStatus(id: string, status: 'pending' | 'updated' | '
 
 export function remove(id: string) {
 	return Proposal.destroy({ where: { id } });
+}
+
+export async function removeProposalTo(criminal: string, transaction: Transaction) {
+	return Proposal.destroy({ where: { criminal }, transaction });
 }

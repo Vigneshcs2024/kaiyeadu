@@ -10,18 +10,43 @@ import {
 import { ClientError } from '$api/errors';
 import { db } from '$api/root/connections';
 import { addAddress, getAddressesOf, removeAddressesOf } from '../address/address.repository';
-import { addAssociates, getAssociatesOf, removeAssociatesOf } from '../associate/associate.repository';
+import {
+	addAssociates,
+	getAssociatesOf,
+	removeAssociatesOf
+} from '../associate/associate.repository';
 import { addBonds, getBondsOf, removeBondsOf } from '../bond/bond.repository';
-import { addCases, getInactiveCasesOf } from '../case/case.repository';
-import { addFamilyMembers, getFamilyMembersOf } from '../family-member/family-member.repository';
-import { addLastArrest, getLastArrest } from '../last-arrest/last-arrest.repository';
-import { addLinks, getLinks } from '../link/link.repository';
-import { addModusOperandi, getModusOperandi } from '../modus-operandi/modus-operandi.repository';
-import { addOccupation, getOccupationsOf } from '../occupation/occupation.repository';
-import { addOpPlaces, getOpPlacesOf } from '../operational-places/operational-places.repository';
-import { addVehicles, getAllVehiclesOf } from '../vehicle/vehicle.repository';
+import { addCases, getInactiveCasesOf, removeCasesOf } from '../case/case.repository';
+import {
+	addFamilyMembers,
+	getFamilyMembersOf,
+	removeFamilyMembersOf
+} from '../family-member/family-member.repository';
+import {
+	addLastArrest,
+	getLastArrest,
+	removeLastArrestDetailsOf
+} from '../last-arrest/last-arrest.repository';
+import { addLinks, getLinks, removeLinksOf } from '../link/link.repository';
+import {
+	addModusOperandi,
+	getModusOperandi,
+	removeModusOperandisOf
+} from '../modus-operandi/modus-operandi.repository';
+import {
+	addOccupation,
+	getOccupationsOf,
+	removeOccupationsOf
+} from '../occupation/occupation.repository';
+import {
+	addOpPlaces,
+	getOpPlacesOf,
+	removeOpPsOf
+} from '../operational-places/operational-places.repository';
+import { addVehicles, getAllVehiclesOf, removeVehiclesOf } from '../vehicle/vehicle.repository';
 import { Criminal } from './criminal.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
+import { removeProposalTo } from '../proposal/proposal.repository';
 
 export async function create(criminalDetails: CreateCriminalDto) {
 	const {
@@ -142,13 +167,28 @@ export async function remove(id: string) {
 		throw new ClientError('Could not find a criminal associated to the given id', 404);
 	}
 
-	const transaction = await db.transaction()
+	const transaction = await db.transaction();
 
 	try {
 		removeAddressesOf(criminal.id, transaction);
 		removeAssociatesOf(criminal.id, transaction);
 		removeBondsOf(criminal.id, transaction);
-		criminal.destroy({transaction});
+		removeCasesOf(criminal.id, transaction);
+		removeFamilyMembersOf(criminal.id, transaction);
+		removeLastArrestDetailsOf(criminal.id, transaction);
+		removeLinksOf(criminal.id, transaction);
+		removeModusOperandisOf(criminal.id, transaction);
+		removeOccupationsOf(criminal.id, transaction);
+		removeOpPsOf(criminal.id, transaction);
+		removeVehiclesOf(criminal.id, transaction);
+		removeProposalTo(criminal.id, transaction);
+
+		criminal.destroy({ transaction });
+
+		await transaction.commit();
+	} catch (e) {
+		await transaction.rollback();
+		throw e;
 	}
 }
 
