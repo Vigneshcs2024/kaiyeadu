@@ -131,3 +131,14 @@ export async function remove(req: ApiRequest, res: Response) {
 		message: 'Criminal removed successfully'
 	});
 }
+
+export async function listByDistrict(req: ApiRequest, res: Response) {
+	const { district } = req.params;
+
+	await Joi.string().required().validateAsync(district);
+
+	return res.status(StatusCodes.OK).json({
+		message: 'Criminals retrieved successfully',
+		result: await criminalRepo.getListByDistrict(district)
+	});
+}

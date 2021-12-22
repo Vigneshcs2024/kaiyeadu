@@ -23,6 +23,7 @@ import * as vehicleRepo from '../vehicle/vehicle.repository';
 import { Criminal } from './criminal.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
 import { removeProposalTo } from '../proposal/proposal.repository';
+import { OperationalPlace } from '../models';
 
 export async function create(criminalDetails: CreateCriminalDto) {
 	const {
@@ -166,6 +167,26 @@ export async function remove(id: string) {
 		await transaction.rollback();
 		throw e;
 	}
+}
+
+export async function getListByDistrict(district: string) {
+	const criminalIdsByDist = await OperationalPlace.findAll({
+		where: {
+			district
+		},
+		attributes: ['id', 'criminal'],
+		raw: true
+	});
+
+	return Criminal.findAll({
+		where: {
+			id: {
+				[Op.in]: criminalIdsByDist.map(c => c.criminal)
+			}
+		},
+		attributes: ['name', 'image_url', 'hs_number', 'id'],
+		raw: true
+	});
 }
 
 export type ListCriminalsQuery = {
