@@ -19,3 +19,15 @@ export async function update(req: ApiRequest, res: Response) {
 		.status(StatusCodes.OK)
 		.json({ message: 'Associate updated successfully', result: updated });
 }
+
+export async function remove(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+
+	await repo.remove(id);
+
+	return res
+		.status(StatusCodes.OK)
+		.json({ message: `Successfully deleted associate of id: ${id}` });
+}

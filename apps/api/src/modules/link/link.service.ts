@@ -15,3 +15,13 @@ export async function update(req: ApiRequest, res: Response) {
 	const updated = await repo.update(id, details);
 	res.json({ message: 'link updated successfully', result: updated });
 }
+
+export async function remove(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+
+	await repo.remove(id);
+
+	res.json({ message: `Successfully deleted link of id: ${id}` });
+}

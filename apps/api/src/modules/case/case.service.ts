@@ -41,3 +41,13 @@ export async function update(req: ApiRequest, res: Response) {
 
 	return res.json({ message: 'Case updated successfully', result: updatedCase });
 }
+
+export async function remove(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+
+	await caseRepo.remove(id);
+
+	res.json({ message: `Successfully deleted case of id: ${id}` });
+}
