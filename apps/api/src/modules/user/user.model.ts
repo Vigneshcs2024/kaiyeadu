@@ -12,8 +12,19 @@ export class User extends Model<IUser, IUserInput> implements IUser {
 	public police_station!: string;
 	public email!: string;
 	public phone!: number;
+	public designation!:
+		| 'Gr II - PC'
+		| 'Gr I - PC'
+		| 'HC'
+		| 'SSI'
+		| 'SI'
+		| 'Inspr'
+		| 'DSP'
+		| 'ADSP'
+		| 'SP'
+		| 'DIG'
+		| 'IG';
 	public password: string;
-	public designation!: string;
 	public role!: 'user' | 'admin' | 'master';
 
 	public readonly createdAt!: Date;
@@ -61,7 +72,19 @@ User.init(
 			allowNull: true
 		},
 		designation: {
-			type: DataTypes.STRING,
+			type: DataTypes.ENUM(
+				'Gr II - PC',
+				'Gr I - PC',
+				'HC',
+				'SSI',
+				'SI',
+				'Inspr',
+				'DSP',
+				'ADSP',
+				'SP',
+				'DIG',
+				'IG'
+			),
 			allowNull: false
 		},
 		role: {

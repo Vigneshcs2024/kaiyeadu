@@ -12,7 +12,23 @@ export function validateCreateUser(userDetails: CreateUserDto) {
 			'string.min': `'police_station' must be a valid uuid`,
 			'string.max': `'police_station' must be a valid uuid`
 		}),
-		designation: Joi.string().min(3).max(30).required(),
+		designation: Joi.string()
+			.min(3)
+			.max(30)
+			.valid(
+				'Gr II - PC',
+				'Gr I - PC',
+				'HC',
+				'SSI',
+				'SI',
+				'Inspr',
+				'DSP',
+				'ADSP',
+				'SP',
+				'DIG',
+				'IG'
+			)
+			.required(),
 		role: Joi.valid('user', 'admin', 'master').required()
 	});
 

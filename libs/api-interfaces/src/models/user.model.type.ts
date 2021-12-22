@@ -6,7 +6,8 @@ export interface IUser {
 	email: string;
 	phone: number;
 	password?: string;
-	designation: string; // todo: need to choose enum
+	designation: 'Gr II - PC' | 'Gr I - PC' | 'HC' | 'SSI' | 'SI' | 'Inspr' | 'DSP' | 'ADSP' | 'SP'
+| 'DIG' | 'IG'
 	role: 'user' | 'admin' | 'master';
 	createdAt: Date;
 	updatedAt: Date;
