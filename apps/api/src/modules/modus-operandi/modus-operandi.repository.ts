@@ -33,3 +33,11 @@ export async function update(id: string, details: string) {
 	}
 	return mo.set({ type: details }).save();
 }
+
+export function removeModusOperandisOf(criminal: string, transaction?: Transaction) {
+	return ModusOperandi.destroy({where:{criminal}, transaction});
+}
+
+export function remove(id: string) {
+	return ModusOperandi.destroy({where: {id}});
+}

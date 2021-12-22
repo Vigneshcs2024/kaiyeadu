@@ -35,3 +35,11 @@ export async function updateAddress(id: string, data: Partial<AddressDto>) {
 
 	return address.update(data);
 }
+
+export function removeAddressesOf(criminalId: string, transaction?: Transaction) {
+	return Address.destroy({ where: { criminal: criminalId }, transaction });
+}
+
+export function remove(id: string) {
+	return Address.destroy({ where: { id } });
+}

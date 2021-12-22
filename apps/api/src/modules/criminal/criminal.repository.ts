@@ -9,9 +9,9 @@ import {
 } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { db } from '$api/root/connections';
-import { addAddress, getAddressesOf } from '../address/address.repository';
-import { addAssociates, getAssociatesOf } from '../associate/associate.repository';
-import { addBonds, getBondsOf } from '../bond/bond.repository';
+import { addAddress, getAddressesOf, removeAddressesOf } from '../address/address.repository';
+import { addAssociates, getAssociatesOf, removeAssociatesOf } from '../associate/associate.repository';
+import { addBonds, getBondsOf, removeBondsOf } from '../bond/bond.repository';
 import { addCases, getInactiveCasesOf } from '../case/case.repository';
 import { addFamilyMembers, getFamilyMembersOf } from '../family-member/family-member.repository';
 import { addLastArrest, getLastArrest } from '../last-arrest/last-arrest.repository';
@@ -130,10 +130,26 @@ export async function getListMinimal({ params, pagination }: ListCriminalsQuery)
 
 export async function update(id: string, updates: UpdateCriminalPersonalDetailsDto) {
 	const criminal = await Criminal.findByPk(id);
-	if(!criminal) {
+	if (!criminal) {
 		throw new ClientError('Could not find a criminal associated to the given id', 404);
 	}
 	return criminal.update(updates);
+}
+
+export async function remove(id: string) {
+	const criminal = await Criminal.findByPk(id);
+	if (!criminal) {
+		throw new ClientError('Could not find a criminal associated to the given id', 404);
+	}
+
+	const transaction = await db.transaction()
+
+	try {
+		removeAddressesOf(criminal.id, transaction);
+		removeAssociatesOf(criminal.id, transaction);
+		removeBondsOf(criminal.id, transaction);
+		criminal.destroy({transaction});
+	}
 }
 
 export type ListCriminalsQuery = {

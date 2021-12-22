@@ -34,3 +34,11 @@ export async function update(id: string, details: BondDto) {
 
 	return bond.update(details);
 }
+
+export function removeBondsOf(criminal: string, transaction: Transaction) {
+	return Bond.destroy({ where: { criminal }, transaction });
+}
+
+export function remove(id: string) {
+	return Bond.destroy({ where: { id } });
+}

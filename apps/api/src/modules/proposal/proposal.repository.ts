@@ -48,3 +48,7 @@ export async function updateStatus(id: string, status: 'pending' | 'updated' | '
 
 	return proposal.update({ status });
 }
+
+export function remove(id: string) {
+	return Proposal.destroy({ where: { id } });
+}

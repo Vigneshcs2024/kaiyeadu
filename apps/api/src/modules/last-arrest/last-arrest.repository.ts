@@ -36,3 +36,11 @@ export async function update(id: string, details: Partial<LastArrestDto>) {
 
 	return lastArrest.update(details);
 }
+
+export function removeLastArrestDetailsOf(criminal: string, transaction?: Transaction) {
+	return LastArrest.destroy({ where: { criminal }, transaction });
+}
+
+export function remove(id: string) {
+	return LastArrest.destroy({ where: { id } });
+}

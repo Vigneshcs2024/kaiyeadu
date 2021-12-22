@@ -37,3 +37,11 @@ export async function update(id: string, placeDetails: OpPlaceDto) {
 	}
 	return lastArrest.update(placeDetails);
 }
+
+export function removeOpPsOf(criminal: string, transaction?: Transaction) {
+	return OperationalPlace.destroy({where:{criminal}, transaction});
+}
+
+export function remove(id: string) {
+	return OperationalPlace.destroy({where: {id}});
+}

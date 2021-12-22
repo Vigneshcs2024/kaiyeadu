@@ -40,3 +40,11 @@ export async function update(id: string, details: AssociatesDto) {
 
 	return associate.update(details);
 }
+
+export function removeAssociatesOf(criminal: string, transaction?: Transaction) {
+	return Associate.destroy({ where: { criminal }, transaction });
+}
+
+export function remove(id: string) {
+	return Associate.destroy({ where: { id } });
+}

@@ -35,3 +35,11 @@ export async function update(id: string, details: string) {
 	}
 	return lastArrest.update({ name: details });
 }
+
+export function removeOccupationsOf(criminal: string, transaction?: Transaction) {
+	return Occupation.destroy({where:{criminal}, transaction});
+}
+
+export function remove(id: string) {
+	return Occupation.destroy({where: {id}});
+}

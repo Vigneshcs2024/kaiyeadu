@@ -48,3 +48,7 @@ export async function update(id: string, policeStationDetails: CreatePSDto) {
 
 	return policeStation.update(policeStationDetails);
 }
+
+export function remove(id: string) {
+	return PoliceStation.destroy({where: {id}});
+}

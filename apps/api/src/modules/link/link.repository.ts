@@ -36,3 +36,11 @@ export async function update(id: string, details: Partial<LinkDto>) {
 	}
 	return link.update(details);
 }
+
+export function removeLinksOf(criminal: string, transaction?: Transaction) {
+	return Link.destroy({ where: { criminal }, transaction });
+}
+
+export function remove(id: string) {
+	return Link.destroy({ where: { id } });
+}

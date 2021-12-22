@@ -1,13 +1,13 @@
-import { Transaction } from 'sequelize';
+import { Transaction, Op } from 'sequelize';
 import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
+import { db } from '$api/root/connections';
+import { ClientError } from '$api/errors';
 import { logger } from '$api/tools';
 import { ActiveCase } from '../active-case/active-case.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
 import { getPSNameById } from '../police-station/police-station.repository';
 import { Case } from './case.model';
-import { db } from '$api/root/connections';
-import { ClientError } from '$api/errors';
 
 export function create(caseDetails: ICaseInput) {
 	return Case.build(caseDetails).save();
@@ -114,4 +114,31 @@ export async function update(caseId: string, details: CaseDto) {
 	await transaction.commit();
 
 	return $case;
+}
+
+export async function removeCasesOf(criminal: string, transaction?: Transaction) {
+	const cases = await Case.findAll({
+		where: { criminal },
+		transaction,
+		attributes: ['id'],
+		raw: true
+	});
+
+	// ! needs testing
+	await ActiveCase.destroy({
+		where: {
+			[Op.or]: {
+				...cases.map(c => ({
+					case: c.id
+				}))
+			}
+		},
+		transaction
+	});
+
+	return Case.destroy({ where: { criminal }, transaction });
+}
+
+export function remove(id: string) {
+	return Case.destroy({ where: { id } });
 }

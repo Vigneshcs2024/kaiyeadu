@@ -36,3 +36,11 @@ export async function update(id: string, details: Partial<FamilyMemberDto>) {
 	}
 	return familyMember.update(details);
 }
+
+export function removeFamilyMembersOf(criminal: string, transaction?: Transaction) {
+	return FamilyMember.destroy({ where: { criminal }, transaction });
+}
+
+export function remove(id: string) {
+	return FamilyMember.destroy({ where: { id } });
+}

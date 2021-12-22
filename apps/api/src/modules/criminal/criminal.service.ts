@@ -119,3 +119,15 @@ export async function updatePersonalDetails(req: ApiRequest, res: Response) {
 		result: criminal
 	});
 }
+
+export async function remove(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+
+	await criminalRepo.remove(id);
+
+	return res.status(StatusCodes.OK).json({
+		message: 'Criminal removed successfully'
+	});
+}
