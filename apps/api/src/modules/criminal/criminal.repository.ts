@@ -9,41 +9,17 @@ import {
 } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { db } from '$api/root/connections';
-import { addAddress, getAddressesOf, removeAddressesOf } from '../address/address.repository';
-import {
-	addAssociates,
-	getAssociatesOf,
-	removeAssociatesOf
-} from '../associate/associate.repository';
-import { addBonds, getBondsOf, removeBondsOf } from '../bond/bond.repository';
-import { addCases, getInactiveCasesOf, removeCasesOf } from '../case/case.repository';
-import {
-	addFamilyMembers,
-	getFamilyMembersOf,
-	removeFamilyMembersOf
-} from '../family-member/family-member.repository';
-import {
-	addLastArrest,
-	getLastArrest,
-	removeLastArrestDetailsOf
-} from '../last-arrest/last-arrest.repository';
-import { addLinks, getLinks, removeLinksOf } from '../link/link.repository';
-import {
-	addModusOperandi,
-	getModusOperandi,
-	removeModusOperandisOf
-} from '../modus-operandi/modus-operandi.repository';
-import {
-	addOccupation,
-	getOccupationsOf,
-	removeOccupationsOf
-} from '../occupation/occupation.repository';
-import {
-	addOpPlaces,
-	getOpPlacesOf,
-	removeOpPsOf
-} from '../operational-places/operational-places.repository';
-import { addVehicles, getAllVehiclesOf, removeVehiclesOf } from '../vehicle/vehicle.repository';
+import * as addrRepo from '../address/address.repository';
+import * as associateRepo from '../associate/associate.repository';
+import * as bondRepo from '../bond/bond.repository';
+import * as caseRepo from '../case/case.repository';
+import * as famRepo from '../family-member/family-member.repository';
+import * as laRepo from '../last-arrest/last-arrest.repository';
+import * as linkRepo from '../link/link.repository';
+import * as moRepo from '../modus-operandi/modus-operandi.repository';
+import * as occRepo from '../occupation/occupation.repository';
+import * as opRepo from '../operational-places/operational-places.repository';
+import * as vehicleRepo from '../vehicle/vehicle.repository';
 import { Criminal } from './criminal.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
 import { removeProposalTo } from '../proposal/proposal.repository';
@@ -69,17 +45,17 @@ export async function create(criminalDetails: CreateCriminalDto) {
 	try {
 		const criminal = await Criminal.build(rest).save({ transaction });
 
-		await addModusOperandi(criminal.id, modus_operandi, transaction);
-		await addCases(criminal.id, cases, transaction);
-		await addBonds(criminal.id, bonds, transaction);
-		await addAddress(criminal.id, addresses, transaction);
-		await addAssociates(criminal.id, associates, transaction);
-		await addLinks(criminal.id, links, transaction);
-		await addFamilyMembers(criminal.id, family_members, transaction);
-		await addLastArrest(criminal.id, last_arrest, transaction);
-		await addOpPlaces(criminal.id, operational_places, transaction);
-		await addVehicles(criminal.id, vehicles, transaction);
-		await addOccupation(criminal.id, occupation, transaction);
+		await moRepo.addModusOperandi(criminal.id, modus_operandi, transaction);
+		await caseRepo.addCases(criminal.id, cases, transaction);
+		await bondRepo.addBonds(criminal.id, bonds, transaction);
+		await addrRepo.addAddress(criminal.id, addresses, transaction);
+		await associateRepo.addAssociates(criminal.id, associates, transaction);
+		await linkRepo.addLinks(criminal.id, links, transaction);
+		await famRepo.addFamilyMembers(criminal.id, family_members, transaction);
+		await laRepo.addLastArrest(criminal.id, last_arrest, transaction);
+		await opRepo.addOpPlaces(criminal.id, operational_places, transaction);
+		await vehicleRepo.addVehicles(criminal.id, vehicles, transaction);
+		await occRepo.addOccupation(criminal.id, occupation, transaction);
 
 		transaction.commit();
 		return criminal;
@@ -97,17 +73,17 @@ export async function getCompleteDetails(id: string) {
 	}
 
 	const activeCases = await getActiveCasesOf(id);
-	const cases = await getInactiveCasesOf(id);
-	const addresses = await getAddressesOf(id);
-	const associates = await getAssociatesOf(id);
-	const familyMembers = await getFamilyMembersOf(id);
-	const links = await getLinks(id);
-	const lastArrest = await getLastArrest(id);
-	const modusOperandi = await getModusOperandi(id);
-	const operationalPlaces = await getOpPlacesOf(id);
-	const vehicles = await getAllVehiclesOf(id);
-	const occupation = await getOccupationsOf(id);
-	const bonds = await getBondsOf(id);
+	const cases = await caseRepo.getInactiveCasesOf(id);
+	const addresses = await addrRepo.getAddressesOf(id);
+	const associates = await associateRepo.getAssociatesOf(id);
+	const familyMembers = await famRepo.getFamilyMembersOf(id);
+	const links = await linkRepo.getLinks(id);
+	const lastArrest = await laRepo.getLastArrest(id);
+	const modusOperandi = await moRepo.getModusOperandi(id);
+	const operationalPlaces = await opRepo.getOpPlacesOf(id);
+	const vehicles = await vehicleRepo.getAllVehiclesOf(id);
+	const occupation = await occRepo.getOccupationsOf(id);
+	const bonds = await bondRepo.getBondsOf(id);
 
 	const fullDetails: CriminalDto = {
 		...criminal,
@@ -170,18 +146,18 @@ export async function remove(id: string) {
 	const transaction = await db.transaction();
 
 	try {
-		removeAddressesOf(criminal.id, transaction);
-		removeAssociatesOf(criminal.id, transaction);
-		removeBondsOf(criminal.id, transaction);
-		removeCasesOf(criminal.id, transaction);
-		removeFamilyMembersOf(criminal.id, transaction);
-		removeLastArrestDetailsOf(criminal.id, transaction);
-		removeLinksOf(criminal.id, transaction);
-		removeModusOperandisOf(criminal.id, transaction);
-		removeOccupationsOf(criminal.id, transaction);
-		removeOpPsOf(criminal.id, transaction);
-		removeVehiclesOf(criminal.id, transaction);
-		removeProposalTo(criminal.id, transaction);
+		await addrRepo.removeAddressesOf(criminal.id, transaction);
+		await associateRepo.removeAssociatesOf(criminal.id, transaction);
+		await bondRepo.removeBondsOf(criminal.id, transaction);
+		await caseRepo.removeCasesOf(criminal.id, transaction);
+		await famRepo.removeFamilyMembersOf(criminal.id, transaction);
+		await laRepo.removeLastArrestDetailsOf(criminal.id, transaction);
+		await linkRepo.removeLinksOf(criminal.id, transaction);
+		await moRepo.removeModusOperandisOf(criminal.id, transaction);
+		await occRepo.removeOccupationsOf(criminal.id, transaction);
+		await opRepo.removeOpPsOf(criminal.id, transaction);
+		await vehicleRepo.removeVehiclesOf(criminal.id, transaction);
+		await removeProposalTo(criminal.id, transaction);
 
 		criminal.destroy({ transaction });
 
