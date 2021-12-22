@@ -9,6 +9,7 @@ router.get('/list', adminsOnly, userService.listUsers);
 
 router.get('/get/:id', adminsOnly, userService.getUser);
 router.patch('/update/:id', adminsOnly, userService.updateUser);
+router.delete('/remove/:id', adminsOnly, userService.removeUser);
 
 router.put('/update-password', adminsOnly, userService.updatePassword);
 

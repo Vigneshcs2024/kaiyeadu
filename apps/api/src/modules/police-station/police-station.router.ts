@@ -6,6 +6,7 @@ const router = Router();
 
 router.get('/get/:id', policeStationService.findById);
 router.patch('/update/:id', adminsOnly, policeStationService.update);
+router.delete('/remove/:id', adminsOnly, policeStationService.remove);
 router.get('/list', policeStationService.getList);
 router.get('/names', policeStationService.getNames);
 router.post('/create', adminsOnly, policeStationService.create);

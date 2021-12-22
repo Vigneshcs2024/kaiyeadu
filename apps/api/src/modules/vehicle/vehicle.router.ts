@@ -5,5 +5,6 @@ import * as vehicleService from './vehicle.service';
 const router = Router();
 
 router.patch('/update/:id', adminsOnly, vehicleService.update);
+router.delete('/remove/:id', adminsOnly, vehicleService.remove);
 
 export { router as vehicleRouter };

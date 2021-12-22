@@ -5,5 +5,6 @@ import * as linkService from './link.service';
 const router = Router();
 
 router.patch('/update/:id', adminsOnly, linkService.update);
+router.delete('/remove/:id', adminsOnly, linkService.remove);
 
 export { router as linkRouter };
