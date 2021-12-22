@@ -169,12 +169,31 @@ export async function remove(id: string) {
 	}
 }
 
-export async function getListByDistrict(district: string) {
+export async function getListByDistrict(
+	district: string,
+	{ params, pagination }: ListCriminalsQuery
+) {
 	const criminalIdsByDist = await OperationalPlace.findAll({
 		where: {
-			district
+			district,
+			[Op.or]: [
+				{
+					name: {
+						[Op.like]: `%${params.search ?? ''}%`
+					}
+				},
+				{
+					alias_name: {
+						[Op.like]: `%${params.search ?? ''}%`
+					}
+				}
+			],
+			...params.filters
 		},
-		attributes: ['id', 'criminal'],
+		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage || 0,
+		limit: pagination.resultsPerPage || 10,
+		attributes: ['name', 'image_url', 'hs_number', 'id'],
+		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
 		raw: true
 	});
 

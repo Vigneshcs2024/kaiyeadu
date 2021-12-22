@@ -134,11 +134,35 @@ export async function remove(req: ApiRequest, res: Response) {
 
 export async function listByDistrict(req: ApiRequest, res: Response) {
 	const { district } = req.params;
+	const mp = new URLSearchParams(req.url);
+	const options = {
+		count: +mp.get('count'),
+		page: +mp.get('page'),
+		f: JSON.parse(mp.get('f')),
+		q: mp.get('q'),
+		s: JSON.parse(mp.get('s'))
+	};
+
+	logger.debug(jsonPrettyPrint(options));
+
+	await validateListCriminalsQuery(options);
 
 	await Joi.string().required().validateAsync(district);
 
+	const criminals = await criminalRepo.getListByDistrict(district, {
+		pagination: {
+			pageNumber: +options.page,
+			resultsPerPage: +options.count
+		},
+		params: {
+			filters: options.f,
+			search: options.q,
+			sort: options.s
+		}
+	});
+
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminals retrieved successfully',
-		result: await criminalRepo.getListByDistrict(district)
+		result: criminals
 	});
 }
