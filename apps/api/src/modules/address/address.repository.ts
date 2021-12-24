@@ -6,7 +6,7 @@ import { Criminal } from '../models';
 import { Address } from './address.model';
 import { StatusCodes } from 'http-status-codes';
 
-export function addAddress(criminal: string, addresses: AddressDto[], transaction: Transaction) {
+export function addAddress(criminal: string, addresses: AddressDto[], transaction?: Transaction) {
 	logger.debug('Creating Addresses...');
 
 	if (!addresses?.length) return Promise.resolve([]);
