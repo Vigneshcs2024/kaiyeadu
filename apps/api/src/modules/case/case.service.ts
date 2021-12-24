@@ -1,10 +1,24 @@
 import Joi from 'joi';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ApiRequest } from '$api/types';
 import * as caseRepo from './case.repository';
 import { validateCases } from './case.validation';
-import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
+
+export async function add(req: ApiRequest, res: Response) {
+	const { criminalId } = req.params;
+	const { cases }: { cases: CaseDto[] } = req.body;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).validateAsync(criminalId);
+	await validateCases(cases);
+
+	const createdCases = await caseRepo.addCases(criminalId, cases);
+	res.status(StatusCodes.CREATED).json({
+		message: 'Cases added successfully',
+		result: createdCases
+	});
+}
 
 export async function getAll(req: ApiRequest, res: Response) {
 	const { criminal_id } = req.params;

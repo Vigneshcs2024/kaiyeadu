@@ -8,7 +8,7 @@ import { Associate } from './associate.model';
 export function addAssociates(
 	criminal: string,
 	associates: AssociatesDto[],
-	transaction: Transaction
+	transaction?: Transaction
 ): Promise<Associate[]> {
 	logger.debug('Creating Associates...');
 

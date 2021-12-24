@@ -6,6 +6,20 @@ import { ApiRequest } from '$api/types';
 import * as repo from './associate.repository';
 import { validateAddAssociates } from './associate.validation';
 
+export async function add(req: ApiRequest, res: Response) {
+	const { criminalId } = req.params;
+	const { associates }: { associates: AssociatesDto[] } = req.body;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).validateAsync(criminalId);
+	await validateAddAssociates(associates);
+
+	const createdAssociates = await repo.addAssociates(criminalId, associates);
+	res.status(StatusCodes.CREATED).json({
+		message: 'Associates added successfully',
+		result: createdAssociates
+	});
+}
+
 export async function update(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 	const { body: data }: { body: AssociatesDto } = req;
