@@ -124,7 +124,7 @@ export async function getListMinimal({ params, pagination }: ListCriminalsQuery)
 		},
 		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage || 0,
 		limit: pagination.resultsPerPage || 10,
-		attributes: ['name', 'image_url', 'hs_number', 'id'],
+		attributes: ['name', 'image_url', 'hs_number', 'id', 'present_status'],
 		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
 		raw: true
 	});
@@ -194,7 +194,7 @@ export async function getListByDistrict(
 			],
 			...params.filters
 		},
-		attributes: ['name', 'image_url', 'hs_number', 'id'],
+		attributes: ['name', 'image_url', 'hs_number', 'id', 'present_status'],
 		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage || 0,
 		limit: pagination.resultsPerPage || 10,
 		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
