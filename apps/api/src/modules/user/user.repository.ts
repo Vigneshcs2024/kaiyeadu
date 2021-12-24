@@ -11,6 +11,7 @@ import {
 } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { User } from './user.model';
+import { Proposal } from '../proposal/proposal.model';
 
 type ListUsersQuery = {
 	params: {
@@ -85,4 +86,12 @@ export async function updateUser(userId: string, userDetails: UpdateUserDto) {
 	}
 
 	return user.update({ ...userDetails });
+}
+
+export async function remove(id: string, { force } = { force: false }) {
+	const count = await Proposal.count({ where: { created_by: id } });
+	if (count > 0 && !force)
+		throw new ClientError('The user has some unresolved proposals', StatusCodes.CONFLICT);
+	if (force) Proposal.destroy({ where: { created_by: { id } } });
+	return await User.destroy({ where: { id } });
 }

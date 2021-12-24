@@ -8,6 +8,7 @@ import * as userRepository from './user.repository';
 import { validateCreateUser, validateUpdatePassword, validateUpdateUser } from './user.validation';
 import { logger } from '$api/tools';
 import { jsonPrettyPrint } from '$api/utilities';
+import Joi from 'joi';
 
 export async function createUser(req: ApiRequest, res: Response) {
 	if (req.user.role === 'admin' && req.body.role !== 'user') {
@@ -103,4 +104,14 @@ export async function updateUser(req: ApiRequest, res: Response) {
 	await userRepository.updateUser(id, userDetails);
 
 	res.status(StatusCodes.OK).json({ message: 'User updated successfully', result: { id } });
+}
+
+export async function removeUser(req: ApiRequest, res: Response) {
+	const { id } = req.params;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+
+	await userRepository.remove(id);
+
+	res.status(StatusCodes.OK).json({ message: 'User removed successfully' });
 }

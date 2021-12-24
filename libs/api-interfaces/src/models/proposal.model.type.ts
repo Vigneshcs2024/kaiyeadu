@@ -3,7 +3,7 @@ export interface IProposal {
 	criminal: string;
 	created_by: string;
 	description: string;
-	status: 'created' | 'updated' | 'rejected';
+	status: 'pending' | 'updated' | 'rejected';
 
 	createdAt: Date;
 	updatedAt: Date;

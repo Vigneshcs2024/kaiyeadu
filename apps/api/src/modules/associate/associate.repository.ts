@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import { Transaction } from 'sequelize';
 import { AssociatesDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ClientError } from '$api/errors';
 import { logger } from '$api/tools';
 import { Associate } from './associate.model';
 
@@ -25,4 +27,24 @@ export function getAssociatesOf(criminal: string, transaction?: Transaction): Pr
 		transaction,
 		raw: true
 	});
+}
+
+export async function update(id: string, details: AssociatesDto) {
+	const associate = await Associate.findByPk(id);
+	if (!associate) {
+		throw new ClientError(
+			'The given id does not correspond to an associate',
+			StatusCodes.NOT_FOUND
+		);
+	}
+
+	return associate.update(details);
+}
+
+export function removeAssociatesOf(criminal: string, transaction?: Transaction) {
+	return Associate.destroy({ where: { criminal }, transaction });
+}
+
+export function remove(id: string) {
+	return Associate.destroy({ where: { id } });
 }

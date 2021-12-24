@@ -2,11 +2,8 @@ import { IUserInput } from '../models';
 
 export type CreateUserDto = IUserInput;
 
-export type SortableUserParameters = keyof Omit<
-	IUserInput,
-	'password' | 'police_station' | 'designation' | 'role'
->;
-export type FilterableUserParameters = Omit<IUserInput, 'name' | 'password' | 'email' | 'phone'>;
+export type SortableUserParameters = keyof Pick<IUserInput, 'name' | 'gpf' | 'email' | 'phone'>;
+export type FilterableUserParameters = Pick<IUserInput, 'police_station' | 'designation' | 'role'>;
 
 export type ListUsersDto = {
 	page: number;

@@ -1,4 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
+import { Transaction } from 'sequelize';
 import { IProposalInput } from '@kaiyeadu/api-interfaces/models';
+import { ClientError } from '$api/errors';
 import { Proposal } from './proposal.model';
 
 export function create(proposal: IProposalInput) {
@@ -35,4 +38,22 @@ export async function getProposalsOf(user: string) {
 
 export function getProposal(id: string) {
 	return Proposal.findByPk(id, { raw: true });
+}
+
+export async function updateStatus(id: string, status: 'pending' | 'updated' | 'rejected') {
+	const proposal = await Proposal.findByPk(id);
+
+	if (!proposal) {
+		throw new ClientError('Proposal not found', StatusCodes.NOT_FOUND);
+	}
+
+	return proposal.update({ status });
+}
+
+export function remove(id: string) {
+	return Proposal.destroy({ where: { id } });
+}
+
+export async function removeProposalTo(criminal: string, transaction: Transaction) {
+	return Proposal.destroy({ where: { criminal }, transaction });
 }

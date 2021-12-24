@@ -9,19 +9,21 @@ import {
 } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { db } from '$api/root/connections';
-import { addAddress, getAddressesOf } from '../address/address.repository';
-import { addAssociates, getAssociatesOf } from '../associate/associate.repository';
-import { addBonds, getBondsOf } from '../bond/bond.repository';
-import { addCases, getInactiveCasesOf } from '../case/case.repository';
-import { addFamilyMembers, getFamilyMembersOf } from '../family-member/family-member.repository';
-import { addLastArrest, getLastArrest } from '../last-arrest/last-arrest.repository';
-import { addLinks, getLinks } from '../link/link.repository';
-import { addModusOperandi, getModusOperandi } from '../modus-operandi/modus-operandi.repository';
-import { addOccupation, getOccupationsOf } from '../occupation/occupation.repository';
-import { addOpPlaces, getOpPlacesOf } from '../operational-places/operational-places.repository';
-import { addVehicles, getAllVehiclesOf } from '../vehicle/vehicle.repository';
+import * as addrRepo from '../address/address.repository';
+import * as associateRepo from '../associate/associate.repository';
+import * as bondRepo from '../bond/bond.repository';
+import * as caseRepo from '../case/case.repository';
+import * as famRepo from '../family-member/family-member.repository';
+import * as laRepo from '../last-arrest/last-arrest.repository';
+import * as linkRepo from '../link/link.repository';
+import * as moRepo from '../modus-operandi/modus-operandi.repository';
+import * as occRepo from '../occupation/occupation.repository';
+import * as opRepo from '../operational-places/operational-places.repository';
+import * as vehicleRepo from '../vehicle/vehicle.repository';
 import { Criminal } from './criminal.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
+import { removeProposalTo } from '../proposal/proposal.repository';
+import { OperationalPlace } from '../models';
 
 export async function create(criminalDetails: CreateCriminalDto) {
 	const {
@@ -44,17 +46,17 @@ export async function create(criminalDetails: CreateCriminalDto) {
 	try {
 		const criminal = await Criminal.build(rest).save({ transaction });
 
-		await addModusOperandi(criminal.id, modus_operandi, transaction);
-		await addCases(criminal.id, cases, transaction);
-		await addBonds(criminal.id, bonds, transaction);
-		await addAddress(criminal.id, addresses, transaction);
-		await addAssociates(criminal.id, associates, transaction);
-		await addLinks(criminal.id, links, transaction);
-		await addFamilyMembers(criminal.id, family_members, transaction);
-		await addLastArrest(criminal.id, last_arrest, transaction);
-		await addOpPlaces(criminal.id, operational_places, transaction);
-		await addVehicles(criminal.id, vehicles, transaction);
-		await addOccupation(criminal.id, occupation, transaction);
+		await moRepo.addModusOperandi(criminal.id, modus_operandi, transaction);
+		await caseRepo.addCases(criminal.id, cases, transaction);
+		await bondRepo.addBonds(criminal.id, bonds, transaction);
+		await addrRepo.addAddress(criminal.id, addresses, transaction);
+		await associateRepo.addAssociates(criminal.id, associates, transaction);
+		await linkRepo.addLinks(criminal.id, links, transaction);
+		await famRepo.addFamilyMembers(criminal.id, family_members, transaction);
+		await laRepo.addLastArrest(criminal.id, last_arrest, transaction);
+		await opRepo.addOpPlaces(criminal.id, operational_places, transaction);
+		await vehicleRepo.addVehicles(criminal.id, vehicles, transaction);
+		await occRepo.addOccupation(criminal.id, occupation, transaction);
 
 		transaction.commit();
 		return criminal;
@@ -72,17 +74,17 @@ export async function getCompleteDetails(id: string) {
 	}
 
 	const activeCases = await getActiveCasesOf(id);
-	const cases = await getInactiveCasesOf(id);
-	const addresses = await getAddressesOf(id);
-	const associates = await getAssociatesOf(id);
-	const familyMembers = await getFamilyMembersOf(id);
-	const links = await getLinks(id);
-	const lastArrest = await getLastArrest(id);
-	const modusOperandi = await getModusOperandi(id);
-	const operationalPlaces = await getOpPlacesOf(id);
-	const vehicles = await getAllVehiclesOf(id);
-	const occupation = await getOccupationsOf(id);
-	const bonds = await getBondsOf(id);
+	const cases = await caseRepo.getInactiveCasesOf(id);
+	const addresses = await addrRepo.getAddressesOf(id);
+	const associates = await associateRepo.getAssociatesOf(id);
+	const familyMembers = await famRepo.getFamilyMembersOf(id);
+	const links = await linkRepo.getLinks(id);
+	const lastArrest = await laRepo.getLastArrest(id);
+	const modusOperandi = await moRepo.getModusOperandi(id);
+	const operationalPlaces = await opRepo.getOpPlacesOf(id);
+	const vehicles = await vehicleRepo.getAllVehiclesOf(id);
+	const occupation = await occRepo.getOccupationsOf(id);
+	const bonds = await bondRepo.getBondsOf(id);
 
 	const fullDetails: CriminalDto = {
 		...criminal,
@@ -128,8 +130,82 @@ export async function getListMinimal({ params, pagination }: ListCriminalsQuery)
 	});
 }
 
-export function update(id: string, updates: UpdateCriminalPersonalDetailsDto) {
-	return Criminal.update(updates, { where: { id } });
+export async function update(id: string, updates: UpdateCriminalPersonalDetailsDto) {
+	const criminal = await Criminal.findByPk(id);
+	if (!criminal) {
+		throw new ClientError('Could not find a criminal associated to the given id', 404);
+	}
+	return criminal.update(updates);
+}
+
+export async function remove(id: string) {
+	const criminal = await Criminal.findByPk(id);
+	if (!criminal) {
+		throw new ClientError('Could not find a criminal associated to the given id', 404);
+	}
+
+	const transaction = await db.transaction();
+
+	try {
+		await addrRepo.removeAddressesOf(criminal.id, transaction);
+		await associateRepo.removeAssociatesOf(criminal.id, transaction);
+		await bondRepo.removeBondsOf(criminal.id, transaction);
+		await caseRepo.removeCasesOf(criminal.id, transaction);
+		await famRepo.removeFamilyMembersOf(criminal.id, transaction);
+		await laRepo.removeLastArrestDetailsOf(criminal.id, transaction);
+		await linkRepo.removeLinksOf(criminal.id, transaction);
+		await moRepo.removeModusOperandisOf(criminal.id, transaction);
+		await occRepo.removeOccupationsOf(criminal.id, transaction);
+		await opRepo.removeOpPsOf(criminal.id, transaction);
+		await vehicleRepo.removeVehiclesOf(criminal.id, transaction);
+		await removeProposalTo(criminal.id, transaction);
+
+		criminal.destroy({ transaction });
+
+		await transaction.commit();
+	} catch (e) {
+		await transaction.rollback();
+		throw e;
+	}
+}
+
+export async function getListByDistrict(
+	district: string,
+	{ params, pagination }: ListCriminalsQuery
+) {
+	const criminalIdsByDist = await OperationalPlace.findAll({
+		where: {
+			district,
+			[Op.or]: [
+				{
+					name: {
+						[Op.like]: `%${params.search ?? ''}%`
+					}
+				},
+				{
+					alias_name: {
+						[Op.like]: `%${params.search ?? ''}%`
+					}
+				}
+			],
+			...params.filters
+		},
+		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage || 0,
+		limit: pagination.resultsPerPage || 10,
+		attributes: ['name', 'image_url', 'hs_number', 'id'],
+		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
+		raw: true
+	});
+
+	return Criminal.findAll({
+		where: {
+			id: {
+				[Op.in]: criminalIdsByDist.map(c => c.criminal)
+			}
+		},
+		attributes: ['name', 'image_url', 'hs_number', 'id'],
+		raw: true
+	});
 }
 
 export type ListCriminalsQuery = {
