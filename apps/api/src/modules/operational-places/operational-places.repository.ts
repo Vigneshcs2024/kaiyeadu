@@ -8,7 +8,7 @@ import { OperationalPlace } from './operational-places.model';
 export function addOpPlaces(
 	criminal: Criminal['id'],
 	places: OpPlaceDto[],
-	transaction: Transaction
+	transaction?: Transaction
 ) {
 	logger.debug('Creating Operational places...');
 
@@ -39,9 +39,9 @@ export async function update(id: string, placeDetails: OpPlaceDto) {
 }
 
 export function removeOpPsOf(criminal: string, transaction?: Transaction) {
-	return OperationalPlace.destroy({where:{criminal}, transaction});
+	return OperationalPlace.destroy({ where: { criminal }, transaction });
 }
 
 export function remove(id: string) {
-	return OperationalPlace.destroy({where: {id}});
+	return OperationalPlace.destroy({ where: { id } });
 }

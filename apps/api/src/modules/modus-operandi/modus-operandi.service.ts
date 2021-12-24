@@ -1,7 +1,22 @@
 import Joi from 'joi';
 import { Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { ApiRequest } from '$api/types';
 import * as repo from './modus-operandi.repository';
+
+export async function add(req: ApiRequest, res: Response) {
+	const { criminalId } = req.params;
+	const { modusOperandi }: { modusOperandi: string[] } = req.body;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
+	await Joi.array().items(Joi.string()).required().validateAsync(modusOperandi);
+
+	const result = await repo.addModusOperandi(criminalId, modusOperandi);
+
+	return res
+		.status(StatusCodes.CREATED)
+		.json({ message: 'Modus Operandi added successfully', result });
+}
 
 export async function update(req: ApiRequest, res: Response) {
 	const { id } = req.params;

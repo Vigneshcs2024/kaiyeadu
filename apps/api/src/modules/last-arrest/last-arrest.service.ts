@@ -1,9 +1,24 @@
 import Joi from 'joi';
 import { Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { LastArrestDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ApiRequest } from '$api/types';
 import * as repo from './last-arrest.repository';
 import { validateLastArrest } from './last-arrest.validation';
+
+export async function add(req: ApiRequest, res: Response) {
+	const { criminalId } = req.params;
+	const { lastArrest }: { lastArrest: LastArrestDto } = req.body;
+
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
+	await validateLastArrest(lastArrest);
+
+	const result = await repo.addLastArrest(criminalId, lastArrest);
+
+	return res
+		.status(StatusCodes.CREATED)
+		.json({ message: 'Last Arrest details added successfully', result });
+}
 
 export async function update(req: ApiRequest, res: Response) {
 	const { id } = req.params;

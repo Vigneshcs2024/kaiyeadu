@@ -10,7 +10,7 @@ export async function add(req: ApiRequest, res: Response) {
 	const { criminalId } = req.params;
 	const { cases }: { cases: CaseDto[] } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).validateAsync(criminalId);
+	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
 	await validateCases(cases);
 
 	const createdCases = await caseRepo.addCases(criminalId, cases);

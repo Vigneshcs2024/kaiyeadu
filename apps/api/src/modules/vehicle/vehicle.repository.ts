@@ -9,7 +9,7 @@ import { Vehicle } from './vehicle.model';
 export function addVehicles(
 	criminal: Criminal['id'],
 	vehicles: VehicleDto[],
-	transaction: Transaction
+	transaction?: Transaction
 ) {
 	logger.debug('Creating Vehicles...');
 

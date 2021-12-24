@@ -8,7 +8,7 @@ import { ClientError } from '$api/errors';
 export function addFamilyMembers(
 	criminal: Criminal['id'],
 	familyMembers: FamilyMemberDto[],
-	transaction: Transaction
+	transaction?: Transaction
 ): Promise<FamilyMember[]> {
 	logger.debug('Creating Family Members...');
 
