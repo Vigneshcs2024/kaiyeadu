@@ -173,9 +173,13 @@ export async function getListByDistrict(
 	district: string,
 	{ params, pagination }: ListCriminalsQuery
 ) {
-	const criminalIdsByDist = await OperationalPlace.findAll({
+	const criminalIdsByDist = await OperationalPlace.findAll({ where: { district }, raw: true });
+
+	return Criminal.findAll({
 		where: {
-			district,
+			id: {
+				[Op.in]: criminalIdsByDist.map(c => c.criminal)
+			},
 			[Op.or]: [
 				{
 					name: {
@@ -190,20 +194,10 @@ export async function getListByDistrict(
 			],
 			...params.filters
 		},
+		attributes: ['name', 'image_url', 'hs_number', 'id'],
 		offset: (pagination.pageNumber - 1) * pagination.resultsPerPage || 0,
 		limit: pagination.resultsPerPage || 10,
-		attributes: ['name', 'image_url', 'hs_number', 'id'],
 		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
-		raw: true
-	});
-
-	return Criminal.findAll({
-		where: {
-			id: {
-				[Op.in]: criminalIdsByDist.map(c => c.criminal)
-			}
-		},
-		attributes: ['name', 'image_url', 'hs_number', 'id'],
 		raw: true
 	});
 }
