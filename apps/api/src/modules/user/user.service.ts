@@ -1,14 +1,14 @@
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { ApiRequest } from '$api/types';
-import { ClientError } from '$api/errors';
-
 import { UpdatePasswordDto, UpdateUserDto } from '@kaiyeadu/api-interfaces/dtos';
-import * as userRepository from './user.repository';
-import { validateCreateUser, validateUpdatePassword, validateUpdateUser } from './user.validation';
+import { ClientError } from '$api/errors';
+import { ApiRequest } from '$api/types';
 import { logger } from '$api/tools';
 import { jsonPrettyPrint } from '$api/utilities';
-import Joi from 'joi';
+import { validateUUID } from '$api/utilities/validations';
+
+import * as userRepository from './user.repository';
+import { validateCreateUser, validateUpdatePassword, validateUpdateUser } from './user.validation';
 
 export async function createUser(req: ApiRequest, res: Response) {
 	if (req.user.role === 'admin' && req.body.role !== 'user') {
@@ -98,8 +98,7 @@ export async function updateUser(req: ApiRequest, res: Response) {
 	const userDetails = { name, email, phone: +phone, police_station, designation, role, gpf };
 
 	logger.debug(jsonPrettyPrint(userDetails));
-	// todo: check validations
-	validateUpdateUser(userDetails);
+	await validateUpdateUser(userDetails);
 
 	await userRepository.updateUser(id, userDetails);
 
@@ -109,7 +108,7 @@ export async function updateUser(req: ApiRequest, res: Response) {
 export async function removeUser(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await validateUUID(id);
 
 	await userRepository.remove(id);
 

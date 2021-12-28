@@ -1,9 +1,9 @@
-import Joi from 'joi';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { CreateProposalDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { ApiRequest } from '$api/types';
+import { validateEnum, validateUUID } from '$api/utilities/validations';
 
 import * as proposalsRepo from './proposal.repository';
 
@@ -40,11 +40,9 @@ export async function list(req: ApiRequest, res: Response) {
 
 export async function getById(req: ApiRequest, res: Response) {
 	const { id } = req.params;
-
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await validateUUID(id);
 
 	const proposal = await proposalsRepo.getProposal(id);
-
 	return res
 		.status(StatusCodes.OK)
 		.json({ message: 'Proposal fetched successfully', result: proposal });
@@ -54,8 +52,8 @@ export async function updateStatus(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 	const { status }: { status: 'pending' | 'updated' | 'rejected' } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
-	await Joi.string().valid('pending', 'updated', 'rejected').required().validateAsync(status);
+	await validateUUID(id);
+	await validateEnum(['pending', 'updated', 'rejected'], status);
 
 	const proposal = await proposalsRepo.updateStatus(id, status);
 
@@ -66,10 +64,8 @@ export async function updateStatus(req: ApiRequest, res: Response) {
 
 export async function remove(req: ApiRequest, res: Response) {
 	const { id } = req.params;
-
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await validateUUID(id);
 
 	await proposalsRepo.remove(id);
-
 	return res.status(StatusCodes.OK).json({ message: 'Proposal removed successfully' });
 }
