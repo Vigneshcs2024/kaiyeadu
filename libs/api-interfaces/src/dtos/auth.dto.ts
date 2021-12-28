@@ -1,4 +1,4 @@
-export interface AuthCredentialsDto {
+export interface AdminAuthCredentialsDto {
 	email: string;
 	password: string;
 }

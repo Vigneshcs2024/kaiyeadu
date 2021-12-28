@@ -1,40 +1,12 @@
-import { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BackgroundContainer, Table } from '@kaiyeadu/ui/components';
-import data from './data';
+import { BackgroundContainer } from '@kaiyeadu/ui/components';
 
 export default function Profile() {
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'First Name',
-				accessor: 'first_name'
-			},
-			{
-				Header: 'Last Name',
-				accessor: 'last_name'
-			},
-			{
-				Header: 'Gender',
-				accessor: 'gender'
-			},
-			{
-				Header: 'HS Number',
-				accessor: 'hs_number'
-			},
-			{
-				Header: 'Date of Birth',
-				accessor: 'date_of_birth'
-			}
-		],
-		[]
-	);
-
 	return (
-		<BackgroundContainer pageTitle='Profiles'>
+		<BackgroundContainer pageTitle='Profile'>
 			<Layout>
-				<Table columns={columns} data={data} />
+				<h1>Profile page need to be implemented</h1>
 			</Layout>
 		</BackgroundContainer>
 	);

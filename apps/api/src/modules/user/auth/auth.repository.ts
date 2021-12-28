@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import config from 'config';
 import { StatusCodes } from 'http-status-codes';
-import { AuthCredentialsDto, UserAuthCredentials } from '@kaiyeadu/api-interfaces/dtos';
+import { AdminAuthCredentialsDto, UserAuthCredentials } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { generateOTP } from '$api/utilities';
 import { User } from '../user.model';
@@ -10,7 +10,7 @@ export async function login({
 	email,
 	gpf,
 	password
-}: Partial<AuthCredentialsDto & UserAuthCredentials>) {
+}: Partial<AdminAuthCredentialsDto & UserAuthCredentials>) {
 	const user = await User.findOne({
 		where: email ? { email } : { gpf },
 		attributes: ['id', 'password', 'name', 'role', 'designation']

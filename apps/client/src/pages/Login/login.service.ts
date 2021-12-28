@@ -1,10 +1,10 @@
 import { AxiosInstance, AxiosError } from 'axios';
-import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
+import { UserAuthCredentials } from '@kaiyeadu/api-interfaces/dtos';
 import { LoginResponse, Token } from '@kaiyeadu/api-interfaces/responses';
 
 export async function login(
 	axiosInstance: AxiosInstance,
-	credentials: AdminAuthCredentialsDto
+	credentials: UserAuthCredentials
 ): Promise<Token> {
 	try {
 		const res = await axiosInstance.post<LoginResponse>('/auth/login', credentials);

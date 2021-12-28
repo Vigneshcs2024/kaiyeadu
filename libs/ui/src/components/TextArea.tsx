@@ -1,7 +1,7 @@
-import { FC, InputHTMLAttributes } from 'react';
+import { FC, TextareaHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 	label: string;
 	tip?: string | { content: string; color: string };
 }
@@ -9,7 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const TextArea: FC<InputProps> = ({ label, tip, ...rest }) => (
 	<Container>
 		{label && <label htmlFor={rest.id ?? rest.name}>{label}</label>}
-		<textarea id={rest.id ?? rest.name}/>
+		<textarea id={rest.id ?? rest.name} {...rest} />
 		<p style={typeof tip !== 'string' ? { color: tip?.color } : {}}>
 			{typeof tip === 'string' ? tip : tip?.content} &nbsp;
 		</p>
@@ -25,7 +25,7 @@ const Container = styled.div`
 		margin-bottom: 0.4em;
 	}
 
-	@media only screen and (max-width: 600px) {
+	@media only screen and (max-width: 750px) {
 		min-width: 80%;
 	}
 
@@ -33,7 +33,7 @@ const Container = styled.div`
 		color: ${p => p.theme.white};
 		margin-bottom: 0.5em;
 		font-size: 2rem;
-        font-weight:600;
+		font-weight: 600;
 	}
 
 	textarea {
@@ -42,9 +42,9 @@ const Container = styled.div`
 		padding: 1.3rem;
 		outline: none;
 		border: none;
-        resize:none;
-        height:30rem;
-        width:100%;
+		resize: none;
+		height: 20rem;
+		width: 100%;
 	}
 
 	p {

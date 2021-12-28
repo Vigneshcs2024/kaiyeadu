@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { BackgroundContainer, Table } from '@kaiyeadu/ui/components';
+import { AddRecordButton, BackgroundContainer, Table } from '@kaiyeadu/ui/components';
 import data from './data';
 
-export default function Records() {
+export default function Users() {
 	const columns = useMemo(
 		() => [
 			{
@@ -32,9 +32,10 @@ export default function Records() {
 	);
 
 	return (
-		<BackgroundContainer pageTitle='Records'>
+		<BackgroundContainer pageTitle='Users'>
 			<Layout>
 				<Table columns={columns} data={data} />
+				<AddRecordButton path='/users/add' />
 			</Layout>
 		</BackgroundContainer>
 	);

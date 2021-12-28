@@ -39,7 +39,7 @@ interface DDLProps extends SelectHTMLAttributes<HTMLSelectElement> {
 const SelectContainer = styled.div`
 	font: inherit;
 	display: flex;
-	min-width: 45rem;
+	min-width: 70%;
 	flex-direction: column;
 
 	&:not(:last-child) {
@@ -62,6 +62,7 @@ const SelectContainer = styled.div`
 		padding: 1.3rem;
 		outline: none;
 		border: none;
+		background-color: ${p => p.theme.white};
 	}
 
 	option {
@@ -71,5 +72,6 @@ const SelectContainer = styled.div`
 	p {
 		font-size: 0.8em;
 		margin: 0.5rem;
+		font-weight: 700;
 	}
 `;

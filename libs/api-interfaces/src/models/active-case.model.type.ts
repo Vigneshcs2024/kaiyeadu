@@ -3,8 +3,8 @@ export interface IActiveCase {
 	criminal: string;
 	case: string;
 	court_name: string;
-	last_hearing: Date;
-	next_hearing: Date;
+	last_hearing: Date | string;
+	next_hearing: Date | string;
 	hearing_description: string;
 	accused_attend_status: boolean;
 
