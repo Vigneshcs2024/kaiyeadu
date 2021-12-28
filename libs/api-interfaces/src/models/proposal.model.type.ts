@@ -9,4 +9,4 @@ export interface IProposal {
 	updatedAt: Date;
 }
 
-export type IProposalInput = Omit<IProposal, 'id' | 'createdAt' | 'updatedAt'>;
+export type IProposalInput = Omit<IProposal, 'id' | 'createdAt' | 'updatedAt' | 'status'>;

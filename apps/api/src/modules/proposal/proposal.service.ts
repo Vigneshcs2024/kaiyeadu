@@ -6,18 +6,17 @@ import { ApiRequest } from '$api/types';
 import { validateEnum, validateUUID } from '$api/utilities/validations';
 
 import * as proposalsRepo from './proposal.repository';
+import { validateProposal } from './proposal.validation';
 
 export async function add(req: ApiRequest, res: Response) {
-	const { criminal, description, status }: CreateProposalDto = req.body;
+	const details: CreateProposalDto = req.body;
 	const created_by = req.user.id;
 
-	// todo: validation
+	await validateProposal(details);
 
 	const { id } = await proposalsRepo.create({
-		criminal,
-		description,
-		created_by,
-		status
+		...details,
+		created_by
 	});
 	return res
 		.status(StatusCodes.CREATED)

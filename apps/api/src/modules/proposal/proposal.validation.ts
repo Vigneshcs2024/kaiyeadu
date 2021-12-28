@@ -1,10 +1,9 @@
 import Joi from 'joi';
-import { IProposalInput } from '@kaiyeadu/api-interfaces/models';
+import { CreateProposalDto } from '@kaiyeadu/api-interfaces/dtos';
 
-export function validateProposal(proposalDetails: IProposalInput) {
-	const schema = Joi.object<IProposalInput>({
-		criminal: Joi.string().required(),
-		created_by: Joi.string().required(),
+export function validateProposal(proposalDetails: CreateProposalDto) {
+	const schema = Joi.object<CreateProposalDto>({
+		criminal: Joi.string().uuid({ version: 'uuidv4' }).required(),
 		description: Joi.string().required()
 	});
 
