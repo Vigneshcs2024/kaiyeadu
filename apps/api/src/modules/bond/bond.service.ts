@@ -10,7 +10,7 @@ export async function add(req: ApiRequest, res: Response) {
 	const { criminalId } = req.params;
 	const { bonds }: { bonds: BondDto[] } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
+	await validateUUID(criminalId);
 	await validateBonds(bonds);
 
 	const createdBonds = await repo.addBonds(criminalId, bonds);

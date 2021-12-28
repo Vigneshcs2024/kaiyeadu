@@ -10,7 +10,7 @@ export async function add(req: ApiRequest, res: Response) {
 	const { criminalId } = req.params;
 	const { links }: { links: LinkDto[] } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
+	await validateUUID(criminalId);
 	await validateLinks(links);
 
 	const result = await repo.addLinks(criminalId, links);

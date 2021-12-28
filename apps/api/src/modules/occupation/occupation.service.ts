@@ -8,8 +8,8 @@ export async function add(req: ApiRequest, res: Response) {
 	const { criminalId } = req.params;
 	const { occupation }: { occupation: string[] } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
-	await Joi.array().items(Joi.string()).required().validateAsync(occupation);
+	await validateUUID(criminalId);
+	await validateStringArray(occupation);
 
 	const result = await repo.addOccupation(criminalId, occupation);
 

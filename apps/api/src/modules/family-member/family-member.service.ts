@@ -10,7 +10,7 @@ export async function add(req: ApiRequest, res: Response) {
 	const { criminalId } = req.params;
 	const { familyMembers }: { familyMembers: FamilyMemberDto[] } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
+	await validateUUID(criminalId);
 	await validateFamilyMembers(familyMembers);
 
 	const result = await repo.addFamilyMembers(criminalId, familyMembers);

@@ -8,8 +8,8 @@ export async function add(req: ApiRequest, res: Response) {
 	const { criminalId } = req.params;
 	const { modusOperandi }: { modusOperandi: string[] } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
-	await Joi.array().items(Joi.string()).required().validateAsync(modusOperandi);
+	await validateUUID(criminalId);
+	await validateStringArray(modusOperandi);
 
 	const result = await repo.addModusOperandi(criminalId, modusOperandi);
 

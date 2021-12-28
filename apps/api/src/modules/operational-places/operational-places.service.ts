@@ -10,7 +10,7 @@ export async function add(req: ApiRequest, res: Response) {
 	const { criminalId } = req.params;
 	const { operationalPlaces }: { operationalPlaces: OpPlaceDto[] } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
+	await validateUUID(criminalId);
 	await validateOperationalPlaces(operationalPlaces);
 
 	const result = await repo.addOpPlaces(criminalId, operationalPlaces);

@@ -10,7 +10,7 @@ export async function add(req: ApiRequest, res: Response) {
 	const { criminalId } = req.params;
 	const { vehicles }: { vehicles: VehicleDto[] } = req.body;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminalId);
+	await validateUUID(criminalId);
 	await validateAddVehicles(vehicles);
 
 	const result = await repo.addVehicles(criminalId, vehicles);
