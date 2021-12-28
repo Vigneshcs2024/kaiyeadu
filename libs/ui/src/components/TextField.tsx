@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	label: string;
-	tip?: string | { content: string; color: string };
+	tip?: string | { content: string | string[]; color: string };
 }
 
 const TextField: FC<InputProps> = ({ label, tip, ...rest }) => (
@@ -18,7 +18,7 @@ const TextField: FC<InputProps> = ({ label, tip, ...rest }) => (
 
 const Container = styled.div`
 	display: flex;
-	min-width: 45rem;
+	min-width: 70%;
 	flex-direction: column;
 
 	&:not(:last-child) {
@@ -49,8 +49,10 @@ const Container = styled.div`
 	}
 
 	p {
-		font-size: 0.8em;
-		margin: 0.5rem;
+		max-width: 40rem;
+		font-size: 0.9em;
+		margin: 0.75rem;
+		font-weight: 700;
 	}
 `;
 

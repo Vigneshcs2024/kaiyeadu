@@ -33,7 +33,9 @@ export default function BackgroundContainer({
 	) : (
 		<SideBar
 			content={
-				session.getUserRole() === 'admin' || session.getUserRole() === 'master'
+				session.getUserRole() === 'admin' ||
+				session.getUserRole() === 'master' ||
+				window.location.port === '3000' // Needed to be removed after development
 					? admin
 					: client
 			}

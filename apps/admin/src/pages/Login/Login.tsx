@@ -1,26 +1,33 @@
-import { ChangeEvent, FormEventHandler, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useFormik } from 'formik';
+
 import { useApi, useAuthApi } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
 import { login } from './login.service';
+import { LoginValidation } from './validationSchema';
+import { theme } from '@kaiyeadu/ui/base';
+import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
 
 export default function Login() {
-	const [formData, setFormData] = useState({ email: '', password: '' });
 	const { axiosInstance } = useApi();
 	const { session } = useAuthApi();
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-
-		setFormData(prevState => ({ ...prevState, [name]: value }));
-	};
-
-	const handleSubmit: FormEventHandler<HTMLFormElement> = async e => {
-		e.preventDefault();
-		const token = await login(axiosInstance, formData);
+	const handleSubmit = async (values: AdminAuthCredentialsDto) => {
+		const token = await login(axiosInstance, values);
 		session.setSession(token);
 	};
+
+	const initialValues: AdminAuthCredentialsDto = {
+		email: '',
+		password: ''
+	};
+
+	const formik = useFormik({
+		initialValues,
+		onSubmit: handleSubmit,
+		validationSchema: LoginValidation
+	});
 
 	return (
 		<BackgroundContainer
@@ -28,19 +35,37 @@ export default function Login() {
 			isLogin={true}>
 			<InnerContainer>
 				<h1>LOGIN</h1>
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={formik.handleSubmit}>
 					<TextField
 						label='Email'
 						name='email'
-						value={formData.email}
-						onChange={handleChange}
+						value={formik.values.email}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						tip={
+							formik.touched.email && formik.errors.email
+								? {
+										content: formik.errors.email,
+										color: theme.palette.danger
+								  }
+								: ''
+						}
 					/>
 					<TextField
 						label='Password'
 						name='password'
 						type='password'
-						value={formData.password}
-						onChange={handleChange}
+						value={formik.values.password}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						tip={
+							formik.touched.password && formik.errors.password
+								? {
+										content: formik.errors.password,
+										color: theme.palette.danger
+								  }
+								: ''
+						}
 					/>
 					<BottomContainer>
 						<Button title='login' type='submit' />

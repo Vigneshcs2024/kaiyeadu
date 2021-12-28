@@ -1,4 +1,4 @@
-import { ReactChild, useState } from 'react';
+import { Fragment, ReactChild, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from 'react-sidebar';
 import { Icon } from '@iconify/react';
@@ -32,15 +32,17 @@ function SidebarContent({ content }: ContentProps) {
 			<LogoImage src={Logo} alt='logo' />
 			{content.map(({ title, path, fun }, index) => {
 				if (!path) {
-					return <LogoutButton onClick={fun ?? (() => null)}>{title}</LogoutButton>;
+					return (
+						<LogoutButton key={index} onClick={fun ?? (() => null)}>
+							{title}
+						</LogoutButton>
+					);
 				}
 				return (
-					<>
-						<NavLink key={index} to={path}>
-							{title}
-						</NavLink>
+					<Fragment key={index}>
+						<NavLink to={path}>{title}</NavLink>
 						<Seperator>&nbsp;</Seperator>
-					</>
+					</Fragment>
 				);
 			})}
 		</SidebarContainer>

@@ -7,8 +7,7 @@ export default function UpdateProposals() {
 			style={{
 				display: 'flex',
 				justifyContent: 'center',
-				alignItems: 'center',
-				minHeight: '91.75vh'
+				alignItems: 'center'
 			}}
 			pageTitle='Update Proposals'>
 			<InnerContainer>

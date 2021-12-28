@@ -6,7 +6,7 @@ export interface ICase {
 	under_section: string;
 	stage: string;
 	remarks: string;
-	date: Date;
+	date: Date | string;
 
 	createdAt: Date;
 	updatedAt: Date;
