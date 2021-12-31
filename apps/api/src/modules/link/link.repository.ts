@@ -8,7 +8,7 @@ import { ClientError } from '$api/errors';
 export function addLinks(
 	criminal: Criminal['id'],
 	links: LinkDto[],
-	transaction: Transaction
+	transaction?: Transaction
 ): Promise<Link[]> {
 	logger.debug('Creating Links...');
 

@@ -8,7 +8,7 @@ import { ClientError } from '$api/errors';
 export function addLastArrest(
 	criminal: Criminal['id'],
 	lastArrest: LastArrestDto,
-	transaction: Transaction
+	transaction?: Transaction
 ) {
 	logger.debug('Creating Last Arrest details...');
 

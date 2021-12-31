@@ -1,4 +1,3 @@
-import Joi from 'joi';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { CreateCriminalDto } from '@kaiyeadu/api-interfaces/dtos';
@@ -6,6 +5,7 @@ import { ICriminalInput } from '@kaiyeadu/api-interfaces/models';
 import { logger } from '$api/tools';
 import { ApiRequest } from '$api/types';
 import { jsonPrettyPrint } from '$api/utilities';
+import { validateStringArray, validateUUID } from '$api/utilities/validations';
 import { validateCreateAddresses } from '../address/address.validation';
 import { validateLinks } from '../link/link.validation';
 import { validateCreateCriminal, validateListCriminalsQuery } from './criminal.validation';
@@ -37,13 +37,13 @@ export async function create(req: ApiRequest, res: Response) {
 	await Promise.all([
 		validateCreateCriminal(rest),
 		validateCreateAddresses(addresses),
-		Joi.array().items(Joi.string()).validateAsync(modus_operandi),
+		validateStringArray(modus_operandi),
 		validateLinks(links),
 		validateFamilyMembers(family_members),
 		validateOperationalPlaces(operational_places),
 		validateLastArrest(last_arrest),
 		validateBonds(bonds),
-		Joi.array().items(Joi.string()).validateAsync(occupation),
+		validateStringArray(occupation),
 		validateAddAssociates(associates),
 		validateAddVehicles(vehicles),
 		validateCases(cases)
@@ -108,7 +108,7 @@ export async function updatePersonalDetails(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 	const { body: updates }: { body: ICriminalInput } = req;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await validateUUID(id);
 	// this will work, but we need to change it
 	await validateCreateCriminal(updates);
 
@@ -123,7 +123,7 @@ export async function updatePersonalDetails(req: ApiRequest, res: Response) {
 export async function remove(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await validateUUID(id);
 
 	await criminalRepo.remove(id);
 
@@ -147,7 +147,7 @@ export async function listByDistrict(req: ApiRequest, res: Response) {
 
 	await validateListCriminalsQuery(options);
 
-	await Joi.string().required().validateAsync(district);
+	await validateStringArray([district]);
 
 	const criminals = await criminalRepo.getListByDistrict(district, {
 		pagination: {

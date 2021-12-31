@@ -4,16 +4,16 @@ import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
 import { ClientError } from '$api/errors';
 import { logger } from '$api/tools';
+import { Case } from './case.model';
 import { ActiveCase } from '../active-case/active-case.model';
 import { getActiveCasesOf } from '../active-case/active-case.repository';
 import { getPSNameById } from '../police-station/police-station.repository';
-import { Case } from './case.model';
 
 export function create(caseDetails: ICaseInput) {
 	return Case.build(caseDetails).save();
 }
 
-export function addCases(criminal: string, cases: CaseDto[], transaction: Transaction) {
+export function addCases(criminal: string, cases: CaseDto[], transaction?: Transaction) {
 	logger.debug('Creating cases...');
 
 	if (!cases?.length) return Promise.resolve([]);

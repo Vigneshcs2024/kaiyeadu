@@ -40,13 +40,18 @@ export async function login(req: Request, res: Response) {
 	await validateLogin({ email, password });
 	const { id, name, designation, role } = await authRepository.login({ email, password });
 
+	const isResetPassword = role !== 'user' && !isNaN(password);
+
 	const payload: PayloadObject = { id, name, designation, role };
-	const token = jwt.sign(payload, JWT_SECRET, { issuer: 'TNPOL', expiresIn: '1d' });
+	const token = jwt.sign(payload, JWT_SECRET, {
+		issuer: 'TNPOL',
+		expiresIn: isResetPassword ? '15m' : '1d'
+	});
 
 	res.status(StatusCodes.CREATED).json({
 		message: 'Login successful',
 		token,
-		isResetPassword: role !== 'user' && !isNaN(password)
+		isResetPassword
 	});
 }
 

@@ -1,13 +1,13 @@
-import Joi from 'joi';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ApiRequest } from '$api/types';
+import { validateUUID } from '$api/utilities/validations';
 import * as repo from './active-case.repository';
 
 export async function getAll(req: ApiRequest, res: Response) {
 	const { criminal_id } = req.params;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminal_id);
+	await validateUUID(criminal_id);
 
 	const activeCases = await repo.getActiveCasesOf(criminal_id);
 

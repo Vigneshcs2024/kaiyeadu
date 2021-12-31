@@ -1,15 +1,29 @@
-import Joi from 'joi';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ApiRequest } from '$api/types';
+import { validateUUID } from '$api/utilities/validations';
 import * as caseRepo from './case.repository';
 import { validateCases } from './case.validation';
-import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
+
+export async function add(req: ApiRequest, res: Response) {
+	const { criminalId } = req.params;
+	const { cases }: { cases: CaseDto[] } = req.body;
+
+	await validateUUID(criminalId);
+	await validateCases(cases);
+
+	const createdCases = await caseRepo.addCases(criminalId, cases);
+	res.status(StatusCodes.CREATED).json({
+		message: 'Cases added successfully',
+		result: createdCases
+	});
+}
 
 export async function getAll(req: ApiRequest, res: Response) {
 	const { criminal_id } = req.params;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminal_id);
+	await validateUUID(criminal_id);
 
 	const cases = await caseRepo.getAllCasesOf(criminal_id);
 
@@ -21,7 +35,7 @@ export async function getAll(req: ApiRequest, res: Response) {
 export async function getInactiveCases(req: ApiRequest, res: Response) {
 	const { criminal_id } = req.params;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(criminal_id);
+	await validateUUID(criminal_id);
 
 	const cases = await caseRepo.getInactiveCasesOf(criminal_id);
 
@@ -34,7 +48,7 @@ export async function update(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 	const { body: details }: { body: CaseDto } = req;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await validateUUID(id);
 	await validateCases([details]);
 
 	const updatedCase = await caseRepo.update(id, details);
@@ -45,7 +59,7 @@ export async function update(req: ApiRequest, res: Response) {
 export async function remove(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 
-	await Joi.string().uuid({ version: 'uuidv4' }).required().validateAsync(id);
+	await validateUUID(id);
 
 	await caseRepo.remove(id);
 

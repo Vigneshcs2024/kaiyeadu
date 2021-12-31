@@ -5,7 +5,7 @@ import { logger } from '$api/tools';
 import { Criminal } from '../criminal/criminal.model';
 import { Bond } from './bond.model';
 
-export function addBonds(criminal: Criminal['id'], bonds: BondDto[], transaction: Transaction) {
+export function addBonds(criminal: Criminal['id'], bonds: BondDto[], transaction?: Transaction) {
 	logger.debug('Creating Bonds...');
 
 	if (!bonds?.length) return Promise.resolve([]);

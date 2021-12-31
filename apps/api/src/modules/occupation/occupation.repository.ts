@@ -6,7 +6,7 @@ import { ClientError } from '$api/errors';
 export function addOccupation(
 	person: string,
 	occupation: string[],
-	transaction: Transaction
+	transaction?: Transaction
 ): Promise<Occupation[]> {
 	logger.debug('Creating occupations...');
 
@@ -37,9 +37,9 @@ export async function update(id: string, details: string) {
 }
 
 export function removeOccupationsOf(criminal: string, transaction?: Transaction) {
-	return Occupation.destroy({where:{criminal}, transaction});
+	return Occupation.destroy({ where: { criminal }, transaction });
 }
 
 export function remove(id: string) {
-	return Occupation.destroy({where: {id}});
+	return Occupation.destroy({ where: { id } });
 }
