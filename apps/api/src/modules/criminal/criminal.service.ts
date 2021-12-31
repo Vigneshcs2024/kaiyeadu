@@ -73,7 +73,8 @@ export async function getDetails(req: ApiRequest, res: Response) {
 }
 
 export async function getMinimalList(req: ApiRequest, res: Response) {
-	const mp = new URLSearchParams(req.url);
+	const mp = new URLSearchParams(new URL(`http://[::1]/${req.url}`).search);
+
 	const options = {
 		count: +mp.get('count'),
 		page: +mp.get('page'),
@@ -134,7 +135,7 @@ export async function remove(req: ApiRequest, res: Response) {
 
 export async function listByDistrict(req: ApiRequest, res: Response) {
 	const { district } = req.params;
-	const mp = new URLSearchParams(req.url);
+	const mp = new URLSearchParams(new URL(`http://[::1]/${req.url}`).search);
 	const options = {
 		count: +mp.get('count'),
 		page: +mp.get('page'),
