@@ -1,8 +1,7 @@
 import Joi from 'joi';
 
-export function validateEnum(enumValues: string[], value: string) {
-	return Joi.string()
+export const validateEnum = (enumValues: string[], value: string) =>
+	Joi.string()
 		.valid(...enumValues)
 		.required()
 		.validateAsync(value);
-}
