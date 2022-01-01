@@ -3,7 +3,8 @@
 	"port": 5000,
 	"logging": {
 		"level": "debug",
-		"requests": true
+		"requests": true,
+		"generateFiles": true
 	},
 	"db": {
 		"database": "kaiyeadu",

@@ -1,6 +1,8 @@
 import config from 'config';
-import winston from 'winston';
 import chalk from 'chalk';
+import { unlink } from 'fs/promises';
+import winston from 'winston';
+import { TransportStreamOptions } from 'winston-transport';
 
 const { format, transports } = winston;
 const { combine, colorize, printf, json, prettyPrint, timestamp } = format;
@@ -26,11 +28,8 @@ const prettyConsoleTransport = new transports.Console({
 
 /**
  * Creates file transport
- * @param {string} filename filepath to log
- * @param {string} level Logging level
- * @returns WinstonTransport
  */
-const fileLogTransport = (filename, level) => {
+const fileLogTransport = (filename: string, level: TransportStreamOptions['level']) => {
 	return new transports.File({
 		filename,
 		level,
@@ -40,12 +39,10 @@ const fileLogTransport = (filename, level) => {
 
 /**
  * Get winston configs and transports based on environment
- * @param {string} environment
- * @returns {{transports: Array, exceptionHandlers: Array, rejectionHandlers: Array}}
  */
-const getTransports = environment => {
+const getTransports = (generateFiles: boolean) => {
 	const winstonConfigs = {
-		transports: [prettyConsoleTransport, fileLogTransport('logs/verbose.log', 'verbose')],
+		transports: [prettyConsoleTransport, fileLogTransport('logs/debug.log', 'debug')],
 		exceptionHandlers: [
 			prettyConsoleTransport,
 			fileLogTransport('logs/exceptions.log', 'error')
@@ -53,22 +50,32 @@ const getTransports = environment => {
 		rejectionHandlers: [prettyConsoleTransport, fileLogTransport('logs/rejections.log', 'warn')]
 	};
 
-	switch (environment) {
-		case 'production':
-			return winstonConfigs;
+	if (generateFiles) return winstonConfigs;
 
-		case 'test':
-		case 'development':
-		default:
-			// pop out file transports, log only on console
-			for (const configProp of Object.keys(winstonConfigs)) {
-				winstonConfigs[configProp].pop();
-			}
-			return winstonConfigs;
+	// pop out file transports, log only on console
+	for (const configProp of Object.keys(winstonConfigs)) {
+		winstonConfigs[configProp].pop();
+	}
+	return winstonConfigs;
+};
+
+/**
+ * Deletes all log files
+ */
+const clearLogs = () => {
+	const logFiles = ['logs/debug.log', 'logs/exceptions.log', 'logs/rejections.log'];
+	for (const logFile of logFiles) {
+		unlink(logFile).catch();
 	}
 };
 
-export const logger = winston.createLogger({
-	level: config.get('logging.level'),
-	...getTransports(config.util.getEnv('NODE_ENV'))
-});
+const createInstance = () => {
+	const transports = getTransports(config.get('logging.generateFiles'));
+	const level: TransportStreamOptions['level'] = config.get('logging.level') ?? 'silly';
+
+	clearLogs();
+
+	return winston.createLogger({ level, ...transports });
+};
+
+export const logger = createInstance();
