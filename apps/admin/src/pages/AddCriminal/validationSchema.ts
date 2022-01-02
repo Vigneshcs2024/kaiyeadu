@@ -55,7 +55,7 @@ export const AddressDetailsValidation = Yup.object({
 
 export const OtherDetailsValidation = Yup.object({
 	category: Yup.string().oneOf(['HS', 'OCIU']),
-	grade: Yup.string().oneOf(['A+', 'A', 'B', 'C']),
+	grade: Yup.string().oneOf(['A_PLUS', 'A', 'B', 'C']),
 	occupation: Yup.array().of(Yup.string()),
 	last_arrest: Yup.object().shape({
 		crime_number: Yup.string(),

@@ -152,7 +152,7 @@ export const initialOtherDetails: Omit<
 		}[];
 } = {
 	category: 'HS',
-	grade: 'A+',
+	grade: 'A_PLUS',
 	occupation: [],
 	associates: associatesSchema,
 	last_arrest: lastArrestSchema,
