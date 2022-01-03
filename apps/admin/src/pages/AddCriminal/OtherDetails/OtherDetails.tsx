@@ -580,7 +580,7 @@ export function OtherDetails({ formik, setStep }: FormikInterface) {
 						label='Grade'
 						id='grade'
 						name='grade'
-						items={['A+', 'A', 'B', 'C']}
+						items={['A_PLUS', 'A', 'B', 'C']}
 						value={formik.values.grade}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}

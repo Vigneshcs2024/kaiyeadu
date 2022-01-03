@@ -8,7 +8,7 @@ export function validateCreateCriminal(criminalDetails: ICriminalInput) {
 		name: Joi.string().required(),
 		alias_name: Joi.string().required(),
 		category: Joi.valid('HS', 'OCIU').required(),
-		grade: Joi.valid('A+', 'A', 'B', 'C'),
+		grade: Joi.valid('A_PLUS', 'A', 'B', 'C'),
 		gender: Joi.valid('Male', 'Female', 'Transgender', 'Other'),
 		father_name: Joi.string(),
 		dob: Joi.date()
@@ -41,7 +41,7 @@ export function validateListCriminalsQuery(options: ListCriminalsQueryDto) {
 		f: Joi.object<ListCriminalsQuery['params']['filters']>({
 			caste: Joi.string(),
 			category: Joi.string().valid('HS', 'OCIU'),
-			grade: Joi.string().valid('A+', 'A', 'B', 'C'),
+			grade: Joi.string().valid('A_PLUS', 'A', 'B', 'C'),
 			is_goondas: Joi.boolean(),
 			marital_status: Joi.string(),
 			present_status: Joi.string(),

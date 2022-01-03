@@ -7,7 +7,7 @@ import { db } from '$api/root/connections';
 export class Criminal extends Model<ICriminal, ICriminalInput> implements ICriminal {
 	id: string;
 	category: 'HS' | 'OCIU';
-	grade: 'A+' | 'A' | 'B' | 'C';
+	grade: 'A_PLUS' | 'A' | 'B' | 'C';
 	name: string;
 	alias_name?: string;
 	father_name?: string;
@@ -43,7 +43,7 @@ Criminal.init(
 			allowNull: false
 		},
 		grade: {
-			type: DataTypes.ENUM('A+', 'A', 'B', 'C'),
+			type: DataTypes.ENUM('A_PLUS', 'A', 'B', 'C'),
 			allowNull: false
 		},
 		name: {
