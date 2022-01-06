@@ -12,9 +12,13 @@ export function useApi() {
 					? 'http://localhost:5000'
 					: process.env.REACT_APP_API_URL
 		});
-		instance.defaults.headers.common.Authorization = `Bearer ${session.getAuthToken()}`;
+
+		instance.defaults.headers.common.Authorization = session.isAuthenticated()
+			? `Bearer ${session.getAuthToken()}`
+			: null;
+
 		return instance;
 	}, [session]);
 
-	return { axiosInstance: instance };
+	return { api: instance };
 }
