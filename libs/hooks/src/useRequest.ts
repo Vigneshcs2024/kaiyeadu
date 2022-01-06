@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useMemo } from 'react';
 import { useAuthApi } from './AuthEngine';
 
-export function useApi() {
+export function useRequest() {
 	const { session } = useAuthApi();
 
 	const instance = useMemo(() => {
@@ -20,5 +20,5 @@ export function useApi() {
 		return instance;
 	}, [session]);
 
-	return { api: instance };
+	return { request: instance };
 }
