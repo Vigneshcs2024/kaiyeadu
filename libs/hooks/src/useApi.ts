@@ -1,3 +1,4 @@
+import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
 import { GeneralApiResponse, LoginResponse } from '@kaiyeadu/api-interfaces/responses';
 import { AxiosError } from 'axios';
 import { useReducer } from 'react';
@@ -7,9 +8,12 @@ export enum ApiActionType {
 	LOGIN = 'login'
 }
 
-export type ApiAction = { type: ApiActionType; payload: Record<string, unknown> };
+export type ApiAction = {
+	type: ApiActionType;
+	payload: Record<string, unknown> | AdminAuthCredentialsDto;
+};
 
-export function useApi(action: ApiAction) {
+export function useApi() {
 	const { request } = useRequest();
 	const initialState: ApiResponse = { loading: true };
 
@@ -19,7 +23,7 @@ export function useApi(action: ApiAction) {
 		switch (action.type) {
 			case ApiActionType.LOGIN: {
 				try {
-					const res = request.post('/api/auth/login', action.payload).then(r => r.data);
+					const res = request.post('/auth/admin/login', action.payload).then(r => r.data);
 					apiResponse.data = res;
 				} catch (error) {
 					apiResponse.error = error as AxiosError<{ message: string }>;
@@ -34,7 +38,7 @@ export function useApi(action: ApiAction) {
 
 	const [response, dispatch] = useReducer(apiReducer, initialState);
 
-	return [response, dispatch(action)];
+	return [response, dispatch];
 }
 
 export type ApiResponse = {
