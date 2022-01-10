@@ -1,5 +1,4 @@
-export interface ApiResponse {
+export interface GeneralApiResponse {
 	message: string;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	result?: string | Record<string, any>;
+	result?: string | Record<string, unknown>;
 }
