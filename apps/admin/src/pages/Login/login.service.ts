@@ -7,7 +7,7 @@ export async function login(
 	credentials: AdminAuthCredentialsDto
 ): Promise<Token> {
 	try {
-		const res = await axiosInstance.post<LoginResponse>('/auth/login', credentials);
+		const res = await axiosInstance.post<LoginResponse>('/auth/admin/login', credentials);
 		console.log(res.data.message);
 		return res.data.token;
 	} catch (error) {

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 
-import { useApi, useAuthApi } from '@kaiyeadu/hooks';
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
 import { login } from './login.service';
 import { LoginValidation } from './validationSchema';
@@ -10,11 +10,11 @@ import { theme } from '@kaiyeadu/ui/base';
 import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
 
 export default function Login() {
-	const { axiosInstance } = useApi();
+	const { request } = useRequest();
 	const { session } = useAuthApi();
 
 	const handleSubmit = async (values: AdminAuthCredentialsDto) => {
-		const token = await login(axiosInstance, values);
+		const token = await login(request, values);
 		session.setSession(token);
 	};
 
