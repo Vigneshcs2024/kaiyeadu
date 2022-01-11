@@ -1,7 +1,7 @@
 export interface IModusOperandi {
 	id: string;
 	criminal: string;
-	type: string; // todo: enum?
+	type: string;
 
 	createdAt: Date;
 	updatedAt: Date;

@@ -26,7 +26,7 @@ VALUES
     'admin@email.com',
     '9874563210',
     'b3bdd993-51e3-4e80-aaa2-8b9b8d297b30',
-    'Admin',
+    'SI',
     'Master'
   )
   /* Reset the admin password before use */

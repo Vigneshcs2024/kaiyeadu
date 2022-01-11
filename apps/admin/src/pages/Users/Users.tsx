@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
-import { AddRecordButton, BackgroundContainer, Table } from '@kaiyeadu/ui/components';
+import { ModifyButton, BackgroundContainer, Table } from '@kaiyeadu/ui/components';
 import data from './data';
 
 export default function Users() {
@@ -35,7 +35,7 @@ export default function Users() {
 		<BackgroundContainer pageTitle='Users'>
 			<Layout>
 				<Table columns={columns} data={data} />
-				<AddRecordButton path='/users/add' />
+				<ModifyButton path='/users/add' icon='carbon:add' />
 			</Layout>
 		</BackgroundContainer>
 	);

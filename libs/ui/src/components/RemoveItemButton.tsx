@@ -1,9 +1,9 @@
 import { Icon } from '@iconify/react';
 import styled from 'styled-components';
 
-export function RemoveItemButton({ ...rest }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export function RemoveItemButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	return (
-		<ButtonContainer type='button' {...rest}>
+		<ButtonContainer type='button' {...props}>
 			<Icon icon='akar-icons:minus' color='#C4171C' width='30' />
 		</ButtonContainer>
 	);

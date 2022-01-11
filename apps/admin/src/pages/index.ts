@@ -1,6 +1,5 @@
 export { default as Home } from './Home/Home';
 export { default as Login } from './Login/Login';
-export { default as Profile } from './Profile/Profile';
 export { default as Criminals } from './Criminals/Criminals';
 export { default as Requests } from './Requests/Requests';
 export { default as Admins } from './Admins/Admins';
@@ -10,3 +9,4 @@ export { default as PoliceStations } from './PoliceStations/PoliceStations';
 export * from './AddUser';
 export * from './AddPoliceStation';
 export * from './AddCriminal';
+export * from './Profile';

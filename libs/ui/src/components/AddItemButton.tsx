@@ -1,9 +1,9 @@
 import { Icon } from '@iconify/react';
 import styled from 'styled-components';
 
-export function AddItemButton({ ...rest }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export function AddItemButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	return (
-		<ButtonContainer type='button' {...rest}>
+		<ButtonContainer {...props} type='button'>
 			<Icon icon='carbon:add' color='#fff' width='50' />
 		</ButtonContainer>
 	);
