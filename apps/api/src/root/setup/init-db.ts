@@ -1,4 +1,5 @@
 import pc from 'picocolors';
+import config from 'config';
 import { db } from '$api/root/connections';
 import { logger } from '$api/tools';
 import {
@@ -22,6 +23,14 @@ import {
 
 export async function initDb() {
 	await db.authenticate();
+
+	logger.info(`Database connection established ${pc.green('successfully')}`);
+
+	if (!config.get('db.sync')) {
+		logger.info('Skipping database schema synchronization.');
+		return;
+	}
+
 	await PoliceStation.sync({ alter: true });
 	await User.sync({ alter: true });
 	await Criminal.sync({ alter: true });
@@ -38,5 +47,6 @@ export async function initDb() {
 	await OperationalPlace.sync({ alter: true });
 	await Proposal.sync({ alter: true });
 	await Vehicle.sync({ alter: true });
-	logger.info(`DB connection established & synced ${pc.green('successfully')}`);
+
+	logger.info(`Database synced ${pc.green('successfully')}`);
 }
