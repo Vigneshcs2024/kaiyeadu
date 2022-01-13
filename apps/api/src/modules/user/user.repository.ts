@@ -36,7 +36,9 @@ export async function createUser(userDetails: CreateUserDto) {
 }
 
 export async function listUsers({ params, pagination }: ListUsersQuery) {
-	return User.findAll({
+	const total = await User.count();
+
+	const users = await User.findAll({
 		where: {
 			name: {
 				[Op.like]: `%${params.search ?? ''}%`
@@ -49,6 +51,8 @@ export async function listUsers({ params, pagination }: ListUsersQuery) {
 		order: [[params.sort.key, params.sort.order]],
 		raw: true
 	});
+
+	return { users, total };
 }
 
 export async function getUser(userId: string) {

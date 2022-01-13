@@ -1,6 +1,7 @@
-import { logger } from '$api/tools';
 import config from 'config';
+import pc from 'picocolors';
 import { createTransport } from 'nodemailer';
+import { logger } from '$api/tools';
 
 type MailConfig = {
 	host: string;
@@ -26,7 +27,7 @@ export const mailService = createTransport({
 
 export const sendEmail = (to: string, subject: string, text: string) => {
 	if (!mailConfig.enable) {
-		logger.info(`Suppressed email to ${to}: ${text}`);
+		logger.info(`Suppressed email to ${pc.underline(to)}: "${text}"`);
 		return;
 	}
 

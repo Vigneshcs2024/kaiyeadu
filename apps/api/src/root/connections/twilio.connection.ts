@@ -1,5 +1,6 @@
 import config from 'config';
 import twilio from 'twilio';
+import pc from 'picocolors';
 import { logger } from '$api/tools';
 
 type TwilioConfig = {
@@ -17,7 +18,7 @@ export const twilioClient = twilio(twilioConfig.sid, twilioConfig.authToken, {
 
 export const sendSms = (to: string, messageBody: string) => {
 	if (!twilioConfig.enable) {
-		logger.info(`Suppressed message to ${to}: ${messageBody}`);
+		logger.info(`Suppressed message to ${pc.underline(to)}: "${messageBody}"`);
 		return;
 	}
 

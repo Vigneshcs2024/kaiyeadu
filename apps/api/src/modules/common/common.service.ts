@@ -24,3 +24,10 @@ export async function getStats(req: ApiRequest, res: Response) {
 		}
 	});
 }
+
+export function ping(_req: ApiRequest, res: Response) {
+	res.json({
+		message: 'Pong!',
+		result: 'Server is up and running'
+	});
+}

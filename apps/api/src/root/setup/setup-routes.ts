@@ -31,7 +31,6 @@ export function setup_routes(app: Express) {
 	app.use('/auth', authRouter);
 	app.use('/bond', parseAuthToken, bondRouter);
 	app.use('/cases', parseAuthToken, caseRouter);
-	app.use('/common', parseAuthToken, commonRouter);
 	app.use('/criminal', parseAuthToken, criminalRouter);
 	app.use('/family-member', parseAuthToken, familyMemberRouter);
 	app.use('/last-arrest', parseAuthToken, lastArrestRouter);
@@ -44,6 +43,7 @@ export function setup_routes(app: Express) {
 	app.use('/upload', parseAuthToken, adminsOnly, uploadRouter);
 	app.use('/user', parseAuthToken, userRouter);
 	app.use('/vehicle', parseAuthToken, vehicleRouter);
+	app.use(commonRouter);
 
 	app.use(errorHandler);
 }

@@ -1,10 +1,12 @@
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { CreatePSDto } from '@kaiyeadu/api-interfaces/dtos';
+import { CreatePSDto, PsFilteredListDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ApiRequest } from '$api/types';
 import { validateUUID } from '$api/utilities/validations';
 import * as repo from './police-station.repository';
-import { validateCreatePS } from './police-station.validation';
+import { validateCreatePS, validateListPs } from './police-station.validation';
+import { logger } from '$api/tools';
+import { jsonPrettyPrint } from '$api/utilities';
 
 export async function findById(req: ApiRequest, res: Response) {
 	const { id } = req.params;
@@ -17,12 +19,25 @@ export async function findById(req: ApiRequest, res: Response) {
 	});
 }
 
-export async function getList(_req: ApiRequest, res: Response) {
-	const stations = await repo.getAll();
+export async function getList(req: ApiRequest, res: Response) {
+	const mp = new URLSearchParams(new URL(`http://[::1]/${req.url}`).search);
+	const options: PsFilteredListDto = {
+		count: +mp.get('count') || 10,
+		page: +mp.get('page') || 1,
+		f: JSON.parse(mp.get('f')) ?? {},
+		q: mp.get('q') ?? '',
+		s: JSON.parse(mp.get('s')) ?? { key: 'name', order: 'ASC' }
+	};
 
-	return res
-		.status(StatusCodes.OK)
-		.json({ message: 'Stations fetched successfully', result: stations });
+	logger.debug(jsonPrettyPrint(options));
+
+	await validateListPs(options);
+	const result = await repo.getFilteredList(options);
+
+	res.json({
+		message: 'Stations fetched successfully',
+		result
+	});
 }
 
 export async function getNames(req: ApiRequest, res: Response) {

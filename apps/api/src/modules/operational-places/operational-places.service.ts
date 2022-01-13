@@ -20,6 +20,12 @@ export async function add(req: ApiRequest, res: Response) {
 		.json({ message: 'Operational places added successfully', result });
 }
 
+export async function getDistricts(_req: ApiRequest, res: Response) {
+	const result = await repo.getDistricts();
+
+	return res.json(result);
+}
+
 export async function update(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 	const { body: details }: { body: OpPlaceDto } = req;
