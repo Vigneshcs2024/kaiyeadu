@@ -106,7 +106,8 @@ export async function getCompleteDetails(id: string) {
 }
 
 export async function getListMinimal({ params, pagination }: ListCriminalsQuery) {
-	return await Criminal.findAll({
+	const total = await Criminal.count();
+	const criminals = await Criminal.findAll({
 		where: {
 			[Op.or]: [
 				{
@@ -128,6 +129,8 @@ export async function getListMinimal({ params, pagination }: ListCriminalsQuery)
 		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
 		raw: true
 	});
+
+	return { criminals, total };
 }
 
 export async function update(id: string, updates: UpdateCriminalPersonalDetailsDto) {
@@ -173,9 +176,10 @@ export async function getListByDistrict(
 	district: string,
 	{ params, pagination }: ListCriminalsQuery
 ) {
-	const criminalIdsByDist = await OperationalPlace.findAll({ where: { district }, raw: true });
+	const total = await Criminal.count();
 
-	return Criminal.findAll({
+	const criminalIdsByDist = await OperationalPlace.findAll({ where: { district }, raw: true });
+	const criminals = await Criminal.findAll({
 		where: {
 			id: {
 				[Op.in]: criminalIdsByDist.map(c => c.criminal)
@@ -200,6 +204,8 @@ export async function getListByDistrict(
 		order: [params.sort ? [params.sort.key, params.sort.order] : ['name', 'ASC']],
 		raw: true
 	});
+
+	return { criminals, total };
 }
 
 export type ListCriminalsQuery = {

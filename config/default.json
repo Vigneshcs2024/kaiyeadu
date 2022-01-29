@@ -9,6 +9,7 @@
 	"db": {
 		"database": "kaiyeadu",
 		"host": "localhost",
+		"sync": false,
 		"provider": "mysql"
 	},
 	"mailer": {

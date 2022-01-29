@@ -2,14 +2,14 @@ import { ChangeEvent, MouseEvent, useState } from 'react';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components';
 
-import { RemoveGroupButton } from '.';
+import { RemoveGroupButton } from './RemoveGroupButton';
 
 export function ImagePicker() {
 	const [image, setImage] = useState<string>('');
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
-		if (files && files[0]) {
+		if (files?.[0]) {
 			setImage(URL.createObjectURL(files[0]));
 		}
 	};
@@ -21,7 +21,7 @@ export function ImagePicker() {
 
 	return (
 		<Container>
-			{image === '' ? null : (
+			{image && (
 				<div style={{ position: 'relative' }}>
 					<SelectedImage src={image} id='selected_images' alt='selected_image' />
 

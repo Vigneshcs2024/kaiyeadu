@@ -1,14 +1,14 @@
 import { useAuthApi } from '@kaiyeadu/hooks';
-import { CSSProperties } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { LogoLight } from '../assets';
 import { admin, client } from '../base/content.sidebar';
 import SideBar from './Sidebar';
 
-interface props {
+interface IProps {
 	style?: CSSProperties;
-	children: JSX.Element | JSX.Element[];
+	children: ReactNode;
 	isLogin?: boolean;
 	pageTitle?: string;
 }
@@ -18,7 +18,7 @@ export default function BackgroundContainer({
 	style,
 	isLogin = false,
 	pageTitle
-}: props) {
+}: IProps) {
 	const { session } = useAuthApi();
 
 	return isLogin ? (

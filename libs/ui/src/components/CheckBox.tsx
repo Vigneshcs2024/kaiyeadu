@@ -1,9 +1,9 @@
 import { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-interface CheckBoxProps extends InputHTMLAttributes<HTMLInputElement> {
+type CheckBoxProps = InputHTMLAttributes<HTMLInputElement> & {
 	label: string;
-}
+};
 
 export function CheckBox({ label, ...rest }: CheckBoxProps) {
 	return (

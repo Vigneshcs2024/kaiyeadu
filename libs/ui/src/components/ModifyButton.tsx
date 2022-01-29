@@ -5,17 +5,19 @@ import { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	path?: string;
+	icon: string;
+	width?: string;
 }
 
-export default function AddRecordButton({ path, ...rest }: ButtonProps) {
+export function ModifyButton({ path, icon, width, ...rest }: ButtonProps) {
 	return (
 		<ButtonContainer {...rest}>
 			{path ? (
 				<Link to={path}>
-					<Icon icon='carbon:add' color='#fff' width='50' />
+					<Icon icon={icon} color='#fff' width={width ? width : '50'} />
 				</Link>
 			) : (
-				<Icon icon='carbon:add' color='#fff' width='50' />
+				<Icon icon={icon} color='#fff' width={width ? width : '50'} />
 			)}
 		</ButtonContainer>
 	);

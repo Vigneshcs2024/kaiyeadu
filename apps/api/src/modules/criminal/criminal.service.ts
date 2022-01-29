@@ -150,7 +150,7 @@ export async function listByDistrict(req: ApiRequest, res: Response) {
 
 	await validateStringArray([district]);
 
-	const criminals = await criminalRepo.getListByDistrict(district, {
+	const result = await criminalRepo.getListByDistrict(district, {
 		pagination: {
 			pageNumber: +options.page,
 			resultsPerPage: +options.count
@@ -162,8 +162,5 @@ export async function listByDistrict(req: ApiRequest, res: Response) {
 		}
 	});
 
-	return res.status(StatusCodes.OK).json({
-		message: 'Criminals retrieved successfully',
-		result: criminals
-	});
+	return res.status(StatusCodes.OK).json({ message: 'Criminals retrieved successfully', result });
 }

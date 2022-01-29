@@ -4,10 +4,8 @@ import * as proposalService from './proposal.service';
 
 const router = Router();
 
-router.get('/', proposalService.list);
-
+router.get('/list', proposalService.list);
 router.get('/:id', proposalService.getById);
-
 router.put('/update/:id', adminsOnly, proposalService.updateStatus);
 router.delete('/remove/:id', adminsOnly, proposalService.remove);
 

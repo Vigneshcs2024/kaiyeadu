@@ -6,6 +6,7 @@
 		"format": "prettier --write \"**/*.{ts,tsx}\"",
 		"start": "nx serve",
 		"build": "nx build",
+		"build:api": "nx build api && cp -r config ./dist",
 		"build:admin": "nx build admin",
 		"build:client": "nx build client",
 		"test": "nx test"

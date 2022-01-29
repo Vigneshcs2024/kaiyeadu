@@ -1,5 +1,10 @@
 import Joi from 'joi';
-import { CreateUserDto, UpdatePasswordDto, UpdateUserDto } from '@kaiyeadu/api-interfaces/dtos';
+import {
+	CreateUserDto,
+	ListUsersDto,
+	UpdatePasswordDto,
+	UpdateUserDto
+} from '@kaiyeadu/api-interfaces/dtos';
 
 export function validateCreateUser(userDetails: CreateUserDto) {
 	const schema = Joi.object<CreateUserDto>({
@@ -60,4 +65,35 @@ export function validateUpdateUser(userDetails: UpdateUserDto) {
 	});
 
 	return schema.validateAsync(userDetails);
+}
+
+export function validateListUsers(params: ListUsersDto) {
+	const schema = Joi.object<ListUsersDto>({
+		page: Joi.number().min(1).required(),
+		count: Joi.number().min(1).required(),
+		q: Joi.string().allow('', null),
+		f: Joi.object({
+			name: Joi.string(),
+			gpf: Joi.string(),
+			email: Joi.string(),
+			phone: Joi.number(),
+			police_station: Joi.string().uuid({ version: 'uuidv4' }),
+			designation: Joi.string(),
+			role: Joi.valid('user', 'admin', 'master')
+		}),
+		s: Joi.object({
+			key: Joi.string().valid(
+				'name',
+				'gpf',
+				'email',
+				'phone',
+				'police_station',
+				'designation',
+				'role'
+			),
+			order: Joi.string().valid('ASC', 'DESC')
+		})
+	});
+
+	return schema.validateAsync(params);
 }

@@ -106,8 +106,8 @@ function customizeResponseTime(resTime: number) {
 	 * 500 <= size < 1000 => yellow
 	 * size >= 1000 => red
 	 */
-	if (resTime >= 500 && resTime < 1000) return pc.yellow(`${resTime}ms`);
-	if (resTime >= 1000) return pc.red(`${resTime}ms`);
+	if (resTime >= 1500 && resTime < 4000) return pc.yellow(`${resTime}ms`);
+	if (resTime >= 4000) return pc.red(`${resTime}ms`);
 
 	return `${resTime}ms`;
 }

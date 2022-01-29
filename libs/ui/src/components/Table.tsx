@@ -3,13 +3,15 @@ import { useTable, useSortBy, Column } from 'react-table';
 import { Icon } from '@iconify/react';
 
 import { StyledTable } from '@kaiyeadu/ui/styles';
+import { CSSProperties } from 'react';
 
 interface Props {
 	columns: Array<Column<object>>;
 	data: Array<object>;
+	style?: CSSProperties;
 }
 
-export default function Table({ columns, data }: Props) {
+export default function Table({ columns, data, style }: Props) {
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
 		{
 			columns,
@@ -19,7 +21,7 @@ export default function Table({ columns, data }: Props) {
 	);
 
 	return (
-		<StyledTable {...getTableProps()}>
+		<StyledTable style={style} {...getTableProps()}>
 			<thead>
 				{headerGroups.map(headerGroup => (
 					<tr {...headerGroup.getHeaderGroupProps()}>

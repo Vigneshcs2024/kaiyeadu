@@ -8,7 +8,12 @@ import { jsonPrettyPrint } from '$api/utilities';
 import { validateUUID } from '$api/utilities/validations';
 
 import * as userRepository from './user.repository';
-import { validateCreateUser, validateUpdatePassword, validateUpdateUser } from './user.validation';
+import {
+	validateCreateUser,
+	validateListUsers,
+	validateUpdatePassword,
+	validateUpdateUser
+} from './user.validation';
 
 export async function createUser(req: ApiRequest, res: Response) {
 	if (req.user.role === 'admin' && req.body.role !== 'user') {
@@ -48,30 +53,32 @@ export async function createUser(req: ApiRequest, res: Response) {
 }
 
 export async function listUsers(req: ApiRequest, res: Response) {
-	const mp = new URLSearchParams(req.url);
+	const mp = new URLSearchParams(new URL(`http://[::1]/${req.url}`).search);
 	const options = {
-		count: +mp.get('count'),
-		page: +mp.get('page'),
-		f: JSON.parse(mp.get('f')),
-		q: mp.get('q'),
-		s: JSON.parse(mp.get('s'))
+		count: +mp.get('count') || 10,
+		page: +mp.get('page') || 1,
+		f: JSON.parse(mp.get('f')) ?? {},
+		q: mp.get('q') ?? '',
+		s: JSON.parse(mp.get('s')) ?? { key: 'name', order: 'ASC' }
 	};
 
 	logger.debug(jsonPrettyPrint(options));
 
-	const users = await userRepository.listUsers({
+	await validateListUsers(options);
+
+	const result = await userRepository.listUsers({
 		params: {
 			search: options.q,
-			filters: options.f ?? [],
-			sort: options.s ?? { key: 'name', order: 'asc' }
+			filters: options.f,
+			sort: options.s
 		},
 		pagination: {
-			pageNumber: options.page || 1,
-			resultsPerPage: options.count || 10
+			pageNumber: options.page,
+			resultsPerPage: options.count
 		}
 	});
 
-	return res.json({ message: 'Users fetched successfully', result: users });
+	return res.json({ message: 'Users fetched successfully', result });
 }
 
 export async function updatePassword(req: ApiRequest, res: Response) {

@@ -1,15 +1,27 @@
 import { Op } from 'sequelize';
-import { CreatePSDto } from '@kaiyeadu/api-interfaces/dtos';
+import { CreatePSDto, PsFilteredListDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { User } from '../user/user.model';
 import { PoliceStation } from './police-station.model';
 
-export async function getAll() {
+export async function getFilteredList(options: PsFilteredListDto) {
+	const total = await PoliceStation.count();
+
 	const stations = await PoliceStation.findAll({
-		attributes: { exclude: ['createdAt', 'updatedAt'] }
+		where: {
+			name: {
+				[Op.like]: `%${options.q ?? ''}%`
+			},
+			...options.f
+		},
+		offset: (options.page - 1) * options.count,
+		limit: options.count,
+		attributes: { exclude: ['createdAt', 'updatedAt'] },
+		order: [[options.s.key, options.s.order]],
+		raw: true
 	});
 
-	return stations;
+	return { stations, total };
 }
 
 export async function getNames(partialName?: string) {
@@ -50,5 +62,5 @@ export async function update(id: string, policeStationDetails: CreatePSDto) {
 }
 
 export function remove(id: string) {
-	return PoliceStation.destroy({where: {id}});
+	return PoliceStation.destroy({ where: { id } });
 }

@@ -1,6 +1,7 @@
 import config from 'config';
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
+import pc from 'picocolors';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
@@ -27,7 +28,9 @@ export async function getLoginPassword(req: Request, res: Response) {
 
 	await sendSms(`+91${user.phone}`, `Your Kaiyeadu login password is: ${loginPassword}`);
 
-	logger.debug(`User ${user.gpf} has been given a new login password: ${loginPassword}`);
+	logger.debug(
+		`User ${user.gpf} has been given a new login password: ${pc.yellow(loginPassword)}`
+	);
 
 	res.status(StatusCodes.OK).json({
 		message: 'Login password has been sent to user'
@@ -81,7 +84,9 @@ export async function resetPassword(req: Request, res: Response) {
 
 	await sendSms(`+91${user.phone}`, `Your Kaiyeadu reset password is: ${resetOtp}`);
 
-	logger.debug(`User ${user.email} has been given a new temporary password: ${resetOtp}`);
+	logger.debug(
+		`User ${user.email} has been given a new temporary password: ${pc.yellow(resetOtp)}`
+	);
 
 	res.status(StatusCodes.OK).json({
 		message: 'Use the temporary password sent to your email to login and change your password'

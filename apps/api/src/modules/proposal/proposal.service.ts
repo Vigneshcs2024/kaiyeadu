@@ -1,12 +1,12 @@
+import { logger } from '$api/tools';
+import { ApiRequest } from '$api/types';
+import { jsonPrettyPrint } from '$api/utilities';
+import { validateEnum, validateUUID } from '$api/utilities/validations';
+import { CreateProposalDto } from '@kaiyeadu/api-interfaces/dtos';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { CreateProposalDto } from '@kaiyeadu/api-interfaces/dtos';
-import { ClientError } from '$api/errors';
-import { ApiRequest } from '$api/types';
-import { validateEnum, validateUUID } from '$api/utilities/validations';
-
 import * as proposalsRepo from './proposal.repository';
-import { validateProposal } from './proposal.validation';
+import { validateListProposals, validateProposal } from './proposal.validation';
 
 export async function add(req: ApiRequest, res: Response) {
 	const details: CreateProposalDto = req.body;
@@ -24,17 +24,22 @@ export async function add(req: ApiRequest, res: Response) {
 }
 
 export async function list(req: ApiRequest, res: Response) {
-	const { page, limit } = req.query;
+	const mp = new URLSearchParams(new URL(`http://[::1]/${req.url}`).search);
+	const options: proposalsRepo.ProposalListOptions = {
+		page: +mp.get('page') || 1,
+		count: +mp.get('count') || 10,
+		q: mp.get('q') ?? '',
+		f: JSON.parse(mp.get('f')) ?? {},
+		s: JSON.parse(mp.get('s')) ?? { key: 'createdAt', order: 'DESC' }
+	};
 
-	if (typeof page !== 'string' || typeof limit !== 'string') {
-		throw new ClientError('Invalid query parameters', StatusCodes.BAD_REQUEST);
-	}
+	logger.debug(jsonPrettyPrint(options));
 
-	const { proposals, total } = await proposalsRepo.findAll(limit as string, page as string);
+	await validateListProposals(options);
 
-	return res
-		.status(StatusCodes.OK)
-		.json({ message: 'Proposals fetched successfully', result: { proposals, total } });
+	const result = await proposalsRepo.list(options);
+
+	return res.status(StatusCodes.OK).json({ message: 'Proposals fetched successfully', result });
 }
 
 export async function getById(req: ApiRequest, res: Response) {

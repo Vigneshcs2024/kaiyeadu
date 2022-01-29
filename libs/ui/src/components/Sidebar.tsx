@@ -41,7 +41,7 @@ function SidebarContent({ content }: ContentProps) {
 				return (
 					<Fragment key={index}>
 						<NavLink to={path}>{title}</NavLink>
-						<Seperator>&nbsp;</Seperator>
+						<Separator>&nbsp;</Separator>
 					</Fragment>
 				);
 			})}
@@ -145,7 +145,7 @@ const LogoImage = styled.img`
 	margin: 2rem;
 `;
 
-const Seperator = styled.div`
+const Separator = styled.div`
 	height: 0.1rem;
 	width: 100%;
 	background-color: ${p => p.theme.lightGrey};

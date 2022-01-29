@@ -1,9 +1,10 @@
 import { Icon } from '@iconify/react';
+import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-interface RemoveGroupButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type RemoveGroupButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 	icon_width?: string;
-}
+};
 
 export function RemoveGroupButton({ icon_width, ...rest }: RemoveGroupButtonProps) {
 	return (

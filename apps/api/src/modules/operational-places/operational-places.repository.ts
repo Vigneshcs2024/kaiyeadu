@@ -20,6 +20,18 @@ export function addOpPlaces(
 	);
 }
 
+export async function getDistricts() {
+	const districts = (
+		await OperationalPlace.findAll({
+			attributes: ['district'],
+			group: ['district'],
+			raw: true
+		})
+	).map(({ district }) => district);
+
+	return { districts, total: districts.length };
+}
+
 export function getOpPlacesOf(criminal: Criminal['id'], transaction?: Transaction) {
 	return OperationalPlace.findAll({
 		where: { criminal },
