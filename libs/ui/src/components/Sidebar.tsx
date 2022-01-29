@@ -1,7 +1,8 @@
-import { Fragment, ReactChild, useState } from 'react';
+import { Fragment, ReactChild, useState, useContext } from 'react';
 import styled from 'styled-components';
 import Sidebar from 'react-sidebar';
 import { Link } from 'react-router-dom';
+import { UserNameContext } from '@kaiyeadu/hooks';
 
 import { theme } from '../base';
 import { Logo } from '../assets';
