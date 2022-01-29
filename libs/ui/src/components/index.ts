@@ -13,3 +13,5 @@ export * from './RemoveItemButton';
 export * from './RemoveGroupButton';
 export * from './Accordion';
 export * from './Profile';
+export * from './Filter';
+export * from './Navbar';

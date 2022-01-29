@@ -1,10 +1,58 @@
-import { useMemo } from 'react';
-import styled from 'styled-components';
+import { useMemo, useState } from 'react';
 
-import { ModifyButton, BackgroundContainer, Table } from '@kaiyeadu/ui/components';
+import { Layout } from '@kaiyeadu/ui/styles';
+import { ModifyButton, BackgroundContainer, Table, Filter } from '@kaiyeadu/ui/components';
 import data from './data';
 
+interface Filter {
+	type: string;
+	value: string[] | string;
+}
+
+// const sample = [
+// 	{ type: 'Religion', value: 'hindu' },
+// 	{ type: 'Grade', value: 'A_PLUS' }
+// ];
+
+interface TotalFilter {
+	type: Filter;
+	value: string;
+}
+
+const filterOptions: Filter[] = [
+	{
+		type: 'Caste',
+		value: 'SC'
+	},
+	{
+		type: 'Religion',
+		value: 'Hindu'
+	},
+	{
+		type: 'Grade',
+		value: ['A+', 'A', 'B', 'C']
+	},
+	{
+		type: 'Category',
+		value: ['HS', 'OCIU']
+	},
+	{
+		type: 'Marital Status',
+		value: ['Married', 'Unmarried', 'Divorced', 'Widowed']
+	},
+	{
+		type: 'Present Status',
+		value: ['Active', 'Inactive', 'Dormant', 'Imprisoned', 'Unknown']
+	},
+	{
+		type: 'Goondas',
+		value: ['Yes', 'No']
+	}
+];
+
 export default function Criminals() {
+	const [filters, setFilters] = useState<TotalFilter[]>([]);
+
 	const columns = useMemo(
 		() => [
 			{
@@ -34,25 +82,10 @@ export default function Criminals() {
 	return (
 		<BackgroundContainer pageTitle='Criminals'>
 			<Layout>
+				<Filter filters={filters} setFilters={setFilters} filterOptions={filterOptions} />
 				<Table columns={columns} data={data} />
 				<ModifyButton path='/criminals/add' icon='carbon:add' />
 			</Layout>
 		</BackgroundContainer>
 	);
 }
-
-const Layout = styled.main`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-
-	text-align: center;
-
-	h1 {
-		font-size: 4rem;
-		margin: 1em;
-		color: white;
-	}
-`;

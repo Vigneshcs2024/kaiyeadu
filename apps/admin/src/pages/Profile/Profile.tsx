@@ -1,21 +1,14 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { BackgroundContainer, ModifyButton } from '@kaiyeadu/ui/components';
-import { CriminalRecordDto } from '@kaiyeadu/ui/dtos';
-import { useAuthApi } from '@kaiyeadu/hooks';
-import { PersonalProfileDetails } from './PersonalProfileDetails';
-import { CaseProfileDetails } from './CaseProfileDetails';
-import { OtherProfileDetails } from './OtherProfileDetails';
-import { Chip } from '../Chip';
+import { BackgroundContainer } from '@kaiyeadu/ui/components';
+import { criminalData } from './data';
+import PersonalProfileDetails from './PersonalProfileDetails';
+import CaseProfileDetails from './CaseProfileDetails';
+import OtherProfileDetails from './OtherProfileDetails';
 
-export interface TabProps {
-	criminalData: CriminalRecordDto;
-}
-
-export function Profile({ criminalData }: TabProps) {
+export default function Profile() {
 	const [tab, setTab] = useState(1);
-	const { session } = useAuthApi();
 
 	return (
 		<BackgroundContainer pageTitle='Profile'>
@@ -23,21 +16,19 @@ export function Profile({ criminalData }: TabProps) {
 				<ProfileContainer>
 					<ImageContainer>
 						<ProfileImage>
-							{/* Image url to be changed to criminal's photo */}
 							<img src='https://source.unsplash.com/WNoLnJo7tS8' alt='profile' />
 						</ProfileImage>
-						<h1>{criminalData.name}</h1>
+						<h3>{criminalData.name}</h3>
 						<h3>HS Number: {criminalData.hs_number}</h3>
 						<div
 							style={{
 								display: 'flex',
 								justifyContent: 'center',
-								alignItems: 'center',
-								marginTop: '1rem'
+								alignItems: 'center'
 							}}>
-							{criminalData.modusOperandi.map(mo => (
-								<Chip key={mo.id}>{mo.type}</Chip>
-							))}
+							{criminalData.modusOperandi.map(({ type }, index) => {
+								return <ModusOperandi key={index}>{type}</ModusOperandi>;
+							})}
 						</div>
 					</ImageContainer>
 					<div>
@@ -54,37 +45,24 @@ export function Profile({ criminalData }: TabProps) {
 						</TabContainer>
 
 						{tab === 1 ? (
-							<PersonalProfileDetails criminalData={criminalData} />
+							<PersonalProfileDetails />
 						) : tab === 2 ? (
-							<CaseProfileDetails criminalData={criminalData} />
+							<CaseProfileDetails />
 						) : (
-							<OtherProfileDetails criminalData={criminalData} />
+							<OtherProfileDetails />
 						)}
 					</div>
 				</ProfileContainer>
-				{session.getUserRole() === 'admin' ||
-					session.getUserRole() === 'master' ||
-					(window.location.port === '3000' && ( // Needed to be removed after development
-						<>
-							<ModifyButton icon='ci:edit' width='40' />
-							<ModifyButton
-								icon='fluent:delete-24-filled'
-								width='40'
-								style={{ bottom: '11rem' }}
-							/>
-						</>
-					))}
 			</Layout>
 		</BackgroundContainer>
 	);
 }
 
 const ImageContainer = styled.div`
-	margin: 2rem 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: flex-start;
+	justify-content: center;
 	min-width: 30%;
 `;
 
@@ -97,12 +75,20 @@ const Layout = styled.main`
 	text-align: center;
 `;
 
+const ModusOperandi = styled.h3`
+	padding: 1rem;
+	background-color: ${props => props.theme.primary};
+	color: ${props => props.theme.white};
+	border-radius: 5rem;
+	margin: 1rem;
+`;
+
 const ProfileContainer = styled.div`
-	margin: 2rem auto;
-	min-width: 90vw;
+	min-width: 80vw;
 	min-height: 80vh;
 	background-color: ${props => props.theme.white};
 	display: flex;
+	align-items: center;
 	justify-content: center;
 
 	& p {

@@ -2,23 +2,25 @@ import { FC, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-	label: string;
+	label?: string;
 	tip?: string | { content: string | string[]; color: string };
+	width?: string;
 }
 
-const TextField: FC<InputProps> = ({ label, tip, ...rest }) => (
-	<Container>
+const TextField: FC<InputProps> = ({ label, tip, width, ...rest }) => (
+	<Container minWidth={width}>
 		{label && <label htmlFor={rest.id ?? rest.name}>{label}</label>}
 		<input id={rest.id ?? rest.name} {...rest} />
+
 		<p style={typeof tip !== 'string' ? { color: tip?.color } : {}}>
 			{typeof tip === 'string' ? tip : tip?.content} &nbsp;
 		</p>
 	</Container>
 );
 
-const Container = styled.div`
+const Container = styled.div<{ minWidth: string | undefined }>`
 	display: flex;
-	min-width: 70%;
+	min-width: ${props => (typeof props.minWidth === 'string' ? props.minWidth : '70%')};
 	flex-direction: column;
 
 	&:not(:last-child) {
@@ -49,9 +51,8 @@ const Container = styled.div`
 	}
 
 	p {
-		max-width: 40rem;
-		font-size: 0.9em;
-		margin: 0.75rem;
+		font-size: 0.8em;
+		margin: 0.5rem;
 		font-weight: 700;
 	}
 `;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export function RemoveItemButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	return (
 		<ButtonContainer type='button' {...props}>
-			<Icon icon='akar-icons:minus' color='#C4171C' width='30' />
+			<Icon icon='carbon:delete' color='#fff' width='30' />
 		</ButtonContainer>
 	);
 }
@@ -14,7 +14,7 @@ const ButtonContainer = styled.button`
 	width: 5rem;
 	height: 5rem;
 	border-radius: 50%;
-	background-color: ${p => p.theme.white};
+	background-color: ${p => p.theme.primary};
 	border: none;
 	outline: none;
 	cursor: pointer;

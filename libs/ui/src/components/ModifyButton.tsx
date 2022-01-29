@@ -42,6 +42,6 @@ const ButtonContainer = styled.button`
 	outline: none;
 
 	&:hover {
-		box-shadow: ${p => `2px 1px 7px ${p.theme.black}`};
+		box-shadow: ${p => `1px 1px 10px ${p.theme.grey}`};
 	}
 `;

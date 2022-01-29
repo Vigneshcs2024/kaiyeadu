@@ -1,5 +1,20 @@
 import styled from 'styled-components';
 
+export const Layout = styled.main`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+
+	text-align: center;
+
+	h1 {
+		font-size: 4rem;
+		margin: 1em;
+		color: white;
+	}
+`;
+
 export const StyledTable = styled.table`
 	border-collapse: collapse;
 	width: 80%;

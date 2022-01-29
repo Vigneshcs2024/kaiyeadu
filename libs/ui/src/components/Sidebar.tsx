@@ -1,11 +1,12 @@
 import { Fragment, ReactChild, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from 'react-sidebar';
-import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 
 import { theme } from '../base';
 import { Logo } from '../assets';
+
+import { Navbar } from '@kaiyeadu/ui/components';
 
 interface SidebarProps {
 	content: {
@@ -51,7 +52,6 @@ function SidebarContent({ content }: ContentProps) {
 
 export default function SideBar({ content, children, pageTitle }: SidebarProps) {
 	const [sidebar, setSideBar] = useState(false);
-	const username = 'admin1'; //Had to change this by getting username by useContext or some other way.
 
 	return (
 		<Sidebar
@@ -59,22 +59,7 @@ export default function SideBar({ content, children, pageTitle }: SidebarProps) 
 			open={sidebar}
 			onSetOpen={open => setSideBar(open)}
 			styles={{ sidebar: { background: theme.palette.primary } }}>
-			<Navbar>
-				<NavItemContainer>
-					<Icon
-						className='ham-icon'
-						onClick={() => setSideBar(true)}
-						icon='feather:menu'
-						width='35'
-						color='white'
-					/>
-					<p className='pageTitle'>{pageTitle}</p>
-				</NavItemContainer>
-				<NavItemContainer>
-					<Icon icon='akar-icons:circle-fill' color='#1dff00' width='10' />
-					<p className='username'>{username}</p>
-				</NavItemContainer>
-			</Navbar>
+			<Navbar pageTitle={pageTitle} setSideBar={setSideBar} />
 			{children}
 		</Sidebar>
 	);
@@ -94,34 +79,6 @@ const LogoutButton = styled.button`
 
 	&:hover {
 		color: ${p => p.theme.lightGrey};
-	}
-`;
-
-const Navbar = styled.div`
-	display: flex;
-	background-color: ${p => p.theme.primary};
-	padding: 1rem 3rem;
-	justify-content: space-between;
-	align-items: center;
-
-	.ham-icon {
-		cursor: pointer;
-	}
-`;
-
-const NavItemContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	.pageTitle {
-		font-size: 2rem;
-	}
-
-	p {
-		color: ${p => p.theme.white};
-		font-weight: 700;
-		margin-left: 1rem;
 	}
 `;
 

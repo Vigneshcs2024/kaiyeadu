@@ -2,20 +2,24 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 
-import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
+import { useRequest, useAuthApi, UserNameContext } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
 import { login } from './login.service';
 import { LoginValidation } from './validationSchema';
 import { theme } from '@kaiyeadu/ui/base';
 import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
 
+import { useState } from 'react';
+
 export default function Login() {
 	const { request } = useRequest();
 	const { session } = useAuthApi();
+	const [userName, setUserName] = useState('admin');
 
 	const handleSubmit = async (values: AdminAuthCredentialsDto) => {
 		const token = await login(request, values);
 		session.setSession(token);
+		setUserName(session.getDisplayName());
 	};
 
 	const initialValues: AdminAuthCredentialsDto = {
@@ -30,50 +34,52 @@ export default function Login() {
 	});
 
 	return (
-		<BackgroundContainer
-			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-			isLogin={true}>
-			<InnerContainer>
-				<h1>LOGIN</h1>
-				<form onSubmit={formik.handleSubmit}>
-					<TextField
-						label='Email'
-						name='email'
-						value={formik.values.email}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						tip={
-							formik.touched.email && formik.errors.email
-								? {
-										content: formik.errors.email,
-										color: theme.palette.danger
-								  }
-								: ''
-						}
-					/>
-					<TextField
-						label='Password'
-						name='password'
-						type='password'
-						value={formik.values.password}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						tip={
-							formik.touched.password && formik.errors.password
-								? {
-										content: formik.errors.password,
-										color: theme.palette.danger
-								  }
-								: ''
-						}
-					/>
-					<BottomContainer>
-						<Button title='login' type='submit' />
-						<Link to='/'>Forgot Password</Link>
-					</BottomContainer>
-				</form>
-			</InnerContainer>
-		</BackgroundContainer>
+		<UserNameContext.Provider value={userName}>
+			<BackgroundContainer
+				style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+				isLogin={true}>
+				<InnerContainer>
+					<h1>LOGIN</h1>
+					<form onSubmit={formik.handleSubmit}>
+						<TextField
+							label='Email'
+							name='email'
+							value={formik.values.email}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							tip={
+								formik.touched.email && formik.errors.email
+									? {
+											content: formik.errors.email,
+											color: theme.palette.danger
+									  }
+									: ''
+							}
+						/>
+						<TextField
+							label='Password'
+							name='password'
+							type='password'
+							value={formik.values.password}
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							tip={
+								formik.touched.password && formik.errors.password
+									? {
+											content: formik.errors.password,
+											color: theme.palette.danger
+									  }
+									: ''
+							}
+						/>
+						<BottomContainer>
+							<Button title='login' type='submit' />
+							<Link to='/'>Forgot Password</Link>
+						</BottomContainer>
+					</form>
+				</InnerContainer>
+			</BackgroundContainer>
+		</UserNameContext.Provider>
 	);
 }
 

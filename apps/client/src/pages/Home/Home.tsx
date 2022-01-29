@@ -1,9 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
-import { BackgroundContainer, Table } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, ModifyButton, Table } from '@kaiyeadu/ui/components';
 import data from './data';
+import { UpdateProposals } from '..';
 
 export default function Home() {
+	const [modal, setModal] = useState(false);
 	const columns = useMemo(
 		() => [
 			{
@@ -35,6 +37,8 @@ export default function Home() {
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 			pageTitle='Home'>
 			<Table columns={columns} data={data} />
+			<ModifyButton icon='ci:edit' width='35' onClick={() => setModal(true)} />
+			{modal && <UpdateProposals setModal={setModal} />}
 		</BackgroundContainer>
 	);
 }
