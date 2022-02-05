@@ -6,9 +6,8 @@
 		"requests": true
 	},
 	"db": {
-		"database": "sql6465054",
-		"username": "sql6465054",
-		"host": "sql6.freesqldatabase.com",
+		"database": "kaiyeadu_dev",
+		"host": "localhost",
 		"provider": "mysql"
 	},
 	"mailer": {
