@@ -4,8 +4,7 @@
 		"requests": false
 	},
 	"db": {
-		"database": "kaiyeadu",
-		"provider": "mysql"
+		"database": ""
 	},
 	"mailer": {
 		"enable": true

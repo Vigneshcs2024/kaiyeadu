@@ -1,5 +1,4 @@
-CREATE DATABASE kaiyeadu_dev;
-/* Start the server and syncronize the tables */
+
 INSERT INTO
   police_stations (id, name, area, district)
 VALUES
