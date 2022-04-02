@@ -15,7 +15,7 @@ export function useRequest() {
 
 		instance.defaults.headers.common.Authorization = session.isAuthenticated()
 			? `Bearer ${session.getAuthToken()}`
-			: null;
+			: '';
 
 		return instance;
 	}, [session]);
