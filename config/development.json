@@ -6,7 +6,8 @@
 		"requests": true
 	},
 	"db": {
-		"database": "lnZYXB4iGw"
+		"host": "localhost",
+		"database": "kaiyeadu_dev"
 	},
 	"mailer": {
 		"enable": false,
