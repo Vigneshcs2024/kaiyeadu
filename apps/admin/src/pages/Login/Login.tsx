@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useFormik } from 'formik';
 
 import { useRequest, useAuthApi, UserNameContext } from '@kaiyeadu/hooks';
-import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Button, TextField, Loader } from '@kaiyeadu/ui/components';
 import { login } from './login.service';
 import { LoginValidation } from './validationSchema';
 import { theme } from '@kaiyeadu/ui/base';
@@ -15,11 +15,19 @@ export default function Login() {
 	const { request } = useRequest();
 	const { session } = useAuthApi();
 	const [userName, setUserName] = useState('admin');
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubmit = async (values: AdminAuthCredentialsDto) => {
-		const token = await login(request, values);
-		session.setSession(token);
-		setUserName(session.getDisplayName());
+		setIsLoading(true);
+		try {
+			const token = await login(request, values);
+			session.setSession(token);
+			setUserName(session.getDisplayName());
+
+			setIsLoading(false);
+		} catch (error) {
+			setIsLoading(false);
+		}
 	};
 
 	const initialValues: AdminAuthCredentialsDto = {
@@ -35,6 +43,7 @@ export default function Login() {
 
 	return (
 		<UserNameContext.Provider value={userName}>
+			{isLoading ? <Loader /> : ''}
 			<BackgroundContainer
 				style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 				isLogin={true}>

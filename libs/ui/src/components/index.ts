@@ -15,3 +15,4 @@ export * from './Accordion';
 export * from './Profile';
 export * from './Filter';
 export * from './Navbar';
+export * from './Loader';
