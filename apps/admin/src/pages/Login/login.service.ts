@@ -1,7 +1,9 @@
-import { AxiosInstance, AxiosError } from 'axios';
+import { AxiosInstance } from 'axios';
+
 import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
 import { LoginResponse, Token } from '@kaiyeadu/api-interfaces/responses';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 
 export async function login(
 	axiosInstance: AxiosInstance,
@@ -12,7 +14,8 @@ export async function login(
 		console.log(res.data.message);
 		return res.data.token;
 	} catch (error) {
-		console.error((error as AxiosError).response?.data.message);
+		const err = error as CustomAxiosError;
+		err.handleGlobally && err.handleGlobally(err);
 		throw error;
 	}
 }

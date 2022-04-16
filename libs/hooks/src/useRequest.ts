@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { useMemo } from 'react';
+
 import { useAuthApi } from './AuthEngine';
+
+import { errorComposer } from '@kaiyeadu/ui/functions';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 
 export function useRequest() {
 	const { session } = useAuthApi();
@@ -13,9 +17,13 @@ export function useRequest() {
 					: process.env.REACT_APP_API_URL
 		});
 
-		instance.defaults.headers.common.Authorization = session.isAuthenticated()
-			? `Bearer ${session.getAuthToken()}`
-			: '';
+		if (session.isAuthenticated())
+			instance.defaults.headers.common.Authorization = `Bearer ${session.getAuthToken()}`;
+
+		instance.interceptors.response.use(undefined, function (error: CustomAxiosError) {
+			error.handleGlobally = errorComposer(error);
+			return Promise.reject(error);
+		});
 
 		return instance;
 	}, [session]);
