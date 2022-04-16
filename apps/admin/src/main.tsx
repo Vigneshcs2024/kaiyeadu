@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 
 import { GlobalStyles, theme } from '@kaiyeadu/ui/base';
 import Router from './Router';
+import { AuthEngine } from '@kaiyeadu/hooks';
 
 ReactDOM.render(
 	<StrictMode>
@@ -18,9 +19,11 @@ ReactDOM.render(
 					href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap'
 				/>
 			</Helmet>
-			<ThemeProvider theme={theme.palette}>
-				<Router />
-			</ThemeProvider>
+			<AuthEngine>
+				<ThemeProvider theme={theme.palette}>
+					<Router />
+				</ThemeProvider>
+			</AuthEngine>
 		</BrowserRouter>
 		<Toaster />
 	</StrictMode>,

@@ -1,24 +1,9 @@
-import { useAuthApi, useQueryParams } from '@kaiyeadu/hooks';
-import { useEffect, useState } from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function AuthRoute({ element: Component, path, ...rest }: { element: any; path: string }) {
-	const { session } = useAuthApi();
-	const query = useQueryParams();
-	const [authenticated, setAuthenticated] = useState(session.isAuthenticated());
+import { useAuthApi } from '@kaiyeadu/hooks';
 
-	useEffect(() => {
-		setAuthenticated(session.isAuthenticated());
-	}, [session]);
+export default function AdminRoute({ redirect }: { redirect: string }) {
+	const { auth } = useAuthApi();
 
-	return (
-		<Route
-			path={path}
-			element={
-				!authenticated ? <Component /> : <Navigate to={query.get('redirect') ?? '/home'} />
-			}
-			{...rest}
-		/>
-	);
+	return !auth ? <Outlet /> : <Navigate to={redirect} />;
 }

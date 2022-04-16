@@ -1,26 +1,39 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
 import { SessionManager } from './SessionManager';
 
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
 	session: new SessionManager(),
-	setSession: () => console.warn('Not provided')
+	auth: false,
+	setAuthToken: old => old
 });
 
 type AuthContextType = {
 	session: SessionManager;
-	setSession: (newSession: SessionManager) => void;
+	auth: boolean;
+	setAuthToken: (token: string) => void;
 };
 
 export const AuthProvider = AuthContext.Provider;
+
 export const useAuthApi = () => useContext(AuthContext);
 
-export function AuthEngine({ children, authValue }: AuthEngineProps) {
-	const [session, setSession] = useState(authValue);
+export function AuthEngine({ children }: AuthEngineProps) {
+	const session = new SessionManager();
+	const [auth, setAuth] = useState(() => session.isAuthenticated());
 
-	return <AuthProvider value={{ session, setSession }}>{children}</AuthProvider>;
+	function setAuthToken(token: string) {
+		if (token === '') {
+			session.clearSession();
+			setAuth(false);
+		} else {
+			session.setSession(token);
+			setAuth(true);
+		}
+	}
+
+	return <AuthProvider value={{ session, auth, setAuthToken }}>{children}</AuthProvider>;
 }
 
 interface AuthEngineProps {
-	authValue: SessionManager;
 	children: React.ReactNode;
 }

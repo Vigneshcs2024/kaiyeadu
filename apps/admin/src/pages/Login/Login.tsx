@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 
+import { login } from './login.service';
+
 import { useRequest, useAuthApi, UserNameContext } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Button, TextField, Loader } from '@kaiyeadu/ui/components';
-import { login } from './login.service';
 import { LoginValidation } from './validationSchema';
 import { theme } from '@kaiyeadu/ui/base';
 import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
@@ -13,7 +14,7 @@ import { useState } from 'react';
 
 export default function Login() {
 	const { request } = useRequest();
-	const { session } = useAuthApi();
+	const { setAuthToken, session } = useAuthApi();
 	const [userName, setUserName] = useState('admin');
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +22,7 @@ export default function Login() {
 		setIsLoading(true);
 		try {
 			const token = await login(request, values);
-			session.setSession(token);
+			setAuthToken(token);
 			setUserName(session.getDisplayName());
 
 			setIsLoading(false);

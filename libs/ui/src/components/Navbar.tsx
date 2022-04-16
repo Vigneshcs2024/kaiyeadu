@@ -1,8 +1,9 @@
 import { Icon } from '@iconify/react';
-import { UserNameContext } from '@kaiyeadu/hooks';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { useAuthApi, UserNameContext } from '@kaiyeadu/hooks';
 
 export function Navbar({
 	pageTitle,
@@ -12,6 +13,8 @@ export function Navbar({
 	setSideBar?: Dispatch<SetStateAction<boolean>>;
 }) {
 	const username = useContext(UserNameContext);
+	const { setAuthToken } = useAuthApi();
+
 	return (
 		<NavbarContainer>
 			<NavItemContainer>
@@ -40,6 +43,9 @@ export function Navbar({
 					icon='grommet-icons:power-shutdown'
 					color='#fff'
 					width='30'
+					onClick={() => {
+						setAuthToken('');
+					}}
 				/>
 			</NavItemContainer>
 		</NavbarContainer>

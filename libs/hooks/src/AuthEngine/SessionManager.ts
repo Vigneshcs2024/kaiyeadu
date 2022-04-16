@@ -24,6 +24,9 @@ export class SessionManager {
 	private static readonly setStorage = (value: Store) =>
 		window.localStorage.setItem(SessionManager.STORAGE_KEY, JSON.stringify(value));
 
+	private static readonly clearStorage = () =>
+		window.localStorage.setItem(SessionManager.STORAGE_KEY, JSON.stringify({}));
+
 	constructor(private store: Store = SessionManager.getStorage()) {}
 
 	public isAuthenticated(): boolean {
@@ -42,6 +45,10 @@ export class SessionManager {
 		const { name, designation, role } = decodeJwt(token) as PayloadObject;
 		this.store = { token, name, role, designation };
 		SessionManager.setStorage(this.store);
+	}
+
+	public clearSession(): void {
+		SessionManager.clearStorage();
 	}
 
 	public updateTokens(token: string): void {
