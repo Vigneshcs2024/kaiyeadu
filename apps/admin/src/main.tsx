@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 import { GlobalStyles, theme } from '@kaiyeadu/ui/base';
 import Router from './Router';
@@ -21,6 +22,7 @@ ReactDOM.render(
 				<Router />
 			</ThemeProvider>
 		</BrowserRouter>
+		<Toaster />
 	</StrictMode>,
 	document.getElementById('root')
 );
