@@ -17,7 +17,7 @@ export async function login({
 	});
 
 	if (!user || !(await bcrypt.compare(password, user.password))) {
-		throw new ClientError('Invalid or expired credentials', StatusCodes.UNAUTHORIZED);
+		throw new ClientError('Invalid or expired credentials', StatusCodes.BAD_REQUEST);
 	}
 
 	if (user.role === 'user') {
