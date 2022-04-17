@@ -1,8 +1,16 @@
-import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
+import toast from 'react-hot-toast';
+
 import { AddPSValidation } from './validationSchema';
+
 import { theme } from '@kaiyeadu/ui/base';
+import { BackgroundContainer, Button, Loader, TextField } from '@kaiyeadu/ui/components';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { useRequest } from '@kaiyeadu/hooks';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 
 interface AddPSInt {
 	name: string;
@@ -17,14 +25,35 @@ const initialPSValues: AddPSInt = {
 };
 
 export function AddStation() {
+	const { request } = useRequest();
+	const navigate = useNavigate();
+
+	const [isLoading, setIsLoading] = useState(false);
+
 	const formik = useFormik({
 		initialValues: initialPSValues,
 		validationSchema: AddPSValidation,
-		onSubmit: values => console.log(values)
+		onSubmit: async values => {
+			setIsLoading(true);
+
+			try {
+				const res = await request.post(Requests.STATION_CREATE, values);
+				setIsLoading(false);
+				toast.success(res.data.message);
+				setTimeout(() => {
+					navigate('/police-stations');
+				}, 2000);
+			} catch (error) {
+				const err = error as CustomAxiosError;
+				err.handleGlobally && err.handleGlobally(err);
+				setIsLoading(false);
+			}
+		}
 	});
 
 	return (
 		<BackgroundContainer pageTitle='Add Police Station'>
+			{isLoading ? <Loader /> : null}
 			<Layout>
 				<Form onSubmit={formik.handleSubmit}>
 					<TextField
@@ -88,7 +117,6 @@ const Layout = styled.main`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	min-height: 100vh;
 	color: ${p => p.theme.white};
 
 	h1 {
