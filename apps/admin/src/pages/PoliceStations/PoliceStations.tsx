@@ -1,31 +1,53 @@
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { ModifyButton, BackgroundContainer, Table } from '@kaiyeadu/ui/components';
-import data from './data';
+import { ModifyButton, BackgroundContainer, Table, Loader } from '@kaiyeadu/ui/components';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { useRequest } from '@kaiyeadu/hooks';
 
 export default function PoliceStations() {
+	const [isLoading, setIsLoading] = useState(false);
+	const [data, setData] = useState([]);
+	const { request } = useRequest();
+
+	const getData = async () => {
+		setIsLoading(true);
+
+		try {
+			const res = await request.get(Requests.STATION_LIST);
+			setData(res.data.result.stations);
+			setIsLoading(false);
+		} catch (error) {
+			const err = error as CustomAxiosError;
+			err.handleGlobally && err.handleGlobally(err);
+			setIsLoading(false);
+		}
+	};
+
+	const memoizedGetData = useCallback(getData, [request]);
+
+	useEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
+
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'First Name',
-				accessor: 'first_name'
+				Header: 'ID',
+				accessor: 'id'
 			},
 			{
-				Header: 'Last Name',
-				accessor: 'last_name'
+				Header: 'Name',
+				accessor: 'name'
 			},
 			{
-				Header: 'Gender',
-				accessor: 'gender'
+				Header: 'Area',
+				accessor: 'area'
 			},
 			{
-				Header: 'HS Number',
-				accessor: 'hs_number'
-			},
-			{
-				Header: 'Date of Birth',
-				accessor: 'date_of_birth'
+				Header: 'District',
+				accessor: 'district'
 			}
 		],
 		[]
@@ -35,6 +57,7 @@ export default function PoliceStations() {
 		<BackgroundContainer pageTitle='Police Stations'>
 			<Layout>
 				<Table columns={columns} data={data} />
+				{isLoading && <Loader withOverlay={false} />}
 				<ModifyButton path='/police-stations/add' icon='carbon:add' />
 			</Layout>
 		</BackgroundContainer>
@@ -46,7 +69,8 @@ const Layout = styled.main`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	min-height: 100vh;
+	gap: 2em;
+	padding: 3em 1em;
 
 	text-align: center;
 

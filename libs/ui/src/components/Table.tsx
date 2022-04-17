@@ -61,7 +61,11 @@ export default function Table({ columns, data, style }: Props) {
 					return (
 						<tr {...row.getRowProps()}>
 							{row.cells.map(cell => {
-								return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+								return (
+									<td align='left' {...cell.getCellProps()}>
+										{cell.render('Cell')}
+									</td>
+								);
 							})}
 						</tr>
 					);

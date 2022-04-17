@@ -11,6 +11,8 @@ export enum Requests {
 	USER_UPDATE = 'user/update',
 	USER_REMOVE = 'user/remove',
 
+	STATION_LIST = '/police-station/list',
+
 	USER_UPDATE_PASSWORD = 'user/update-password',
 
 	COMMON_STATS = 'common/stats'

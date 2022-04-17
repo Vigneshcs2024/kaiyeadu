@@ -4,13 +4,21 @@ import styled from 'styled-components';
 
 import { theme } from '../base';
 
-export function Loader(): JSX.Element {
-	return (
+export function Loader({ withOverlay = true }: { withOverlay?: boolean }): JSX.Element {
+	return withOverlay ? (
 		<Overlay>
 			&nbsp;
-			<ReactLoading type='spinningBubbles' color={theme.palette.white} />
+			<CustomLoader />
 		</Overlay>
+	) : (
+		<div style={{ padding: '2em' }}>
+			<CustomLoader />
+		</div>
 	);
+}
+
+function CustomLoader() {
+	return <ReactLoading type='spinningBubbles' color={theme.palette.white} />;
 }
 
 const Overlay = styled.div`
