@@ -3,6 +3,10 @@ export interface AdminAuthCredentialsDto {
 	password: string;
 }
 
+export interface ResetPasswordDto {
+	email: string;
+}
+
 export interface UserAuthCredentials {
 	gpf: string;
 	password: string;

@@ -5,6 +5,7 @@ export { default as Requests } from './Requests/Requests';
 export { default as Admins } from './Admins/Admins';
 export { default as Users } from './Users/Users';
 export { default as PoliceStations } from './PoliceStations/PoliceStations';
+export { default as ResetPassword } from './ResetPassword/ResetPassword';
 
 export * from './AddUser';
 export * from './AddPoliceStation';

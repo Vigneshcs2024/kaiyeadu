@@ -1,54 +1,59 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
+import toast from 'react-hot-toast';
 
-import { login } from './login.service';
-import { LoginValidation } from './validationSchema';
+import { ResetValidation } from './validationSchema';
 
-import { useRequest, useAuthApi, UserNameContext } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Button, TextField, Loader } from '@kaiyeadu/ui/components';
 import { theme } from '@kaiyeadu/ui/base';
-import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
+import { ResetPasswordDto } from '@kaiyeadu/api-interfaces/dtos';
+import { useRequest } from '@kaiyeadu/hooks';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 
-export default function Login() {
+export default function ResetPassword() {
 	const { request } = useRequest();
-	const { setAuthToken, session } = useAuthApi();
-	const [userName, setUserName] = useState('admin');
+	const navigate = useNavigate();
+
 	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSubmit = async (values: AdminAuthCredentialsDto) => {
+	const handleSubmit = async (values: ResetPasswordDto) => {
 		setIsLoading(true);
-		try {
-			const token = await login(request, values);
-			setAuthToken(token);
-			setUserName(session.getDisplayName());
 
+		try {
+			const res = await request.patch(Requests.ADMIN_RESET_PASSWORD, values);
 			setIsLoading(false);
+			toast.success(res.data.message);
+			setTimeout(() => {
+				navigate('/login');
+			}, 2000);
 		} catch (error) {
+			const err = error as CustomAxiosError;
+			err.handleGlobally && err.handleGlobally(err);
 			setIsLoading(false);
 		}
 	};
 
-	const initialValues: AdminAuthCredentialsDto = {
-		email: '',
-		password: ''
+	const initialValues: ResetPasswordDto = {
+		email: ''
 	};
 
 	const formik = useFormik({
 		initialValues,
 		onSubmit: handleSubmit,
-		validationSchema: LoginValidation
+		validationSchema: ResetValidation
 	});
 
 	return (
-		<UserNameContext.Provider value={userName}>
+		<>
 			{isLoading ? <Loader /> : ''}
 			<BackgroundContainer
 				style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 				isLogin={true}>
 				<InnerContainer>
-					<h1>LOGIN</h1>
+					<h1>Reset Password</h1>
 					<form onSubmit={formik.handleSubmit}>
 						<TextField
 							label='Email'
@@ -65,30 +70,14 @@ export default function Login() {
 									: ''
 							}
 						/>
-						<TextField
-							label='Password'
-							name='password'
-							type='password'
-							value={formik.values.password}
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							tip={
-								formik.touched.password && formik.errors.password
-									? {
-											content: formik.errors.password,
-											color: theme.palette.danger
-									  }
-									: ''
-							}
-						/>
 						<BottomContainer>
-							<Button title='login' type='submit' />
-							<Link to='/reset-password'>Forgot Password</Link>
+							<Button title='Reset' type='submit' />
+							<Link to='/login'>Login</Link>
 						</BottomContainer>
 					</form>
 				</InnerContainer>
 			</BackgroundContainer>
-		</UserNameContext.Provider>
+		</>
 	);
 }
 

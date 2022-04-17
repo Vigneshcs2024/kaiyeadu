@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
 import config from 'config';
 import { StatusCodes } from 'http-status-codes';
+
 import { AdminAuthCredentialsDto, UserAuthCredentials } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
 import { generateOTP } from '$api/utilities';
+
 import { User } from '../user.model';
 
 export async function login({
@@ -43,16 +45,16 @@ export async function createLoginPassword(gpf: string) {
 export async function resetPassword(email: string) {
 	const user = await User.findOne({ where: { email } });
 	if (!user) {
-		throw new ClientError('User not found', StatusCodes.UNAUTHORIZED);
+		throw new ClientError('User not found', StatusCodes.BAD_REQUEST);
 	}
 
 	if (user.role === 'user') {
 		throw new ClientError('User cannot reset password', StatusCodes.FORBIDDEN);
 	}
 
-	const resetOtp = generateOTP(8, false);
-	user.password = await bcrypt.hash(resetOtp, config.get('hashing.saltRounds'));
+	const resetValue = generateOTP(8, true);
+	user.password = await bcrypt.hash(resetValue, config.get('hashing.saltRounds'));
 	await user.save();
 
-	return { user, resetOtp };
+	return { user, resetValue };
 }

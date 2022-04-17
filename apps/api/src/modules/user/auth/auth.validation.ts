@@ -4,7 +4,7 @@ import Joi from 'joi';
 export function validateLogin(credentials: AdminAuthCredentialsDto) {
 	const schema = Joi.object<AdminAuthCredentialsDto>({
 		email: Joi.string().email().required(),
-		password: Joi.string().min(8).max(30).required()
+		password: Joi.string()
 	});
 
 	return schema.validateAsync(credentials);
@@ -13,7 +13,7 @@ export function validateLogin(credentials: AdminAuthCredentialsDto) {
 export function validateLoginWithGPF(credentials: UserAuthCredentials) {
 	const schema = Joi.object<UserAuthCredentials>({
 		gpf: Joi.string().required(),
-		password: Joi.string().min(8).max(30).required()
+		password: Joi.string()
 	});
 
 	return schema.validateAsync(credentials);

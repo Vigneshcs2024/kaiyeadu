@@ -14,7 +14,8 @@ import {
 	Users,
 	PoliceStations,
 	Criminals,
-	CriminalProfile
+	CriminalProfile,
+	ResetPassword
 } from './pages';
 
 export default function Router() {
@@ -34,6 +35,7 @@ export default function Router() {
 			</Route>
 			<Route element={<AuthRoute redirect='/' />}>
 				<Route path='/login' element={<Login />} />
+				<Route path='/reset-password' element={<ResetPassword />} />
 			</Route>
 
 			<Route path='*' element={<Navigate replace to='/' />} />

@@ -4,12 +4,13 @@ import jwt from 'jsonwebtoken';
 import pc from 'picocolors';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 
+import { PayloadObject } from '@kaiyeadu/api-interfaces/responses';
 import { logger } from '$api/tools';
+import { sendEmail, sendSms } from '$api/root/connections';
+
 import * as authRepository from './auth.repository';
 import { validateLogin, validateLoginWithGPF } from './auth.validation';
-import { sendEmail, sendSms } from '$api/root/connections';
 
 const JWT_SECRET = (config.get('keys.jwt.secret') ?? process.env.JWT_SECRET) as string;
 
@@ -78,14 +79,16 @@ export async function resetPassword(req: Request, res: Response) {
 	const { email } = req.body;
 
 	await Joi.string().email().required().validateAsync(email);
-	const { user, resetOtp } = await authRepository.resetPassword(email);
+	const { user, resetValue } = await authRepository.resetPassword(email);
 
-	await sendEmail(email, 'Reset Password', `Your reset password OTP is ${resetOtp}`);
+	const msg = `Your Kaiyeadu temporary password is: ${resetValue}`;
 
-	await sendSms(`+91${user.phone}`, `Your Kaiyeadu reset password is: ${resetOtp}`);
+	await sendEmail(email, 'Reset Password', msg);
+
+	await sendSms(`+91${user.phone}`, msg);
 
 	logger.debug(
-		`User ${user.email} has been given a new temporary password: ${pc.yellow(resetOtp)}`
+		`User ${user.email} has been given a new temporary password: ${pc.yellow(resetValue)}`
 	);
 
 	res.status(StatusCodes.OK).json({
