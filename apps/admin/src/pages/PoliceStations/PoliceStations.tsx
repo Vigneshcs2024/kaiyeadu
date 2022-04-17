@@ -19,8 +19,7 @@ export default function PoliceStations() {
 			setData(res.data.result.stations);
 			setIsLoading(false);
 		} catch (error) {
-			const err = error as CustomAxiosError;
-			err.handleGlobally && err.handleGlobally(err);
+			(error as CustomAxiosError).handleAxiosError?.();
 			setIsLoading(false);
 		}
 	};

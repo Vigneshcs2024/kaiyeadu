@@ -20,8 +20,8 @@ export function useRequest() {
 		if (auth)
 			instance.defaults.headers.common.Authorization = `Bearer ${session.getAuthToken()}`;
 
-		instance.interceptors.response.use(undefined, function (error: CustomAxiosError) {
-			error.handleGlobally = errorComposer(error);
+		instance.interceptors.response.use(undefined, (error: CustomAxiosError) => {
+			error.handleAxiosError = errorComposer(error);
 			return Promise.reject(error);
 		});
 

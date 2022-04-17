@@ -22,8 +22,7 @@ export default function Home() {
 			setData(res.data.result);
 			setIsLoading(false);
 		} catch (error) {
-			const err = error as CustomAxiosError;
-			err.handleGlobally && err.handleGlobally(err);
+			(error as CustomAxiosError).handleAxiosError?.();
 			setIsLoading(false);
 		}
 	};

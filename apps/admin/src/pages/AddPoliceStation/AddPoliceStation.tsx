@@ -45,7 +45,7 @@ export function AddStation() {
 				}, 2000);
 			} catch (error) {
 				const err = error as CustomAxiosError;
-				err.handleGlobally && err.handleGlobally(err);
+				err.handleAxiosError?.();
 				setIsLoading(false);
 			}
 		}

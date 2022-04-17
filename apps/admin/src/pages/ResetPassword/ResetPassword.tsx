@@ -30,8 +30,7 @@ export default function ResetPassword() {
 				navigate('/login');
 			}, 2000);
 		} catch (error) {
-			const err = error as CustomAxiosError;
-			err.handleGlobally && err.handleGlobally(err);
+			(error as CustomAxiosError).handleAxiosError?.();
 			setIsLoading(false);
 		}
 	};

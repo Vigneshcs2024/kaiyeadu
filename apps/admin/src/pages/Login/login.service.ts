@@ -15,7 +15,7 @@ export async function login(
 		return res.data.token;
 	} catch (error) {
 		const err = error as CustomAxiosError;
-		err.handleGlobally && err.handleGlobally(err);
+		err.handleAxiosError?.();
 		throw error;
 	}
 }
