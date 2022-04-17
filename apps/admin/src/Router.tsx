@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import AdminRoute from '@kaiyeadu/ui/routes/admin.route';
-import AuthRoute from '@kaiyeadu/ui/routes/auth.route';
+import { AdminRoute, AuthRoute } from '@kaiyeadu/ui/routes';
 
 import {
 	AddStation,
