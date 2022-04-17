@@ -1,21 +1,94 @@
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
+import { useRequest } from '@kaiyeadu/hooks';
 import { BackgroundContainer } from '@kaiyeadu/ui/components';
-import { Link } from 'react-router-dom';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 
 export default function Home() {
+	const [isLoading, setIsLoading] = useState(false);
+	const [randomValue, setRandomValue] = useState(0);
+	const [data, setData] = useState<{ [key: string]: string }>({});
+	const { request } = useRequest();
+
+	const getData = async () => {
+		setIsLoading(true);
+
+		try {
+			const res = await request.get(Requests.COMMON_STATS);
+			setData(res.data.result);
+			setIsLoading(false);
+		} catch (error) {
+			const err = error as CustomAxiosError;
+			err.handleGlobally && err.handleGlobally(err);
+			setIsLoading(false);
+		}
+	};
+
+	const memoizedGetData = useCallback(getData, [request]);
+
 	const list = [
 		{
 			title: 'Criminals',
 			count: 100,
-			icon: 'ant-design:unordered-list-outlined',
-			path: '/criminals'
+			icon: 'fa6-solid:handcuffs',
+			path: '/criminals',
+			key: 'criminals'
 		},
-		{ title: 'Police Stations', count: 80, icon: 'feather:home', path: '/police-stations' },
-		{ title: 'Update Requests', count: 4000, icon: 'bx:bx-git-pull-request', path: 'requests' },
-		{ title: 'Admins', count: 7, icon: 'clarity:administrator-solid', path: '/admins' }
+		{
+			title: 'Police Stations',
+			count: 80,
+			icon: 'mdi:police-station',
+			path: '/police-stations',
+			key: 'stations'
+		},
+		{
+			title: 'Proposals',
+			count: 400,
+			icon: 'bx:bx-git-pull-request',
+			path: 'requests',
+			key: 'proposals'
+		},
+		{
+			title: 'Users',
+			count: 200,
+			icon: 'bx:user',
+			path: '/users',
+			key: 'users'
+		},
+		{
+			title: 'Super Users',
+			count: 60,
+			icon: 'carbon:user-military',
+			path: '/super_users',
+			key: 'super_users'
+		},
+		{
+			title: 'Admins',
+			count: 7,
+			icon: 'clarity:administrator-solid',
+			path: '/admins',
+			key: 'admins'
+		}
 	];
+
+	useEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
+
+	useEffect(() => {
+		let ref;
+		if (isLoading) {
+			ref = setInterval(() => {
+				setRandomValue(Math.floor(Math.random() * 100));
+			}, 0);
+		} else {
+			clearInterval(ref);
+		}
+	}, [isLoading]);
 
 	return (
 		<BackgroundContainer
@@ -32,7 +105,7 @@ export default function Home() {
 						<Container key={ind}>
 							<h3>{val.title}</h3>
 							<div>
-								<h1>{val.count}</h1>
+								<h1>{isLoading ? randomValue + val.count : data[val.key]}</h1>
 								<Icon icon={val.icon} width={40} height={40} color='#E18B8D' />
 							</div>
 						</Container>

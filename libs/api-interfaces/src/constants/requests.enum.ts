@@ -11,5 +11,7 @@ export enum Requests {
 	USER_UPDATE = 'user/update',
 	USER_REMOVE = 'user/remove',
 
-	USER_UPDATE_PASSWORD = 'user/update-password'
+	USER_UPDATE_PASSWORD = 'user/update-password',
+
+	COMMON_STATS = 'common/stats'
 }

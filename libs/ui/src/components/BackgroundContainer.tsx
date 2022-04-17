@@ -58,7 +58,7 @@ export default function BackgroundContainer({
 }
 
 const Section = styled.section`
-	min-height: 100vh;
+	min-height: calc(100vh - 55px);
 	background: linear-gradient(87deg, rgba(182, 110, 112, 0.5) 60%, rgba(43, 41, 115, 0.5) 100%),
 		url('/logo.png');
 	background-position: center;

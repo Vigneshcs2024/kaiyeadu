@@ -43,7 +43,7 @@ export function setup_routes(app: Express) {
 	app.use('/upload', parseAuthToken, adminsOnly, uploadRouter);
 	app.use('/user', parseAuthToken, userRouter);
 	app.use('/vehicle', parseAuthToken, vehicleRouter);
-	app.use(commonRouter);
+	app.use('/common', commonRouter);
 
 	app.use(errorHandler);
 }
