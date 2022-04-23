@@ -1,31 +1,65 @@
-import { useMemo } from 'react';
-import styled from 'styled-components';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ModifyButton, BackgroundContainer, Table } from '@kaiyeadu/ui/components';
-import data from './data';
+import {
+	ModifyButton,
+	BackgroundContainer,
+	Table,
+	Loader,
+	FlexLayoutWithSpace
+} from '@kaiyeadu/ui/components';
+import { useRequest } from '@kaiyeadu/hooks';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 
 export default function Users() {
+	const [isLoading, setIsLoading] = useState(false);
+	const [data, setData] = useState([]);
+	const { request } = useRequest();
+
+	const getData = async () => {
+		setIsLoading(true);
+
+		try {
+			const res = await request.get(Requests.USER_LIST);
+			setData(res.data.result.users);
+			setIsLoading(false);
+		} catch (error) {
+			(error as CustomAxiosError).handleAxiosError?.();
+			setIsLoading(false);
+		}
+	};
+
+	const memoizedGetData = useCallback(getData, [request]);
+
+	useEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
+
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'First Name',
-				accessor: 'first_name'
+				Header: 'Name',
+				accessor: 'name'
 			},
 			{
-				Header: 'Last Name',
-				accessor: 'last_name'
+				Header: 'GPF',
+				accessor: 'gpf'
 			},
 			{
-				Header: 'Gender',
-				accessor: 'gender'
+				Header: 'Designation',
+				accessor: 'designation'
 			},
 			{
-				Header: 'HS Number',
-				accessor: 'hs_number'
+				Header: 'Email',
+				accessor: 'email'
 			},
 			{
-				Header: 'Date of Birth',
-				accessor: 'date_of_birth'
+				Header: 'Phone',
+				accessor: 'phone'
+			},
+			{
+				Header: 'Role',
+				accessor: 'role'
 			}
 		],
 		[]
@@ -33,26 +67,11 @@ export default function Users() {
 
 	return (
 		<BackgroundContainer pageTitle='Users'>
-			<Layout>
+			<FlexLayoutWithSpace>
 				<Table columns={columns} data={data} />
+				{isLoading && <Loader withOverlay={false} />}
 				<ModifyButton path='/users/add' icon='carbon:add' />
-			</Layout>
+			</FlexLayoutWithSpace>
 		</BackgroundContainer>
 	);
 }
-
-const Layout = styled.main`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-
-	text-align: center;
-
-	h1 {
-		font-size: 4rem;
-		margin: 1em;
-		color: white;
-	}
-`;

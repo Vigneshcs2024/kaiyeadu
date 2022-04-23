@@ -4,6 +4,8 @@ export { default as BackgroundContainer } from './BackgroundContainer';
 export { default as Button } from './Button';
 export { default as Table } from './Table';
 export { default as Sidebar } from './Sidebar';
+export { FlexLayoutWithSpace } from './FlexLayoutWithSpace';
+
 export * from './ModifyButton';
 export * from './DropDownList';
 export * from './ImagePicker';
