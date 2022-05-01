@@ -45,7 +45,12 @@ export default function Login() {
 		<UserNameContext.Provider value={userName}>
 			{isLoading ? <Loader /> : ''}
 			<BackgroundContainer
-				style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					minHeight: '100vh'
+				}}
 				isLogin={true}>
 				<InnerContainer>
 					<h1>LOGIN</h1>

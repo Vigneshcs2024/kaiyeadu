@@ -44,7 +44,12 @@ export default function Login() {
 
 	return (
 		<BackgroundContainer
-			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				minHeight: '100vh'
+			}}
 			isLogin={true}>
 			<InnerContainer>
 				<h1>LOGIN</h1>
