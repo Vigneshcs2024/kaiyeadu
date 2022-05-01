@@ -7,7 +7,7 @@ import { errorComposer } from '@kaiyeadu/ui/functions';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 
 export function useRequest() {
-	const { auth, session } = useAuthApi();
+	const { auth, session, setAuthToken } = useAuthApi();
 
 	const instance = useMemo(() => {
 		const instance = axios.create({
@@ -21,12 +21,12 @@ export function useRequest() {
 			instance.defaults.headers.common.Authorization = `Bearer ${session.getAuthToken()}`;
 
 		instance.interceptors.response.use(undefined, (error: CustomAxiosError) => {
-			error.handleAxiosError = errorComposer(error);
+			error.handleAxiosError = errorComposer(error, setAuthToken);
 			return Promise.reject(error);
 		});
 
 		return instance;
-	}, [session, auth]);
+	}, [auth, session, setAuthToken]);
 
 	return { request: instance };
 }

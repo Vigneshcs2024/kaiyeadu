@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
-export const errorComposer = (error: AxiosError) => {
+export const errorComposer = (error: AxiosError, setAuthToken: (token: string) => void) => {
 	return () => {
 		const statusCode = error.response ? error.response.status : null;
 
@@ -11,6 +11,9 @@ export const errorComposer = (error: AxiosError) => {
 			);
 		} else if (statusCode === 401) {
 			toast.error('Please login to access this resource');
+			setTimeout(() => {
+				setAuthToken('');
+			}, 1000);
 		} else {
 			toast.error('Something went wrong ! Please try again later');
 		}
