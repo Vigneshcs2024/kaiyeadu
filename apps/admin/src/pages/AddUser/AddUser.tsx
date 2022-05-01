@@ -1,15 +1,22 @@
-import { BackgroundContainer, Button, DropDownList, TextField } from '@kaiyeadu/ui/components';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
-import { AddUserValidation } from './validationSchema';
-import { theme } from '@kaiyeadu/ui/base';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
+import { theme } from '@kaiyeadu/ui/base';
+import { BackgroundContainer, Button, DropDownList, TextField } from '@kaiyeadu/ui/components';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { useRequest } from '@kaiyeadu/hooks';
+import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
+
+import { AddUserValidation } from './validationSchema';
 interface AddUserInt {
 	name: string;
 	gpf: string;
 	email: string;
-	phoneNumber: string;
-	policeStation: string;
+	phone: string;
+	police_station: string;
 	designation: string;
 	role: string;
 }
@@ -18,18 +25,64 @@ const initialAddUserValues: AddUserInt = {
 	name: '',
 	gpf: '',
 	email: '',
-	phoneNumber: '',
-	policeStation: '',
+	phone: '',
+	police_station: '',
 	designation: '',
 	role: 'user'
 };
 
 export function AddUser() {
+	const [isLoading, setIsLoading] = useState(false);
+	const [stationList, setStationList] = useState([
+		{
+			label: 'Select',
+			value: ''
+		}
+	]);
+	const navigate = useNavigate();
+	const { request } = useRequest();
+
 	const formik = useFormik({
 		initialValues: initialAddUserValues,
 		validationSchema: AddUserValidation,
-		onSubmit: values => console.log(values)
+		onSubmit: async values => {
+			setIsLoading(true);
+
+			try {
+				const res = await request.post(Requests.USER_CREATE, values);
+				setIsLoading(false);
+				toast.success(res.data.message);
+				setTimeout(() => {
+					navigate('/users');
+				}, 2000);
+			} catch (error) {
+				const err = error as CustomAxiosError;
+				err.handleAxiosError?.();
+				setIsLoading(false);
+			}
+		}
 	});
+
+	const getData = async () => {
+		try {
+			const res = await request.get(Requests.STATION_LIST);
+			setStationList(old => [
+				...old,
+				...res.data.result.stations.map((val: CommonObject) => ({
+					label: val.name,
+					value: val.id
+				}))
+			]);
+		} catch (error) {
+			(error as CustomAxiosError).handleAxiosError?.();
+		}
+	};
+
+	const memoizedGetData = useCallback(getData, [request]);
+
+	useEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
 
 	return (
 		<BackgroundContainer pageTitle='Add User'>
@@ -84,29 +137,14 @@ export function AddUser() {
 					<TextField
 						label='Phone'
 						type='tel'
-						name='phoneNumber'
-						value={formik.values.phoneNumber}
+						name='phone'
+						value={formik.values.phone}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 						tip={
-							formik.touched.phoneNumber && formik.errors.phoneNumber
+							formik.touched.phone && formik.errors.phone
 								? {
-										content: formik.errors.phoneNumber,
-										color: theme.palette.danger
-								  }
-								: ''
-						}
-					/>
-					<TextField
-						label='Police Station'
-						name='policeStation'
-						value={formik.values.policeStation}
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						tip={
-							formik.touched.policeStation && formik.errors.policeStation
-								? {
-										content: formik.errors.policeStation,
+										content: formik.errors.phone,
 										color: theme.palette.danger
 								  }
 								: ''
@@ -128,8 +166,25 @@ export function AddUser() {
 						}
 					/>
 					<DropDownList
+						label='Police Station'
+						id='police_station'
+						items={stationList}
+						name='police_station'
+						value={formik.values.police_station}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						tip={
+							formik.touched.police_station && formik.errors.police_station
+								? {
+										content: formik.errors.police_station,
+										color: theme.palette.danger
+								  }
+								: ''
+						}
+					/>
+					<DropDownList
 						label='Role'
-						id='ddl'
+						id='role'
 						items={['user', 'admin', 'master']}
 						name='role'
 						value={formik.values.role}

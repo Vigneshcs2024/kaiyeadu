@@ -5,17 +5,15 @@ export const errorComposer = (error: AxiosError, setAuthToken: (token: string) =
 	return () => {
 		const statusCode = error.response ? error.response.status : null;
 
-		if (statusCode === 400 || statusCode === 404) {
-			toast.error(
-				error.response?.data?.message ?? 'Something went wrong ! Please try again later 😪'
-			);
-		} else if (statusCode === 401) {
+		if (statusCode === 401) {
 			toast.error('Please login to access this resource');
 			setTimeout(() => {
 				setAuthToken('');
 			}, 1000);
 		} else {
-			toast.error('Something went wrong ! Please try again later');
+			toast.error(
+				error.response?.data?.message ?? 'Something went wrong ! Please try again later 😪'
+			);
 		}
 	};
 };
