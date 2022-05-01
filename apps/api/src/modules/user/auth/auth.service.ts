@@ -17,8 +17,6 @@ const JWT_SECRET = (config.get('keys.jwt.secret') ?? process.env.JWT_SECRET) as 
 export async function getLoginPassword(req: Request, res: Response) {
 	const { gpf } = req.body;
 
-	await Joi.string().alphanum().min(10).max(10).required().validateAsync(gpf);
-
 	const { user, loginPassword } = await authRepository.createLoginPassword(gpf);
 
 	await sendEmail(

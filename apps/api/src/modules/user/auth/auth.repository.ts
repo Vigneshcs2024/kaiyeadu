@@ -32,7 +32,7 @@ export async function login({
 export async function createLoginPassword(gpf: string) {
 	const user = await User.findOne({ where: { gpf } });
 	if (!user) {
-		throw new ClientError('User not found', StatusCodes.UNAUTHORIZED);
+		throw new ClientError('User not found', StatusCodes.BAD_REQUEST);
 	}
 
 	const loginPassword = generateOTP(8);

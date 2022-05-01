@@ -1,82 +1,83 @@
-import styled from 'styled-components';
-import { useFormik } from 'formik';
-
-import { UserAuthCredentials } from '@kaiyeadu/api-interfaces/dtos';
-import { useApi, useAuthApi, useRequest, UserNameContext } from '@kaiyeadu/hooks';
-import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
-import { theme } from '@kaiyeadu/ui/base';
-import { LoginValidation } from './validationSchema';
-import { login } from './login.service';
-
 import { useState } from 'react';
+import styled from 'styled-components';
+
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
+import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
+import { getLoginPassword, login } from './login.service';
+import toast from 'react-hot-toast';
 
 export default function Login() {
 	const { request } = useRequest();
-	const { session } = useAuthApi();
-	const [userName, setUserName] = useState('client');
+	const { setAuthToken } = useAuthApi();
 
-	const handleSubmit = async (values: UserAuthCredentials) => {
-		const token = await login(request, values);
-		session.setSession(token);
-		setUserName(session.getDisplayName());
+	const [credentials, setCredentials] = useState({
+		gpf: '',
+		password: ''
+	});
+	const [isUser, setIsUser] = useState(false);
+
+	const handleLogin = async (credentials: { gpf: string; password: string }) => {
+		try {
+			const token = await login(request, credentials);
+			setAuthToken(token);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
-	const formik = useFormik({
-		initialValues: {
-			gpf: '',
-			password: ''
-		},
-		onSubmit: handleSubmit,
-		validationSchema: LoginValidation
-	});
+	const handleGetPassword = async (value: { gpf: string }) => {
+		try {
+			const message = await getLoginPassword(request, value);
+			toast.success(message);
+			setIsUser(true);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setCredentials(old => ({
+			...old,
+			[e.target.name]: e.target.value
+		}));
+	};
 
 	return (
-		<UserNameContext.Provider value={userName}>
-			<BackgroundContainer
-				style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-				isLogin={true}>
-				<InnerContainer>
-					<h1>LOGIN</h1>
-					<form onSubmit={formik.handleSubmit}>
-						<TextField
-							label='GPF ID'
-							name='gpf'
-							onChange={formik.handleChange}
-							value={formik.values.gpf}
-							onBlur={formik.handleBlur}
-							tip={
-								formik.touched.gpf && formik.errors.gpf
-									? {
-											content: formik.errors.gpf,
-											color: theme.palette.danger
-									  }
-									: ''
-							}
-						/>
-						<TextField
-							name='password'
-							label='Password'
-							type='password'
-							onChange={formik.handleChange}
-							value={formik.values.password}
-							onBlur={formik.handleBlur}
-							tip={
-								formik.touched.password && formik.errors.password
-									? {
-											content: formik.errors.password,
-											color: theme.palette.danger
-									  }
-									: ''
-							}
-						/>
+		<BackgroundContainer
+			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+			isLogin={true}>
+			<InnerContainer>
+				<h1>LOGIN</h1>
 
-						<BottomContainer>
-							<Button title='login' type='submit' />
-						</BottomContainer>
-					</form>
-				</InnerContainer>
-			</BackgroundContainer>
-		</UserNameContext.Provider>
+				<TextField
+					label='GPF ID'
+					name='gpf'
+					value={credentials.gpf}
+					onChange={handleChange}
+				/>
+				{isUser && (
+					<TextField
+						name='password'
+						label='Password'
+						type='password'
+						value={credentials.password}
+						onChange={handleChange}
+					/>
+				)}
+
+				<BottomContainer>
+					<Button
+						title={isUser ? 'Login' : 'Get Password'}
+						type='submit'
+						onClick={
+							isUser
+								? () => handleLogin(credentials)
+								: () => handleGetPassword({ gpf: credentials.gpf })
+						}
+					/>
+				</BottomContainer>
+			</InnerContainer>
+		</BackgroundContainer>
 	);
 }
 
