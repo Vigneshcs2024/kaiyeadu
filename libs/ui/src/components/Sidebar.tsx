@@ -11,8 +11,7 @@ import { Navbar } from '@kaiyeadu/ui/components';
 interface SidebarProps {
 	content: {
 		title: string;
-		path?: string;
-		fun?: () => void;
+		path: string;
 	}[];
 	children: ReactChild;
 	pageTitle?: string;
@@ -22,8 +21,7 @@ interface SidebarProps {
 interface ContentProps {
 	content: {
 		title: string;
-		path?: string;
-		fun?: () => void;
+		path: string;
 	}[];
 }
 
@@ -31,18 +29,11 @@ function SidebarContent({ content }: ContentProps) {
 	return (
 		<SidebarContainer>
 			<LogoImage src={Logo} alt='logo' />
-			{content.map(({ title, path, fun }, index) => {
-				if (!path) {
-					return (
-						<LogoutButton key={index} onClick={fun ?? (() => null)}>
-							{title}
-						</LogoutButton>
-					);
-				}
+			{content.map(({ title, path }, index) => {
 				return (
 					<Fragment key={index}>
 						<NavLink to={path}>{title}</NavLink>
-						<Separator>&nbsp;</Separator>
+						{content.length - 1 !== index && <Separator>&nbsp;</Separator>}
 					</Fragment>
 				);
 			})}
@@ -64,23 +55,6 @@ export default function SideBar({ content, children, pageTitle }: SidebarProps) 
 		</Sidebar>
 	);
 }
-
-const LogoutButton = styled.button`
-	border: none;
-	outline: none;
-	background-color: ${p => p.theme.primary};
-	color: ${p => p.theme.white};
-	font-family: inherit;
-	cursor: pointer;
-	font-size: 1.7rem;
-	margin: 2rem auto;
-	text-transform: uppercase;
-	transition: all 0.2s;
-
-	&:hover {
-		color: ${p => p.theme.lightGrey};
-	}
-`;
 
 const NavLink = styled(Link)`
 	position: relative;
