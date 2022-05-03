@@ -9,7 +9,7 @@ import {
 	Home,
 	Login,
 	Requests,
-	Admins,
+	Logs,
 	Users,
 	PoliceStations,
 	Criminals,
@@ -28,7 +28,7 @@ export default function Router() {
 				<Route path='/police-stations/add' element={<AddStation />} />
 				<Route path='/criminals' element={<Criminals />} />
 				<Route path='/requests' element={<Requests />} />
-				<Route path='/admins' element={<Admins />} />
+				<Route path='/logs' element={<Logs />} />
 				<Route path='/users' element={<Users />} />
 				<Route path='/police-stations' element={<PoliceStations />} />
 			</Route>

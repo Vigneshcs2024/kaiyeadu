@@ -5,7 +5,7 @@ import { BackgroundContainer, Table } from '@kaiyeadu/ui/components';
 import data from './data';
 import { Layout } from '@kaiyeadu/ui/styles';
 
-export default function Admins() {
+export default function Logs() {
 	const columns = useMemo(
 		() => [
 			{
