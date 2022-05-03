@@ -1,10 +1,12 @@
 import Joi from 'joi';
+
 import {
 	CreateUserDto,
 	ListUsersDto,
 	UpdatePasswordDto,
 	UpdateUserDto
 } from '@kaiyeadu/api-interfaces/dtos';
+import { designations, roles } from '@kaiyeadu/api-interfaces/constants';
 
 export function validateCreateUser(userDetails: CreateUserDto) {
 	const schema = Joi.object<CreateUserDto>({
@@ -20,21 +22,9 @@ export function validateCreateUser(userDetails: CreateUserDto) {
 		designation: Joi.string()
 			.min(3)
 			.max(30)
-			.valid(
-				'Gr II - PC',
-				'Gr I - PC',
-				'HC',
-				'SSI',
-				'SI',
-				'Inspr',
-				'DSP',
-				'ADSP',
-				'SP',
-				'DIG',
-				'IG'
-			)
+			.valid(...designations)
 			.required(),
-		role: Joi.valid('user', 'admin', 'master').required()
+		role: Joi.valid(...roles).required()
 	});
 
 	return schema.validateAsync(userDetails);
@@ -61,7 +51,7 @@ export function validateUpdateUser(userDetails: UpdateUserDto) {
 			'string.max': `'police_station' must be a valid uuid`
 		}),
 		designation: Joi.string().min(3).max(30),
-		role: Joi.valid('user', 'admin', 'master')
+		role: Joi.valid(...roles)
 	});
 
 	return schema.validateAsync(userDetails);
@@ -79,7 +69,7 @@ export function validateListUsers(params: ListUsersDto) {
 			phone: Joi.number(),
 			police_station: Joi.string().uuid({ version: 'uuidv4' }),
 			designation: Joi.string(),
-			role: Joi.valid('user', 'admin', 'master')
+			role: Joi.valid(...roles)
 		}),
 		s: Joi.object({
 			key: Joi.string().valid(

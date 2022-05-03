@@ -1,3 +1,5 @@
+import { designations, roles } from '../constants';
+
 export interface IUser {
 	id: string;
 	name: string;
@@ -6,9 +8,8 @@ export interface IUser {
 	email: string;
 	phone: number;
 	password?: string;
-	designation: 'Gr II - PC' | 'Gr I - PC' | 'HC' | 'SSI' | 'SI' | 'Inspr' | 'DSP' | 'ADSP' | 'SP'
-| 'DIG' | 'IG'
-	role: 'user' | 'admin' | 'master';
+	designation: typeof designations[number];
+	role: typeof roles[number];
 	createdAt: Date;
 	updatedAt: Date;
 }

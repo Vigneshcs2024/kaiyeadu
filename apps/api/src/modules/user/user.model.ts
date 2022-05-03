@@ -1,6 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
+
 import { IUser, IUserInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
+import { designations, roles } from '@kaiyeadu/api-interfaces/constants';
+
 import { PoliceStation } from '../police-station/police-station.model';
 
 // Depends only on PoliceStation
@@ -12,20 +15,9 @@ export class User extends Model<IUser, IUserInput> implements IUser {
 	public police_station!: string;
 	public email!: string;
 	public phone!: number;
-	public designation!:
-		| 'Gr II - PC'
-		| 'Gr I - PC'
-		| 'HC'
-		| 'SSI'
-		| 'SI'
-		| 'Inspr'
-		| 'DSP'
-		| 'ADSP'
-		| 'SP'
-		| 'DIG'
-		| 'IG';
+	public designation!: typeof designations[number];
 	public password: string;
-	public role!: 'user' | 'admin' | 'master';
+	public role!: typeof roles[number];
 
 	public readonly createdAt!: Date;
 	public readonly updatedAt!: Date;
@@ -72,24 +64,14 @@ User.init(
 			allowNull: true
 		},
 		designation: {
-			type: DataTypes.ENUM(
-				'Gr II - PC',
-				'Gr I - PC',
-				'HC',
-				'SSI',
-				'SI',
-				'Inspr',
-				'DSP',
-				'ADSP',
-				'SP',
-				'DIG',
-				'IG'
-			),
+			type: DataTypes.ENUM,
+			values: designations,
 			allowNull: false
 		},
 		role: {
-			type: DataTypes.ENUM('user', 'admin', 'master'),
+			type: DataTypes.ENUM,
 			allowNull: false,
+			values: roles,
 			defaultValue: 'user'
 		},
 		createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },

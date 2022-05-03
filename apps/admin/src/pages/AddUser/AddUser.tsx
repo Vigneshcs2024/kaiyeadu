@@ -9,8 +9,10 @@ import { BackgroundContainer, Button, DropDownList, TextField } from '@kaiyeadu/
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { designations, roles } from '@kaiyeadu/api-interfaces/constants';
 
 import { AddUserValidation } from './validationSchema';
+
 interface AddUserInt {
 	name: string;
 	gpf: string;
@@ -150,8 +152,19 @@ export function AddUser() {
 								: ''
 						}
 					/>
-					<TextField
+					<DropDownList
 						label='Designation'
+						id='designation'
+						items={[
+							{
+								label: 'Select',
+								value: ''
+							},
+							...designations.map(val => ({
+								label: val,
+								value: val
+							}))
+						]}
 						name='designation'
 						value={formik.values.designation}
 						onChange={formik.handleChange}
@@ -185,7 +198,7 @@ export function AddUser() {
 					<DropDownList
 						label='Role'
 						id='role'
-						items={['user', 'admin', 'master']}
+						items={[...roles]}
 						name='role'
 						value={formik.values.role}
 						onChange={formik.handleChange}
