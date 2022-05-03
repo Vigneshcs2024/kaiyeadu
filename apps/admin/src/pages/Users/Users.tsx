@@ -5,7 +5,8 @@ import {
 	BackgroundContainer,
 	Table,
 	Loader,
-	FlexLayoutWithSpace
+	FlexLayoutWithSpace,
+	ActiveType
 } from '@kaiyeadu/ui/components';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
@@ -14,13 +15,16 @@ import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 export default function Users() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
+	const [type, setType] = useState('all');
 	const { request } = useRequest();
 
-	const getData = async () => {
+	const getData = async (type: string) => {
 		setIsLoading(true);
 
 		try {
-			const res = await request.get(Requests.USER_LIST);
+			const res = await request.get(
+				Requests.USER_LIST + (type !== 'all' ? `?f={"role":"${type}"}` : '')
+			);
 			setData(res.data.result.users);
 			setIsLoading(false);
 		} catch (error) {
@@ -32,8 +36,8 @@ export default function Users() {
 	const memoizedGetData = useCallback(getData, [request]);
 
 	useEffect(() => {
-		memoizedGetData();
-	}, [memoizedGetData]);
+		memoizedGetData(type);
+	}, [memoizedGetData, type]);
 
 	const columns = useMemo(
 		() => [
@@ -68,6 +72,11 @@ export default function Users() {
 	return (
 		<BackgroundContainer pageTitle='Users'>
 			<FlexLayoutWithSpace>
+				<ActiveType
+					setType={setType}
+					type={type}
+					values={['all', 'admin', 'master', 'user']}
+				/>
 				<Table columns={columns} data={data} />
 				{isLoading && <Loader withOverlay={false} />}
 				<ModifyButton path='/users/add' icon='carbon:add' />
