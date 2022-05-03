@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import config from 'config';
 import { StatusCodes } from 'http-status-codes';
 import { Op } from 'sequelize';
+
 import {
 	CreateUserDto,
 	FilterableUserParameters,
@@ -10,7 +11,9 @@ import {
 	UpdateUserDto
 } from '@kaiyeadu/api-interfaces/dtos';
 import { ClientError } from '$api/errors';
+
 import { User } from './user.model';
+import { PoliceStation } from '../police-station/police-station.model';
 import { Proposal } from '../proposal/proposal.model';
 
 type ListUsersQuery = {
@@ -49,7 +52,12 @@ export async function listUsers({ params, pagination }: ListUsersQuery) {
 		limit: pagination.resultsPerPage,
 		attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
 		order: [[params.sort.key, params.sort.order]],
-		raw: true
+		include: [
+			{
+				model: PoliceStation,
+				as: 'police_station_id'
+			}
+		]
 	});
 
 	return { users, total };

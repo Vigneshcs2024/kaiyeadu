@@ -62,6 +62,10 @@ export default function Users() {
 				accessor: 'phone'
 			},
 			{
+				Header: 'Police Station',
+				accessor: 'police_station_id.name'
+			},
+			{
 				Header: 'Role',
 				accessor: 'role'
 			}
