@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { BackgroundContainer, ModifyButton, Table } from '@kaiyeadu/ui/components';
 import data from './data';
@@ -6,6 +7,7 @@ import { UpdateProposals } from '..';
 
 export default function Home() {
 	const [modal, setModal] = useState(false);
+	const navigate = useNavigate();
 	const columns = useMemo(
 		() => [
 			{
@@ -32,11 +34,16 @@ export default function Home() {
 		[]
 	);
 
+	const navigateToDetails = () => {
+		navigate(`/profile`);
+	};
+
 	return (
 		<BackgroundContainer
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 			pageTitle='Home'>
-			<Table columns={columns} data={data} />
+			<Table columns={columns} data={data} navigateTo={navigateToDetails} />
+
 			<ModifyButton icon='ci:edit' width='35' onClick={() => setModal(true)} />
 			{modal && <UpdateProposals setModal={setModal} />}
 		</BackgroundContainer>
