@@ -3,15 +3,16 @@ import { useTable, useSortBy, Column } from 'react-table';
 import { Icon } from '@iconify/react';
 
 import { StyledTable } from '@kaiyeadu/ui/styles';
-import { CSSProperties } from 'react';
+import { CSSProperties, MouseEventHandler } from 'react';
 
 interface Props {
 	columns: Array<Column<object>>;
 	data: Array<object>;
 	style?: CSSProperties;
+	navigateTo?: MouseEventHandler<HTMLTableSectionElement> | undefined;
 }
 
-export default function Table({ columns, data, style }: Props) {
+export default function Table({ columns, data, style, navigateTo }: Props) {
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
 		{
 			columns,
@@ -55,7 +56,7 @@ export default function Table({ columns, data, style }: Props) {
 					</tr>
 				))}
 			</thead>
-			<tbody {...getTableBodyProps()}>
+			<tbody onClickCapture={navigateTo} {...getTableBodyProps()}>
 				{rows.map((row, i) => {
 					prepareRow(row);
 					return (
