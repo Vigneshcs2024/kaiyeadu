@@ -24,8 +24,8 @@ export default function Home() {
 			const tableValues = res.data.result.criminals.map(
 				(criminal: { dob: string; name: string; gender: string; hs_number: string }) => {
 					return {
-						first_name: criminal.name.split(' ')[0],
-						last_name: criminal.name.split(' ')[1],
+						first_name: criminal.name.split(' ')[0] ? criminal.name.split(' ')[0] : '-',
+						last_name: criminal.name.split(' ')[1] ? criminal.name.split(' ')[1] : '-',
 						date_of_birth: criminal.dob.substring(0, 10),
 						gender: criminal.gender,
 						hs_number: criminal.hs_number
