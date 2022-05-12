@@ -17,6 +17,7 @@ export enum Requests {
 	STATION_CREATE = '/police-station/create',
 
 	USER_UPDATE_PASSWORD = 'user/update-password',
+	USER_UPDATE_PROPOSAL = '/proposal/create',
 
 	COMMON_STATS = 'common/stats'
 }
