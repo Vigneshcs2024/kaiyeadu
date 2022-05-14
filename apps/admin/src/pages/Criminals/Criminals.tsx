@@ -1,7 +1,14 @@
 import { useMemo, useState } from 'react';
 
 import { Layout } from '@kaiyeadu/ui/styles';
-import { ModifyButton, BackgroundContainer, Table, Filter } from '@kaiyeadu/ui/components';
+import {
+	ModifyButton,
+	BackgroundContainer,
+	Table,
+	Filter,
+	DeleteModal
+} from '@kaiyeadu/ui/components';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import data from './data';
 
 interface Filter {
@@ -53,8 +60,20 @@ const filterOptions: Filter[] = [
 export default function Criminals() {
 	const [filters, setFilters] = useState<TotalFilter[]>([]);
 
+	const [id, setId] = useState('');
+	const [modal, setModal] = useState(false);
+
+	const showModal = (id: string) => {
+		setModal(true);
+		setId(id);
+	};
+
 	const columns = useMemo(
 		() => [
+			{
+				Header: 'ID',
+				accessor: 'id'
+			},
 			{
 				Header: 'First Name',
 				accessor: 'first_name'
@@ -74,6 +93,9 @@ export default function Criminals() {
 			{
 				Header: 'Date of Birth',
 				accessor: 'date_of_birth'
+			},
+			{
+				Header: 'Delete'
 			}
 		],
 		[]
@@ -83,8 +105,11 @@ export default function Criminals() {
 		<BackgroundContainer pageTitle='Criminals'>
 			<Layout>
 				<Filter filters={filters} setFilters={setFilters} filterOptions={filterOptions} />
-				<Table columns={columns} data={data} />
+				<Table columns={columns} data={data} removeItem={showModal} />
 				<ModifyButton path='/criminals/add' icon='carbon:add' />
+				{modal && (
+					<DeleteModal url={`${Requests.CRIMINAL_REMOVE}` + id} setModal={setModal} />
+				)}
 			</Layout>
 		</BackgroundContainer>
 	);
