@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { BackgroundContainer, ModifyButton, Table, Loader } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Table, Loader } from '@kaiyeadu/ui/components';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
@@ -54,6 +54,7 @@ export default function Home() {
 
 	const columns = useMemo(
 		() => [
+			// Don't remove the ID column as it is used to link to the criminal details page
 			{
 				Header: 'ID',
 				accessor: 'id'
