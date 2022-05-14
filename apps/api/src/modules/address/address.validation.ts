@@ -12,10 +12,10 @@ export function validateCreateAddresses(addresses: AddressDto[]) {
 				.required()
 				.messages({ 'any.required': 'Address type is required' }),
 			line1: Joi.string(),
-			line2: Joi.string(),
+			line2: Joi.string().allow(''),
 			area: Joi.string(),
 			city: Joi.string(),
-			state: Joi.string()
+			state: Joi.string().allow('')
 		})
 	);
 

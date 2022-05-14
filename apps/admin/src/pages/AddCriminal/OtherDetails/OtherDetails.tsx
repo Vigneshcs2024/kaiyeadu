@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FormikProps, useFormik } from 'formik';
-import * as Yup from 'yup';
+import { FormikErrors, FormikProps } from 'formik';
 
 import {
 	AddItemButton,
@@ -13,17 +12,17 @@ import {
 	TextArea,
 	TextField
 } from '@kaiyeadu/ui/components';
-import { initialOtherDetails } from '../initialValues';
 import { theme } from '@kaiyeadu/ui/base';
 import {
 	AssociatesDto,
 	BondDto,
-	LastArrestDto,
 	LinkDto,
 	OpPlaceDto,
 	VehicleDto
 } from '@kaiyeadu/api-interfaces/dtos';
 import { Icon } from '@iconify/react';
+
+import { initialOtherDetails } from '../initialValues';
 
 interface FormikInterface {
 	formik: FormikProps<typeof initialOtherDetails>;
@@ -31,59 +30,44 @@ interface FormikInterface {
 }
 
 function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetails> }) {
-	const [bonds, setBonds] = useState<
-		Array<
-			Omit<Partial<BondDto>, 'expiry'> & {
-				expiry: string;
-			}
-		>
-	>(formik.values.bonds || []);
-
 	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number
 	) => {
-		const { name, value } = e.target;
-		const list = [...bonds];
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		list[index][name as keyof BondDto] = value;
-		setBonds(list);
+		formik.values.bonds[index] = {
+			...formik.values.bonds[index],
+			[event.target.name]: event.target.value
+		};
+
+		formik.setFieldValue('bonds', formik.values.bonds);
 	};
 
 	const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-		const list = [...bonds];
-		list[index].is_active = e.target.checked;
-		setBonds(list);
+		formik.values.bonds[0].is_active = e.target.checked;
+		formik.setFieldValue('bonds', formik.values.bonds);
 	};
 
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...bonds];
-		list.splice(index, 1);
-		setBonds(list);
+		formik.values.bonds.splice(index, 1);
+
+		formik.setFieldValue('bonds', formik.values.bonds);
 	};
 
 	// handle click event of the Add button
 	const handleAddClick = () => {
-		setBonds(old => {
-			return [
-				...old,
-				{
-					bound_down_details: '',
-					details: '',
-					expiry: new Date().toISOString().split('T')[0],
-					is_active: true,
-					period: 1,
-					type: '110CRPC' || '109CRPC' || '107CRPC'
-				}
-			];
-		});
+		formik.setFieldValue('family_members', [
+			...formik.values.bonds,
+			{
+				bound_down_details: '',
+				details: '',
+				expiry: new Date().toISOString().split('T')[0],
+				is_active: true,
+				period: 1,
+				type: '110CRPC'
+			}
+		]);
 	};
-
-	useEffect(() => {
-		formik.values.bonds = bonds;
-	}, [formik.values, bonds]);
 
 	return (
 		<>
@@ -91,14 +75,14 @@ function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 				<h3>Bond Details</h3>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{bonds.map((bond, index) => {
+			{formik.values.bonds.map((_, index) => {
 				return (
 					<div key={index} style={{ position: 'relative' }}>
 						<CheckBox
 							label='Is Active?'
 							id='is_active'
 							name='is_active'
-							checked={bond.is_active}
+							checked={formik.values.bonds[index].is_active}
 							onChange={e => handleCheckBoxChange(e, index)}
 						/>
 						<GridContainer>
@@ -107,7 +91,20 @@ function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								name='bound_down_details'
 								label='Bound Down Details'
 								type='text'
-								value={bond.bound_down_details}
+								value={formik.values.bonds[index].bound_down_details}
+								tip={
+									formik.errors?.bonds?.[index]
+										? {
+												content:
+													(
+														formik.errors.bonds?.[
+															index
+														] as FormikErrors<BondDto>
+													).bound_down_details ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 								onChange={e => handleInputChange(e, index)}
 							/>
 							<TextField
@@ -115,7 +112,7 @@ function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								name='details'
 								label='Details'
 								type='text'
-								value={bond.details}
+								value={formik.values.bonds[index].details}
 								onChange={e => handleInputChange(e, index)}
 							/>
 							<DropDownList
@@ -123,7 +120,7 @@ function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								id={`type_${index}`}
 								name='type'
 								items={['110CRPC', '109CRPC', '107CRPC']}
-								value={bond.type}
+								value={formik.values.bonds[index].type}
 								onChange={e => handleInputChange(e, index)}
 							/>
 							<TextField
@@ -131,7 +128,7 @@ function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								name='period'
 								label='Period'
 								type='number'
-								value={bond.period}
+								value={formik.values.bonds[index].period}
 								onChange={e => handleInputChange(e, index)}
 							/>
 							<TextField
@@ -139,7 +136,7 @@ function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								name='expiry'
 								label='Expiry Date'
 								type='date'
-								value={bond.expiry}
+								value={formik.values.bonds[index].expiry}
 								onChange={e => handleInputChange(e, index)}
 							/>
 						</GridContainer>
@@ -155,46 +152,38 @@ function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 }
 
 function LinkDetails({ formik }: { formik: FormikProps<typeof initialOtherDetails> }) {
-	const [links, setLinks] = useState<LinkDto[]>(formik.values.links || []);
-
 	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number
 	) => {
-		const { name, value } = e.target;
-		const list = [...links];
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		list[index][name as keyof LinkDto] = value;
-		setLinks(list);
+		(formik.values.links as LinkDto[])[index] = {
+			...(formik.values.links as LinkDto[])[index],
+			[event.target.name]: event.target.value
+		};
+
+		formik.setFieldValue('links', formik.values.links);
 	};
 
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...links];
-		list.splice(index, 1);
-		setLinks(list);
+		(formik.values.links as LinkDto[]).splice(index, 1);
+
+		formik.setFieldValue('links', formik.values.links);
 	};
 
 	// handle click event of the Add button
 	const handleAddClick = () => {
-		setLinks(old => {
-			return [
-				...old,
-				{
-					name: '',
-					father_name: '',
-					alias_name: '',
-					city: '',
-					description: ''
-				}
-			];
-		});
+		formik.setFieldValue('links', [
+			...(formik.values.links as LinkDto[]),
+			{
+				name: '',
+				father_name: '',
+				alias_name: '',
+				city: '',
+				description: ''
+			}
+		]);
 	};
-
-	useEffect(() => {
-		formik.values.links = links;
-	}, [formik.values, links]);
 
 	return (
 		<>
@@ -202,7 +191,7 @@ function LinkDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 				<h3>Links</h3>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{links.map((link, index) => {
+			{(formik.values.links as LinkDto[]).map((val, index) => {
 				return (
 					<div key={index} style={{ position: 'relative' }}>
 						<GridContainer>
@@ -211,15 +200,28 @@ function LinkDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								name='name'
 								label='Name'
 								type='text'
-								value={link.name}
+								value={val.name}
 								onChange={e => handleInputChange(e, index)}
+								tip={
+									formik.errors.links?.[index]
+										? {
+												content:
+													(
+														formik.errors.links?.[
+															index
+														] as FormikErrors<LinkDto>
+													).name ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 							<TextField
 								id={`father_name_${index}`}
 								name='father_name'
 								label={`Father's Name`}
 								type='text'
-								value={link.father_name}
+								value={val.father_name}
 								onChange={e => handleInputChange(e, index)}
 							/>
 							<TextField
@@ -227,7 +229,7 @@ function LinkDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								name='alias_name'
 								label='Alias Name'
 								type='text'
-								value={link.alias_name}
+								value={val.alias_name}
 								onChange={e => handleInputChange(e, index)}
 							/>
 							<TextField
@@ -235,7 +237,7 @@ function LinkDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								name='city'
 								label='City'
 								type='text'
-								value={link.city}
+								value={val.city}
 								onChange={e => handleInputChange(e, index)}
 							/>
 							<TextField
@@ -243,7 +245,7 @@ function LinkDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 								name='description'
 								label='Description'
 								type='text'
-								value={link.description}
+								value={val.description}
 								onChange={e => handleInputChange(e, index)}
 							/>
 						</GridContainer>
@@ -409,37 +411,31 @@ function AssociateDetails({ formik }: { formik: FormikProps<typeof initialOtherD
 }
 
 function VehicleDetails({ formik }: { formik: FormikProps<typeof initialOtherDetails> }) {
-	const [vehicles, setVehicles] = useState<VehicleDto[]>(formik.values.vehicles || []);
-
 	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number
 	) => {
-		const { name, value } = e.target;
-		const list = [...vehicles];
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		list[index][name as keyof OpPlaceDto] = value;
-		setVehicles(list);
+		(formik.values.vehicles as VehicleDto[])[index] = {
+			...(formik.values.vehicles as VehicleDto[])[index],
+			[event.target.name]: event.target.value
+		};
+		formik.setFieldValue('vehicles', formik.values.vehicles);
 	};
 
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...vehicles];
-		list.splice(index, 1);
-		setVehicles(list);
+		(formik.values.vehicles as VehicleDto[]).splice(index, 1);
+
+		formik.setFieldValue('vehicles', formik.values.vehicles);
 	};
 
 	// handle click event of the Add button
 	const handleAddClick = () => {
-		setVehicles(old => {
-			return [...old, { type: 'Two-Wheeler', reg_no: '', description: '' }];
-		});
+		formik.setFieldValue('vehicles', [
+			...(formik.values.vehicles as VehicleDto[]),
+			{ type: 'Two-Wheeler', reg_no: '', description: '' }
+		]);
 	};
-
-	useEffect(() => {
-		formik.values.vehicles = vehicles;
-	}, [formik.values, vehicles]);
 
 	return (
 		<>
@@ -447,7 +443,7 @@ function VehicleDetails({ formik }: { formik: FormikProps<typeof initialOtherDet
 				<h3>Vehicle Details</h3>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{vehicles.map((vehicle, index) => {
+			{(formik.values.vehicles as VehicleDto[]).map((vehicle, index) => {
 				return (
 					<div key={index} style={{ position: 'relative' }}>
 						<GridContainer>
@@ -461,7 +457,7 @@ function VehicleDetails({ formik }: { formik: FormikProps<typeof initialOtherDet
 									'Four-Wheeler',
 									'Heavy Vehicle'
 								]}
-								value={vehicle.type}
+								value={(formik.values.vehicles as VehicleDto[])[index].type}
 								onChange={e => handleInputChange(e, index)}
 							/>
 							<TextField
@@ -469,15 +465,28 @@ function VehicleDetails({ formik }: { formik: FormikProps<typeof initialOtherDet
 								name='reg_no'
 								label='Registration Number'
 								type='text'
-								value={vehicle.reg_no}
+								value={(formik.values.vehicles as VehicleDto[])[index].reg_no}
 								onChange={e => handleInputChange(e, index)}
+								tip={
+									formik.errors.vehicles
+										? {
+												content:
+													(
+														formik.errors.vehicles[
+															index
+														] as FormikErrors<VehicleDto>
+													).reg_no ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 							<TextField
 								id={`description_${index}`}
 								name='description'
 								label='Description'
 								type='text'
-								value={vehicle.description}
+								value={(formik.values.vehicles as VehicleDto[])[index].description}
 								onChange={e => handleInputChange(e, index)}
 							/>
 						</GridContainer>
