@@ -11,6 +11,7 @@ VALUES
 INSERT INTO
   users (
     id,
+    gpf,
     name,
     email,
     phone,
@@ -21,6 +22,7 @@ INSERT INTO
 VALUES
   (
     '0ca1c4d5-72b9-4d05-991c-35dd02524796',
+    '1234MOM',
     'Admin',
     'admin@email.com',
     '9874563210',

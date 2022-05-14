@@ -1,12 +1,51 @@
+import { useState, useCallback, useEffect } from 'react';
+
 import styled from 'styled-components';
-import { Button, TextArea } from '@kaiyeadu/ui/components';
+import toast from 'react-hot-toast';
+import { Button, TextArea, Loader } from '@kaiyeadu/ui/components';
 import { Icon } from '@iconify/react';
+import { useRequest } from '@kaiyeadu/hooks';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 
 export default function UpdateProposals({
 	setModal
 }: {
 	setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+	const [isLoading, setIsLoading] = useState(false);
+	const [criminal, setCriminal] = useState('10bc0f5a-714b-40eb-a31e-bff059f56668');
+	const [description, setDescription] = useState('');
+	const { request } = useRequest();
+
+	const getCriminal = async () => {
+		return null;
+	};
+
+	const createProposals = async () => {
+		setIsLoading(true);
+
+		try {
+			const res = await request.post(Requests.USER_UPDATE_PROPOSAL, {
+				criminal,
+				description
+			});
+			toast.success(res.data.message);
+			setTimeout(() => {
+				setModal(false);
+			}, 1000);
+		} catch (error) {
+			(error as CustomAxiosError).handleAxiosError?.();
+		}
+		setIsLoading(false);
+	};
+
+	const memoizedGetData = useCallback(getCriminal, []);
+
+	useEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
+
 	return (
 		<Overlay>
 			<InnerContainer>
@@ -17,9 +56,12 @@ export default function UpdateProposals({
 					color='#fff'
 					onClick={() => setModal(false)}
 				/>
-				<TextArea label='Changes to be made' />
+				<TextArea
+					label='Changes to be made'
+					onChange={event => setDescription(event.target.value)}
+				/>
 				<BottomContainer>
-					<Button title='Submit' onClick={() => null} />
+					<Button title='Submit' onClick={createProposals} />
 				</BottomContainer>
 			</InnerContainer>
 		</Overlay>

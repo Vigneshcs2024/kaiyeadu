@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
-import { BackgroundContainer, Button, TextField } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Button, TextField, Loader } from '@kaiyeadu/ui/components';
 import { getLoginPassword, login } from './login.service';
 import toast from 'react-hot-toast';
 
@@ -15,17 +15,21 @@ export default function Login() {
 		password: ''
 	});
 	const [isUser, setIsUser] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleLogin = async (credentials: { gpf: string; password: string }) => {
+		setIsLoading(true);
 		try {
 			const token = await login(request, credentials);
 			setAuthToken(token);
 		} catch (err) {
 			console.error(err);
 		}
+		setIsLoading(false);
 	};
 
 	const handleGetPassword = async (value: { gpf: string }) => {
+		setIsLoading(true);
 		try {
 			const message = await getLoginPassword(request, value);
 			toast.success(message);
@@ -33,6 +37,7 @@ export default function Login() {
 		} catch (err) {
 			console.error(err);
 		}
+		setIsLoading(false);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,6 +56,7 @@ export default function Login() {
 				minHeight: '100vh'
 			}}
 			isLogin={true}>
+			{isLoading ? <Loader /> : ''}
 			<InnerContainer>
 				<h1>LOGIN</h1>
 
