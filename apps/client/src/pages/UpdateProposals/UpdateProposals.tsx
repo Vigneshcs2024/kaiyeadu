@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { useLocation } from 'react-router-dom';
 
 export default function UpdateProposals({
 	setModal
@@ -14,9 +15,10 @@ export default function UpdateProposals({
 	setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const [isLoading, setIsLoading] = useState(false);
-	const [criminal, setCriminal] = useState('10bc0f5a-714b-40eb-a31e-bff059f56668');
 	const [description, setDescription] = useState('');
 	const { request } = useRequest();
+
+	const { state: id } = useLocation();
 
 	const getCriminal = async () => {
 		return null;
@@ -27,7 +29,7 @@ export default function UpdateProposals({
 
 		try {
 			const res = await request.post(Requests.USER_UPDATE_PROPOSAL, {
-				criminal,
+				criminal: id,
 				description
 			});
 			toast.success(res.data.message);

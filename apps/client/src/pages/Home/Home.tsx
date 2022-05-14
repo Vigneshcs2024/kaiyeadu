@@ -22,8 +22,15 @@ export default function Home() {
 			);
 
 			const tableValues = res.data.result.criminals.map(
-				(criminal: { dob: string; name: string; gender: string; hs_number: string }) => {
+				(criminal: {
+					dob: string;
+					name: string;
+					gender: string;
+					hs_number: string;
+					id: string;
+				}) => {
 					return {
+						id: criminal.id,
 						first_name: criminal.name.split(' ')[0] ? criminal.name.split(' ')[0] : '-',
 						last_name: criminal.name.split(' ')[1] ? criminal.name.split(' ')[1] : '-',
 						date_of_birth: criminal.dob.substring(0, 10),
@@ -48,6 +55,10 @@ export default function Home() {
 	const columns = useMemo(
 		() => [
 			{
+				Header: 'ID',
+				accessor: 'id'
+			},
+			{
 				Header: 'First Name',
 				accessor: 'first_name'
 			},
@@ -71,8 +82,8 @@ export default function Home() {
 		[]
 	);
 
-	const navigateToDetails = () => {
-		navigate(`/profile`);
+	const navigateToDetails = (id: string) => {
+		navigate(`/profile`, { state: id });
 	};
 
 	return (
