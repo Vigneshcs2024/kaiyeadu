@@ -9,49 +9,43 @@ interface Filter {
 	value: string[] | string;
 }
 
-// const sample = [
-// 	{ type: 'Religion', value: 'hindu' },
-// 	{ type: 'Grade', value: 'A_PLUS' }
-// ];
-
-interface TotalFilter {
+interface FinalFilter {
 	type: Filter;
 	value: string;
 }
 
-const filterOptions: Filter[] = [
-	{
-		type: 'Caste',
-		value: 'SC'
-	},
-	{
-		type: 'Religion',
-		value: 'Hindu'
-	},
-	{
-		type: 'Grade',
-		value: ['A+', 'A', 'B', 'C']
-	},
-	{
-		type: 'Category',
-		value: ['HS', 'OCIU']
-	},
-	{
-		type: 'Marital Status',
-		value: ['Married', 'Unmarried', 'Divorced', 'Widowed']
-	},
-	{
-		type: 'Present Status',
-		value: ['Active', 'Inactive', 'Dormant', 'Imprisoned', 'Unknown']
-	},
-	{
-		type: 'Goondas',
-		value: ['Yes', 'No']
-	}
-];
-
 export default function Criminals() {
-	const [filters, setFilters] = useState<TotalFilter[]>([]);
+	const [initialFilters, setInitialFilters] = useState<Filter[]>([
+		{
+			type: 'Caste',
+			value: 'SC'
+		},
+		{
+			type: 'Religion',
+			value: 'Hindu'
+		},
+		{
+			type: 'Grade',
+			value: ['A+', 'A', 'B', 'C']
+		},
+		{
+			type: 'Category',
+			value: ['HS', 'OCIU']
+		},
+		{
+			type: 'Marital Status',
+			value: ['Married', 'Unmarried', 'Divorced', 'Widowed']
+		},
+		{
+			type: 'Present Status',
+			value: ['Active', 'Inactive', 'Dormant', 'Imprisoned', 'Unknown']
+		},
+		{
+			type: 'Goondas',
+			value: ['Yes', 'No']
+		}
+	]);
+	const [finalFilters, setFinalFilters] = useState<FinalFilter[]>([]);
 
 	const columns = useMemo(
 		() => [
@@ -82,7 +76,12 @@ export default function Criminals() {
 	return (
 		<BackgroundContainer pageTitle='Criminals'>
 			<Layout>
-				<Filter filters={filters} setFilters={setFilters} filterOptions={filterOptions} />
+				<Filter
+					initialFilters={initialFilters}
+					setInitialFilters={setInitialFilters}
+					finalFilters={finalFilters}
+					setFinalFilters={setFinalFilters}
+				/>
 				<Table columns={columns} data={data} />
 				<ModifyButton path='/criminals/add' icon='carbon:add' />
 			</Layout>

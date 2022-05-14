@@ -7,31 +7,48 @@ interface Filter {
 	value: string[] | string;
 }
 
-interface TotalFilter {
+interface FinalFilter {
 	type: Filter;
 	value: string;
 }
 
 interface FilterProps {
-	filters: TotalFilter[];
-	setFilters: React.Dispatch<React.SetStateAction<TotalFilter[]>>;
-	filterOptions: Filter[];
+	finalFilters: FinalFilter[];
+	setFinalFilters: React.Dispatch<React.SetStateAction<FinalFilter[]>>;
+	initialFilters: Filter[];
+	setInitialFilters: React.Dispatch<React.SetStateAction<Filter[]>>;
 }
 
-export function Filter({ filters, setFilters, filterOptions }: FilterProps) {
+export function Filter({
+	finalFilters,
+	setFinalFilters,
+	initialFilters,
+	setInitialFilters
+}: FilterProps) {
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...filters];
+		const list = [...finalFilters];
 		list.splice(index, 1);
-		setFilters(list);
+		setFinalFilters(list);
 	};
 
 	const handleAddClick = () => {
-		setFilters(old => {
+		console.log({ initialFilters });
+		console.log({ finalFilters });
+
+		setInitialFilters(old => {
+			const list = [...old];
+			finalFilters.map(val => {
+				return list.filter(item => item.type === val.type.type);
+			});
+			return list;
+		});
+
+		setFinalFilters(old => {
 			return [
 				...old,
 				{
-					type: filterOptions[0],
+					type: initialFilters[0],
 					value: ''
 				}
 			];
@@ -44,20 +61,24 @@ export function Filter({ filters, setFilters, filterOptions }: FilterProps) {
 	) => {
 		const { name, value } = e.target;
 		if (name === 'type') {
-			const list = [...filters];
-			list[index].type = filterOptions.find(f => f.type === value) ?? { type: '', value: '' };
+			const list = [...finalFilters];
+			list[index].type = initialFilters.find(f => f.type === value) ?? {
+				type: '',
+				value: ''
+			};
 			list[index].value = '';
-			setFilters(list);
+
+			setFinalFilters(list);
 		} else if (name === 'value') {
-			const list = [...filters];
+			const list = [...finalFilters];
 			list[index].value = value;
-			setFilters(list);
+			setFinalFilters(list);
 		}
 	};
 
 	const handleSubmitClick = () => {
 		console.log(
-			filters.map(value => {
+			finalFilters.map(value => {
 				return {
 					type: value.type.type,
 					value: value.value
@@ -72,11 +93,11 @@ export function Filter({ filters, setFilters, filterOptions }: FilterProps) {
 				<h3>Filters</h3>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{filters.map(({ type, value }, index) => {
+			{finalFilters.map(({ type, value }, index) => {
 				// console.log({
-				// 	finalValue: filters.map(f => f.type.type),
-				// 	initialValue: filterOptions
-				// 		.filter(({ type }) => !filters.map(f => f.type.type).includes(type))
+				// 	finalValue: finalFilters.map(f => f.type.type),
+				// 	initialValue: initialFilters
+				// 		.filter(({ type }) => !finalFilters.map(f => f.type.type).includes(type))
 				// 		.map(({ type }) => type)
 				// });
 
@@ -87,7 +108,7 @@ export function Filter({ filters, setFilters, filterOptions }: FilterProps) {
 							id='type'
 							name='type'
 							width='40rem'
-							items={filterOptions.map(({ type }) => type)}
+							items={initialFilters.map(({ type }) => type)}
 							value={type.type}
 							onChange={e => handleInputChange(e, index)}
 						/>
