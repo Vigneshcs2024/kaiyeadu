@@ -6,13 +6,16 @@ import {
 	Table,
 	Loader,
 	FlexLayoutWithSpace,
-	ActiveType
+	ActiveType,
+	DeleteModal
 } from '@kaiyeadu/ui/components';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 
 export default function Users() {
+	const [id, setId] = useState('');
+	const [modal, setModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const [type, setType] = useState('all');
@@ -33,6 +36,11 @@ export default function Users() {
 		}
 	};
 
+	const showModal = (id: string) => {
+		setModal(true);
+		setId(id);
+	};
+
 	const memoizedGetData = useCallback(getData, [request]);
 
 	useEffect(() => {
@@ -41,6 +49,10 @@ export default function Users() {
 
 	const columns = useMemo(
 		() => [
+			{
+				Header: 'ID',
+				accessor: 'id'
+			},
 			{
 				Header: 'Name',
 				accessor: 'name'
@@ -68,6 +80,9 @@ export default function Users() {
 			{
 				Header: 'Role',
 				accessor: 'role'
+			},
+			{
+				Header: 'Delete'
 			}
 		],
 		[]
@@ -81,9 +96,10 @@ export default function Users() {
 					type={type}
 					values={['all', 'admin', 'master', 'user']}
 				/>
-				<Table columns={columns} data={data} />
+				<Table columns={columns} data={data} removeItem={showModal} />
 				{isLoading && <Loader withOverlay={false} />}
 				<ModifyButton path='/users/add' icon='carbon:add' />
+				{modal && <DeleteModal url={`${Requests.USER_REMOVE}` + id} setModal={setModal} />}
 			</FlexLayoutWithSpace>
 		</BackgroundContainer>
 	);

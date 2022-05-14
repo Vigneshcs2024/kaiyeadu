@@ -5,7 +5,8 @@ export { default as Button } from './Button';
 export { default as Table } from './Table';
 export { default as Sidebar } from './Sidebar';
 export { default as ActiveType } from './ActiveType';
-export { FlexLayoutWithSpace } from './FlexLayoutWithSpace';
+export { default as FlexLayoutWithSpace } from './FlexLayoutWithSpace';
+export { default as DeleteModal } from './DeleteModal';
 
 export * from './ModifyButton';
 export * from './DropDownList';

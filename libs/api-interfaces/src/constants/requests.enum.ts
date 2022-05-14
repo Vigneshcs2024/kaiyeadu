@@ -9,13 +9,14 @@ export enum Requests {
 	USER_LIST = 'user/list',
 	USER_GET = 'user/get',
 	USER_UPDATE = 'user/update',
-	USER_REMOVE = 'user/remove',
+	USER_REMOVE = 'user/remove/',
 
 	CRIMINAL_LIST = 'criminal/minimal-list',
 	CRIMINAL_GETDETAILS = 'criminal/details/',
 
 	STATION_LIST = '/police-station/list',
 	STATION_CREATE = '/police-station/create',
+	STATION_REMOVE = '/police-station/remove/',
 
 	USER_UPDATE_PASSWORD = 'user/update-password',
 	USER_UPDATE_PROPOSAL = '/proposal/create',

@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import { CSSProperties } from 'react';
 import { useTable, useSortBy, Column } from 'react-table';
 import { Icon } from '@iconify/react';
 
 import { StyledTable } from '@kaiyeadu/ui/styles';
-import { CSSProperties } from 'react';
+import { RemoveItemButton } from './RemoveItemButton';
 
 interface Props {
 	columns: Array<Column<object>>;
 	data: Array<object>;
 	style?: CSSProperties;
 	navigateTo?: (id: string) => void | undefined;
+	removeItem?: (id: string) => void | undefined;
 }
 
-export default function Table({ columns, data, style, navigateTo }: Props) {
+export default function Table({ columns, data, style, navigateTo, removeItem }: Props) {
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
 		{
 			columns,
@@ -64,10 +66,21 @@ export default function Table({ columns, data, style, navigateTo }: Props) {
 					prepareRow(row);
 					return (
 						<tr
-							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 							onClick={() => navigateTo && navigateTo(row.values.id as string)}
 							{...row.getRowProps()}>
 							{row.cells.map(cell => {
+								if (cell.column.Header === 'Delete') {
+									return (
+										<td align='center' {...cell.getCellProps()}>
+											<RemoveItemButton
+												onClick={() =>
+													removeItem &&
+													removeItem(row.values.id as string)
+												}
+											/>
+										</td>
+									);
+								}
 								return (
 									<td align='left' {...cell.getCellProps()}>
 										{cell.render('Cell')}
