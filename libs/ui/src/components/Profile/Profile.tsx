@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { BackgroundContainer, ModifyButton } from '@kaiyeadu/ui/components';
@@ -9,72 +10,104 @@ import { CaseProfileDetails } from './CaseProfileDetails';
 import { OtherProfileDetails } from './OtherProfileDetails';
 import { Chip } from '../Chip';
 
+import { useRequest } from '@kaiyeadu/hooks';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { useLocation } from 'react-router-dom';
+import { Loader } from '../Loader';
+import { User } from '@kaiyeadu/ui/assets';
+
 export interface TabProps {
 	criminalData: CriminalRecordDto;
 }
 
-export function Profile({ criminalData }: TabProps) {
+export function Profile() {
 	const [tab, setTab] = useState(1);
 	const { session } = useAuthApi();
+	const { request } = useRequest();
+	const { state: id } = useLocation();
 
+	const [loading, setLoading] = useState(true);
+	const [criminalData, setCriminalData] = useState<CriminalRecordDto>();
+
+	const getData = async () => {
+		try {
+			setLoading(true);
+			const res = await request.get(Requests.CRIMINAL_GETDETAILS + id);
+			setCriminalData(res.data.result);
+			setLoading(false);
+		} catch (error) {
+			(error as CustomAxiosError).handleAxiosError?.();
+		}
+	};
+
+	const memoizedGetData = useCallback(getData, [id, request]);
+
+	useEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
 	return (
 		<BackgroundContainer pageTitle='Profile'>
-			<Layout>
-				<ProfileContainer>
-					<ImageContainer>
-						<ProfileImage>
-							{/* Image url to be changed to criminal's photo */}
-							<img src='https://source.unsplash.com/WNoLnJo7tS8' alt='profile' />
-						</ProfileImage>
-						<h1>{criminalData.name}</h1>
-						<h3>HS Number: {criminalData.hs_number}</h3>
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-								marginTop: '1rem'
-							}}>
-							{criminalData.modusOperandi.map(mo => (
-								<Chip key={mo.id}>{mo.type}</Chip>
-							))}
-						</div>
-					</ImageContainer>
-					<div>
-						<TabContainer>
-							<TabButton isActive={tab === 1} onClick={() => setTab(1)}>
-								Personal Details
-							</TabButton>
-							<TabButton isActive={tab === 2} onClick={() => setTab(2)}>
-								Case Details
-							</TabButton>
-							<TabButton isActive={tab === 3} onClick={() => setTab(3)}>
-								Other Details
-							</TabButton>
-						</TabContainer>
+			{loading && criminalData === undefined ? (
+				<Loader />
+			) : (
+				<Layout>
+					<ProfileContainer>
+						<ImageContainer>
+							<ProfileImage>
+								{/* Image url to be changed to criminal's photo */}
+								<img src={criminalData?.image_url ?? User} alt='profile' />
+							</ProfileImage>
+							<h1>{criminalData?.name}</h1>
+							<h3>HS Number: {criminalData?.hs_number}</h3>
+							<div
+								style={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+									marginTop: '1rem'
+								}}>
+								{criminalData?.modusOperandi.map(mo => (
+									<Chip key={mo.id}>{mo.type}</Chip>
+								))}
+							</div>
+						</ImageContainer>
+						<div>
+							<TabContainer>
+								<TabButton isActive={tab === 1} onClick={() => setTab(1)}>
+									Personal Details
+								</TabButton>
+								<TabButton isActive={tab === 2} onClick={() => setTab(2)}>
+									Case Details
+								</TabButton>
+								<TabButton isActive={tab === 3} onClick={() => setTab(3)}>
+									Other Details
+								</TabButton>
+							</TabContainer>
 
-						{tab === 1 ? (
-							<PersonalProfileDetails criminalData={criminalData} />
-						) : tab === 2 ? (
-							<CaseProfileDetails criminalData={criminalData} />
-						) : (
-							<OtherProfileDetails criminalData={criminalData} />
-						)}
-					</div>
-				</ProfileContainer>
-				{session.getUserRole() === 'admin' ||
-					session.getUserRole() === 'master' ||
-					(window.location.port === '3000' && ( // Needed to be removed after development
-						<>
-							<ModifyButton icon='ci:edit' width='40' />
-							<ModifyButton
-								icon='fluent:delete-24-filled'
-								width='40'
-								style={{ bottom: '11rem' }}
-							/>
-						</>
-					))}
-			</Layout>
+							{tab === 1 ? (
+								<PersonalProfileDetails criminalData={criminalData!} />
+							) : tab === 2 ? (
+								<CaseProfileDetails criminalData={criminalData!} />
+							) : (
+								<OtherProfileDetails criminalData={criminalData!} />
+							)}
+						</div>
+					</ProfileContainer>
+					{session.getUserRole() === 'admin' ||
+						session.getUserRole() === 'master' ||
+						(window.location.port === '3000' && ( // Needed to be removed after development
+							<>
+								<ModifyButton icon='ci:edit' width='40' />
+								<ModifyButton
+									icon='fluent:delete-24-filled'
+									width='40'
+									style={{ bottom: '11rem' }}
+								/>
+							</>
+						))}
+				</Layout>
+			)}
 		</BackgroundContainer>
 	);
 }
