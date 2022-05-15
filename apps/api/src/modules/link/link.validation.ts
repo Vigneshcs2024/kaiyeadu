@@ -5,10 +5,10 @@ export function validateLinks(link: LinkDto[]) {
 	const schema = Joi.array().items(
 		Joi.object<LinkDto>({
 			name: Joi.string().required(),
-			alias_name: Joi.string(),
-			father_name: Joi.string(),
-			city: Joi.string(),
-			description: Joi.string()
+			alias_name: Joi.string().allow(''),
+			father_name: Joi.string().allow(''),
+			city: Joi.string().allow(''),
+			description: Joi.string().allow('')
 		})
 	);
 
