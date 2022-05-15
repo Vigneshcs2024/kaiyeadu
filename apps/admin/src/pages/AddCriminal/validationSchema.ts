@@ -22,19 +22,19 @@ export const PersonalDetailsValidation = Yup.object({
 });
 
 export const AddressDetailsValidation = Yup.object({
-	address: Yup.array().of(
+	addresses: Yup.array().of(
 		Yup.object().shape({
 			type: Yup.string().oneOf(['Native', 'Present', 'Other']).required('Required'),
-			line1: Yup.string(),
+			line1: Yup.string().required('Required'),
 			line2: Yup.string(),
-			area: Yup.string(),
-			city: Yup.string(),
-			state: Yup.string()
+			area: Yup.string().required('Required'),
+			city: Yup.string().required('Required'),
+			state: Yup.string().required('Required')
 		})
 	),
-	familyDetails: Yup.array().of(
+	family_members: Yup.array().of(
 		Yup.object().shape({
-			name: Yup.string(),
+			name: Yup.string().required('Required'),
 			relation: Yup.string()
 				.oneOf([
 					'Brother',
@@ -48,7 +48,7 @@ export const AddressDetailsValidation = Yup.object({
 				])
 				.required(),
 			description: Yup.string(),
-			occupation: Yup.string()
+			occupation: Yup.string().required('Required')
 		})
 	)
 });
@@ -57,18 +57,12 @@ export const OtherDetailsValidation = Yup.object({
 	category: Yup.string().oneOf(['HS', 'OCIU']),
 	grade: Yup.string().oneOf(['A_PLUS', 'A', 'B', 'C']),
 	occupation: Yup.array().of(Yup.string()),
-	last_arrest: Yup.object().shape({
-		crime_number: Yup.string(),
-		section: Yup.string(),
-		date: Yup.date(),
-		kind: Yup.string()
-	}),
 	advocate_name: Yup.string(),
 	bank_account_number: Yup.string(),
 	vehicles: Yup.array().of(
 		Yup.object().shape({
 			type: Yup.string().required('Required'),
-			reg_no: Yup.string(),
+			reg_no: Yup.string().required('Required'),
 			description: Yup.string()
 		})
 	),
@@ -76,14 +70,14 @@ export const OtherDetailsValidation = Yup.object({
 	is_goondas: Yup.string(),
 	operationalPlaces: Yup.array().of(
 		Yup.object().shape({
-			state: Yup.string(),
-			district: Yup.string()
+			state: Yup.string().required('Required'),
+			district: Yup.string().required('Required')
 		})
 	),
 	remarks: Yup.string(),
 	bonds: Yup.array().of(
 		Yup.object().shape({
-			bound_down_details: Yup.string(),
+			bound_down_details: Yup.string().required('Required'),
 			details: Yup.string(),
 			expiry: Yup.string(),
 			is_active: Yup.string(),
@@ -93,7 +87,7 @@ export const OtherDetailsValidation = Yup.object({
 	),
 	links: Yup.array().of(
 		Yup.object().shape({
-			name: Yup.string(),
+			name: Yup.string().required('Required'),
 			father_name: Yup.string(),
 			alias_name: Yup.string(),
 			city: Yup.string(),
@@ -102,17 +96,19 @@ export const OtherDetailsValidation = Yup.object({
 	)
 });
 
-export const CaseDetailsValidation = Yup.object({
-	police_station: Yup.string().required('Required'),
-	crime_number: Yup.string().required('Required'),
-	under_section: Yup.string().required('Required'),
-	stage: Yup.string().required('Required'),
-	remarks: Yup.string(),
-	date: Yup.date().required(),
-	is_active: Yup.string().required('Required'),
-	court_name: Yup.string(),
-	last_hearing: Yup.date(),
-	next_hearing: Yup.date(),
-	hearing_description: Yup.string(),
-	accused_attend: Yup.boolean()
-});
+export const CaseDetailsValidation = Yup.array().of(
+	Yup.object().shape({
+		police_station: Yup.string().required('Required'),
+		crime_number: Yup.string().required('Required'),
+		under_section: Yup.string().required('Required'),
+		stage: Yup.string().required('Required'),
+		remarks: Yup.string(),
+		date: Yup.date().required(),
+		is_active: Yup.string().required('Required'),
+		court_name: Yup.string(),
+		last_hearing: Yup.date(),
+		next_hearing: Yup.date(),
+		hearing_description: Yup.string(),
+		accused_attend: Yup.boolean()
+	})
+);

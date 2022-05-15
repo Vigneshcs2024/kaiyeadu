@@ -7,7 +7,7 @@ export function validateBonds(bonds: BondDto[]) {
 
 	const schema = Joi.array().items(
 		Joi.object<BondDto>({
-			details: Joi.string().required(),
+			details: Joi.string().required().allow(''),
 			type: Joi.string()
 				.required()
 				.valid('110CRPC', '109CRPC', '107CRPC')

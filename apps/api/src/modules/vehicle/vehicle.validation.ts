@@ -11,8 +11,8 @@ export function validateAddVehicles(vehicle: VehicleDto[]) {
 				.required()
 				.valid('Two-Wheeler', 'Three-Wheeler', 'Four-Wheeler', 'Heavy Vehicle')
 				.messages({ 'any.required': 'Type of vehicle is required' }),
-			description: Joi.string(),
-			reg_no: Joi.string()
+			description: Joi.string().allow(''),
+			reg_no: Joi.string().required()
 		})
 	);
 

@@ -15,6 +15,10 @@ export enum Requests {
 	CRIMINAL_GETDETAILS = 'criminal/details/',
 	CRIMINAL_REMOVE = 'criminal/remove/',
 
+	PROPOSAL_LIST = 'proposal/list',
+	CRIMINAL_CREATE = 'criminal/create',
+
+
 	STATION_LIST = '/police-station/list',
 	STATION_CREATE = '/police-station/create',
 	STATION_REMOVE = '/police-station/remove/',

@@ -1,7 +1,6 @@
 import {
 	AddressDto,
 	AssociatesDto,
-	BondDto,
 	CaseDto,
 	CreateCriminalDto,
 	FamilyMemberDto,
@@ -22,7 +21,7 @@ const addressSchema: AddressDto[] = [
 	}
 ];
 
-const familyDetailsSchema: FamilyMemberDto[] = [
+const family_membersSchema: FamilyMemberDto[] = [
 	{
 		name: '',
 		relation:
@@ -66,10 +65,7 @@ const lastArrestSchema: Omit<Partial<LastArrestDto>, 'date'> & {
 	kind: ''
 };
 
-const bondSchema: Omit<Partial<BondDto>, 'expiry'> &
-	{
-		expiry: string;
-	}[] = [
+const bondSchema = [
 	{
 		bound_down_details: '',
 		details: '',
@@ -100,7 +96,7 @@ const caseDetailsSchema: Omit<Partial<CaseDto>, 'last_hearing' | 'next_hearing' 
 	}[] = [
 	{
 		police_station: '',
-		under_section: '',
+		under_section: 'gffdg',
 		court_name: '',
 		crime_number: '',
 		stage: '',
@@ -134,8 +130,8 @@ export const initialPersonalDetails: Omit<Partial<CreateCriminalDto>, 'dob'> & {
 };
 
 export const initialAddressDetails = {
-	address: addressSchema,
-	familyDetails: familyDetailsSchema
+	addresses: addressSchema,
+	family_members: family_membersSchema
 };
 
 export const initialOtherDetails: Omit<
@@ -146,10 +142,14 @@ export const initialOtherDetails: Omit<
 	last_arrest: Omit<Partial<LastArrestDto>, 'date'> & {
 		date: string;
 	};
-	bonds: Omit<Partial<BondDto>, 'expiry'> &
-		{
-			expiry: string;
-		}[];
+	bonds: {
+		bound_down_details: string;
+		details: string;
+		expiry: string;
+		is_active: boolean;
+		period: number;
+		type: string;
+	}[];
 } = {
 	category: 'HS',
 	grade: 'A_PLUS',
@@ -167,4 +167,4 @@ export const initialOtherDetails: Omit<
 	links: linkSchema
 };
 
-export const initialCaseDetails = { case: caseDetailsSchema };
+export const initialCaseDetails = { cases: caseDetailsSchema };
