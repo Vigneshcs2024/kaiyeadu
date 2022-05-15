@@ -1,5 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import styled from 'styled-components';
 
@@ -24,13 +25,15 @@ import {
 import { useRequest } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Loader } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
-import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { CommonObject, CustomAxiosError, SelectOption } from '@kaiyeadu/ui/interface';
 
 export function AddCriminal() {
 	const [step, setStep] = useState<number>(1);
 	const [isLoading, setIsLoading] = useState(false);
+	const [stationList, setStationList] = useState<SelectOption[]>([]);
 
 	const { request } = useRequest();
+	const navigate = useNavigate();
 
 	const personalDetailsFormik = useFormik({
 		initialValues: initialPersonalDetails,
@@ -69,10 +72,16 @@ export function AddCriminal() {
 					...personalDetailsFormik.values,
 					...addressDetailsFormik.values,
 					...otherDetailsFormik.values,
-					...caseDetailsFormik.values
+					cases: values.cases.map(v => ({
+						...v,
+						police_station: stationList.find(st => st.label === v.police_station)?.value
+					}))
 				});
 				setIsLoading(false);
 				toast.success(res.data.message);
+				setTimeout(() => {
+					navigate('/criminals');
+				}, 2000);
 			} catch (error) {
 				const err = error as CustomAxiosError;
 				err.handleAxiosError?.();
@@ -80,6 +89,27 @@ export function AddCriminal() {
 			}
 		}
 	});
+
+	const getData = async () => {
+		try {
+			const res = await request.get(Requests.STATION_LIST);
+			setStationList(old => [
+				...old,
+				...res.data.result.stations.map((val: CommonObject) => ({
+					label: val.name,
+					value: val.id
+				}))
+			]);
+		} catch (error) {
+			(error as CustomAxiosError).handleAxiosError?.();
+		}
+	};
+
+	const memoizedGetData = useCallback(getData, [request]);
+
+	useEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
 
 	return (
 		<BackgroundContainer pageTitle='Add Criminal'>
@@ -98,6 +128,7 @@ export function AddCriminal() {
 						lastArrestFormik={otherDetailsFormik}
 						step={step}
 						setStep={setStep}
+						stationList={stationList}
 					/>
 				)}
 			</Layout>

@@ -56,7 +56,7 @@ function BondDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 
 	// handle click event of the Add button
 	const handleAddClick = () => {
-		formik.setFieldValue('family_members', [
+		formik.setFieldValue('bonds', [
 			...formik.values.bonds,
 			{
 				bound_down_details: '',
@@ -258,32 +258,33 @@ function LinkDetails({ formik }: { formik: FormikProps<typeof initialOtherDetail
 }
 
 function OperationalPlaces({ formik }: { formik: FormikProps<typeof initialOtherDetails> }) {
-	const [opPlaces, setOpPlaces] = useState<OpPlaceDto[]>(formik.values.operational_places || []);
-
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-		const { name, value } = e.target;
-		const list = [...opPlaces];
-		list[index][name as keyof OpPlaceDto] = value;
-		setOpPlaces(list);
+	const handleInputChange = (
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		index: number
+	) => {
+		(formik.values.operational_places as OpPlaceDto[])[index] = {
+			...(formik.values.operational_places as OpPlaceDto[])[index],
+			[event.target.name]: event.target.value
+		};
+		formik.setFieldValue('operational_places', formik.values.operational_places);
 	};
 
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...opPlaces];
-		list.splice(index, 1);
-		setOpPlaces(list);
+		(formik.values.operational_places as OpPlaceDto[]).splice(index, 1);
+
+		formik.setFieldValue('operational_places', formik.values.operational_places);
 	};
 
-	// handle click event of the Add button
 	const handleAddClick = () => {
-		setOpPlaces(old => {
-			return [...old, { district: '', state: '' }];
-		});
+		formik.setFieldValue('operational_places', [
+			...(formik.values.operational_places as OpPlaceDto[]),
+			{
+				state: '',
+				district: ''
+			}
+		]);
 	};
-
-	useEffect(() => {
-		formik.values.operational_places = opPlaces;
-	}, [formik.values, opPlaces]);
 
 	return (
 		<>
@@ -291,7 +292,7 @@ function OperationalPlaces({ formik }: { formik: FormikProps<typeof initialOther
 				<h3>Operational Places</h3>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{opPlaces.map((opPlace, index) => {
+			{(formik.values.operational_places as OpPlaceDto[]).map((opPlace, index) => {
 				return (
 					<OpPlacesContainer key={index}>
 						<TextField
@@ -301,6 +302,19 @@ function OperationalPlaces({ formik }: { formik: FormikProps<typeof initialOther
 							type='text'
 							value={opPlace.district}
 							onChange={e => handleInputChange(e, index)}
+							tip={
+								formik.errors.operational_places
+									? {
+											content:
+												(
+													formik.errors.operational_places[
+														index
+													] as FormikErrors<OpPlaceDto>
+												)?.district ?? '',
+											color: theme.palette.danger
+									  }
+									: ''
+							}
 						/>
 						<TextField
 							id={`state_${index}`}
@@ -309,6 +323,19 @@ function OperationalPlaces({ formik }: { formik: FormikProps<typeof initialOther
 							type='text'
 							value={opPlace.state}
 							onChange={e => handleInputChange(e, index)}
+							tip={
+								formik.errors.operational_places
+									? {
+											content:
+												(
+													formik.errors.operational_places[
+														index
+													] as FormikErrors<OpPlaceDto>
+												)?.state ?? '',
+											color: theme.palette.danger
+									  }
+									: ''
+							}
 						/>
 						<RemoveItemButton onClick={() => handleRemoveClick(index)} />
 					</OpPlacesContainer>
@@ -319,45 +346,36 @@ function OperationalPlaces({ formik }: { formik: FormikProps<typeof initialOther
 }
 
 function AssociateDetails({ formik }: { formik: FormikProps<typeof initialOtherDetails> }) {
-	const [associates, setAssociates] = useState<AssociatesDto[]>(formik.values.associates || []);
-
 	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number
 	) => {
-		const { name, value } = e.target;
-		const list = [...associates];
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		list[index][name as keyof AssociatesDto] = value;
-		setAssociates(list);
+		(formik.values.associates as AssociatesDto[])[index] = {
+			...(formik.values.associates as AssociatesDto[])[index],
+			[event.target.name]: event.target.value
+		};
+		formik.setFieldValue('associates', formik.values.associates);
 	};
 
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...associates];
-		list.splice(index, 1);
-		setAssociates(list);
+		(formik.values.associates as AssociatesDto[]).splice(index, 1);
+
+		formik.setFieldValue('associates', formik.values.associates);
 	};
 
 	// handle click event of the Add button
 	const handleAddClick = () => {
-		setAssociates(old => {
-			return [
-				...old,
-				{
-					name: '',
-					father_name: '',
-					gender: 'Female' || 'Male' || 'Other' || 'Transgender',
-					location: ''
-				}
-			];
-		});
+		formik.setFieldValue('associates', [
+			...(formik.values.associates as AssociatesDto[]),
+			{
+				name: '',
+				father_name: '',
+				gender: 'Female',
+				location: ''
+			}
+		]);
 	};
-
-	useEffect(() => {
-		formik.values.associates = associates;
-	}, [formik.values, associates]);
 
 	return (
 		<>
@@ -365,7 +383,7 @@ function AssociateDetails({ formik }: { formik: FormikProps<typeof initialOtherD
 				<h3>Associate Details</h3>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{associates.map((associate, index) => {
+			{(formik.values.associates as AssociatesDto[]).map((associate, index) => {
 				return (
 					<div key={index} style={{ position: 'relative' }}>
 						<GridContainer>
@@ -374,8 +392,21 @@ function AssociateDetails({ formik }: { formik: FormikProps<typeof initialOtherD
 								name='name'
 								label='Name'
 								type='text'
-								value={associate.name}
+								value={associate?.name}
 								onChange={e => handleInputChange(e, index)}
+								tip={
+									formik.errors.associates
+										? {
+												content:
+													(
+														formik.errors.associates[
+															index
+														] as FormikErrors<AssociatesDto>
+													)?.name ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 							<TextField
 								id={`father_name_${index}`}

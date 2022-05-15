@@ -18,11 +18,6 @@ interface Filter {
 	value: string[] | string;
 }
 
-// const sample = [
-// 	{ type: 'Religion', value: 'hindu' },
-// 	{ type: 'Grade', value: 'A_PLUS' }
-// ];
-
 interface TotalFilter {
 	type: Filter;
 	value: string;
@@ -80,8 +75,7 @@ export default function Criminals() {
 
 		try {
 			const res = await request.get(
-				Requests.CRIMINAL_LIST +
-					`?page=1&count=10&f={"is_goondas":true}&s={"key":"name","order":"DESC"}`
+				Requests.CRIMINAL_LIST + `?page=1&count=10&s={"key":"name","order":"DESC"}`
 			);
 
 			const tableValues = res.data.result.criminals.map(

@@ -1,114 +1,48 @@
 import {
 	AddressDto,
 	AssociatesDto,
-	CaseDto,
 	CreateCriminalDto,
 	FamilyMemberDto,
-	LastArrestDto,
 	LinkDto,
 	OpPlaceDto,
 	VehicleDto
 } from '@kaiyeadu/api-interfaces/dtos';
 
-const addressSchema: AddressDto[] = [
-	{
-		type: 'Native' || 'Present' || 'Other',
-		line1: '',
-		line2: '',
-		area: '',
-		city: '',
-		state: ''
-	}
-];
+const addressSchema: AddressDto[] = [];
 
-const family_membersSchema: FamilyMemberDto[] = [
-	{
-		name: '',
-		relation:
-			'Brother' ||
-			'Daughter' ||
-			'Father' ||
-			'Mother' ||
-			'Other' ||
-			'Sister' ||
-			'Son' ||
-			'Spouse',
-		description: '',
-		occupation: ''
-	}
-];
+const family_membersSchema: FamilyMemberDto[] = [];
 
-const operationPlacesSchema: OpPlaceDto[] = [
-	{
-		state: '',
-		district: ''
-	}
-];
+const operationPlacesSchema: OpPlaceDto[] = [];
 
-const associatesSchema: AssociatesDto[] = [
-	{
-		name: '',
-		father_name: '',
-		location: '',
-		gender: 'Female' || 'Male' || 'Other' || 'Transgender'
-	}
-];
+const associatesSchema: AssociatesDto[] = [];
 
-const vehicleSchema: VehicleDto[] = [{ type: 'Two-Wheeler', reg_no: '', description: '' }];
+const vehicleSchema: VehicleDto[] = [];
 
-const lastArrestSchema: Omit<Partial<LastArrestDto>, 'date'> & {
+const bondSchema: {
+	bound_down_details: string;
+	details: string;
+	expiry: string;
+	is_active: boolean;
+	period: number;
+	type: string;
+}[] = [];
+
+const linkSchema: LinkDto[] = [];
+
+const caseDetailsSchema: {
+	police_station: string;
+	under_section: string;
+	court_name: string;
+	crime_number: string;
+	stage: string;
+	last_hearing: string;
+	next_hearing: string;
+	accused_attend_status: boolean;
+	hearing_description: string;
+	remarks: string;
+	is_active: boolean;
 	date: string;
-} = {
-	crime_number: '',
-	section: '',
-	date: new Date().toISOString().split('T')[0],
-	kind: ''
-};
-
-const bondSchema = [
-	{
-		bound_down_details: '',
-		details: '',
-		expiry: new Date().toISOString().split('T')[0],
-		is_active: true,
-		period: 1,
-		type: '110CRPC'
-	}
-];
-
-const linkSchema: LinkDto[] = [
-	{
-		name: '',
-		father_name: '',
-		alias_name: '',
-		city: '',
-		description: ''
-	}
-];
-
-const caseDetailsSchema: Omit<Partial<CaseDto>, 'last_hearing' | 'next_hearing' | 'date'> &
-	{
-		accused_attend_status: true | false;
-		is_active: true | false;
-		last_hearing: string;
-		next_hearing: string;
-		date: string;
-	}[] = [
-	{
-		police_station: '',
-		under_section: 'gffdg',
-		court_name: '',
-		crime_number: '',
-		stage: '',
-		last_hearing: new Date().toISOString().split('T')[0],
-		next_hearing: new Date().toISOString().split('T')[0],
-		accused_attend_status: true,
-		remarks: '',
-		date: new Date().toISOString().split('T')[0],
-		hearing_description: '',
-		is_active: true
-	}
-];
+}[] = [];
 
 export const initialPersonalDetails: Omit<Partial<CreateCriminalDto>, 'dob'> & {
 	dob: string;
@@ -139,9 +73,6 @@ export const initialOtherDetails: Omit<
 	'is_goondas' | 'last_arrest' | 'bonds'
 > & {
 	is_goondas: 'true' | 'false';
-	last_arrest: Omit<Partial<LastArrestDto>, 'date'> & {
-		date: string;
-	};
 	bonds: {
 		bound_down_details: string;
 		details: string;
@@ -155,7 +86,6 @@ export const initialOtherDetails: Omit<
 	grade: 'A_PLUS',
 	occupation: [],
 	associates: associatesSchema,
-	last_arrest: lastArrestSchema,
 	advocate_name: '',
 	bank_account_number: '',
 	vehicles: vehicleSchema,

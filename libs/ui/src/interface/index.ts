@@ -7,3 +7,8 @@ export interface CustomAxiosError extends AxiosError {
 export interface CommonObject {
 	[key: string]: unknown;
 }
+
+export interface SelectOption {
+	label: string;
+	value: string;
+}

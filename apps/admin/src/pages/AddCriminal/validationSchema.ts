@@ -58,6 +58,14 @@ export const OtherDetailsValidation = Yup.object({
 	grade: Yup.string().oneOf(['A_PLUS', 'A', 'B', 'C']),
 	occupation: Yup.array().of(Yup.string()),
 	advocate_name: Yup.string(),
+	associates: Yup.array().of(
+		Yup.object().shape({
+			name: Yup.string().required('Required'),
+			father_name: Yup.string(),
+			location: Yup.string(),
+			gender: Yup.string()
+		})
+	),
 	bank_account_number: Yup.string(),
 	vehicles: Yup.array().of(
 		Yup.object().shape({
@@ -85,6 +93,12 @@ export const OtherDetailsValidation = Yup.object({
 			type: Yup.string().oneOf(['110CRPC', '109CRPC', '107CRPC'])
 		})
 	),
+	operational_places: Yup.array().of(
+		Yup.object().shape({
+			state: Yup.string().required('Required'),
+			district: Yup.string().required('Required')
+		})
+	),
 	links: Yup.array().of(
 		Yup.object().shape({
 			name: Yup.string().required('Required'),
@@ -96,19 +110,21 @@ export const OtherDetailsValidation = Yup.object({
 	)
 });
 
-export const CaseDetailsValidation = Yup.array().of(
-	Yup.object().shape({
-		police_station: Yup.string().required('Required'),
-		crime_number: Yup.string().required('Required'),
-		under_section: Yup.string().required('Required'),
-		stage: Yup.string().required('Required'),
-		remarks: Yup.string(),
-		date: Yup.date().required(),
-		is_active: Yup.string().required('Required'),
-		court_name: Yup.string(),
-		last_hearing: Yup.date(),
-		next_hearing: Yup.date(),
-		hearing_description: Yup.string(),
-		accused_attend: Yup.boolean()
-	})
-);
+export const CaseDetailsValidation = Yup.object({
+	cases: Yup.array().of(
+		Yup.object().shape({
+			police_station: Yup.string().required('Required'),
+			crime_number: Yup.string().required('Required'),
+			under_section: Yup.string().required('Required'),
+			stage: Yup.string().required('Required'),
+			remarks: Yup.string(),
+			date: Yup.date().required(),
+			is_active: Yup.string().required('Required'),
+			court_name: Yup.string(),
+			last_hearing: Yup.date(),
+			next_hearing: Yup.date(),
+			hearing_description: Yup.string(),
+			accused_attend: Yup.boolean()
+		})
+	)
+});
