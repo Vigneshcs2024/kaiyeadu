@@ -21,8 +21,8 @@ export function validateFamilyMembers(member: FamilyMemberDto[]) {
 				)
 				.required()
 				.messages({ 'any.required': 'Family member relation is required' }),
-			description: Joi.string(),
-			occupation: Joi.string()
+			description: Joi.string().allow(''),
+			occupation: Joi.string().allow('')
 		})
 	);
 

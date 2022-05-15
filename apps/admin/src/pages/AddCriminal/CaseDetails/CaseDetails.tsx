@@ -1,8 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FormikProps, useFormik } from 'formik';
-import * as Yup from 'yup';
+import { FormikProps } from 'formik';
 
 import {
 	AddItemButton,
@@ -12,9 +10,9 @@ import {
 	RemoveGroupButton,
 	TextField
 } from '@kaiyeadu/ui/components';
+import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
+
 import { initialCaseDetails, initialOtherDetails } from '../initialValues';
-import { CaseDto, LastArrestDto } from '@kaiyeadu/api-interfaces/dtos';
-import { theme } from '@kaiyeadu/ui/base';
 
 interface FormikInterface {
 	formik: FormikProps<typeof initialCaseDetails>;
@@ -23,117 +21,7 @@ interface FormikInterface {
 	step: number;
 }
 
-function LastArrestDetails({ formik }: { formik: FormikProps<typeof initialOtherDetails> }) {
-	const initialValues: Omit<Partial<LastArrestDto>, 'date'> & {
-		date: string;
-	} = {
-		crime_number: formik.values.last_arrest?.crime_number,
-		date: new Date(
-			formik.values.last_arrest?.date === undefined ? '' : formik.values.last_arrest?.date
-		)
-			.toISOString()
-			.split('T')[0],
-		kind: formik.values.last_arrest?.kind,
-		section: formik.values.last_arrest?.section
-	};
-
-	const validationSchema = Yup.object().shape({
-		crime_number: Yup.string().required('Required'),
-		section: Yup.string().required('Required'),
-		date: Yup.date()
-			.min(new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 18))
-			.required('Date of birth is required and must be 18 years or older'),
-		kind: Yup.string().required('Required')
-	});
-
-	const lastArrestFormik = useFormik({
-		initialValues,
-		validationSchema,
-		onSubmit: values => {
-			formik.values.last_arrest = values;
-		}
-	});
-
-	useEffect(() => {
-		formik.values.last_arrest = lastArrestFormik.values;
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [lastArrestFormik.values, formik.values]);
-
-	return (
-		<>
-			<h2>Last Arrest Details</h2>
-			<GridContainer>
-				<div>
-					<DropDownList
-						label='Crime Number'
-						id='crime_number'
-						name='crime_number'
-						items={['123', '456', '789', '100']}
-						value={lastArrestFormik.values.crime_number}
-						onChange={lastArrestFormik.handleChange}
-						onBlur={lastArrestFormik.handleBlur}
-						tip={
-							lastArrestFormik.touched.crime_number &&
-							lastArrestFormik.errors.crime_number
-								? {
-										content: lastArrestFormik.errors.crime_number,
-										color: theme.palette.danger
-								  }
-								: ''
-						}
-					/>
-					<TextField
-						id='date'
-						name='date'
-						label='Date'
-						type='date'
-						value={new Date(lastArrestFormik.values.date).toISOString().split('T')[0]}
-						onChange={lastArrestFormik.handleChange}
-						onBlur={lastArrestFormik.handleBlur}
-					/>
-				</div>
-				<div>
-					<TextField
-						id='kind'
-						name='kind'
-						label='Kind'
-						type='text'
-						value={lastArrestFormik.values.kind}
-						onChange={lastArrestFormik.handleChange}
-						onBlur={lastArrestFormik.handleBlur}
-						tip={
-							lastArrestFormik.touched.kind && lastArrestFormik.errors.kind
-								? {
-										content: lastArrestFormik.errors.kind,
-										color: theme.palette.danger
-								  }
-								: ''
-						}
-					/>
-					<TextField
-						id='section'
-						name='section'
-						label='Section'
-						type='text'
-						value={lastArrestFormik.values.section}
-						onChange={lastArrestFormik.handleChange}
-						onBlur={lastArrestFormik.handleBlur}
-						tip={
-							lastArrestFormik.touched.section && lastArrestFormik.errors.section
-								? {
-										content: lastArrestFormik.errors.section,
-										color: theme.palette.danger
-								  }
-								: ''
-						}
-					/>
-				</div>
-			</GridContainer>
-		</>
-	);
-}
-
-export function CaseDetails({ formik, lastArrestFormik, setStep }: FormikInterface) {
+export function CaseDetails({ formik, setStep }: FormikInterface) {
 	const [cases, setCases] = useState<
 		Array<
 			Omit<Partial<CaseDto>, 'last_hearing' | 'next_hearing' | 'date'> & {
@@ -144,7 +32,7 @@ export function CaseDetails({ formik, lastArrestFormik, setStep }: FormikInterfa
 				date: string;
 			}
 		>
-	>(formik.values.case);
+	>(formik.values.cases);
 
 	const handleInputChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -199,7 +87,7 @@ export function CaseDetails({ formik, lastArrestFormik, setStep }: FormikInterfa
 	};
 
 	useEffect(() => {
-		formik.values.case = cases;
+		formik.values.cases = cases;
 	}, [formik.values, cases]);
 	return (
 		<Container onSubmit={formik.handleSubmit}>
@@ -340,20 +228,13 @@ export function CaseDetails({ formik, lastArrestFormik, setStep }: FormikInterfa
 					</div>
 				);
 			})}
-			<LastArrestDetails formik={lastArrestFormik} />
 			<ButtonContainer>
 				<Button
 					onClick={() => setStep(old => (old === 1 ? 4 : old - 1))}
 					title='Prev'
 					type='button'
 				/>
-				<Link to={Object.keys(formik.errors).length === 0 ? '/criminals' : ''}>
-					<Button
-						title='Submit'
-						type='submit'
-						isActive={Object.keys(formik.errors).length === 0}
-					/>
-				</Link>
+				<Button title='Submit' type='submit' />
 			</ButtonContainer>
 		</Container>
 	);

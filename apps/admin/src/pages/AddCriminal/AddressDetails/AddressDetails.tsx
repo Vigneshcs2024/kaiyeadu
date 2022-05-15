@@ -1,7 +1,7 @@
 import { AddressDto, FamilyMemberDto } from '@kaiyeadu/api-interfaces/dtos';
-import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { FormikProps } from 'formik';
+import { FormikErrors, FormikProps } from 'formik';
 
 import {
 	AddItemButton,
@@ -10,6 +10,8 @@ import {
 	RemoveGroupButton,
 	TextField
 } from '@kaiyeadu/ui/components';
+import { theme } from '@kaiyeadu/ui/base';
+
 import { initialAddressDetails } from '../initialValues';
 
 interface FormikInterface {
@@ -18,47 +20,37 @@ interface FormikInterface {
 }
 
 function FamilyDetails({ formik }: { formik: FormikProps<typeof initialAddressDetails> }) {
-	const [familyMembers, setFamilyMembers] = useState<FamilyMemberDto[]>(
-		formik.values.familyDetails
-	);
-
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-		index: number
-	) => {
-		const { name, value } = e.target;
-		const list = [...familyMembers];
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		list[index][name as keyof FamilyMemberDto] = value;
-		setFamilyMembers(list);
-	};
-
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...familyMembers];
-		list.splice(index, 1);
-		setFamilyMembers(list);
+		formik.values.family_members.splice(index, 1);
+
+		formik.setFieldValue('family_members', formik.values.family_members);
 	};
 
 	// handle click event of the Add button
 	const handleAddClick = () => {
-		setFamilyMembers(old => {
-			return [
-				...old,
-				{
-					name: '',
-					relation: 'Father',
-					description: '',
-					occupation: ''
-				}
-			];
-		});
+		formik.setFieldValue('family_members', [
+			...formik.values.family_members,
+			{
+				name: '',
+				relation: 'Father',
+				description: '',
+				occupation: ''
+			}
+		]);
 	};
 
-	useEffect(() => {
-		formik.values.familyDetails = familyMembers;
-	}, [formik.values, familyMembers]);
+	const handleChange = (
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		index: number
+	) => {
+		formik.values.family_members[index] = {
+			...formik.values.family_members[index],
+			[event.target.name]: event.target.value
+		};
+
+		formik.setFieldValue('family_members', formik.values.family_members);
+	};
 
 	return (
 		<>
@@ -66,7 +58,7 @@ function FamilyDetails({ formik }: { formik: FormikProps<typeof initialAddressDe
 				<h2>Family Details</h2>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{familyMembers.map((member, index) => {
+			{formik.values.family_members.map((_, index) => {
 				return (
 					<GridContainer key={index}>
 						<div>
@@ -75,16 +67,29 @@ function FamilyDetails({ formik }: { formik: FormikProps<typeof initialAddressDe
 								name='name'
 								label='Name'
 								type='text'
-								value={member.name}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.family_members[index]?.name}
+								onChange={e => handleChange(e, index)}
+								tip={
+									formik.errors.family_members?.[index]
+										? {
+												content:
+													(
+														formik.errors.family_members?.[
+															index
+														] as FormikErrors<FamilyMemberDto>
+													).name ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 							<TextField
 								id={`description_${index}`}
 								name='description'
 								label='Description'
 								type='text'
-								value={member.description}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.family_members[index]?.description}
+								onChange={e => handleChange(e, index)}
 							/>
 						</div>
 						<div>
@@ -102,16 +107,29 @@ function FamilyDetails({ formik }: { formik: FormikProps<typeof initialAddressDe
 									'Other'
 								]}
 								name='relation'
-								value={member.relation}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.family_members[index]?.relation}
+								onChange={e => handleChange(e, index)}
 							/>
 							<TextField
 								id={`occupation_${index}`}
 								name='occupation'
 								label='Occupation'
 								type='text'
-								value={member.occupation}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.family_members[index]?.occupation}
+								onChange={e => handleChange(e, index)}
+								tip={
+									formik.errors.family_members?.[index]
+										? {
+												content:
+													(
+														formik.errors.family_members?.[
+															index
+														] as FormikErrors<FamilyMemberDto>
+													).occupation ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 						</div>
 						<RemoveGroupButton onClick={e => handleRemoveClick(index)} />
@@ -123,47 +141,38 @@ function FamilyDetails({ formik }: { formik: FormikProps<typeof initialAddressDe
 }
 
 export function AddressDetails({ formik, setStep }: FormikInterface) {
-	const [address, setAddress] = useState<AddressDto[]>(formik.values.address);
-
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-		index: number
-	) => {
-		const { name, value } = e.target;
-		const list = [...address];
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		list[index][name as keyof AssociatesDto] = value;
-		setAddress(list);
-	};
-
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...address];
-		list.splice(index, 1);
-		setAddress(list);
+		formik.values.addresses.splice(index, 1);
+
+		formik.setFieldValue('addresses', formik.values.family_members);
 	};
 
 	// handle click event of the Add button
 	const handleAddClick = () => {
-		setAddress(old => {
-			return [
-				...old,
-				{
-					area: '',
-					type: 'Native',
-					city: '',
-					state: '',
-					line1: '',
-					line2: ''
-				}
-			];
-		});
+		formik.setFieldValue('addresses', [
+			...formik.values.addresses,
+			{
+				area: '',
+				type: 'Native',
+				city: '',
+				state: '',
+				line1: '',
+				line2: ''
+			}
+		]);
 	};
 
-	useEffect(() => {
-		formik.values.address = address;
-	}, [formik.values, address]);
+	const handleChange = (
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		index: number
+	) => {
+		formik.values.addresses[index] = {
+			...formik.values.addresses[index],
+			[event.target.name]: event.target.value
+		};
+		formik.setFieldValue('addresses', formik.values.addresses);
+	};
 
 	return (
 		<Container onSubmit={formik.handleSubmit}>
@@ -171,33 +180,59 @@ export function AddressDetails({ formik, setStep }: FormikInterface) {
 				<h2>Address Details</h2>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{address.map((add, index) => {
+			{formik.values.addresses.map((_, index) => {
 				return (
 					<GridContainer key={index}>
 						<div>
 							<DropDownList
 								label='Type'
 								id='type'
-								name='type'
 								items={['Present', 'Native', 'Other']}
-								value={add.type}
-								onChange={e => handleInputChange(e, index)}
+								name='type'
+								value={formik.values.addresses[index]?.type}
+								onChange={e => handleChange(e, index)}
+								tip={
+									formik.errors.addresses?.[index]
+										? {
+												content:
+													(
+														formik.errors.addresses?.[
+															index
+														] as FormikErrors<AddressDto>
+													).type ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 							<TextField
 								id={`line1_${index}`}
 								name='line1'
 								label='Line 1'
 								type='text'
-								value={add.line1}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.addresses[index]?.line1}
+								onChange={e => handleChange(e, index)}
+								tip={
+									formik.errors.addresses?.[index]
+										? {
+												content:
+													(
+														formik.errors.addresses?.[
+															index
+														] as FormikErrors<AddressDto>
+													).line1 ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 							<TextField
 								id={`line2_${index}`}
 								name='line2'
 								label='Line 2'
 								type='text'
-								value={add.line2}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.addresses[index]?.line2}
+								onChange={e => handleChange(e, index)}
 							/>
 						</div>
 						<div>
@@ -206,24 +241,63 @@ export function AddressDetails({ formik, setStep }: FormikInterface) {
 								name='area'
 								label='Area'
 								type='text'
-								value={add.area}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.addresses[index]?.area}
+								onChange={e => handleChange(e, index)}
+								tip={
+									formik.errors.addresses?.[index]
+										? {
+												content:
+													(
+														formik.errors.addresses?.[
+															index
+														] as FormikErrors<AddressDto>
+													).area ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 							<TextField
 								id={`city_${index}`}
 								name='city'
 								label='City'
 								type='text'
-								value={add.city}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.addresses[index]?.city}
+								onChange={e => handleChange(e, index)}
+								tip={
+									formik.errors.addresses?.[index]
+										? {
+												content:
+													(
+														formik.errors.addresses?.[
+															index
+														] as FormikErrors<AddressDto>
+													).city ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 							<TextField
 								id={`state_${index}`}
-								name='state'
+								name={`state`}
 								label='State'
 								type='text'
-								value={add.state}
-								onChange={e => handleInputChange(e, index)}
+								value={formik.values.addresses[index]?.state}
+								onChange={e => handleChange(e, index)}
+								tip={
+									formik.errors.addresses?.[index]
+										? {
+												content:
+													(
+														formik.errors.addresses?.[
+															index
+														] as FormikErrors<AddressDto>
+													).state ?? '',
+												color: theme.palette.danger
+										  }
+										: ''
+								}
 							/>
 						</div>
 						<RemoveGroupButton onClick={e => handleRemoveClick(index)} />

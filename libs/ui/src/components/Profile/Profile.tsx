@@ -56,7 +56,11 @@ export function Profile() {
 						<ImageContainer>
 							<ProfileImage>
 								{/* Image url to be changed to criminal's photo */}
-								<img src={criminalData?.image_url ?? User} alt='profile' />
+
+								<img
+									src={criminalData?.image_url ? criminalData?.image_url : User}
+									alt='profile'
+								/>
 							</ProfileImage>
 							<h1>{criminalData?.name}</h1>
 							<h3>HS Number: {criminalData?.hs_number}</h3>

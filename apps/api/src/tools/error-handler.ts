@@ -46,7 +46,7 @@ export const errorHandler = (
 	if (err instanceof ForeignKeyConstraintError) {
 		const field = err.fields[0];
 		return res.status(StatusCodes.CONFLICT).json({
-			message: `The specified ${field} does not exist`
+			message: `The specified ${field} is linked with multiple criminals and accounts`
 		});
 	}
 
