@@ -31,6 +31,7 @@ export function AddCriminal() {
 	const [step, setStep] = useState<number>(1);
 	const [isLoading, setIsLoading] = useState(false);
 	const [stationList, setStationList] = useState<SelectOption[]>([]);
+	const [image, setImage] = useState<File>();
 
 	const { request } = useRequest();
 	const navigate = useNavigate();
@@ -68,6 +69,19 @@ export function AddCriminal() {
 		onSubmit: async values => {
 			setIsLoading(true);
 			try {
+				const formData = new FormData();
+				const config = {
+					headers: {
+						'content-type': 'multipart/form-data'
+					}
+				};
+				let image_url = '';
+				if (image) {
+					formData.append('image', image);
+					const res = await request.post('/upload/image', formData, config);
+					image_url = res.data.result.path;
+				}
+
 				const res = await request.post(Requests.CRIMINAL_CREATE, {
 					...personalDetailsFormik.values,
 					...addressDetailsFormik.values,
@@ -75,7 +89,8 @@ export function AddCriminal() {
 					cases: values.cases.map(v => ({
 						...v,
 						police_station: stationList.find(st => st.label === v.police_station)?.value
-					}))
+					})),
+					image_url
 				});
 				setIsLoading(false);
 				toast.success(res.data.message);
@@ -117,7 +132,12 @@ export function AddCriminal() {
 			<Stepper step={step} />
 			<Layout>
 				{step === 1 ? (
-					<PersonalDetails formik={personalDetailsFormik} step={step} setStep={setStep} />
+					<PersonalDetails
+						formik={personalDetailsFormik}
+						step={step}
+						setStep={setStep}
+						setImage={setImage}
+					/>
 				) : step === 2 ? (
 					<AddressDetails formik={addressDetailsFormik} setStep={setStep} />
 				) : step === 3 ? (

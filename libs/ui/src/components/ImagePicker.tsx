@@ -4,26 +4,31 @@ import styled from 'styled-components';
 
 import { RemoveGroupButton } from './RemoveGroupButton';
 
-export function ImagePicker() {
-	const [image, setImage] = useState<string>('');
+export function ImagePicker({
+	setImage
+}: {
+	setImage: React.Dispatch<React.SetStateAction<File | undefined>>;
+}) {
+	const [file, setFile] = useState<string>('');
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
 		if (files?.[0]) {
-			setImage(URL.createObjectURL(files[0]));
+			setFile(URL.createObjectURL(files[0]));
+			setImage(files[0]);
 		}
 	};
 
 	// handle click event of the Remove button
 	const handleRemoveClick = () => {
-		setImage('');
+		setFile('');
 	};
 
 	return (
 		<Container>
-			{image && (
+			{file ? (
 				<div style={{ position: 'relative' }}>
-					<SelectedImage src={image} id='selected_images' alt='selected_image' />
+					<SelectedImage src={file} id='selected_images' alt='selected_image' />
 
 					<RemoveGroupButton
 						style={{
@@ -36,11 +41,12 @@ export function ImagePicker() {
 						onClick={handleRemoveClick}
 					/>
 				</div>
+			) : (
+				<label htmlFor='image_picker'>
+					<Icon icon='bx:bxs-camera' color='#c4171c' width='50' />
+				</label>
 			)}
 
-			<label htmlFor='image_picker'>
-				<Icon icon='bx:bxs-camera' color='#c4171c' width='50' />
-			</label>
 			<input
 				id='image_picker'
 				type='file'
