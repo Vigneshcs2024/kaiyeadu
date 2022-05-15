@@ -1,9 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { BackgroundContainer, Table, Filter, Loader } from '@kaiyeadu/ui/components';
-import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { Layout } from '@kaiyeadu/ui/styles';
+import {
+	ModifyButton,
+	BackgroundContainer,
+	Table,
+	Filter,
+	DeleteModal
+} from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { useRequest } from '@kaiyeadu/hooks';
 
 interface Filter {
@@ -55,6 +62,14 @@ const filterOptions: Filter[] = [
 export default function Criminals() {
 	const [filters, setFilters] = useState<TotalFilter[]>([]);
 
+	const [id, setId] = useState('');
+	const [modal, setModal] = useState(false);
+
+	const showModal = (id: string) => {
+		setModal(true);
+		setId(id);
+	};
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const { request } = useRequest();
@@ -96,6 +111,10 @@ export default function Criminals() {
 	const columns = useMemo(
 		() => [
 			{
+				Header: 'ID',
+				accessor: 'id'
+			},
+			{
 				Header: 'First Name',
 				accessor: 'first_name'
 			},
@@ -114,6 +133,9 @@ export default function Criminals() {
 			{
 				Header: 'Date of Birth',
 				accessor: 'date_of_birth'
+			},
+			{
+				Header: 'Delete'
 			}
 		],
 		[]
@@ -124,11 +146,15 @@ export default function Criminals() {
 	};
 
 	return (
-		<BackgroundContainer
-			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-			pageTitle='Home'>
-			{isLoading && <Loader withOverlay={false} />}
-			<Table columns={columns} data={data} navigateTo={navigateToDetails} />
+		<BackgroundContainer pageTitle='Criminals'>
+			<Layout>
+				<Filter filters={filters} setFilters={setFilters} filterOptions={filterOptions} />
+				<Table columns={columns} data={data} removeItem={showModal} />
+				<ModifyButton path='/criminals/add' icon='carbon:add' />
+				{modal && (
+					<DeleteModal url={`${Requests.CRIMINAL_REMOVE}` + id} setModal={setModal} />
+				)}
+			</Layout>
 		</BackgroundContainer>
 	);
 }

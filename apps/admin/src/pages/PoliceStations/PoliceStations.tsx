@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import {
 	ModifyButton,
@@ -11,15 +10,17 @@ import {
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { useRequest } from '@kaiyeadu/hooks';
+import { DeleteModal } from '@kaiyeadu/ui/components';
 
 export default function PoliceStations() {
+	const [id, setId] = useState('');
+	const [modal, setModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const { request } = useRequest();
 
 	const getData = async () => {
 		setIsLoading(true);
-
 		try {
 			const res = await request.get(Requests.STATION_LIST);
 			setData(res.data.result.stations);
@@ -28,6 +29,11 @@ export default function PoliceStations() {
 			(error as CustomAxiosError).handleAxiosError?.();
 			setIsLoading(false);
 		}
+	};
+
+	const showModal = (id: string) => {
+		setModal(true);
+		setId(id);
 	};
 
 	const memoizedGetData = useCallback(getData, [request]);
@@ -53,6 +59,9 @@ export default function PoliceStations() {
 			{
 				Header: 'District',
 				accessor: 'district'
+			},
+			{
+				Header: 'Delete'
 			}
 		],
 		[]
@@ -61,9 +70,12 @@ export default function PoliceStations() {
 	return (
 		<BackgroundContainer pageTitle='Police Stations'>
 			<FlexLayoutWithSpace>
-				<Table columns={columns} data={data} />
+				<Table columns={columns} data={data} removeItem={showModal} />
 				{isLoading && <Loader withOverlay={false} />}
 				<ModifyButton path='/police-stations/add' icon='carbon:add' />
+				{modal && (
+					<DeleteModal url={`${Requests.STATION_REMOVE}` + id} setModal={setModal} />
+				)}
 			</FlexLayoutWithSpace>
 		</BackgroundContainer>
 	);
