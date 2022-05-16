@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { BackgroundContainer, Table, Loader, Filter, Searchbar } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Table, Loader, Filter } from '@kaiyeadu/ui/components';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
@@ -167,7 +167,7 @@ export default function Home() {
 			pageTitle='Home'>
 			<Layout>
 				{isLoading && <Loader withOverlay={false} />}
-				<Searchbar />
+
 				<Filter
 					initialFilters={initialFilters}
 					finalFilters={finalFilters}

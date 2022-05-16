@@ -7,6 +7,8 @@ import styled from 'styled-components';
 
 import { Button, DropDownList, TextField } from '..';
 import { Accordion } from '../Accordion';
+import { Searchbar } from './Searchbar';
+import { SortBy } from './SortBy';
 
 interface Filter {
 	type: string;
@@ -36,6 +38,8 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 		false,
 		false
 	]);
+	const [search, setSearch] = useState('');
+	const [sort, setSort] = useState('ASC');
 
 	const filters: CommonObject = {};
 
@@ -65,10 +69,11 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 		setFinalFilters(list);
 	};
 
-	const handleSubmitClick = async () => {
+	const getData = async () => {
 		try {
 			const res = await request.get(
-				Requests.CRIMINAL_FILTER + 'f=' + JSON.stringify(filters)
+				Requests.CRIMINAL_FILTER +
+					`s={"key":"name","order":"${sort}"}&f=${JSON.stringify(filters)}&q=${search}`
 			);
 			toast.success(res.data.message);
 			const tableValues = res.data.result.criminals.map(
@@ -100,67 +105,75 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 	};
 
 	return (
-		<Accordion title='Filters' style={{ marginBottom: '2rem', boxShadow: 'none' }}>
-			<Container>
-				<AvaliableFilters>
-					<p style={{ fontWeight: 'bold', fontSize: '1.85rem' }}>Available Filters:</p>
-					<div>
-						{initialFilters.map(({ type }, i) => {
+		<>
+			<SearchContainer>
+				<Searchbar setSearch={setSearch} getData={getData} />
+				<SortBy setSort={setSort} />
+			</SearchContainer>
+			<Accordion title='Filters' style={{ marginBottom: '2rem', boxShadow: 'none' }}>
+				<Container>
+					<AvaliableFilters>
+						<p style={{ fontWeight: 'bold', fontSize: '1.85rem' }}>
+							Available Filters:
+						</p>
+						<div>
+							{initialFilters.map(({ type }, i) => {
+								return (
+									<FilterCheckbox>
+										<input
+											type='checkbox'
+											name={type}
+											id={type}
+											checked={checked[i]}
+											onChange={() => {
+												setChecked(old => {
+													const list = [...old];
+													list[i] = !list[i];
+													return list;
+												});
+											}}
+										/>
+										<label htmlFor={type}>{type}</label>
+									</FilterCheckbox>
+								);
+							})}
+						</div>
+					</AvaliableFilters>
+					<FilterContainer>
+						{initialFilters.map(({ type, value }, index) => {
 							return (
-								<FilterCheckbox>
-									<input
-										type='checkbox'
-										name={type}
-										id={type}
-										checked={checked[i]}
-										onChange={() => {
-											setChecked(old => {
-												const list = [...old];
-												list[i] = !list[i];
-												return list;
-											});
-										}}
-									/>
-									<label htmlFor={type}>{type}</label>
-								</FilterCheckbox>
+								checked[index] && (
+									<FilterDiv>
+										<h4>{type}</h4>
+
+										{typeof value !== 'string' ? (
+											<DropDownList
+												id={type}
+												name={type}
+												items={value as string[]}
+												value={finalFilters[index].value}
+												onChange={e => handleInputChange(e, index)}
+											/>
+										) : (
+											<TextField
+												type='text'
+												name={type}
+												id={type}
+												value={finalFilters[index].value}
+												onChange={e => handleInputChange(e, index)}
+											/>
+										)}
+									</FilterDiv>
+								)
 							);
 						})}
-					</div>
-				</AvaliableFilters>
-				<FilterContainer>
-					{initialFilters.map(({ type, value }, index) => {
-						return (
-							checked[index] && (
-								<FilterDiv>
-									<h4>{type}</h4>
-
-									{typeof value !== 'string' ? (
-										<DropDownList
-											id={type}
-											name={type}
-											items={value as string[]}
-											value={finalFilters[index].value}
-											onChange={e => handleInputChange(e, index)}
-										/>
-									) : (
-										<TextField
-											type='text'
-											name={type}
-											id={type}
-											value={finalFilters[index].value}
-											onChange={e => handleInputChange(e, index)}
-										/>
-									)}
-								</FilterDiv>
-							)
-						);
-					})}
-				</FilterContainer>
-				<Button style={{ margin: '0 auto 2rem' }} onClick={handleSubmitClick}>
-					Filter
-				</Button>
-			</Container>
-		</Accordion>
+					</FilterContainer>
+					<Button style={{ margin: '0 auto 2rem' }} onClick={getData}>
+						Filter
+					</Button>
+				</Container>
+			</Accordion>
+		</>
 	);
 }
 
@@ -219,4 +232,10 @@ const FilterDiv = styled.div`
 		text-align: left;
 		margin-bottom: 1rem;
 	}
+`;
+
+const SearchContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 `;
