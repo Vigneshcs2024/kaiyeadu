@@ -1,12 +1,86 @@
 import { useMemo, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { BackgroundContainer, Table, Loader } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Table, Loader, Filter, Searchbar } from '@kaiyeadu/ui/components';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { Layout } from '@kaiyeadu/ui/styles';
+
+interface FinalFilter {
+	type: string;
+	value: string;
+	label: string;
+}
 
 export default function Home() {
+	const initialFilters = [
+		{
+			type: 'Caste',
+			value: 'SC'
+		},
+		{
+			type: 'Religion',
+			value: 'Hindu'
+		},
+		{
+			type: 'Grade',
+			value: ['All', 'A+', 'A', 'B', 'C']
+		},
+		{
+			type: 'Category',
+			value: ['All', 'HS', 'OCIU']
+		},
+		{
+			type: 'Marital Status',
+			value: ['All', 'Married', 'Unmarried', 'Divorced', 'Widowed']
+		},
+		{
+			type: 'Present Status',
+			value: ['All', 'Active', 'Inactive', 'Dormant', 'Imprisoned', 'Unknown']
+		},
+		{
+			type: 'Goondas',
+			value: ['All', 'Yes', 'No']
+		}
+	];
+	const [finalFilters, setFinalFilters] = useState<FinalFilter[]>([
+		{
+			type: 'Caste',
+			value: '',
+			label: 'caste'
+		},
+		{
+			type: 'Religion',
+			value: '',
+			label: 'religion'
+		},
+		{
+			type: 'Grade',
+			value: '',
+			label: 'grade'
+		},
+		{
+			type: 'Category',
+			value: '',
+			label: 'category'
+		},
+		{
+			type: 'Marital Status',
+			value: '',
+			label: 'marital_status'
+		},
+		{
+			type: 'Present Status',
+			value: '',
+			label: 'present_status'
+		},
+		{
+			type: 'Goondas',
+			value: '',
+			label: 'is_goondas'
+		}
+	]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const { request } = useRequest();
@@ -91,8 +165,17 @@ export default function Home() {
 		<BackgroundContainer
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 			pageTitle='Home'>
-			{isLoading && <Loader withOverlay={false} />}
-			<Table columns={columns} data={data} navigateTo={navigateToDetails} />
+			<Layout>
+				{isLoading && <Loader withOverlay={false} />}
+				<Searchbar />
+				<Filter
+					initialFilters={initialFilters}
+					finalFilters={finalFilters}
+					setFinalFilters={setFinalFilters}
+					setData={setData}
+				/>
+				<Table columns={columns} data={data} navigateTo={navigateToDetails} />
+			</Layout>
 		</BackgroundContainer>
 	);
 }
