@@ -31,7 +31,6 @@ export async function create(criminalDetails: CreateCriminalDto) {
 		links,
 		family_members,
 		operational_places,
-		last_arrest,
 		bonds,
 		occupation,
 		addresses,
@@ -53,7 +52,6 @@ export async function create(criminalDetails: CreateCriminalDto) {
 		await associateRepo.addAssociates(criminal.id, associates, transaction);
 		await linkRepo.addLinks(criminal.id, links, transaction);
 		await famRepo.addFamilyMembers(criminal.id, family_members, transaction);
-		await laRepo.addLastArrest(criminal.id, last_arrest, transaction);
 		await opRepo.addOpPlaces(criminal.id, operational_places, transaction);
 		await vehicleRepo.addVehicles(criminal.id, vehicles, transaction);
 		await occRepo.addOccupation(criminal.id, occupation, transaction);
