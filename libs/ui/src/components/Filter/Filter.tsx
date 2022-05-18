@@ -41,8 +41,6 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 	const [search, setSearch] = useState('');
 	const [sort, setSort] = useState('ASC');
 
-	console.log(sort);
-
 	const filters: CommonObject = {};
 
 	finalFilters.forEach(({ label, value }) => {
