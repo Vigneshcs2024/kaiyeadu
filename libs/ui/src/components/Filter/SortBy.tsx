@@ -8,7 +8,7 @@ export function SortBy({ setSort }: SortProps) {
 	return (
 		<SortContainer>
 			<RadioContainer>
-				<input type='radio' name='sort' id='asc' checked onChange={() => setSort('ASC')} />
+				<input type='radio' name='sort' id='asc' onChange={() => setSort('ASC')} />
 				<label htmlFor='asc'>Ascending</label>
 			</RadioContainer>
 			<RadioContainer>
