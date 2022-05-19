@@ -14,7 +14,7 @@
 		"email": "postmaster@sandbox8abd41a3745a41839111150bbb89a431.mailgun.org"
 	},
 	"twilio": {
-		"enable": true,
+		"enable": false,
 		"phone": "+18106448209"
 	},
 	"keys": {
