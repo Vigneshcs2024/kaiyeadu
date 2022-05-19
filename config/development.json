@@ -11,11 +11,11 @@
 	},
 	"mailer": {
 		"enable": false,
-		"email": "postmaster@sandbox48f95e50faee4a3696a9d794e03081d5.mailgun.org"
+		"email": "postmaster@sandbox8abd41a3745a41839111150bbb89a431.mailgun.org"
 	},
 	"twilio": {
-		"enable": false,
-		"phone": "+15702184458"
+		"enable": true,
+		"phone": "+18106448209"
 	},
 	"keys": {
 		"jwt": {

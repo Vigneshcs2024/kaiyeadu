@@ -77,11 +77,15 @@ function ModusOperandi({ formik }: { formik: FormikProps<typeof initialPersonalD
 	);
 }
 
-export function PersonalDetails({ step, formik, setStep }: FormikInterface) {
+interface PersonalDetailsI extends FormikInterface {
+	setImage: React.Dispatch<React.SetStateAction<File | undefined>>;
+}
+
+export function PersonalDetails({ step, formik, setStep, setImage }: PersonalDetailsI) {
 	return (
 		<Container onSubmit={formik.handleSubmit}>
 			<h2>Personal Details</h2>
-			<ImagePicker />
+			<ImagePicker setImage={setImage} />
 			<GridContainer>
 				<div>
 					<TextField

@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { FormikProps } from 'formik';
+import { FormikErrors, FormikProps } from 'formik';
 
 import {
 	AddItemButton,
@@ -11,6 +11,8 @@ import {
 	TextField
 } from '@kaiyeadu/ui/components';
 import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
+import { theme } from '@kaiyeadu/ui/base';
+import { SelectOption } from '@kaiyeadu/ui/interface';
 
 import { initialCaseDetails, initialOtherDetails } from '../initialValues';
 
@@ -19,83 +21,67 @@ interface FormikInterface {
 	lastArrestFormik: FormikProps<typeof initialOtherDetails>;
 	setStep: Dispatch<SetStateAction<number>>;
 	step: number;
+	stationList: SelectOption[];
 }
 
-export function CaseDetails({ formik, setStep }: FormikInterface) {
-	const [cases, setCases] = useState<
-		Array<
-			Omit<Partial<CaseDto>, 'last_hearing' | 'next_hearing' | 'date'> & {
-				accused_attend_status: true | false;
-				is_active: true | false;
-				last_hearing: string;
-				next_hearing: string;
-				date: string;
-			}
-		>
-	>(formik.values.cases);
-
+export function CaseDetails({ formik, setStep, stationList }: FormikInterface) {
 	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number
 	) => {
-		const { name, value } = e.target;
-		const list = [...cases];
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		list[index][name as keyof CaseDto] = value;
-		setCases(list);
+		formik.values.cases[index] = {
+			...formik.values.cases[index],
+			[event.target.name]: event.target.value
+		};
+
+		formik.setFieldValue('cases', formik.values.cases);
 	};
 
 	// handle click event of the Remove button
 	const handleRemoveClick = (index: number) => {
-		const list = [...cases];
-		list.splice(index, 1);
-		setCases(list);
+		formik.values.cases.splice(index, 1);
+
+		formik.setFieldValue('cases', formik.values.cases);
 	};
 
 	// handle click event of the Add button
 	const handleAddClick = () => {
-		setCases(old => {
-			return [
-				...old,
-				{
-					police_station: '',
-					under_section: '',
-					court_name: '',
-					crime_number: '',
-					stage: '',
-					last_hearing: new Date().toISOString().split('T')[0],
-					next_hearing: new Date().toISOString().split('T')[0],
-					accused_attend_status: true,
-					hearing_description: '',
-					remarks: '',
-					is_active: true,
-					date: new Date().toISOString().split('T')[0]
-				}
-			];
-		});
+		formik.setFieldValue('cases', [
+			...formik.values.cases,
+			{
+				police_station: '',
+				under_section: '',
+				court_name: '',
+				crime_number: '',
+				stage: '',
+				last_hearing: new Date().toISOString().split('T')[0],
+				next_hearing: new Date().toISOString().split('T')[0],
+				accused_attend_status: true,
+				hearing_description: '',
+				remarks: '',
+				is_active: true,
+				date: new Date().toISOString().split('T')[0]
+			}
+		]);
 	};
 
 	const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-		const list = [...cases];
 		if (e.target.name === 'accused_attend_status') {
-			list[index].accused_attend_status = e.target.checked;
+			formik.values.cases[index].accused_attend_status = e.target.checked;
 		} else {
-			list[index].is_active = e.target.checked;
+			formik.values.cases[index].is_active = e.target.checked;
 		}
-		setCases(list);
+
+		formik.setFieldValue('cases', formik.values.cases);
 	};
 
-	useEffect(() => {
-		formik.values.cases = cases;
-	}, [formik.values, cases]);
 	return (
 		<Container onSubmit={formik.handleSubmit}>
 			<HeadingWithAddButton>
 				<h2>Case Details</h2>
 				<AddItemButton onClick={handleAddClick} />
 			</HeadingWithAddButton>
-			{cases.map((item, index) => {
+			{formik.values.cases.map((item, index) => {
 				return (
 					<div style={{ position: 'relative' }} key={index}>
 						<CheckBox
@@ -111,14 +97,22 @@ export function CaseDetails({ formik, setStep }: FormikInterface) {
 									label='Name of the Police Station'
 									id='police_station'
 									name='police_station'
-									items={[
-										'Mandaiyur PS',
-										'Manachanallur PS',
-										'Anna Nagar PS',
-										'Thuvaakudi PS'
-									]}
-									value={item.crime_number}
+									items={['', ...stationList.map(v => v.label)]}
+									value={item.police_station}
 									onChange={e => handleInputChange(e, index)}
+									tip={
+										formik.errors.cases?.[index]
+											? {
+													content:
+														(
+															formik.errors.cases?.[
+																index
+															] as FormikErrors<CaseDto>
+														).police_station ?? '',
+													color: theme.palette.danger
+											  }
+											: ''
+									}
 								/>
 								<TextField
 									id='under_section'
@@ -127,6 +121,19 @@ export function CaseDetails({ formik, setStep }: FormikInterface) {
 									type='text'
 									value={item.under_section}
 									onChange={e => handleInputChange(e, index)}
+									tip={
+										formik.errors.cases?.[index]
+											? {
+													content:
+														(
+															formik.errors.cases?.[
+																index
+															] as FormikErrors<CaseDto>
+														).under_section ?? '',
+													color: theme.palette.danger
+											  }
+											: ''
+									}
 								/>
 								<TextField
 									id='court_name'
@@ -135,6 +142,19 @@ export function CaseDetails({ formik, setStep }: FormikInterface) {
 									type='text'
 									value={item.court_name}
 									onChange={e => handleInputChange(e, index)}
+									tip={
+										formik.errors.cases?.[index]
+											? {
+													content:
+														(
+															formik.errors.cases?.[
+																index
+															] as FormikErrors<CaseDto>
+														).court_name ?? '',
+													color: theme.palette.danger
+											  }
+											: ''
+									}
 								/>
 								<TextField
 									id='crime_number'
@@ -143,6 +163,19 @@ export function CaseDetails({ formik, setStep }: FormikInterface) {
 									type='text'
 									value={item.crime_number}
 									onChange={e => handleInputChange(e, index)}
+									tip={
+										formik.errors.cases?.[index]
+											? {
+													content:
+														(
+															formik.errors.cases?.[
+																index
+															] as FormikErrors<CaseDto>
+														).crime_number ?? '',
+													color: theme.palette.danger
+											  }
+											: ''
+									}
 								/>
 
 								<TextField
@@ -187,6 +220,19 @@ export function CaseDetails({ formik, setStep }: FormikInterface) {
 									type='text'
 									value={item.stage}
 									onChange={e => handleInputChange(e, index)}
+									tip={
+										formik.errors.cases?.[index]
+											? {
+													content:
+														(
+															formik.errors.cases?.[
+																index
+															] as FormikErrors<CaseDto>
+														).stage ?? '',
+													color: theme.palette.danger
+											  }
+											: ''
+									}
 								/>
 
 								<TextField

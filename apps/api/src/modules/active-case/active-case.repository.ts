@@ -1,4 +1,5 @@
 import { Transaction } from 'sequelize';
+
 import { getCaseDetails } from '../case/case.repository';
 import { Criminal } from '../models';
 import { ActiveCase } from './active-case.model';

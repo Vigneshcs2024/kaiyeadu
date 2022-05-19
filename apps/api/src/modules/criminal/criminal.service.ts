@@ -12,7 +12,6 @@ import { validateCreateCriminal, validateListCriminalsQuery } from './criminal.v
 import * as criminalRepo from './criminal.repository';
 import { validateFamilyMembers } from '../family-member/family-member.validation';
 import { validateOperationalPlaces } from '../operational-places/operational-places.validation';
-import { validateLastArrest } from '../last-arrest/last-arrest.validation';
 import { validateBonds } from '../bond/bond.validation';
 import { validateAddAssociates } from '../associate/associate.validation';
 import { validateAddVehicles } from '../vehicle/vehicle.validation';
@@ -24,7 +23,6 @@ export async function create(req: ApiRequest, res: Response) {
 		links,
 		family_members,
 		operational_places,
-		last_arrest,
 		bonds,
 		occupation,
 		addresses,
@@ -41,7 +39,6 @@ export async function create(req: ApiRequest, res: Response) {
 		validateLinks(links),
 		validateFamilyMembers(family_members),
 		validateOperationalPlaces(operational_places),
-		validateLastArrest(last_arrest),
 		validateBonds(bonds),
 		validateStringArray(occupation),
 		validateAddAssociates(associates),

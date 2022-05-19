@@ -1,5 +1,5 @@
 import 'express-async-errors';
-import { Express } from 'express';
+import express, { Express } from 'express';
 import { adminsOnly, parseAuthToken } from '$api/middlewares/auth';
 import { errorHandler } from '$api/tools';
 import {
@@ -23,6 +23,7 @@ import {
 	userRouter,
 	vehicleRouter
 } from '$api/modules/routers';
+import path from 'path';
 
 export function setup_routes(app: Express) {
 	app.use('/active-cases', parseAuthToken, activeCaseRouter);
@@ -45,5 +46,6 @@ export function setup_routes(app: Express) {
 	app.use('/vehicle', parseAuthToken, vehicleRouter);
 	app.use('/common', commonRouter);
 
+	app.use('/static/image', express.static(path.join(__dirname, 'src/upload/images')));
 	app.use(errorHandler);
 }

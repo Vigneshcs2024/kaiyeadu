@@ -1,12 +1,11 @@
 import fs from 'fs';
 import multer from 'multer';
-import os from 'os';
-import path from 'path';
 import crypto from 'crypto';
+import path from 'path';
 
 const storage = multer.diskStorage({
 	destination: (_req, _file, cb) => {
-		const storageLocation = path.resolve(os.homedir(), 'kaiyeadu', 'uploads');
+		const storageLocation = path.join(__dirname, 'src/upload/images');
 		if (!fs.existsSync(storageLocation)) {
 			fs.mkdirSync(storageLocation, { recursive: true });
 		}
