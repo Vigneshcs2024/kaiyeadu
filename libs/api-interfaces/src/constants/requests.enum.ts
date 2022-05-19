@@ -14,7 +14,7 @@ export enum Requests {
 	CRIMINAL_LIST = 'criminal/minimal-list',
 	CRIMINAL_GETDETAILS = 'criminal/details/',
 	CRIMINAL_REMOVE = 'criminal/remove/',
-	CRIMINAL_FILTER = 'criminal/minimal-list?page=1&count=10&',
+	CRIMINAL_FILTER = 'criminal/minimal-list?',
 
 	PROPOSAL_LIST = 'proposal/list',
 	CRIMINAL_CREATE = 'criminal/create',
