@@ -16,7 +16,7 @@ export function Searchbar({ setSearch, getData }: SearchProps) {
 				onChange={e => setSearch(e.target.value)}
 				onKeyDown={e => e.key === 'Enter' && getData()}
 			/>
-			<SearchIcon icon='akar-icons:search' onClick={getData} />
+			<SearchIcon icon='akar-icons:search' />
 		</SearchbarContainer>
 	);
 }
