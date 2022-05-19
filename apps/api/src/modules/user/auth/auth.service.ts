@@ -19,13 +19,17 @@ export async function getLoginPassword(req: Request, res: Response) {
 
 	const { user, loginPassword } = await authRepository.createLoginPassword(gpf);
 
-	await sendEmail(
-		user.email,
-		'Kaiyeadu - Login Password',
-		`Your login password is ${loginPassword}`
-	);
+	try {
+		await sendEmail(
+			user.email,
+			'Kaiyeadu - Login Password',
+			`Your login password is ${loginPassword}`
+		);
 
-	await sendSms(`+91${user.phone}`, `Your Kaiyeadu login password is: ${loginPassword}`);
+		await sendSms(`+91${user.phone}`, `Your Kaiyeadu login password is: ${loginPassword}`);
+	} catch (error) {
+		logger.warn((error as Error).stack);
+	}
 
 	logger.debug(
 		`User ${user.gpf} has been given a new login password: ${pc.yellow(loginPassword)}`
