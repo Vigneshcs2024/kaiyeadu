@@ -1,13 +1,14 @@
 import { Icon } from '@iconify/react';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 
 interface AccordionProps {
 	title: string;
 	children: ReactNode;
+	style?: CSSProperties;
 }
 
-export function Accordion({ title, children }: AccordionProps) {
+export function Accordion({ title, children, style }: AccordionProps) {
 	const [active, setActive] = useState<boolean>(false);
 	const contentRef = useRef<HTMLDivElement>(null);
 
@@ -17,12 +18,12 @@ export function Accordion({ title, children }: AccordionProps) {
 
 	useEffect(() => {
 		if (contentRef.current) {
-			contentRef.current.style.maxHeight = active ? '30rem' : '0px';
+			contentRef.current.style.maxHeight = active ? '100%' : '0px';
 		}
 	}, [contentRef, active]);
 
 	return (
-		<AccordionContainer>
+		<AccordionContainer style={style}>
 			<AccordionTitle onClick={toggleActive}>
 				<h3>{title}</h3>
 				<span>
@@ -57,11 +58,7 @@ const AccordionContent = styled.div`
 	transition: max-height 0.4s ease-in-out;
 	display: flex;
 	justify-content: flex-start;
-
-	&,
-	& > * {
-		overflow-y: hidden;
-	}
+	flex-direction: column;
 `;
 
 const AccordionTitle = styled.button`

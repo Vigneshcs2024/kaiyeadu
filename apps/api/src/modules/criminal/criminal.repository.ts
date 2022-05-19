@@ -104,7 +104,23 @@ export async function getCompleteDetails(id: string) {
 }
 
 export async function getListMinimal({ params, pagination }: ListCriminalsQuery) {
-	const total = await Criminal.count();
+	const total = await Criminal.count({
+		where: {
+			[Op.or]: [
+				{
+					name: {
+						[Op.like]: `%${params.search ?? ''}%`
+					}
+				},
+				{
+					alias_name: {
+						[Op.like]: `%${params.search ?? ''}%`
+					}
+				}
+			],
+			...params.filters
+		}
+	});
 	const criminals = await Criminal.findAll({
 		where: {
 			[Op.or]: [
