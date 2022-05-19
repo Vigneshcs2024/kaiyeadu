@@ -1,12 +1,13 @@
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
-import { useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import styled from 'styled-components';
 
 import { Button, DropDownList, TextField } from '..';
 import { Accordion } from '../Accordion';
+import { Loader } from '../Loader';
 import { Searchbar } from './Searchbar';
 import { SortBy } from './SortBy';
 
@@ -26,9 +27,24 @@ interface FilterProps {
 	setFinalFilters: React.Dispatch<React.SetStateAction<FinalFilter[]>>;
 	initialFilters: Filter[];
 	setData: React.Dispatch<React.SetStateAction<never[]>>;
+	page: number;
+	count: number;
+	filters: CommonObject;
+	setFilters: React.Dispatch<React.SetStateAction<CommonObject>>;
+	setTotalPages: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export function Filter({ finalFilters, setFinalFilters, initialFilters, setData }: FilterProps) {
+export function Filter({
+	finalFilters,
+	setFinalFilters,
+	initialFilters,
+	setData,
+	page,
+	count,
+	filters,
+	setFilters,
+	setTotalPages
+}: FilterProps) {
 	const [checked, setChecked] = useState<boolean[]>([
 		false,
 		false,
@@ -40,10 +56,14 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 	]);
 	const [search, setSearch] = useState('');
 	const [sort, setSort] = useState('ASC');
+	const [isLoading, setIsLoading] = useState(false);
 
-	const filters: CommonObject = {};
+	finalFilters.forEach(({ label, value }, index) => {
+		if (value === 'All') {
+			checked[index] = false;
+			delete filters[label];
+		}
 
-	finalFilters.forEach(({ label, value }) => {
 		if (value !== '' && value !== 'All') {
 			if (value === 'A+') {
 				value = 'A_PLUS';
@@ -54,10 +74,7 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 
 	const { request } = useRequest();
 
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
-		index: number
-	) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
 		const { name, value } = e.target;
 		const list = [...finalFilters];
 		// eslint-disable-next-line array-callback-return
@@ -70,12 +87,22 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 	};
 
 	const getData = async () => {
+		setIsLoading(true);
 		try {
 			const res = await request.get(
 				Requests.CRIMINAL_FILTER +
-					`s={"key":"name","order":"${sort}"}&f=${JSON.stringify(filters)}&q=${search}`
+					`page=${page}&count=${count}&s={"key":"name","order":"${sort}"}&f=${JSON.stringify(
+						filters
+					)}&q=${search}`
 			);
 			toast.success(res.data.message);
+
+			if (Math.round(res.data.result.total / count) < 1) {
+				setTotalPages(1);
+			} else {
+				setTotalPages(Math.round(res.data.result.total / count));
+			}
+
 			const tableValues = res.data.result.criminals.map(
 				(criminal: {
 					dob: string;
@@ -99,13 +126,22 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 				}
 			);
 			setData(tableValues);
+			setIsLoading(false);
 		} catch (err) {
 			(err as CustomAxiosError).handleAxiosError?.();
 		}
 	};
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const memoizedGetData = useCallback(getData, [page, filters, request, search, sort]);
+
+	useLayoutEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
+
 	return (
 		<>
+			{isLoading && <Loader withOverlay={true} />}
 			<SearchContainer>
 				<Searchbar setSearch={setSearch} getData={getData} />
 				<SortBy setSort={setSort} />
@@ -152,7 +188,7 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 												name={type}
 												items={value as string[]}
 												value={finalFilters[index].value}
-												onChange={e => handleInputChange(e, index)}
+												onChange={e => handleInputChange(e)}
 											/>
 										) : (
 											<TextField
@@ -160,7 +196,7 @@ export function Filter({ finalFilters, setFinalFilters, initialFilters, setData 
 												name={type}
 												id={type}
 												value={finalFilters[index].value}
-												onChange={e => handleInputChange(e, index)}
+												onChange={e => handleInputChange(e)}
 											/>
 										)}
 									</FilterDiv>
