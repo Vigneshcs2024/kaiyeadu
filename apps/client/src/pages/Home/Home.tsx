@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { BackgroundContainer, Table, Loader, Filter } from '@kaiyeadu/ui/components';
 import { useRequest } from '@kaiyeadu/hooks';
-import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { Layout } from '@kaiyeadu/ui/styles';
+import styled from 'styled-components';
 
 interface FinalFilter {
 	type: string;
@@ -83,44 +84,62 @@ export default function Home() {
 	]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
+	const [totalPages, setTotalPages] = useState(1);
+	const [page, setPage] = useState(1);
+	const [filters, setFilters] = useState<CommonObject>({});
+	const count = 25;
+
 	const { request } = useRequest();
 	const navigate = useNavigate();
 
 	const getData = async () => {
 		setIsLoading(true);
+		setTimeout(async () => {
+			try {
+				const res = await request.get(
+					Requests.CRIMINAL_LIST +
+						`?page=${page}&count=${count}&s={"key":"name","order":"ASC"}&f=${JSON.stringify(
+							filters
+						)}`
+				);
 
-		try {
-			const res = await request.get(
-				Requests.CRIMINAL_LIST +
-					`?page=1&count=10&f={"is_goondas":false}&s={"key":"name","order":"DESC"}`
-			);
-
-			const tableValues = res.data.result.criminals.map(
-				(criminal: {
-					dob: string;
-					name: string;
-					gender: string;
-					hs_number: string;
-					id: string;
-				}) => {
-					return {
-						id: criminal.id,
-						first_name: criminal.name.split(' ')[0] ? criminal.name.split(' ')[0] : '-',
-						last_name: criminal.name.split(' ')[1] ? criminal.name.split(' ')[1] : '-',
-						date_of_birth: criminal.dob.substring(0, 10),
-						gender: criminal.gender,
-						hs_number: criminal.hs_number
-					};
+				if (Math.round(res.data.result.total / count) < 1) {
+					setTotalPages(1);
+				} else {
+					setTotalPages(Math.round(res.data.result.total / count));
 				}
-			);
-			setData(tableValues);
-		} catch (error) {
-			(error as CustomAxiosError).handleAxiosError?.();
-		}
-		setIsLoading(false);
+
+				const tableValues = res.data.result.criminals.map(
+					(criminal: {
+						dob: string;
+						name: string;
+						gender: string;
+						hs_number: string;
+						id: string;
+					}) => {
+						return {
+							first_name: criminal.name.split(' ')[0]
+								? criminal.name.split(' ')[0]
+								: '-',
+							last_name: criminal.name.split(' ')[1]
+								? criminal.name.split(' ')[1]
+								: '-',
+							date_of_birth: criminal.dob.substring(0, 10),
+							gender: criminal.gender,
+							hs_number: criminal.hs_number,
+							id: criminal.id
+						};
+					}
+				);
+				setData(tableValues);
+			} catch (error) {
+				(error as CustomAxiosError).handleAxiosError?.();
+			}
+			setIsLoading(false);
+		}, 500);
 	};
 
-	const memoizedGetData = useCallback(getData, [request]);
+	const memoizedGetData = useCallback(getData, [filters, page, request]);
 
 	useEffect(() => {
 		memoizedGetData();
@@ -166,16 +185,54 @@ export default function Home() {
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 			pageTitle='Home'>
 			<Layout>
-				{isLoading && <Loader withOverlay={false} />}
+				{isLoading && <Loader withOverlay={true} />}
 
 				<Filter
 					initialFilters={initialFilters}
 					finalFilters={finalFilters}
 					setFinalFilters={setFinalFilters}
 					setData={setData}
+					page={page}
+					count={count}
+					filters={filters}
+					setFilters={setFilters}
+					setTotalPages={setTotalPages}
 				/>
+				<PaginationContainer>
+					<p>
+						Page{' '}
+						<input
+							type='number'
+							name='page'
+							id='page'
+							min='1'
+							max={totalPages}
+							value={page}
+							onChange={e => {
+								setPage(Number(e.target.value));
+							}}
+						/>{' '}
+						of {totalPages}
+					</p>
+				</PaginationContainer>
 				<Table columns={columns} data={data} navigateTo={navigateToDetails} />
 			</Layout>
 		</BackgroundContainer>
 	);
 }
+
+const PaginationContainer = styled.div`
+	margin: 0 0 2rem;
+	color: ${p => p.theme.white};
+
+	& > p > input {
+		margin: 0 1rem;
+		width: 4rem;
+		padding: 0.25rem;
+		text-align: center;
+		border: none;
+		outline: none;
+		font-family: inherit;
+		font-size: 1.8rem;
+	}
+`;
