@@ -1,0 +1,81 @@
+{
+	"arrayOfJson": repeat(100, {
+		"name": firstname() + ' ' + lastname(),
+		"alias_name": firstname(),
+		"father_name": firstname() + ' ' + lastname(),
+		"gender": choice('Male', 'Female'),
+		"dob": date('Y-m-d H:i:s', '2000-01-01', '2001-05-15'),
+		"religion": choice('Hindu', 'Muslim', 'Christian'),
+		"caste": choice('OBC', 'BC', 'SC'),
+		"marital_status": choice('Married', 'Unmarried', 'Widowed', 'Divorced'),
+		"hs_number": 'HS/' + random(0000001, 9999999),
+		"height": random(160, 180),
+		"identification_mark": choice('A mole on the left chin', 'A mole on right hand', 'A scar on right knee'),
+		"phone_number": random(6666666666, 9999999999),
+		"category": choice('HS', 'OCIU'),
+		"grade": choice('A_PLUS', 'A', 'B', 'C'),
+		"present_status": choice('Active', 'Inactive'),
+		"advocate_name": firstname(),
+		"is_goondas": randomBool(),
+		"remarks": regex(/He is a +(murderer|thief|culprit)/),
+
+		"cases": repeat(20, {
+				"police_station": choice('54e1d636-8fe9-4e59-84ce-c2b43a19ba49','61629eb8-c653-42f9-81a8-f66ac454fab8','94b60c77-12eb-45cd-8c32-3375cef711f0','a43c40cc-d10b-46e0-bcac-d4afbc4dc42c','b3bdd993-51e3-4e80-aaa2-8b9b8d297b30','b58c8866-5c3e-48f0-a3fe-12bf9fa5e541','c9066d17-cf16-4397-8bcd-870edbe8ecfa','d4024a32-9020-46e0-9ebf-a6b06e941d2b','d9176d88-e93e-4f00-8c3d-0c880ff67d93','e4737dd1-5e4a-47fa-876e-093b7375bd4a','eaf91712-d998-4647-a9e4-ff3f099ec24a'),
+				"under_section": 'IPC-'+ random(400, 999),
+				"court_name": city(),
+				"crime_number": 'CS/'+ random(1, 1000) + '/' + random(1,1000),
+				"date": date('Y-m-d H:i:s', '2000-01-01', '2001-05-15'),
+				"stage": choice('unknown', 'investigation', 'case closed', 'case pending'),
+				"last_hearing": date('Y-m-d H:i:s', '2000-01-01', '2001-05-15'),
+				"accused_attend_status": randomBool(),
+				"hearing_description":  regex(/He +(attended|did not attend)/),
+				"next_hearing": date('Y-m-d H:i:s', '2000-01-01', '2001-05-15'),
+				"remarks": regex(/(Oh god!|Too much violence!)/),
+				"is_active": randomBool(),
+		}),
+		"family_members": repeat(5,{
+				"name": firstname() + ' ' + lastname(),
+				"relation": choice('Son', 'Daughter', 'Brother', 'Sister', 'Father', 'Mother'),
+				"occupation": choice('Actor', 'Businessman', 'Farmer'),
+			}),
+		"operational_places": repeat(10, {
+				"state": choice('Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'),
+				"district": city(),
+			}),
+		"occupation":repeat(5,choice('Kandhuvaddi','Kadathal','Robbery','Chain Snatching')),
+		"addresses": repeat(3, {
+				"type": choice('Present', 'Native', 'Other'),
+				"line1": regex(/Street (yedho onnu|yedho innonnu)/),
+				"line2": regex(/(1st | 2nd | 3rd | 4th | 5th) main road/),
+				"area": choice('Area1', 'Area2', 'Area3', 'Area4', 'Area5'),
+				"city": city(),
+				"state": choice('Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh', 'Dadra and Nagar Haveli', 'Daman and Diu', 'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'),
+			}),
+		"associates": repeat( 3, {
+				"name": firstname() + ' ' + lastname(),
+				"father_name": firstname() + ' ' + lastname(),
+				"location": city(),
+			}),
+		"vehicles": repeat( 3, {
+				"type": choice('Two-Wheeler', 'Four-Wheeler', 'Heavy Vehicle'),
+				"reg_no": 'TN' + random(1,99) + 'AZ' + random(1, 9999),
+				"description": 'Vehicle Description',
+			}),
+
+		"bonds": repeat( 5, {
+				"type": choice('110CRPC', '109CRPC', '107CRPC'),
+				"details": regex(/Bond Details/),
+				"period": random(1,10),
+				"is_active": randomBool(),
+				"expiry": date('Y-m-d H:i:s', '2000-01-01', '2001-05-15'),
+			}),
+		"links": repeat(5, {
+				"name": firstname() + ' ' + lastname(),
+				"alias_name": firstname() + ' ' + lastname(),
+				"father_name": firstname() + ' ' + lastname(),
+				"city": city(),
+				"description": regex(/Link Description/),
+			}),
+		"modus_operandi": repeat(5, choice('Murderer', 'Abduction', 'Robbery', 'Chain Snatching'))	
+	})	
+}
