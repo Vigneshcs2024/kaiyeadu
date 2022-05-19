@@ -9,7 +9,7 @@
 	"db": {
 		"database": "kaiyeadu",
 		"host": "ec2-54-205-138-236.compute-1.amazonaws.com",
-		"sync": false,
+		"sync": true,
 		"provider": "mysql"
 	},
 	"mailer": {

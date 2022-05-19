@@ -1,0 +1,11 @@
+[{"id":"054fab7f-4b94-4972-8429-8e096bda316c", "name":"Police Station 10", "area":"Guduvanchery", "district":"Chennai", "createdAt":"2022-05-16 16:15:04", "updatedAt":"2022-05-16 16:15:04"},
+ {"id":"05ad13fb-1589-4904-92ae-f10cfef12545", "name":"Police Station 8", "area":"K.K.Nagar", "district":"Madurai", "createdAt":"2022-05-16 16:14:15", "updatedAt":"2022-05-16 16:14:15"},
+ {"id":"3c7861f3-3acd-4a38-98df-979d89adf0dc", "name":"Police Station 3", "area":"Vandalur", "district":"Chennai", "createdAt":"2022-05-16 16:12:48", "updatedAt":"2022-05-16 16:12:48"},
+ {"id":"44684a72-f1d3-4bc3-8593-c7db4db93ffd", "name":"Police Station 9", "area":"Pudur", "district":"Madurai", "createdAt":"2022-05-16 16:14:28", "updatedAt":"2022-05-16 16:14:28"},
+ {"id":"7d24b0fb-db00-44aa-9a9a-e3a537cd7765", "name":"Police Station 6", "area":"Mathur", "district":"Trichy", "createdAt":"2022-05-16 16:13:48", "updatedAt":"2022-05-16 16:13:48"},
+ {"id":"83a403ae-1d16-46af-91b9-9495bf499ebb", "name":"Police Station 2", "area":"Perungalathur", "district":"Chennai", "createdAt":"2022-05-16 16:12:33", "updatedAt":"2022-05-16 16:12:33"},
+ {"id":"b3bdd993-51e3-4e80-aaa2-8b9b8d297b30", "name":"Sample station", "area":"Sample area", "district":"Sample district", "createdAt":"", "updatedAt":""},
+ {"id":"b8f0f369-fdc3-4795-9d08-416daae5f633", "name":"Police Station 1", "area":"Tambaram", "district":"Chennai", "createdAt":"2022-05-16 16:12:14", "updatedAt":"2022-05-16 16:12:14"},
+ {"id":"c3e025e3-5692-4d09-8a9f-ce63d2d5808b", "name":"Police Station 5", "area":"Sooriyur", "district":"Trichy", "createdAt":"2022-05-16 16:13:21", "updatedAt":"2022-05-16 16:13:21"},
+ {"id":"c4dc5050-a180-410d-b091-d4446015435f", "name":"Police Station 7", "area":"Anna Nagar", "district":"Madurai", "createdAt":"2022-05-16 16:14:02", "updatedAt":"2022-05-16 16:14:02"},
+ {"id":"c681db52-c569-44d3-bdb2-3945f80374a6", "name":"Police Station 4", "area":"Mandayur", "district":"Trichy", "createdAt":"2022-05-16 16:13:05", "updatedAt":"2022-05-16 16:13:05"}]

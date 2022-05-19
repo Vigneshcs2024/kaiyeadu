@@ -47,3 +47,6 @@ Thumbs.db
 .env.local
 .env.development
 .env.test
+
+
+/migrations/node_modules
