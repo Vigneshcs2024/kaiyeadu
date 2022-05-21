@@ -1,15 +1,16 @@
 {
-  "name": "migrations",
-  "version": "1.0.0",
-  "description": "Use data.json in [JSON Generator](https://extendsclass.com/json-generator.html) to get an array of 100 criminal records. The example file is provided in [Sample Data](./sampleData.json)",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.27.2"
-  }
+	"name": "migrations",
+	"version": "1.0.0",
+	"description": "Use data.json in [JSON Generator](https://extendsclass.com/json-generator.html) to get an array of 100 criminal records. The example file is provided in [Sample Data](./sampleData.json)",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"axios": "^0.27.2"
+	}
 }
