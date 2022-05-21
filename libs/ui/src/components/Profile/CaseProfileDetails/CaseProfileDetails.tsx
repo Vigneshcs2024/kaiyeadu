@@ -22,7 +22,7 @@ const LastArrest = ({ lastArrest }: { lastArrest: LastArrestDto }) => {
 export function CaseProfileDetails({ criminalData }: TabProps) {
 	return (
 		<DetailsContainer>
-			<LastArrest lastArrest={criminalData.lastArrest} />
+			{criminalData?.lastArrest && <LastArrest lastArrest={criminalData.lastArrest} />}
 			<Accordion title='Active Cases'>
 				<ActiveCases criminalData={criminalData} />
 			</Accordion>
