@@ -26,14 +26,9 @@ export function Accordion({ title, children, style }: AccordionProps) {
 		<AccordionContainer style={style}>
 			<AccordionTitle onClick={toggleActive}>
 				<h3>{title}</h3>
-				<span>
-					<Chevron
-						icon='akar-icons:chevron-down'
-						width={20}
-						isActive={active}
-						color='#C4171C'
-					/>
-				</span>
+				<Chevron active={active}>
+					<Icon icon='akar-icons:chevron-down' width={20} color='#C4171C' />
+				</Chevron>
 			</AccordionTitle>
 
 			<AccordionContent ref={contentRef}>{children}</AccordionContent>
@@ -78,7 +73,7 @@ const AccordionTitle = styled.button`
 	}
 `;
 
-const Chevron = styled(Icon)<{ isActive: boolean }>`
-	transform: ${props => (props.isActive ? 'rotate(180deg)' : 'rotate(0deg)')};
+const Chevron = styled.span<{ active: boolean }>`
+	transform: ${props => (props.active ? 'rotate(180deg)' : 'rotate(0deg)')};
 	transition: all 0.3s ease-in-out;
 `;

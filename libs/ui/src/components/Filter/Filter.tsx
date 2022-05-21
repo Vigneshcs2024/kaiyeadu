@@ -161,7 +161,7 @@ export function Filter({
 						<div>
 							{initialFilters.map(({ type }, i) => {
 								return (
-									<FilterCheckbox>
+									<FilterCheckbox key={i}>
 										<input
 											type='checkbox'
 											name={type}
@@ -185,7 +185,7 @@ export function Filter({
 						{initialFilters.map(({ type, value }, index) => {
 							return (
 								checked[index] && (
-									<FilterDiv>
+									<FilterDiv key={index}>
 										<h4>{type}</h4>
 
 										{typeof value !== 'string' ? (
