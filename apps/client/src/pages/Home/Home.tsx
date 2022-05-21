@@ -1,10 +1,8 @@
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { BackgroundContainer, Table, Loader, Filter } from '@kaiyeadu/ui/components';
-import { useRequest } from '@kaiyeadu/hooks';
-import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
-import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { CommonObject } from '@kaiyeadu/ui/interface';
 import { Layout } from '@kaiyeadu/ui/styles';
 import styled from 'styled-components';
 
@@ -88,62 +86,7 @@ export default function Home() {
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState<CommonObject>({});
 	const count = 25;
-
-	const { request } = useRequest();
 	const navigate = useNavigate();
-
-	const getData = async () => {
-		setIsLoading(true);
-		setTimeout(async () => {
-			try {
-				const res = await request.get(
-					Requests.CRIMINAL_LIST +
-						`?page=${page}&count=${count}&s={"key":"name","order":"ASC"}&f=${JSON.stringify(
-							filters
-						)}`
-				);
-
-				if (Math.round(res.data.result.total / count) < 1) {
-					setTotalPages(1);
-				} else {
-					setTotalPages(Math.round(res.data.result.total / count));
-				}
-
-				const tableValues = res.data.result.criminals.map(
-					(criminal: {
-						dob: string;
-						name: string;
-						gender: string;
-						hs_number: string;
-						id: string;
-					}) => {
-						return {
-							first_name: criminal.name.split(' ')[0]
-								? criminal.name.split(' ')[0]
-								: '-',
-							last_name: criminal.name.split(' ')[1]
-								? criminal.name.split(' ')[1]
-								: '-',
-							date_of_birth: criminal.dob.substring(0, 10),
-							gender: criminal.gender,
-							hs_number: criminal.hs_number,
-							id: criminal.id
-						};
-					}
-				);
-				setData(tableValues);
-			} catch (error) {
-				(error as CustomAxiosError).handleAxiosError?.();
-			}
-			setIsLoading(false);
-		}, 500);
-	};
-
-	const memoizedGetData = useCallback(getData, [filters, page, request]);
-
-	useEffect(() => {
-		memoizedGetData();
-	}, [memoizedGetData]);
 
 	const columns = useMemo(
 		() => [

@@ -2,7 +2,6 @@ import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { useCallback, useLayoutEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import styled from 'styled-components';
 
 import { Button, DropDownList, TextField } from '..';
@@ -95,7 +94,6 @@ export function Filter({
 						filters
 					)}&q=${search}`
 			);
-			toast.success(res.data.message);
 
 			if (Math.round(res.data.result.total / count) < 1) {
 				setTotalPages(1);
@@ -132,8 +130,16 @@ export function Filter({
 		}
 	};
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const memoizedGetData = useCallback(getData, [page, filters, request, search, sort]);
+	const memoizedGetData = useCallback(getData, [
+		request,
+		page,
+		count,
+		sort,
+		filters,
+		search,
+		setData,
+		setTotalPages
+	]);
 
 	useLayoutEffect(() => {
 		memoizedGetData();
