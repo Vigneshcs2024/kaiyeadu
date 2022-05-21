@@ -19,11 +19,16 @@ export const StyledTable = styled.table`
 	border-collapse: collapse;
 	width: 80%;
 	background-color: #f2f2f2;
+	margin: 2em 0;
 
 	td,
 	th {
 		border: 1px solid #ddd;
 		padding: 8px;
+	}
+
+	tr {
+		cursor: pointer;
 	}
 
 	tr:nth-child(even) {

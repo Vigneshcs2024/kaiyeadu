@@ -13,7 +13,7 @@ import {
 } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
-import { useRequest } from '@kaiyeadu/hooks';
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 
 interface FinalFilter {
 	type: string;
@@ -96,6 +96,7 @@ export default function Criminals() {
 	const [totalPages, setTotalPages] = useState(1);
 	const [page, setPage] = useState(1);
 	const { request } = useRequest();
+	const { session } = useAuthApi();
 	const navigate = useNavigate();
 	const [filters, setFilters] = useState<CommonObject>({});
 
@@ -191,6 +192,36 @@ export default function Criminals() {
 		[]
 	);
 
+	const userColumns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'id'
+			},
+			{
+				Header: 'First Name',
+				accessor: 'first_name'
+			},
+			{
+				Header: 'Last Name',
+				accessor: 'last_name'
+			},
+			{
+				Header: 'Gender',
+				accessor: 'gender'
+			},
+			{
+				Header: 'HS Number',
+				accessor: 'hs_number'
+			},
+			{
+				Header: 'Date of Birth',
+				accessor: 'date_of_birth'
+			}
+		],
+		[]
+	);
+
 	const navigateToDetails = (id: string) => {
 		navigate(`/profile`, { state: id });
 	};
@@ -230,12 +261,14 @@ export default function Criminals() {
 					</p>
 				</PaginationContainer>
 				<Table
-					columns={columns}
+					columns={session.getUserRole() === 'user' ? userColumns : columns}
 					data={data}
 					removeItem={showModal}
 					navigateTo={navigateToDetails}
 				/>
-				<ModifyButton path='/criminals/add' icon='carbon:add' />
+				{session.getUserRole() !== 'user' && (
+					<ModifyButton path='/criminals/add' icon='carbon:add' />
+				)}
 				{modal && (
 					<DeleteModal url={`${Requests.CRIMINAL_REMOVE}` + id} setModal={setModal} />
 				)}

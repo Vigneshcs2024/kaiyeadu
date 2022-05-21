@@ -1,10 +1,10 @@
 import { useAuthApi } from '@kaiyeadu/hooks';
 import { CSSProperties, ReactNode } from 'react';
 import styled from 'styled-components';
-import { Navbar } from '.';
 
+import { Navbar } from '.';
 import { LogoLight } from '../assets';
-import { admin } from '../base/content.sidebar';
+import { admin, master } from '../base/content.sidebar';
 import SideBar from './Sidebar';
 
 interface IProps {
@@ -31,8 +31,8 @@ export default function BackgroundContainer({
 			}}>
 			{children}
 		</Section>
-	) : window.location.port === '3000' ? (
-		<SideBar content={admin} pageTitle={pageTitle}>
+	) : session.getUserRole() !== 'user' ? (
+		<SideBar content={session.getUserRole() === 'admin' ? admin : master} pageTitle={pageTitle}>
 			<Section
 				style={{
 					backgroundImage: `linear-gradient(130deg, rgba(226, 30, 36, 0.6) 0%,rgba(6, 0, 167, 0.79)  100%),

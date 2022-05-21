@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
 import { BackgroundContainer, ModifyButton } from '@kaiyeadu/ui/components';
 import { CriminalRecordDto } from '@kaiyeadu/ui/dtos';
-import { useAuthApi } from '@kaiyeadu/hooks';
+import { useRequest } from '@kaiyeadu/hooks';
+import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { User } from '@kaiyeadu/ui/assets';
+import UpdateProposals from './UpdateProposals/UpdateProposals';
+import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+
 import { PersonalProfileDetails } from './PersonalProfileDetails';
 import { CaseProfileDetails } from './CaseProfileDetails';
 import { OtherProfileDetails } from './OtherProfileDetails';
 import { Chip } from '../Chip';
-
-import { useRequest } from '@kaiyeadu/hooks';
-import { CustomAxiosError } from '@kaiyeadu/ui/interface';
-import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
-import { useLocation } from 'react-router-dom';
 import { Loader } from '../Loader';
-import { User } from '@kaiyeadu/ui/assets';
 
 export interface TabProps {
 	criminalData: CriminalRecordDto;
@@ -23,9 +23,9 @@ export interface TabProps {
 
 export function Profile() {
 	const [tab, setTab] = useState(1);
-	const { session } = useAuthApi();
 	const { request } = useRequest();
 	const { state: id } = useLocation();
+	const [modal, setModal] = useState(false);
 
 	const [loading, setLoading] = useState(true);
 	const [criminalData, setCriminalData] = useState<CriminalRecordDto>();
@@ -55,8 +55,6 @@ export function Profile() {
 					<ProfileContainer>
 						<ImageContainer>
 							<ProfileImage>
-								{/* Image url to be changed to criminal's photo */}
-
 								<img
 									src={criminalData?.image_url ? criminalData?.image_url : User}
 									alt='profile'
@@ -98,18 +96,10 @@ export function Profile() {
 							)}
 						</div>
 					</ProfileContainer>
-					{session.getUserRole() === 'admin' ||
-						session.getUserRole() === 'master' ||
-						(window.location.port === '3000' && ( // Needed to be removed after development
-							<>
-								<ModifyButton icon='ci:edit' width='40' />
-								<ModifyButton
-									icon='fluent:delete-24-filled'
-									width='40'
-									style={{ bottom: '11rem' }}
-								/>
-							</>
-						))}
+
+					<ModifyButton icon='uil:comments' width='40' onClick={() => setModal(true)} />
+
+					{modal && <UpdateProposals setModal={setModal} />}
 				</Layout>
 			)}
 		</BackgroundContainer>

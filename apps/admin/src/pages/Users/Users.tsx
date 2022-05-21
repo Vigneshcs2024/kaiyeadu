@@ -9,7 +9,7 @@ import {
 	ActiveType,
 	DeleteModal
 } from '@kaiyeadu/ui/components';
-import { useRequest } from '@kaiyeadu/hooks';
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 
@@ -20,6 +20,7 @@ export default function Users() {
 	const [data, setData] = useState([]);
 	const [type, setType] = useState('all');
 	const { request } = useRequest();
+	const { session } = useAuthApi();
 
 	const getData = async (type: string) => {
 		setIsLoading(true);
@@ -47,7 +48,7 @@ export default function Users() {
 		memoizedGetData(type);
 	}, [memoizedGetData, type]);
 
-	const columns = useMemo(
+	const adminColumns = useMemo(
 		() => [
 			{
 				Header: 'ID',
@@ -88,6 +89,44 @@ export default function Users() {
 		[]
 	);
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'id'
+			},
+			{
+				Header: 'Name',
+				accessor: 'name'
+			},
+			{
+				Header: 'GPF',
+				accessor: 'gpf'
+			},
+			{
+				Header: 'Designation',
+				accessor: 'designation'
+			},
+			{
+				Header: 'Email',
+				accessor: 'email'
+			},
+			{
+				Header: 'Phone',
+				accessor: 'phone'
+			},
+			{
+				Header: 'Police Station',
+				accessor: 'police_station_id.name'
+			},
+			{
+				Header: 'Role',
+				accessor: 'role'
+			}
+		],
+		[]
+	);
+
 	return (
 		<BackgroundContainer pageTitle='Users'>
 			<FlexLayoutWithSpace>
@@ -96,9 +135,15 @@ export default function Users() {
 					type={type}
 					values={['all', 'admin', 'master', 'user']}
 				/>
-				<Table columns={columns} data={data} removeItem={showModal} />
+				<Table
+					columns={session.getUserRole() === 'admin' ? adminColumns : columns}
+					data={data}
+					removeItem={showModal}
+				/>
 				{isLoading && <Loader withOverlay={false} />}
-				<ModifyButton path='/users/add' icon='carbon:add' />
+				{session.getUserRole() === 'admin' && (
+					<ModifyButton path='/users/add' icon='carbon:add' />
+				)}
 				{modal && <DeleteModal url={`${Requests.USER_REMOVE}` + id} setModal={setModal} />}
 			</FlexLayoutWithSpace>
 		</BackgroundContainer>

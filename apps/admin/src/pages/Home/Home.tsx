@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
-import { useRequest } from '@kaiyeadu/hooks';
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { BackgroundContainer } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
@@ -13,6 +13,7 @@ export default function Home() {
 	const [randomValue, setRandomValue] = useState(0);
 	const [data, setData] = useState<{ [key: string]: string }>({});
 	const { request } = useRequest();
+	const { session } = useAuthApi();
 
 	const getData = async () => {
 		setIsLoading(true);
@@ -44,12 +45,51 @@ export default function Home() {
 			path: '/police-stations',
 			key: 'stations'
 		},
+
 		{
-			title: 'Proposals',
+			title: 'Users',
+			count: 200,
+			icon: 'bx:user',
+			path: '/users',
+			key: 'users'
+		},
+		{
+			title: 'Super Users',
+			count: 60,
+			icon: 'carbon:user-military',
+			path: '/users',
+			key: 'super_users'
+		},
+		{
+			title: 'Admins',
+			count: 7,
+			icon: 'clarity:administrator-solid',
+			path: '/users',
+			key: 'admins'
+		},
+		{
+			title: 'Comments',
 			count: 400,
-			icon: 'bx:bx-git-pull-request',
+			icon: 'uil:comments',
 			path: 'requests',
 			key: 'proposals'
+		}
+	];
+
+	const masterList = [
+		{
+			title: 'Criminals',
+			count: 100,
+			icon: 'fa6-solid:handcuffs',
+			path: '/criminals',
+			key: 'criminals'
+		},
+		{
+			title: 'Police Stations',
+			count: 80,
+			icon: 'mdi:police-station',
+			path: '/police-stations',
+			key: 'stations'
 		},
 		{
 			title: 'Users',
@@ -98,7 +138,7 @@ export default function Home() {
 				flexWrap: 'wrap'
 			}}
 			pageTitle='Home'>
-			{list.map((val, ind) => {
+			{(session.getUserRole() === 'admin' ? list : masterList).map((val, ind) => {
 				return (
 					<Link to={val.path} key={ind}>
 						<Container key={ind}>

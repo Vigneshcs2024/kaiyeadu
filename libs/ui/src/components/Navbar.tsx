@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useAuthApi, UserNameContext } from '@kaiyeadu/hooks';
+import { useAuthApi } from '@kaiyeadu/hooks';
 
 export function Navbar({
 	pageTitle,
@@ -12,8 +12,7 @@ export function Navbar({
 	pageTitle?: string | undefined;
 	setSideBar?: Dispatch<SetStateAction<boolean>>;
 }) {
-	const username = useContext(UserNameContext);
-	const { setAuthToken } = useAuthApi();
+	const { setAuthToken, session } = useAuthApi();
 
 	return (
 		<NavbarContainer>
@@ -27,17 +26,13 @@ export function Navbar({
 						color='white'
 					/>
 				)}
-				{window.location.port === '4000' ? (
-					<Link to='/'>
-						<p className='pageTitle'>{pageTitle}</p>
-					</Link>
-				) : (
+				<Link to='/'>
 					<p className='pageTitle'>{pageTitle}</p>
-				)}
+				</Link>
 			</NavItemContainer>
 			<NavItemContainer>
 				<Icon icon='akar-icons:circle-fill' color='#1dff00' width='10' />
-				<p className='username'>{username}</p>
+				<p className='username'>{session.getDisplayName()}</p>
 				<Icon
 					className='logout'
 					icon='grommet-icons:power-shutdown'

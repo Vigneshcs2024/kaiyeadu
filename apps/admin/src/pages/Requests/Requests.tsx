@@ -1,7 +1,6 @@
 import { useMemo, useState, useEffect, useCallback } from 'react';
 
 import { BackgroundContainer, Table, Loader, FlexLayoutWithSpace } from '@kaiyeadu/ui/components';
-import { Layout } from '@kaiyeadu/ui/styles';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests as Req } from '@kaiyeadu/api-interfaces/constants/requests.enum';
@@ -56,24 +55,18 @@ export default function Requests() {
 				accessor: 'role'
 			},
 			{
-				Header: 'Request',
+				Header: 'Comments',
 				accessor: 'request'
-			},
-			{
-				Header: 'Accept'
-			},
-			{
-				Header: 'Decline'
 			}
 		],
 		[]
 	);
 
 	return (
-		<BackgroundContainer pageTitle='Requests'>
-			{isLoading && <Loader withOverlay={false} />}
+		<BackgroundContainer pageTitle='Comments'>
 			<FlexLayoutWithSpace>
 				<Table columns={columns} data={data} />
+				{isLoading && <Loader withOverlay={false} />}
 			</FlexLayoutWithSpace>
 		</BackgroundContainer>
 	);

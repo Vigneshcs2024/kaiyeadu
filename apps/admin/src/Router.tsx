@@ -1,6 +1,7 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
-import { AdminRoute, AuthRoute } from '@kaiyeadu/ui/routes';
+import { useAuthApi } from '@kaiyeadu/hooks';
+import { AuthRoute, ProtectedRoute } from '@kaiyeadu/ui/routes';
 
 import {
 	AddStation,
@@ -13,28 +14,50 @@ import {
 	Users,
 	PoliceStations,
 	Criminals,
-	CriminalProfile,
-	ResetPassword
+	CriminalProfile
 } from './pages';
 
 export default function Router() {
+	const { session } = useAuthApi();
 	return (
 		<Routes>
-			<Route element={<AdminRoute />}>
-				<Route path='/' element={<Home />} />
-				<Route path='/profile' element={<CriminalProfile />} />
-				<Route path='/users/add' element={<AddUser />} />
-				<Route path='/criminals/add' element={<AddCriminal />} />
-				<Route path='/police-stations/add' element={<AddStation />} />
-				<Route path='/criminals' element={<Criminals />} />
-				<Route path='/requests' element={<Requests />} />
-				<Route path='/logs' element={<Logs />} />
-				<Route path='/users' element={<Users />} />
-				<Route path='/police-stations' element={<PoliceStations />} />
+			<Route element={<ProtectedRoute />}>
+				{session.getUserRole() === 'admin' && (
+					<>
+						<Route path='/' element={<Home />} />
+						<Route path='/profile' element={<CriminalProfile />} />
+						<Route path='/users/add' element={<AddUser />} />
+						<Route path='/criminals/add' element={<AddCriminal />} />
+						<Route path='/police-stations/add' element={<AddStation />} />
+						<Route path='/criminals' element={<Criminals />} />
+						<Route path='/comments' element={<Requests />} />
+						<Route path='/logs' element={<Logs />} />
+						<Route path='/users' element={<Users />} />
+						<Route path='/police-stations' element={<PoliceStations />} />
+					</>
+				)}
+				{session.getUserRole() === 'master' && (
+					<>
+						<Route path='/' element={<Home />} />
+						<Route path='/profile' element={<CriminalProfile />} />
+						<Route path='/criminals/add' element={<AddCriminal />} />
+						<Route path='/criminals' element={<Criminals />} />
+						<Route path='/users' element={<Users />} />
+						<Route path='/police-stations' element={<PoliceStations />} />
+					</>
+				)}
+				{session.getUserRole() === 'user' && (
+					<>
+						<Route path='/' element={<Criminals />} />
+						<Route path='/profile' element={<CriminalProfile />} />
+						<Route path='*' element={<Navigate replace to='/' />} />
+					</>
+				)}
+				<Route path='/' element={<Outlet />} />
 			</Route>
+
 			<Route element={<AuthRoute redirect='/' />}>
 				<Route path='/login' element={<Login />} />
-				<Route path='/reset-password' element={<ResetPassword />} />
 			</Route>
 
 			<Route path='*' element={<Navigate replace to='/' />} />

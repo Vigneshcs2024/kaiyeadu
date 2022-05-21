@@ -1,103 +1,104 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useFormik } from 'formik';
+import toast from 'react-hot-toast';
 
-import { login } from './login.service';
-import { LoginValidation } from './validationSchema';
-
-import { useRequest, useAuthApi, UserNameContext } from '@kaiyeadu/hooks';
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { BackgroundContainer, Button, TextField, Loader } from '@kaiyeadu/ui/components';
-import { theme } from '@kaiyeadu/ui/base';
-import { AdminAuthCredentialsDto } from '@kaiyeadu/api-interfaces/dtos';
+
+import { getLoginPassword, login } from './login.service';
 
 export default function Login() {
 	const { request } = useRequest();
-	const { setAuthToken, session } = useAuthApi();
-	const [userName, setUserName] = useState('admin');
+	const { setAuthToken } = useAuthApi();
+
+	const [credentials, setCredentials] = useState({
+		gpf: '',
+		password: ''
+	});
+	const [isUser, setIsUser] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSubmit = async (values: AdminAuthCredentialsDto) => {
+	const handleLogin = async (credentials: { gpf: string; password: string }) => {
 		setIsLoading(true);
 		try {
-			const token = await login(request, values);
-			setAuthToken(token);
-			setUserName(session.getDisplayName());
+			const token = await login(request, credentials);
+			console.log(token);
 
-			setIsLoading(false);
-		} catch (error) {
-			setIsLoading(false);
+			// setAuthToken(token);
+		} catch (err) {
+			console.error(err);
 		}
+		setIsLoading(false);
 	};
 
-	const initialValues: AdminAuthCredentialsDto = {
-		email: '',
-		password: ''
+	const handleGetPassword = async (value: { gpf: string }) => {
+		setIsLoading(true);
+		try {
+			const message = await getLoginPassword(request, value);
+			toast.success(message);
+			setIsUser(true);
+		} catch (err) {
+			console.error(err);
+		}
+		setIsLoading(false);
 	};
 
-	const formik = useFormik({
-		initialValues,
-		onSubmit: handleSubmit,
-		validationSchema: LoginValidation
-	});
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setCredentials(old => ({
+			...old,
+			[e.target.name]: e.target.value
+		}));
+	};
 
 	return (
-		<UserNameContext.Provider value={userName}>
+		<BackgroundContainer
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				minHeight: '100vh'
+			}}
+			isLogin={true}>
 			{isLoading ? <Loader /> : ''}
-			<BackgroundContainer
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					minHeight: '100vh'
-				}}
-				isLogin={true}>
-				<InnerContainer>
-					<h1>LOGIN</h1>
-					<form onSubmit={formik.handleSubmit}>
-						<TextField
-							label='Email'
-							name='email'
-							value={formik.values.email}
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							tip={
-								formik.touched.email && formik.errors.email
-									? {
-											content: formik.errors.email,
-											color: theme.palette.danger
-									  }
-									: ''
-							}
-						/>
-						<TextField
-							label='Password'
-							name='password'
-							type='password'
-							value={formik.values.password}
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							tip={
-								formik.touched.password && formik.errors.password
-									? {
-											content: formik.errors.password,
-											color: theme.palette.danger
-									  }
-									: ''
-							}
-						/>
-						<BottomContainer>
-							<Button title='login' type='submit' />
-							<Link to='/reset-password'>Forgot Password</Link>
-						</BottomContainer>
-					</form>
-				</InnerContainer>
-			</BackgroundContainer>
-		</UserNameContext.Provider>
+			<InnerContainer>
+				<h1>LOGIN</h1>
+
+				<TextField
+					label='GPF ID'
+					name='gpf'
+					value={credentials.gpf}
+					onChange={handleChange}
+				/>
+				{isUser && (
+					<TextField
+						name='password'
+						label='Password'
+						type='password'
+						value={credentials.password}
+						onChange={handleChange}
+					/>
+				)}
+
+				<BottomContainer>
+					<Button
+						title={isUser ? 'Login' : 'Get Password'}
+						type='submit'
+						onClick={
+							isUser
+								? () => handleLogin(credentials)
+								: () => handleGetPassword({ gpf: credentials.gpf })
+						}
+					/>
+				</BottomContainer>
+			</InnerContainer>
+		</BackgroundContainer>
 	);
 }
 
 const InnerContainer = styled.div`
+	width: 80%;
+	max-width: 400px;
+
 	h1 {
 		color: ${p => p.theme.white};
 		text-align: center;

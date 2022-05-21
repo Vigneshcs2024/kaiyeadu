@@ -9,7 +9,7 @@ import {
 } from '@kaiyeadu/ui/components';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
-import { useRequest } from '@kaiyeadu/hooks';
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { DeleteModal } from '@kaiyeadu/ui/components';
 
 export default function PoliceStations() {
@@ -18,6 +18,7 @@ export default function PoliceStations() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const { request } = useRequest();
+	const { session } = useAuthApi();
 
 	const getData = async () => {
 		setIsLoading(true);
@@ -42,7 +43,7 @@ export default function PoliceStations() {
 		memoizedGetData();
 	}, [memoizedGetData]);
 
-	const columns = useMemo(
+	const adminColumns = useMemo(
 		() => [
 			{
 				Header: 'ID',
@@ -67,12 +68,40 @@ export default function PoliceStations() {
 		[]
 	);
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'id'
+			},
+			{
+				Header: 'Name',
+				accessor: 'name'
+			},
+			{
+				Header: 'Area',
+				accessor: 'area'
+			},
+			{
+				Header: 'District',
+				accessor: 'district'
+			}
+		],
+		[]
+	);
+
 	return (
 		<BackgroundContainer pageTitle='Police Stations'>
 			<FlexLayoutWithSpace>
-				<Table columns={columns} data={data} removeItem={showModal} />
+				<Table
+					columns={session.getUserRole() === 'admin' ? adminColumns : columns}
+					data={data}
+					removeItem={showModal}
+				/>
 				{isLoading && <Loader withOverlay={false} />}
-				<ModifyButton path='/police-stations/add' icon='carbon:add' />
+				{session.getUserRole() === 'admin' && (
+					<ModifyButton path='/police-stations/add' icon='carbon:add' />
+				)}
 				{modal && (
 					<DeleteModal url={`${Requests.STATION_REMOVE}` + id} setModal={setModal} />
 				)}
