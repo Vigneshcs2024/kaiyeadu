@@ -10,4 +10,5 @@ export { default as ResetPassword } from './ResetPassword/ResetPassword';
 export * from './AddUser';
 export * from './AddPoliceStation';
 export * from './AddCriminal';
+export * from './EditCriminal';
 export * from './Profile';

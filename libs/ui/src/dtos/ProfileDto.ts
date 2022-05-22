@@ -41,6 +41,21 @@ export interface ActiveCaseDto extends ActiveCase, DatetoString {
 
 export interface CaseDto extends Case, DatetoString {}
 
+export interface FullCaseDto {
+	police_station: string;
+	under_section: string;
+	court_name: string;
+	crime_number: string;
+	stage: string;
+	last_hearing: string;
+	next_hearing: string;
+	accused_attend_status: boolean;
+	hearing_description: string;
+	remarks: string;
+	is_active: boolean;
+	date: string;
+}
+
 export interface AddressDto extends Address, DatetoString {
 	type: string;
 }
@@ -75,6 +90,10 @@ export interface BondDto extends Bond, DatetoString {
 	expiry: string;
 }
 
+export interface WholeBondDto extends BondDto {
+	type: string;
+}
+
 export interface CriminalRecordDto {
 	id: string;
 	category: string;
@@ -97,8 +116,8 @@ export interface CriminalRecordDto {
 	image_url: string;
 	is_goondas: number;
 	remarks: string;
-	activeCases: ActiveCaseDto[];
-	cases: CaseDto[];
+	activeCases: FullCaseDto[];
+	cases: FullCaseDto[];
 	addresses: AddressDto[];
 	associates: AssociateDto[];
 	familyMembers: FamilyMemberDto[];
@@ -108,5 +127,5 @@ export interface CriminalRecordDto {
 	operationalPlaces: OpPlacesDto[];
 	vehicles: VehicleDto[];
 	occupation: OccupationDto[];
-	bonds: BondDto[];
+	bonds: WholeBondDto[];
 }

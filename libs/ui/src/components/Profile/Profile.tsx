@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { BackgroundContainer, ModifyButton } from '@kaiyeadu/ui/components';
 import { CriminalRecordDto } from '@kaiyeadu/ui/dtos';
-import { useRequest } from '@kaiyeadu/hooks';
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { User } from '@kaiyeadu/ui/assets';
 import UpdateProposals from './UpdateProposals/UpdateProposals';
@@ -27,6 +26,8 @@ export function Profile() {
 	const { state: id } = useLocation();
 	const [modal, setModal] = useState(false);
 
+	const { session } = useAuthApi();
+	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
 	const [criminalData, setCriminalData] = useState<CriminalRecordDto>();
 
@@ -88,16 +89,37 @@ export function Profile() {
 							</TabContainer>
 
 							{tab === 1 ? (
-								<PersonalProfileDetails criminalData={criminalData!} />
+								<PersonalProfileDetails
+									criminalData={criminalData as CriminalRecordDto}
+								/>
 							) : tab === 2 ? (
-								<CaseProfileDetails criminalData={criminalData!} />
+								<CaseProfileDetails
+									criminalData={criminalData as CriminalRecordDto}
+								/>
 							) : (
-								<OtherProfileDetails criminalData={criminalData!} />
+								<OtherProfileDetails
+									criminalData={criminalData as CriminalRecordDto}
+								/>
 							)}
 						</div>
 					</ProfileContainer>
 
-					<ModifyButton icon='uil:comments' width='40' onClick={() => setModal(true)} />
+					{session.getUserRole() === 'user' && (
+						<ModifyButton
+							icon='uil:comments'
+							width='40'
+							onClick={() => setModal(true)}
+						/>
+					)}
+					{session.getUserRole() !== 'user' && (
+						<ModifyButton
+							icon='ci:edit'
+							width='40'
+							onClick={() => {
+								navigate(`/criminal/edit`, { state: criminalData });
+							}}
+						/>
+					)}
 
 					{modal && <UpdateProposals setModal={setModal} />}
 				</Layout>

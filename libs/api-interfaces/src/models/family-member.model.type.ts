@@ -2,7 +2,16 @@ export interface IFamily {
 	id: string;
 	criminal: string;
 	name: string;
-	relation: 'Father' | 'Mother' | 'Brother' | 'Sister' | 'Spouse' | 'Son' | 'Daughter' | 'Other';
+	relation:
+		| 'Father'
+		| 'Mother'
+		| 'Brother'
+		| 'Sister'
+		| 'Spouse'
+		| 'Son'
+		| 'Daughter'
+		| 'Other'
+		| string;
 	description: string;
 	occupation: string;
 

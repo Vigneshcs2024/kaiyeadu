@@ -1,7 +1,7 @@
 export interface IAddress {
 	id: string;
 	criminal: string;
-	type: 'Present' | 'Native' | 'Other';
+	type: 'Present' | 'Native' | 'Other' | string;
 	line1: string;
 	line2: string;
 	area: string;

@@ -4,7 +4,7 @@ export interface IAssociate {
 	name: string;
 	father_name: string;
 	location: string;
-	gender: 'Male' | 'Female' | 'Transgender' | 'Other';
+	gender: 'Male' | 'Female' | 'Transgender' | 'Other' | string;
 
 	createdAt: Date;
 	updatedAt: Date;

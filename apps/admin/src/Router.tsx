@@ -14,7 +14,8 @@ import {
 	Users,
 	PoliceStations,
 	Criminals,
-	CriminalProfile
+	CriminalProfile,
+	EditCriminal
 } from './pages';
 
 export default function Router() {
@@ -28,6 +29,7 @@ export default function Router() {
 						<Route path='/profile' element={<CriminalProfile />} />
 						<Route path='/users/add' element={<AddUser />} />
 						<Route path='/criminals/add' element={<AddCriminal />} />
+						<Route path='/criminal/edit' element={<EditCriminal />} />
 						<Route path='/police-stations/add' element={<AddStation />} />
 						<Route path='/criminals' element={<Criminals />} />
 						<Route path='/comments' element={<Requests />} />
