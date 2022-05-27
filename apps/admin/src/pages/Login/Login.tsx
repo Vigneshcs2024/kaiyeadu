@@ -22,9 +22,7 @@ export default function Login() {
 		setIsLoading(true);
 		try {
 			const token = await login(request, credentials);
-			console.log(token);
-
-			// setAuthToken(token);
+			setAuthToken(token);
 		} catch (err) {
 			console.error(err);
 		}
