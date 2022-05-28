@@ -1,7 +1,6 @@
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { CreateCriminalDto } from '@kaiyeadu/api-interfaces/dtos';
-import { ICriminalInput } from '@kaiyeadu/api-interfaces/models';
 import { logger } from '$api/tools';
 import { ApiRequest } from '$api/types';
 import { jsonPrettyPrint } from '$api/utilities';
@@ -104,17 +103,53 @@ export async function getMinimalList(req: ApiRequest, res: Response) {
 
 export async function updatePersonalDetails(req: ApiRequest, res: Response) {
 	const { id } = req.params;
-	const { body: updates }: { body: ICriminalInput } = req;
+	const {
+		modus_operandi,
+		links,
+		family_members,
+		operational_places,
+		bonds,
+		occupation,
+		addresses,
+		associates,
+		vehicles,
+		cases,
+		...rest
+	} = req.body as CreateCriminalDto;
 
 	await validateUUID(id);
-	// this will work, but we need to change it
-	await validateCreateCriminal(updates);
 
-	const criminal = await criminalRepo.update(id, updates);
+	await Promise.all([
+		validateCreateCriminal(rest),
+		validateCreateAddresses(addresses),
+		validateStringArray(modus_operandi),
+		validateLinks(links),
+		validateFamilyMembers(family_members),
+		validateOperationalPlaces(operational_places),
+		validateBonds(bonds),
+		validateStringArray(occupation),
+		validateAddAssociates(associates),
+		validateAddVehicles(vehicles),
+		validateCases(cases)
+	]);
+
+	await criminalRepo.updateCriminal(id, {
+		modus_operandi,
+		links,
+		family_members,
+		operational_places,
+		bonds,
+		occupation,
+		addresses,
+		associates,
+		vehicles,
+		cases,
+		id,
+		...rest
+	});
 
 	return res.status(StatusCodes.OK).json({
-		message: 'Criminal updated successfully',
-		result: criminal
+		message: 'Criminal updated successfully'
 	});
 }
 

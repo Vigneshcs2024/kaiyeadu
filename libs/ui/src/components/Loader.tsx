@@ -29,4 +29,5 @@ const Overlay = styled.div`
 	justify-content: center;
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.65);
+	z-index: 9999;
 `;

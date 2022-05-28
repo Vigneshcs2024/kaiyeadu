@@ -38,6 +38,20 @@ export interface CreateCriminalDto extends ICriminalInput {
 	vehicles: VehicleDto[];
 }
 
+export interface UpdateCriminalDto extends ICriminalInput {
+	modus_operandi: string[];
+	cases: CaseDto[];
+	links: LinkDto[];
+	family_members: FamilyMemberDto[];
+	operational_places: OpPlaceDto[];
+	bonds: BondDto[];
+	occupation: string[];
+	addresses: AddressDto[];
+	associates: AssociatesDto[];
+	vehicles: VehicleDto[];
+	id: string;
+}
+
 export type UpdateCriminalPersonalDetailsDto = Partial<ICriminalInput>;
 
 export type LinkDto = Omit<ILinksInput, 'criminal'>;

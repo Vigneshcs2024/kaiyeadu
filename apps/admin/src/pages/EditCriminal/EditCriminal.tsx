@@ -27,6 +27,7 @@ import { BackgroundContainer, Loader } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError, SelectOption } from '@kaiyeadu/ui/interface';
 import { CriminalRecordDto } from '@kaiyeadu/ui/dtos';
+import { AssociatesDto } from '@kaiyeadu/api-interfaces/dtos';
 
 export function EditCriminal() {
 	const [step, setStep] = useState<number>(1);
@@ -158,22 +159,83 @@ export function EditCriminal() {
 		validationSchema: CaseDetailsValidation,
 		onSubmit: async values => {
 			setIsLoading(true);
-			console.log({
-				...personalDetailsFormik.values,
-				...addressDetailsFormik.values,
-				...otherDetailsFormik.values,
-				cases: values.cases.map(v => ({
-					...v,
-					police_station: stationList.find(st => st.label === v.police_station)?.value
-				}))
-			});
 
-			return;
 			try {
 				setIsLoading(true);
-				await request.patch(Requests.CRIMINAL_UPDATE_PERSONAL + data.id, values);
-				setStep(old => (old === 4 ? 1 : old + 1));
+
+				await request.patch(Requests.CRIMINAL_UPDATE_PERSONAL + data.id, {
+					...personalDetailsFormik.values,
+					...addressDetailsFormik.values,
+					...otherDetailsFormik.values,
+					addresses: addressDetailsFormik.values.addresses.map(v => ({
+						type: v.type,
+						line1: v.line1,
+						line2: v.line2,
+						area: v.area,
+						city: v.city,
+						state: v.state
+					})),
+					associates: (otherDetailsFormik.values.associates as AssociatesDto[]).map(
+						v => ({
+							father_name: v.father_name,
+							gender: v.gender,
+							location: v.location,
+							name: v.name
+						})
+					),
+					bonds: otherDetailsFormik.values.bonds.map(v => ({
+						details: v.details,
+						type: v.type,
+						period: v.period,
+						is_active: v.is_active,
+						bound_down_details: v.bound_down_details,
+						expiry: v.expiry
+					})),
+					family_members: addressDetailsFormik.values.family_members.map(v => ({
+						name: v.name,
+						relation: v.relation,
+						description: v.description,
+						occupation: v.occupation
+					})),
+					cases: caseDetailsFormik.values.cases.map(v => ({
+						police_station: stationList.find(st => st.label === v.police_station)
+							?.value,
+						crime_number: v.crime_number,
+						under_section: v.under_section,
+						stage: v.stage,
+						remarks: v.remarks,
+						date: v.date,
+						court_name: v.court_name,
+						last_hearing: v.last_hearing,
+						next_hearing: v.next_hearing,
+						hearing_description: v.hearing_description,
+						accused_attend_status: v.accused_attend_status ? true : false,
+						is_active: v.is_active
+					})),
+
+					links: otherDetailsFormik.values.links?.map(v => ({
+						name: v.name,
+						alias_name: v.alias_name,
+						father_name: v.father_name,
+						city: v.city,
+						description: v.description
+					})),
+					operational_places: otherDetails.operational_places?.map(v => ({
+						state: v.state,
+						district: v.district
+					})),
+					vehicles: otherDetails.vehicles?.map(v => ({
+						description: v.description,
+						reg_no: v.reg_no,
+						type: v.type
+					}))
+				});
+
 				setIsLoading(false);
+				toast.success('Criminal record updated successfully !');
+				setTimeout(() => {
+					navigate(-1);
+				}, 1000);
 			} catch (error) {
 				const err = error as CustomAxiosError;
 				err.handleAxiosError?.();

@@ -1,4 +1,4 @@
-import { Transaction, Op } from 'sequelize';
+import { Transaction } from 'sequelize';
 import { CaseDto } from '@kaiyeadu/api-interfaces/dtos';
 import { ICaseInput } from '@kaiyeadu/api-interfaces/models';
 import { db } from '$api/root/connections';
@@ -117,24 +117,7 @@ export async function update(caseId: string, details: CaseDto) {
 }
 
 export async function removeCasesOf(criminal: string, transaction?: Transaction) {
-	const cases = await Case.findAll({
-		where: { criminal },
-		transaction,
-		attributes: ['id'],
-		raw: true
-	});
-
-	// ! needs testing
-	await ActiveCase.destroy({
-		where: {
-			[Op.or]: {
-				...cases.map(c => ({
-					case: c.id
-				}))
-			}
-		},
-		transaction
-	});
+	await ActiveCase.destroy({ where: { criminal }, transaction });
 
 	return Case.destroy({ where: { criminal }, transaction });
 }

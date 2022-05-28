@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 import { StatusCodes } from 'http-status-codes';
 import {
 	CreateCriminalDto,
+	UpdateCriminalDto,
 	CriminalDto,
 	FilterableCriminalParams,
 	SortableCriminalParameters,
@@ -58,6 +59,63 @@ export async function create(criminalDetails: CreateCriminalDto) {
 
 		transaction.commit();
 		return criminal;
+	} catch (err) {
+		await transaction.rollback();
+		throw err;
+	}
+}
+
+export async function updateCriminal(id: string, criminalDetails: UpdateCriminalDto) {
+	const {
+		modus_operandi,
+		links,
+		family_members,
+		operational_places,
+		bonds,
+		occupation,
+		addresses,
+		associates,
+		vehicles,
+		cases,
+		...rest
+	} = criminalDetails;
+
+	const transaction = await db.transaction();
+
+	try {
+		update(id, rest);
+
+		await moRepo.removeModusOperandisOf(id, transaction);
+		await moRepo.addModusOperandi(id, modus_operandi, transaction);
+
+		await caseRepo.removeCasesOf(id, transaction);
+		await caseRepo.addCases(id, cases, transaction);
+
+		await bondRepo.removeBondsOf(id, transaction);
+		await bondRepo.addBonds(id, bonds, transaction);
+
+		await addrRepo.removeAddressesOf(id, transaction);
+		await addrRepo.addAddress(id, addresses, transaction);
+
+		await associateRepo.removeAssociatesOf(id, transaction);
+		await associateRepo.addAssociates(id, associates, transaction);
+
+		await linkRepo.removeLinksOf(id, transaction);
+		await linkRepo.addLinks(id, links, transaction);
+
+		await famRepo.removeFamilyMembersOf(id, transaction);
+		await famRepo.addFamilyMembers(id, family_members, transaction);
+
+		await opRepo.removeOpPsOf(id, transaction);
+		await opRepo.addOpPlaces(id, operational_places, transaction);
+
+		await vehicleRepo.removeVehiclesOf(id, transaction);
+		await vehicleRepo.addVehicles(id, vehicles, transaction);
+
+		await occRepo.removeOccupationsOf(id, transaction);
+		await occRepo.addOccupation(id, occupation, transaction);
+
+		transaction.commit();
 	} catch (err) {
 		await transaction.rollback();
 		throw err;

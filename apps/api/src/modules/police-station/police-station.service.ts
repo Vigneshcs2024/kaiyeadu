@@ -22,12 +22,15 @@ export async function findById(req: ApiRequest, res: Response) {
 export async function getList(req: ApiRequest, res: Response) {
 	const mp = new URLSearchParams(new URL(`http://[::1]/${req.url}`).search);
 	const options: PsFilteredListDto = {
-		count: +mp.get('count') || 10,
-		page: +mp.get('page') || 1,
 		f: JSON.parse(mp.get('f')) ?? {},
 		q: mp.get('q') ?? '',
 		s: JSON.parse(mp.get('s')) ?? { key: 'name', order: 'ASC' }
 	};
+
+	if (mp.get('count') && mp.get('page')) {
+		options.count = +mp.get('count');
+		options.page = +mp.get('page');
+	}
 
 	logger.debug(jsonPrettyPrint(options));
 

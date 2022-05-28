@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import { CreatePSDto, PsFilteredListDto } from '@kaiyeadu/api-interfaces/dtos';
+import { CommonObject } from '@kaiyeadu/ui/interface';
 import { ClientError } from '$api/errors';
 import { User } from '../user/user.model';
 import { PoliceStation } from './police-station.model';
@@ -7,15 +8,25 @@ import { PoliceStation } from './police-station.model';
 export async function getFilteredList(options: PsFilteredListDto) {
 	const total = await PoliceStation.count();
 
-	const stations = await PoliceStation.findAll({
+	let queryOptions: CommonObject = {
 		where: {
 			name: {
 				[Op.like]: `%${options.q ?? ''}%`
 			},
 			...options.f
-		},
-		offset: (options.page - 1) * options.count,
-		limit: options.count,
+		}
+	};
+
+	if (options.page && options.count) {
+		queryOptions = {
+			...queryOptions,
+			offset: (options.page - 1) * options.count,
+			limit: options.count
+		};
+	}
+
+	const stations = await PoliceStation.findAll({
+		...queryOptions,
 		attributes: { exclude: ['createdAt', 'updatedAt'] },
 		order: [[options.s.key, options.s.order]],
 		raw: true

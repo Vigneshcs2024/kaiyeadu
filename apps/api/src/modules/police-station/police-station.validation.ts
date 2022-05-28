@@ -13,8 +13,8 @@ export function validateCreatePS(policeStationDetails: CreatePSDto) {
 
 export function validateListPs(params: PsFilteredListDto) {
 	const schema = Joi.object<PsFilteredListDto>({
-		page: Joi.number().min(1).required(),
-		count: Joi.number().min(1).required(),
+		page: Joi.number().min(1),
+		count: Joi.number().min(1),
 		q: Joi.string().allow('', null),
 		f: Joi.object({
 			area: Joi.string(),
