@@ -24,6 +24,7 @@ export enum Requests {
 	STATION_LIST = '/police-station/list',
 	STATION_CREATE = '/police-station/create',
 	STATION_REMOVE = '/police-station/remove/',
+	STATION_UPDATE = '/police-station/update/',
 
 	USER_UPDATE_PASSWORD = 'user/update-password',
 	USER_UPDATE_PROPOSAL = '/proposal/create',

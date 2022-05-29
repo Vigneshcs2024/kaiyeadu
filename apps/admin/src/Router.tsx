@@ -16,7 +16,8 @@ import {
 	Criminals,
 	CriminalProfile,
 	EditCriminal,
-	EditUser
+	EditUser,
+	EditStation
 } from './pages';
 
 export default function Router() {
@@ -33,6 +34,7 @@ export default function Router() {
 						<Route path='/criminals/add' element={<AddCriminal />} />
 						<Route path='/criminal/edit' element={<EditCriminal />} />
 						<Route path='/police-stations/add' element={<AddStation />} />
+						<Route path='/police-station/edit' element={<EditStation />} />
 						<Route path='/criminals' element={<Criminals />} />
 						<Route path='/comments' element={<Requests />} />
 						<Route path='/logs' element={<Logs />} />

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
 	ModifyButton,
@@ -8,7 +9,7 @@ import {
 	FlexLayoutWithSpace,
 	Pagination
 } from '@kaiyeadu/ui/components';
-import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { DeleteModal } from '@kaiyeadu/ui/components';
@@ -23,6 +24,7 @@ export default function PoliceStations() {
 	const [page, setPage] = useState(1);
 	const { request } = useRequest();
 	const { session } = useAuthApi();
+	const navigate = useNavigate();
 
 	const getData = async () => {
 		setIsLoading(true);
@@ -75,6 +77,9 @@ export default function PoliceStations() {
 				accessor: 'district'
 			},
 			{
+				Header: 'Edit'
+			},
+			{
 				Header: 'Delete'
 			}
 		],
@@ -103,6 +108,12 @@ export default function PoliceStations() {
 		[]
 	);
 
+	const editNavigation = (data: CommonObject) => {
+		navigate('/police-station/edit', {
+			state: data
+		});
+	};
+
 	return (
 		<BackgroundContainer pageTitle='Police Stations'>
 			<FlexLayoutWithSpace>
@@ -111,6 +122,7 @@ export default function PoliceStations() {
 					columns={session.getUserRole() === 'admin' ? adminColumns : columns}
 					data={data}
 					removeItem={showModal}
+					editNavigation={editNavigation}
 				/>
 				{isLoading && <Loader withOverlay={false} />}
 				{session.getUserRole() === 'admin' && (
