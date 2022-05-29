@@ -310,6 +310,7 @@ const ButtonContainer = styled.div`
 
 const Container = styled.form`
 	margin: 2rem auto;
+	width: 60%;
 
 	@media only screen and (max-width: 760px) {
 		margin: 2rem;
@@ -332,6 +333,7 @@ const GridContainer = styled.div`
 const ListItemContainer = styled.ul`
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	align-items: center;
 `;
 

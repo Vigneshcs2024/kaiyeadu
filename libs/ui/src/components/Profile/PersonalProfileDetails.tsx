@@ -44,17 +44,17 @@ export function PersonalProfileDetails({ criminalData }: TabProps) {
 				{criminalData.addresses?.map(({ line1, line2, area, city, state, type }, index) => {
 					return type === 'Native' ? (
 						<div key={index}>
-							<p>{type} Address: </p>
+							<p className='addressTitle'>{type} Address: </p>
 							<p>{joinAddressDetails(line1, line2, area, city, state)}</p>
 						</div>
 					) : type === 'Present' ? (
 						<div key={index}>
-							<p>{type} Address: </p>
+							<p className='addressTitle'>{type} Address: </p>
 							<p>{joinAddressDetails(line1, line2, area, city, state)}</p>
 						</div>
 					) : (
 						<div key={index}>
-							<p>{type} Address: </p>
+							<p className='addressTitle'>{type} Address: </p>
 							<p>{joinAddressDetails(line1, line2, area, city, state)}</p>
 						</div>
 					);
@@ -68,20 +68,24 @@ export function PersonalProfileDetails({ criminalData }: TabProps) {
 
 const AddressContainer = styled.div`
 	display: flex;
-	justify-content: flex-start;
+	justify-content: space-between;
 	align-items: center;
 	flex-direction: column;
 
 	& > div {
+		width: 100%;
 		display: flex;
 		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+
+		.addressTitle {
+			text-align: left;
+			width: 20%;
+		}
 
 		& > p {
 			text-align: left;
-		}
-
-		& > p:nth-child(odd) {
-			flex: 200px;
 		}
 	}
 `;
