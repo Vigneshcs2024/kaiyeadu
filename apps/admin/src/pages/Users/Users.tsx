@@ -13,6 +13,8 @@ import {
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { recordCount } from '@kaiyeadu/api-interfaces/constants';
+import styled from 'styled-components';
 
 export default function Users() {
 	const [id, setId] = useState('');
@@ -20,6 +22,8 @@ export default function Users() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const [type, setType] = useState('all');
+	const [page, setPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
 	const { request } = useRequest();
 	const { session } = useAuthApi();
 	const navigate = useNavigate();
@@ -29,8 +33,16 @@ export default function Users() {
 
 		try {
 			const res = await request.get(
-				Requests.USER_LIST + (type !== 'all' ? `?f={"role":"${type}"}` : '')
+				Requests.USER_LIST +
+					`?page=${page}&count=${recordCount}` +
+					(type !== 'all' ? `&f={"role":"${type}"}` : '')
 			);
+			let totalPagesCalc = Math.round(res.data.result.total / recordCount);
+			if (totalPagesCalc < 1) {
+				totalPagesCalc = 1;
+			} else {
+				setTotalPages(totalPagesCalc);
+			}
 			setData(res.data.result.users);
 			setIsLoading(false);
 		} catch (error) {
@@ -44,7 +56,7 @@ export default function Users() {
 		setId(id);
 	};
 
-	const memoizedGetData = useCallback(getData, [request]);
+	const memoizedGetData = useCallback(getData, [page, request]);
 
 	useEffect(() => {
 		memoizedGetData(type);
@@ -146,6 +158,23 @@ export default function Users() {
 					type={type}
 					values={['all', 'admin', 'master', 'user']}
 				/>
+				<PaginationContainer>
+					<p>
+						Page{' '}
+						<input
+							type='number'
+							name='page'
+							id='page'
+							min='1'
+							max={totalPages}
+							value={page}
+							onChange={e => {
+								setPage(Number(e.target.value));
+							}}
+						/>{' '}
+						of {totalPages}
+					</p>
+				</PaginationContainer>
 				<Table
 					columns={session.getUserRole() === 'admin' ? adminColumns : columns}
 					data={data}
@@ -161,3 +190,19 @@ export default function Users() {
 		</BackgroundContainer>
 	);
 }
+
+const PaginationContainer = styled.div`
+	margin: 0 0 2rem;
+	color: ${p => p.theme.white};
+
+	& > p > input {
+		margin: 0 1rem;
+		width: 4rem;
+		padding: 0.25rem;
+		text-align: center;
+		border: none;
+		outline: none;
+		font-family: inherit;
+		font-size: 1.8rem;
+	}
+`;
