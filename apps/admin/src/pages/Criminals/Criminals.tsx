@@ -91,6 +91,7 @@ export default function Criminals() {
 			label: 'is_goondas'
 		}
 	]);
+	const [isLoading, setIsLoading] = useState(false);
 	const [id, setId] = useState('');
 	const [modal, setModal] = useState(false);
 	const [data, setData] = useState([]);
@@ -98,6 +99,7 @@ export default function Criminals() {
 	const [page, setPage] = useState(1);
 	const { session } = useAuthApi();
 	const navigate = useNavigate();
+	const { request } = useRequest();
 	const [filters, setFilters] = useState<CommonObject>({});
 
 	const showModal = (id: string) => {
@@ -156,7 +158,7 @@ export default function Criminals() {
 	useLayoutEffect(() => {
 		memoizedGetData();
 	}, [memoizedGetData]);
-    
+
 	const columns = useMemo(
 		() => [
 			{
@@ -229,6 +231,7 @@ export default function Criminals() {
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 			pageTitle='Criminals'>
 			<Layout>
+				{isLoading && <Loader withOverlay={true} />}
 				<Filter
 					initialFilters={initialFilters}
 					finalFilters={finalFilters}
