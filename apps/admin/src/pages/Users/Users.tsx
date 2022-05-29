@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
@@ -10,7 +11,7 @@ import {
 	DeleteModal
 } from '@kaiyeadu/ui/components';
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
-import { CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 
 export default function Users() {
@@ -21,6 +22,7 @@ export default function Users() {
 	const [type, setType] = useState('all');
 	const { request } = useRequest();
 	const { session } = useAuthApi();
+	const navigate = useNavigate();
 
 	const getData = async (type: string) => {
 		setIsLoading(true);
@@ -83,6 +85,9 @@ export default function Users() {
 				accessor: 'role'
 			},
 			{
+				Header: 'Edit'
+			},
+			{
 				Header: 'Delete'
 			}
 		],
@@ -127,6 +132,12 @@ export default function Users() {
 		[]
 	);
 
+	const editNavigation = (data: CommonObject) => {
+		navigate('/user/edit', {
+			state: data
+		});
+	};
+
 	return (
 		<BackgroundContainer pageTitle='Users'>
 			<FlexLayoutWithSpace>
@@ -139,6 +150,7 @@ export default function Users() {
 					columns={session.getUserRole() === 'admin' ? adminColumns : columns}
 					data={data}
 					removeItem={showModal}
+					editNavigation={editNavigation}
 				/>
 				{isLoading && <Loader withOverlay={false} />}
 				{session.getUserRole() === 'admin' && (

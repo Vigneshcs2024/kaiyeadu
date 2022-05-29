@@ -4,17 +4,28 @@ import { useTable, useSortBy, Column } from 'react-table';
 import { Icon } from '@iconify/react';
 
 import { StyledTable } from '@kaiyeadu/ui/styles';
+
 import { RemoveItemButton } from './RemoveItemButton';
+import { EditItemButton } from './EditItemButton';
+import { CommonObject } from '../interface';
 
 interface Props {
 	columns: Array<Column<object>>;
 	data: Array<object>;
 	style?: CSSProperties;
 	navigateTo?: (id: string) => void | undefined;
+	editNavigation?: (data: CommonObject) => void | undefined;
 	removeItem?: (id: string) => void | undefined;
 }
 
-export default function Table({ columns, data, style, navigateTo, removeItem }: Props) {
+export default function Table({
+	columns,
+	data,
+	style,
+	navigateTo,
+	editNavigation,
+	removeItem
+}: Props) {
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
 		{
 			columns,
@@ -69,6 +80,17 @@ export default function Table({ columns, data, style, navigateTo, removeItem }: 
 							onClick={() => navigateTo && navigateTo(row.values.id as string)}
 							{...row.getRowProps()}>
 							{row.cells.map(cell => {
+								if (cell.column.Header === 'Edit') {
+									return (
+										<td align='center' {...cell.getCellProps()}>
+											<EditItemButton
+												onClick={() =>
+													editNavigation && editNavigation(row.values)
+												}
+											/>
+										</td>
+									);
+								}
 								if (cell.column.Header === 'Delete') {
 									return (
 										<td align='center' {...cell.getCellProps()}>

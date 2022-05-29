@@ -8,7 +8,7 @@ export enum Requests {
 	USER_CREATE = 'user/create',
 	USER_LIST = 'user/list',
 	USER_GET = 'user/get',
-	USER_UPDATE = 'user/update',
+	USER_UPDATE = 'user/update/',
 	USER_REMOVE = 'user/remove/',
 
 	CRIMINAL_LIST = 'criminal/minimal-list',

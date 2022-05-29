@@ -20,7 +20,7 @@ export function validateCreateUser(userDetails: CreateUserDto) {
 			'string.max': `'police_station' must be a valid uuid`
 		}),
 		designation: Joi.string()
-			.min(3)
+			.min(2)
 			.max(30)
 			.valid(...designations)
 			.required(),
@@ -50,7 +50,7 @@ export function validateUpdateUser(userDetails: UpdateUserDto) {
 			'string.min': `'police_station' must be a valid uuid`,
 			'string.max': `'police_station' must be a valid uuid`
 		}),
-		designation: Joi.string().min(3).max(30),
+		designation: Joi.string().min(2).max(30),
 		role: Joi.valid(...roles)
 	});
 
