@@ -8,8 +8,8 @@ import {
 	Table,
 	Filter,
 	DeleteModal,
-	Loader,
-	Pagination
+	Pagination,
+	Loader
 } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
@@ -90,15 +90,15 @@ export default function Criminals() {
 			label: 'is_goondas'
 		}
 	]);
+	const [isLoading, setIsLoading] = useState(false);
 	const [id, setId] = useState('');
 	const [modal, setModal] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
 	const [page, setPage] = useState(1);
-	const { request } = useRequest();
 	const { session } = useAuthApi();
 	const navigate = useNavigate();
+	const { request } = useRequest();
 	const [filters, setFilters] = useState<CommonObject>({});
 
 	const showModal = (id: string) => {
@@ -237,7 +237,6 @@ export default function Criminals() {
 					setFinalFilters={setFinalFilters}
 					setData={setData}
 					page={page}
-					count={recordCount}
 					filters={filters}
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}

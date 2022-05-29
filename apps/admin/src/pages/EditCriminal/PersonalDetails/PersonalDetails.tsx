@@ -20,9 +20,10 @@ function ModusOperandi({ formik }: { formik: FormikProps<typeof initialPersonalD
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
-			(formik.values.modus_operandi as string[]).push(item);
-			formik.setFieldValue('modus_operandi', formik.values.modus_operandi);
-			setItem('');
+			if (item && !(formik.values.modus_operandi as string[]).includes(item.toLowerCase())) {
+				(formik.values.modus_operandi as string[]).push(item.toLowerCase());
+				setItem('');
+			}
 		}
 	};
 
