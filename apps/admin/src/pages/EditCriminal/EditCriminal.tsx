@@ -84,7 +84,7 @@ export function EditCriminal() {
 			bonds
 		} = data as CriminalRecordDto;
 		const modus_operandi = modusOperandi.map(v => v.type);
-		setImageURL(getFullImageURL(image_url));
+		setImageURL(getFullImageURL(image_url ?? ''));
 		setPersonalDetails({
 			name,
 			marital_status,

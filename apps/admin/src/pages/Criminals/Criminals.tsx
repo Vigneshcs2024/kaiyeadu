@@ -14,6 +14,7 @@ import {
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
+
 import { recordCount } from '@kaiyeadu/api-interfaces/constants';
 
 interface FinalFilter {
@@ -92,11 +93,9 @@ export default function Criminals() {
 	]);
 	const [id, setId] = useState('');
 	const [modal, setModal] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
 	const [page, setPage] = useState(1);
-	const { request } = useRequest();
 	const { session } = useAuthApi();
 	const navigate = useNavigate();
 	const [filters, setFilters] = useState<CommonObject>({});
@@ -157,7 +156,7 @@ export default function Criminals() {
 	useLayoutEffect(() => {
 		memoizedGetData();
 	}, [memoizedGetData]);
-
+    
 	const columns = useMemo(
 		() => [
 			{
@@ -230,14 +229,12 @@ export default function Criminals() {
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 			pageTitle='Criminals'>
 			<Layout>
-				{isLoading && <Loader withOverlay={true} />}
 				<Filter
 					initialFilters={initialFilters}
 					finalFilters={finalFilters}
 					setFinalFilters={setFinalFilters}
 					setData={setData}
 					page={page}
-					count={recordCount}
 					filters={filters}
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}
