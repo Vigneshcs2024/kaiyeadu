@@ -5,25 +5,38 @@ import {
 	BackgroundContainer,
 	Table,
 	Loader,
-	FlexLayoutWithSpace
+	FlexLayoutWithSpace,
+	Pagination
 } from '@kaiyeadu/ui/components';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { DeleteModal } from '@kaiyeadu/ui/components';
+import { recordCount } from '@kaiyeadu/api-interfaces/constants';
 
 export default function PoliceStations() {
 	const [id, setId] = useState('');
 	const [modal, setModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
+	const [totalPages, setTotalPages] = useState(1);
+	const [page, setPage] = useState(1);
 	const { request } = useRequest();
 	const { session } = useAuthApi();
 
 	const getData = async () => {
 		setIsLoading(true);
 		try {
-			const res = await request.get(Requests.STATION_LIST);
+			const res = await request.get(
+				Requests.STATION_LIST + `?page=${page}&count=${recordCount}`
+			);
+
+			let totalPagesCalc = Math.round(res.data.result.total / recordCount);
+			if (totalPagesCalc < 1) {
+				totalPagesCalc = 1;
+			} else {
+				setTotalPages(totalPagesCalc);
+			}
 			setData(res.data.result.stations);
 			setIsLoading(false);
 		} catch (error) {
@@ -37,7 +50,7 @@ export default function PoliceStations() {
 		setId(id);
 	};
 
-	const memoizedGetData = useCallback(getData, [request]);
+	const memoizedGetData = useCallback(getData, [page, request]);
 
 	useEffect(() => {
 		memoizedGetData();
@@ -93,6 +106,7 @@ export default function PoliceStations() {
 	return (
 		<BackgroundContainer pageTitle='Police Stations'>
 			<FlexLayoutWithSpace>
+				<Pagination page={page} setPage={setPage} totalPages={totalPages} />
 				<Table
 					columns={session.getUserRole() === 'admin' ? adminColumns : columns}
 					data={data}
