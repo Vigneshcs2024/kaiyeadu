@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 
 import { theme } from '@kaiyeadu/ui/base';
 import { DropDownList, TextField, ImagePicker, Button } from '@kaiyeadu/ui/components';
+
 import { initialPersonalDetails } from '../initialValues';
 
 interface FormikInterface {
@@ -85,7 +86,7 @@ export function PersonalDetails({ step, formik, setStep, setImage }: PersonalDet
 	return (
 		<Container onSubmit={formik.handleSubmit}>
 			<h2>Personal Details</h2>
-			<ImagePicker setImage={setImage} />
+			<ImagePicker setImage={setImage} imageURL='' />
 			<GridContainer>
 				<div>
 					<TextField

@@ -28,12 +28,14 @@ import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError, SelectOption } from '@kaiyeadu/ui/interface';
 import { CriminalRecordDto } from '@kaiyeadu/ui/dtos';
 import { AssociatesDto } from '@kaiyeadu/api-interfaces/dtos';
+import { getFullImageURL } from '@kaiyeadu/ui/functions';
 
 export function EditCriminal() {
 	const [step, setStep] = useState<number>(1);
 	const [isLoading, setIsLoading] = useState(false);
 	const [stationList, setStationList] = useState<SelectOption[]>([]);
 	const [image, setImage] = useState<File>();
+	const [imageURL, setImageURL] = useState('');
 
 	const { request } = useRequest();
 	const navigate = useNavigate();
@@ -82,6 +84,7 @@ export function EditCriminal() {
 			bonds
 		} = data as CriminalRecordDto;
 		const modus_operandi = modusOperandi.map(v => v.type);
+		setImageURL(getFullImageURL(image_url));
 		setPersonalDetails({
 			name,
 			marital_status,
@@ -130,7 +133,6 @@ export function EditCriminal() {
 		initialValues: personalDetails,
 		validationSchema: PersonalDetailsValidation,
 		onSubmit: async values => {
-			console.log(values);
 			setStep(old => (old === 4 ? 1 : old + 1));
 		}
 	});
@@ -139,7 +141,6 @@ export function EditCriminal() {
 		initialValues: addressDetails,
 		validationSchema: AddressDetailsValidation,
 		onSubmit: values => {
-			console.log(values);
 			setStep(old => (old === 4 ? 1 : old + 1));
 		}
 	});
@@ -148,7 +149,6 @@ export function EditCriminal() {
 		initialValues: otherDetails,
 		validationSchema: OtherDetailsValidation,
 		onSubmit: values => {
-			console.log(values);
 			setStep(old => (old === 4 ? 1 : old + 1));
 		}
 	});
@@ -159,9 +159,20 @@ export function EditCriminal() {
 		validationSchema: CaseDetailsValidation,
 		onSubmit: async values => {
 			setIsLoading(true);
-
+			let image_url = imageURL;
 			try {
 				setIsLoading(true);
+				if (image) {
+					const formData = new FormData();
+					const config = {
+						headers: {
+							'content-type': 'multipart/form-data'
+						}
+					};
+					formData.append('image', image);
+					const res = await request.post('/upload/image', formData, config);
+					image_url = '/static/image/' + res.data.result.path;
+				}
 
 				await request.patch(Requests.CRIMINAL_UPDATE_PERSONAL + data.id, {
 					...personalDetailsFormik.values,
@@ -228,7 +239,8 @@ export function EditCriminal() {
 						description: v.description,
 						reg_no: v.reg_no,
 						type: v.type
-					}))
+					})),
+					image_url
 				});
 
 				setIsLoading(false);
@@ -276,6 +288,7 @@ export function EditCriminal() {
 						step={step}
 						setStep={setStep}
 						setImage={setImage}
+						imageURL={imageURL}
 					/>
 				) : step === 2 ? (
 					<AddressDetails formik={addressDetailsFormik} setStep={setStep} />

@@ -1,15 +1,17 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import styled from 'styled-components';
 
 import { RemoveGroupButton } from './RemoveGroupButton';
 
 export function ImagePicker({
-	setImage
+	setImage,
+	imageURL
 }: {
+	imageURL: string;
 	setImage: React.Dispatch<React.SetStateAction<File | undefined>>;
 }) {
-	const [file, setFile] = useState<string>('');
+	const [file, setFile] = useState<string>(imageURL);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
@@ -23,6 +25,12 @@ export function ImagePicker({
 	const handleRemoveClick = () => {
 		setFile('');
 	};
+
+	useEffect(() => {
+		console.log(imageURL);
+
+		setFile(imageURL);
+	}, [imageURL]);
 
 	return (
 		<Container>

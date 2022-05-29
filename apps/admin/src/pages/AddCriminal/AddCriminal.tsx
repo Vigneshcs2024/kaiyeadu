@@ -40,8 +40,6 @@ export function AddCriminal() {
 		initialValues: initialPersonalDetails,
 		validationSchema: PersonalDetailsValidation,
 		onSubmit: values => {
-			console.log(values);
-
 			setStep(old => (old === 4 ? 1 : old + 1));
 		}
 	});
@@ -50,7 +48,6 @@ export function AddCriminal() {
 		initialValues: initialAddressDetails,
 		validationSchema: AddressDetailsValidation,
 		onSubmit: values => {
-			console.log(values);
 			setStep(old => (old === 4 ? 1 : old + 1));
 		}
 	});
@@ -58,7 +55,6 @@ export function AddCriminal() {
 		initialValues: initialOtherDetails,
 		validationSchema: OtherDetailsValidation,
 		onSubmit: values => {
-			console.log(values);
 			setStep(old => (old === 4 ? 1 : old + 1));
 		}
 	});
@@ -79,7 +75,7 @@ export function AddCriminal() {
 				if (image) {
 					formData.append('image', image);
 					const res = await request.post('/upload/image', formData, config);
-					image_url = res.data.result.path;
+					image_url = '/static/image/' + res.data.result.path;
 				}
 
 				const res = await request.post(Requests.CRIMINAL_CREATE, {

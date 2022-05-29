@@ -17,3 +17,7 @@ export const errorComposer = (error: AxiosError, setAuthToken: (token: string) =
 		}
 	};
 };
+
+export const getFullImageURL = (img: string) => {
+	return img.includes('static/image') ? 'http://localhost:5000' + img : img;
+};

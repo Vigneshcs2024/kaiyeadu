@@ -7,9 +7,10 @@ import { CriminalRecordDto } from '@kaiyeadu/ui/dtos';
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { User } from '@kaiyeadu/ui/assets';
-import UpdateProposals from './UpdateProposals/UpdateProposals';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
+import { getFullImageURL } from '@kaiyeadu/ui/functions';
 
+import UpdateProposals from './UpdateProposals/UpdateProposals';
 import { PersonalProfileDetails } from './PersonalProfileDetails';
 import { CaseProfileDetails } from './CaseProfileDetails';
 import { OtherProfileDetails } from './OtherProfileDetails';
@@ -57,7 +58,11 @@ export function Profile() {
 						<ImageContainer>
 							<ProfileImage>
 								<img
-									src={criminalData?.image_url ? criminalData?.image_url : User}
+									src={
+										criminalData?.image_url
+											? getFullImageURL(criminalData?.image_url)
+											: User
+									}
 									alt='profile'
 								/>
 							</ProfileImage>

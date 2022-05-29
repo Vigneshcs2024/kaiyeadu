@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 
 import { theme } from '@kaiyeadu/ui/base';
 import { DropDownList, TextField, ImagePicker, Button } from '@kaiyeadu/ui/components';
+
 import { initialPersonalDetails } from '../initialValues';
 
 interface FormikInterface {
@@ -63,13 +64,14 @@ function ModusOperandi({ formik }: { formik: FormikProps<typeof initialPersonalD
 
 interface PersonalDetailsI extends FormikInterface {
 	setImage: React.Dispatch<React.SetStateAction<File | undefined>>;
+	imageURL: string;
 }
 
-export function PersonalDetails({ step, formik, setStep, setImage }: PersonalDetailsI) {
+export function PersonalDetails({ step, formik, setStep, setImage, imageURL }: PersonalDetailsI) {
 	return (
 		<Container onSubmit={formik.handleSubmit}>
 			<h2>Personal Details</h2>
-			<ImagePicker setImage={setImage} />
+			<ImagePicker setImage={setImage} imageURL={imageURL} />
 			<GridContainer>
 				<div>
 					<TextField
