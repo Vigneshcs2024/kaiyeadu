@@ -153,6 +153,7 @@ export function Filter({
 						};
 					}
 				);
+
 				setData(tableValues);
 			} catch (err) {
 				(err as CustomAxiosError).handleAxiosError?.();

@@ -14,6 +14,7 @@ import {
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
+
 import { recordCount } from '@kaiyeadu/api-interfaces/constants';
 
 interface FinalFilter {
@@ -90,8 +91,8 @@ export default function Criminals() {
 			label: 'is_goondas'
 		}
 	]);
-	const [id, setId] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [id, setId] = useState('');
 	const [modal, setModal] = useState(false);
 	const [data, setData] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
