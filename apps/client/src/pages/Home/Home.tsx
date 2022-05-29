@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { BackgroundContainer, Table, Loader, Filter } from '@kaiyeadu/ui/components';
+import { BackgroundContainer, Table, Loader, Filter, Pagination } from '@kaiyeadu/ui/components';
 import { CommonObject } from '@kaiyeadu/ui/interface';
 import { Layout } from '@kaiyeadu/ui/styles';
-import styled from 'styled-components';
+import { recordCount } from '@kaiyeadu/api-interfaces/constants';
 
 interface FinalFilter {
 	type: string;
@@ -80,12 +80,11 @@ export default function Home() {
 			label: 'is_goondas'
 		}
 	]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState<CommonObject>({});
-	const count = 25;
 	const navigate = useNavigate();
 
 	const columns = useMemo(
@@ -136,46 +135,14 @@ export default function Home() {
 					setFinalFilters={setFinalFilters}
 					setData={setData}
 					page={page}
-					count={count}
+					count={recordCount}
 					filters={filters}
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}
 				/>
-				<PaginationContainer>
-					<p>
-						Page{' '}
-						<input
-							type='number'
-							name='page'
-							id='page'
-							min='1'
-							max={totalPages}
-							value={page}
-							onChange={e => {
-								setPage(Number(e.target.value));
-							}}
-						/>{' '}
-						of {totalPages}
-					</p>
-				</PaginationContainer>
+				<Pagination page={page} setPage={setPage} totalPages={totalPages} />
 				<Table columns={columns} data={data} navigateTo={navigateToDetails} />
 			</Layout>
 		</BackgroundContainer>
 	);
 }
-
-const PaginationContainer = styled.div`
-	margin: 0 0 2rem;
-	color: ${p => p.theme.white};
-
-	& > p > input {
-		margin: 0 1rem;
-		width: 4rem;
-		padding: 0.25rem;
-		text-align: center;
-		border: none;
-		outline: none;
-		font-family: inherit;
-		font-size: 1.8rem;
-	}
-`;
