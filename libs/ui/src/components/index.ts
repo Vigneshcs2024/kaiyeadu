@@ -20,3 +20,4 @@ export * from './Profile';
 export * from './Filter';
 export * from './Navbar';
 export * from './Loader';
+export * from './Pagination';

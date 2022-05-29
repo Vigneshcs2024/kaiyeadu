@@ -12,4 +12,6 @@ export const designations = [
 	'IG'
 ] as const;
 
+export const recordCount = 25;
+
 export const roles = ['user', 'admin', 'master'] as const;

@@ -39,7 +39,14 @@ export async function createUser(userDetails: CreateUserDto) {
 }
 
 export async function listUsers({ params, pagination }: ListUsersQuery) {
-	const total = await User.count();
+	const total = await User.count({
+		where: {
+			name: {
+				[Op.like]: `%${params.search ?? ''}%`
+			},
+			...params.filters
+		}
+	});
 
 	const users = await User.findAll({
 		where: {

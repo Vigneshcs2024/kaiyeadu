@@ -73,6 +73,8 @@ export function Profile() {
 									display: 'flex',
 									justifyContent: 'center',
 									alignItems: 'center',
+									flexWrap: 'wrap',
+									flexDirection: 'column',
 									marginTop: '1rem'
 								}}>
 								{criminalData?.modusOperandi.map(mo => (
@@ -147,7 +149,6 @@ const Layout = styled.main`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	min-height: 100vh;
 	text-align: center;
 `;
 

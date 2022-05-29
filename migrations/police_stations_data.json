@@ -1,0 +1,504 @@
+{
+	"arrayOfJson": [
+		{
+			"name": "MemphisW53",
+			"area": "NorthAlbuquerque",
+			"district": "Phnom Penh"
+		},
+		{
+			"name": "BasraC9",
+			"area": "NorthYakutsk",
+			"district": "Jeddah"
+		},
+		{
+			"name": "SaipanN30",
+			"area": "EastAbidjan",
+			"district": "Belize City"
+		},
+		{
+			"name": "MandurahR14",
+			"area": "NorthBelfast",
+			"district": "Thessaloniki"
+		},
+		{
+			"name": "BarcelonaW88",
+			"area": "EastDenver",
+			"district": "Chongqing"
+		},
+		{
+			"name": "KobeN67",
+			"area": "EastSalt Lake City",
+			"district": "Guwahati"
+		},
+		{
+			"name": "AdanaV94",
+			"area": "NorthColumbus",
+			"district": "Sapporo"
+		},
+		{
+			"name": "IbadanH68",
+			"area": "NorthMontreal",
+			"district": "Antofagasta"
+		},
+		{
+			"name": "HangzhouC75",
+			"area": "NorthNantes",
+			"district": "Rochester"
+		},
+		{
+			"name": "BamakoI11",
+			"area": "SouthKingston",
+			"district": "Bratsk"
+		},
+		{
+			"name": "Kansas CityS46",
+			"area": "NorthKathmandu",
+			"district": "Calama"
+		},
+		{
+			"name": "ArbilC55",
+			"area": "EastPeshawar",
+			"district": "Bratislava"
+		},
+		{
+			"name": "WashingtonE16",
+			"area": "SouthHandan",
+			"district": "Peshawar"
+		},
+		{
+			"name": "LuxorV44",
+			"area": "NorthCharlottetown",
+			"district": "Lubumbashi"
+		},
+		{
+			"name": "Kota KinabaluD93",
+			"area": "WestLiverpool",
+			"district": "Santiago"
+		},
+		{
+			"name": "Fort-de-FranceX26",
+			"area": "EastLjubljana",
+			"district": "Iquique"
+		},
+		{
+			"name": "NanjingH20",
+			"area": "WestSaskatoon",
+			"district": "Francistown"
+		},
+		{
+			"name": "Kota BharuW71",
+			"area": "WestAhmedabad",
+			"district": "Nassau"
+		},
+		{
+			"name": "PattayaE68",
+			"area": "SouthRiverside",
+			"district": "Shenyang"
+		},
+		{
+			"name": "São PauloR25",
+			"area": "EastPattaya",
+			"district": "Nouméa"
+		},
+		{
+			"name": "SarajevoE71",
+			"area": "SouthSan Antonio",
+			"district": "Durango"
+		},
+		{
+			"name": "BrazzavilleO23",
+			"area": "NorthNuuk",
+			"district": "Dunedin"
+		},
+		{
+			"name": "BloemfonteinT24",
+			"area": "SouthNew York City",
+			"district": "Lviv"
+		},
+		{
+			"name": "MamoudzouV51",
+			"area": "SouthVatican City",
+			"district": "Sofia"
+		},
+		{
+			"name": "Jersey CityT83",
+			"area": "WestToulouse",
+			"district": "Pristina"
+		},
+		{
+			"name": "DongguanZ54",
+			"area": "NorthDar es Salaam",
+			"district": "Yerevan"
+		},
+		{
+			"name": "AlbuquerqueF29",
+			"area": "NorthPyongyang",
+			"district": "Tiraspol"
+		},
+		{
+			"name": "HuếZ32",
+			"area": "WestAgartala",
+			"district": "Samara"
+		},
+		{
+			"name": "NagpurR11",
+			"area": "EastKuala Lumpur",
+			"district": "Marrakech"
+		},
+		{
+			"name": "KaohsiungF85",
+			"area": "WestNanjing",
+			"district": "Athens"
+		},
+		{
+			"name": "EdinburghR56",
+			"area": "EastLibreville",
+			"district": "Hilo"
+		},
+		{
+			"name": "Kota BharuB80",
+			"area": "WestDubai",
+			"district": "Málaga"
+		},
+		{
+			"name": "OkinawaE37",
+			"area": "WestKigali",
+			"district": "Bangalore"
+		},
+		{
+			"name": "TripoliC59",
+			"area": "WestLabasa",
+			"district": "Cairo"
+		},
+		{
+			"name": "BernF94",
+			"area": "NorthMaseru",
+			"district": "New Orleans"
+		},
+		{
+			"name": "SacramentoJ81",
+			"area": "EastDoha",
+			"district": "Fredericton"
+		},
+		{
+			"name": "JuneauA27",
+			"area": "NorthTampa",
+			"district": "Bahía Blanca"
+		},
+		{
+			"name": "CampinasR23",
+			"area": "SouthLobamba",
+			"district": "Belém"
+		},
+		{
+			"name": "TiraspolL48",
+			"area": "WestChuí",
+			"district": "Rabi Island"
+		},
+		{
+			"name": "MaracaiboX76",
+			"area": "WestLas Palmas de Gran Canaria",
+			"district": "Athens"
+		},
+		{
+			"name": "KhartoumW57",
+			"area": "WestBuffalo",
+			"district": "Athens"
+		},
+		{
+			"name": "KyotoE83",
+			"area": "NorthMecca",
+			"district": "Asunción"
+		},
+		{
+			"name": "GaboroneX99",
+			"area": "WestLongyearbyen",
+			"district": "Campo Grande"
+		},
+		{
+			"name": "ApiaU36",
+			"area": "EastFrankfurt",
+			"district": "Toronto"
+		},
+		{
+			"name": "San JuanS44",
+			"area": "NorthBursa",
+			"district": "Antofagasta"
+		},
+		{
+			"name": "Alor StarS24",
+			"area": "NorthNouakchott",
+			"district": "Caracas"
+		},
+		{
+			"name": "Port VilaF96",
+			"area": "NorthGeorge Town",
+			"district": "Quetzaltenango"
+		},
+		{
+			"name": "ClevelandF5",
+			"area": "EastVirginia Beach",
+			"district": "Willemstad"
+		},
+		{
+			"name": "BrazzavilleB32",
+			"area": "NorthBoa Vista",
+			"district": "New Delhi"
+		},
+		{
+			"name": "DodomaL37",
+			"area": "WestMakati City",
+			"district": "Macapá"
+		},
+		{
+			"name": "BridgetownI29",
+			"area": "NorthSana'a",
+			"district": "Doha"
+		},
+		{
+			"name": "New York CityV76",
+			"area": "EastMálaga",
+			"district": "Nukuʻalofa"
+		},
+		{
+			"name": "BrusselsH61",
+			"area": "SouthLusaka",
+			"district": "Roseau"
+		},
+		{
+			"name": "LibrevilleJ100",
+			"area": "WestMacapá",
+			"district": "San José"
+		},
+		{
+			"name": "TampaP48",
+			"area": "NorthVitória",
+			"district": "Sacramento"
+		},
+		{
+			"name": "CalgaryX70",
+			"area": "EastNantes",
+			"district": "Porto Velho"
+		},
+		{
+			"name": "AntwerpV3",
+			"area": "SouthRotterdam",
+			"district": "Cologne"
+		},
+		{
+			"name": "SucreY58",
+			"area": "SouthKawasaki",
+			"district": "Tampa"
+		},
+		{
+			"name": "HyderabadX51",
+			"area": "SouthBarcelona",
+			"district": "Tampa"
+		},
+		{
+			"name": "NorilskU93",
+			"area": "SouthSan Salvador",
+			"district": "Bandung"
+		},
+		{
+			"name": "Zamboanga CityW58",
+			"area": "EastJakarta",
+			"district": "Iquitos"
+		},
+		{
+			"name": "Guatemala CityF100",
+			"area": "NorthToulouse",
+			"district": "Makassar"
+		},
+		{
+			"name": "BogorK29",
+			"area": "NorthPago Pago",
+			"district": "Lviv"
+		},
+		{
+			"name": "SuezA44",
+			"area": "NorthMogadishu",
+			"district": "Glasgow"
+		},
+		{
+			"name": "TunisR4",
+			"area": "EastSurat Thani",
+			"district": "Gdańsk"
+		},
+		{
+			"name": "JuneauO37",
+			"area": "EastTiraspol",
+			"district": "Gaziantep"
+		},
+		{
+			"name": "BarranquillaA89",
+			"area": "SouthXi'an",
+			"district": "Tagbilaran"
+		},
+		{
+			"name": "NaypyidawK90",
+			"area": "SouthSaint-Denis",
+			"district": "Shanghai"
+		},
+		{
+			"name": "ChuíT57",
+			"area": "EastValdivia",
+			"district": "Concepción"
+		},
+		{
+			"name": "OsakaH88",
+			"area": "EastAngra do Heroísmo",
+			"district": "Pattaya"
+		},
+		{
+			"name": "InnsbruckX30",
+			"area": "NorthPort Moresby",
+			"district": "Port Elizabeth"
+		},
+		{
+			"name": "TaipeiT88",
+			"area": "EastAmman",
+			"district": "Kigali"
+		},
+		{
+			"name": "New DelhiO81",
+			"area": "WestFreetown",
+			"district": "Brikama"
+		},
+		{
+			"name": "WonsanN5",
+			"area": "EastBratislava",
+			"district": "Minneapolis"
+		},
+		{
+			"name": "LinzW93",
+			"area": "SouthTamale",
+			"district": "Houston"
+		},
+		{
+			"name": "SalzburgO25",
+			"area": "WestBoston",
+			"district": "Dodoma"
+		},
+		{
+			"name": "N'DjamenaS47",
+			"area": "SouthPhnom Penh",
+			"district": "Austin"
+		},
+		{
+			"name": "MandurahU40",
+			"area": "WestSeattle",
+			"district": "Hilo"
+		},
+		{
+			"name": "MéridaH59",
+			"area": "EastBaku",
+			"district": "Brasília"
+		},
+		{
+			"name": "PuneE56",
+			"area": "EastAvarua",
+			"district": "Puebla"
+		},
+		{
+			"name": "FairbanksF17",
+			"area": "EastNantes",
+			"district": "Portland"
+		},
+		{
+			"name": "GlasgowB46",
+			"area": "EastSantiago",
+			"district": "Rosario"
+		},
+		{
+			"name": "ChuíF80",
+			"area": "EastRawalpindi",
+			"district": "Xining"
+		},
+		{
+			"name": "BursaT14",
+			"area": "SouthPort Hedland",
+			"district": "Belmopan"
+		},
+		{
+			"name": "ManilaP63",
+			"area": "SouthSarajevo",
+			"district": "Sarajevo"
+		},
+		{
+			"name": "GaboroneM99",
+			"area": "EastCanberra",
+			"district": "Tucson"
+		},
+		{
+			"name": "BanjulX77",
+			"area": "WestMoscow",
+			"district": "Douglas"
+		},
+		{
+			"name": "SukhumiO22",
+			"area": "NorthDar es Salaam",
+			"district": "Marseille"
+		},
+		{
+			"name": "SofiaB74",
+			"area": "NorthTampa",
+			"district": "Belém"
+		},
+		{
+			"name": "New York CityX77",
+			"area": "SouthTaichung",
+			"district": "Winnipeg"
+		},
+		{
+			"name": "Port BlairJ10",
+			"area": "SouthHandan",
+			"district": "Sabha"
+		},
+		{
+			"name": "ArbilP73",
+			"area": "NorthShillong",
+			"district": "London"
+		},
+		{
+			"name": "NagpurE70",
+			"area": "WestDakar",
+			"district": "Bern"
+		},
+		{
+			"name": "BrusselsV5",
+			"area": "SouthDavao City",
+			"district": "Suez"
+		},
+		{
+			"name": "SukhumiK56",
+			"area": "NorthPerth",
+			"district": "Buffalo"
+		},
+		{
+			"name": "Virginia BeachH67",
+			"area": "EastKuwait City",
+			"district": "Panama City"
+		},
+		{
+			"name": "BasraW84",
+			"area": "EastEspoo",
+			"district": "New York City"
+		},
+		{
+			"name": "HanoiC7",
+			"area": "EastAdamstown",
+			"district": "Shenyang"
+		},
+		{
+			"name": "Hat YaiL30",
+			"area": "EastCampinas",
+			"district": "Aberdeen"
+		},
+		{
+			"name": "Da NangM22",
+			"area": "WestOuagadougou",
+			"district": "Zhengzhou"
+		}
+	]
+}

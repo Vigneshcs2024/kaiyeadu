@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 
 import { Layout } from '@kaiyeadu/ui/styles';
 import {
@@ -8,11 +7,13 @@ import {
 	BackgroundContainer,
 	Table,
 	Filter,
-	DeleteModal
+	DeleteModal,
+	Loader,
+	Pagination
 } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
-import { CommonObject } from '@kaiyeadu/ui/interface';
-import { useAuthApi } from '@kaiyeadu/hooks';
+import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
+import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { recordCount } from '@kaiyeadu/api-interfaces/constants';
 
 interface FinalFilter {
@@ -90,18 +91,72 @@ export default function Criminals() {
 		}
 	]);
 	const [id, setId] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 	const [modal, setModal] = useState(false);
 	const [data, setData] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
 	const [page, setPage] = useState(1);
 	const { session } = useAuthApi();
 	const navigate = useNavigate();
+	const { request } = useRequest();
 	const [filters, setFilters] = useState<CommonObject>({});
 
 	const showModal = (id: string) => {
 		setModal(true);
 		setId(id);
 	};
+
+	const getData = async () => {
+		setIsLoading(true);
+		setTimeout(async () => {
+			try {
+				const res = await request.get(
+					Requests.CRIMINAL_LIST +
+						`?page=${page}&count=${recordCount}&s={"key":"name","order":"ASC"}&f=${JSON.stringify(
+							filters
+						)}`
+				);
+				let totalPagesCalc = Math.round(res.data.result.total / recordCount);
+				if (totalPagesCalc < 1) {
+					totalPagesCalc = 1;
+				} else {
+					setTotalPages(totalPagesCalc);
+				}
+				const tableValues = res.data.result.criminals.map(
+					(criminal: {
+						dob: string;
+						name: string;
+						gender: string;
+						hs_number: string;
+						id: string;
+					}) => {
+						return {
+							first_name: criminal.name.split(' ')[0]
+								? criminal.name.split(' ')[0]
+								: '-',
+							last_name: criminal.name.split(' ')[1]
+								? criminal.name.split(' ')[1]
+								: '-',
+							date_of_birth: criminal.dob.substring(0, 10),
+							gender: criminal.gender,
+							hs_number: criminal.hs_number,
+							id: criminal.id
+						};
+					}
+				);
+				setData(tableValues);
+			} catch (error) {
+				(error as CustomAxiosError).handleAxiosError?.();
+			}
+			setIsLoading(false);
+		}, 500);
+	};
+
+	const memoizedGetData = useCallback(getData, [filters, page, request]);
+
+	useLayoutEffect(() => {
+		memoizedGetData();
+	}, [memoizedGetData]);
 
 	const columns = useMemo(
 		() => [
@@ -175,6 +230,7 @@ export default function Criminals() {
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 			pageTitle='Criminals'>
 			<Layout>
+				{isLoading && <Loader withOverlay={true} />}
 				<Filter
 					initialFilters={initialFilters}
 					finalFilters={finalFilters}
@@ -185,23 +241,7 @@ export default function Criminals() {
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}
 				/>
-				<PaginationContainer>
-					<p>
-						Page{' '}
-						<input
-							type='number'
-							name='page'
-							id='page'
-							min='1'
-							max={totalPages}
-							value={page}
-							onChange={e => {
-								setPage(Number(e.target.value));
-							}}
-						/>{' '}
-						of {totalPages}
-					</p>
-				</PaginationContainer>
+				<Pagination page={page} setPage={setPage} totalPages={totalPages} />
 				<Table
 					columns={session.getUserRole() === 'user' ? userColumns : columns}
 					data={data}
@@ -218,19 +258,3 @@ export default function Criminals() {
 		</BackgroundContainer>
 	);
 }
-
-const PaginationContainer = styled.div`
-	margin: 0 0 2rem;
-	color: ${p => p.theme.white};
-
-	& > p > input {
-		margin: 0 1rem;
-		width: 4rem;
-		padding: 0.25rem;
-		text-align: center;
-		border: none;
-		outline: none;
-		font-family: inherit;
-		font-size: 1.8rem;
-	}
-`;
