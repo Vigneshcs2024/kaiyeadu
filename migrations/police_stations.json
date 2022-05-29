@@ -9,3 +9,11 @@
  {"id":"c3e025e3-5692-4d09-8a9f-ce63d2d5808b", "name":"Police Station 5", "area":"Sooriyur", "district":"Trichy", "createdAt":"2022-05-16 16:13:21", "updatedAt":"2022-05-16 16:13:21"},
  {"id":"c4dc5050-a180-410d-b091-d4446015435f", "name":"Police Station 7", "area":"Anna Nagar", "district":"Madurai", "createdAt":"2022-05-16 16:14:02", "updatedAt":"2022-05-16 16:14:02"},
  {"id":"c681db52-c569-44d3-bdb2-3945f80374a6", "name":"Police Station 4", "area":"Mandayur", "district":"Trichy", "createdAt":"2022-05-16 16:13:05", "updatedAt":"2022-05-16 16:13:05"}]
+
+ {
+     arrayOfJson: repeat(100, {
+         name: city() + choice('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z') + random(1, 100),
+         area: choice('North', 'East', 'West', 'South') + city(),
+         district: city()
+     })
+ }
