@@ -21,8 +21,10 @@ function ModusOperandi({ formik }: { formik: FormikProps<typeof initialPersonalD
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
-			list.push(item);
-			setItem('');
+			if (item && !list.includes(item.toLowerCase())) {
+				list.push(item.toLowerCase());
+				setItem('');
+			}
 		}
 	};
 
