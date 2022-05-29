@@ -14,6 +14,7 @@ import {
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
+import { recordCount } from '@kaiyeadu/api-interfaces/constants';
 
 interface FinalFilter {
 	type: string;
@@ -100,8 +101,6 @@ export default function Criminals() {
 	const navigate = useNavigate();
 	const [filters, setFilters] = useState<CommonObject>({});
 
-	const count = 25;
-
 	const showModal = (id: string) => {
 		setModal(true);
 		setId(id);
@@ -113,15 +112,15 @@ export default function Criminals() {
 			try {
 				const res = await request.get(
 					Requests.CRIMINAL_LIST +
-						`?page=${page}&count=${count}&s={"key":"name","order":"ASC"}&f=${JSON.stringify(
+						`?page=${page}&count=${recordCount}&s={"key":"name","order":"ASC"}&f=${JSON.stringify(
 							filters
 						)}`
 				);
-				let recordsCount = res.data.result.total / count;
-				if (recordsCount < 1) {
-					recordsCount = 1;
+				let totalPagesCalc = Math.round(res.data.result.total / recordCount);
+				if (totalPagesCalc < 1) {
+					totalPagesCalc = 1;
 				} else {
-					setTotalPages(recordsCount);
+					setTotalPages(totalPagesCalc);
 				}
 				const tableValues = res.data.result.criminals.map(
 					(criminal: {
@@ -238,7 +237,7 @@ export default function Criminals() {
 					setFinalFilters={setFinalFilters}
 					setData={setData}
 					page={page}
-					count={count}
+					count={recordCount}
 					filters={filters}
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}
