@@ -91,14 +91,14 @@ export default function Criminals() {
 		}
 	]);
 	const [id, setId] = useState('');
-	const [modal, setModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [modal, setModal] = useState(false);
 	const [data, setData] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
 	const [page, setPage] = useState(1);
-	const { request } = useRequest();
 	const { session } = useAuthApi();
 	const navigate = useNavigate();
+	const { request } = useRequest();
 	const [filters, setFilters] = useState<CommonObject>({});
 
 	const showModal = (id: string) => {
@@ -237,7 +237,6 @@ export default function Criminals() {
 					setFinalFilters={setFinalFilters}
 					setData={setData}
 					page={page}
-					count={recordCount}
 					filters={filters}
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}
