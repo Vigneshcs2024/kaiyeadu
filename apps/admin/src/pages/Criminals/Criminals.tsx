@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 
 import { Layout } from '@kaiyeadu/ui/styles';
@@ -9,7 +8,8 @@ import {
 	Table,
 	Filter,
 	DeleteModal,
-	Loader
+	Loader,
+	Pagination
 } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
@@ -242,23 +242,7 @@ export default function Criminals() {
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}
 				/>
-				<PaginationContainer>
-					<p>
-						Page{' '}
-						<input
-							type='number'
-							name='page'
-							id='page'
-							min='1'
-							max={totalPages}
-							value={page}
-							onChange={e => {
-								setPage(Number(e.target.value));
-							}}
-						/>{' '}
-						of {totalPages}
-					</p>
-				</PaginationContainer>
+				<Pagination page={page} setPage={setPage} totalPages={totalPages} />
 				<Table
 					columns={session.getUserRole() === 'user' ? userColumns : columns}
 					data={data}
@@ -275,19 +259,3 @@ export default function Criminals() {
 		</BackgroundContainer>
 	);
 }
-
-const PaginationContainer = styled.div`
-	margin: 0 0 2rem;
-	color: ${p => p.theme.white};
-
-	& > p > input {
-		margin: 0 1rem;
-		width: 4rem;
-		padding: 0.25rem;
-		text-align: center;
-		border: none;
-		outline: none;
-		font-family: inherit;
-		font-size: 1.8rem;
-	}
-`;
