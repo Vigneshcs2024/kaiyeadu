@@ -13,6 +13,7 @@ import {
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject } from '@kaiyeadu/ui/interface';
 import { useAuthApi } from '@kaiyeadu/hooks';
+import { recordCount } from '@kaiyeadu/api-interfaces/constants';
 
 interface FinalFilter {
 	type: string;
@@ -97,8 +98,6 @@ export default function Criminals() {
 	const navigate = useNavigate();
 	const [filters, setFilters] = useState<CommonObject>({});
 
-	const count = 25;
-
 	const showModal = (id: string) => {
 		setModal(true);
 		setId(id);
@@ -182,7 +181,6 @@ export default function Criminals() {
 					setFinalFilters={setFinalFilters}
 					setData={setData}
 					page={page}
-					count={count}
 					filters={filters}
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}

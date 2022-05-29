@@ -1,3 +1,4 @@
+import { recordCount } from '@kaiyeadu/api-interfaces/constants';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
@@ -27,7 +28,6 @@ interface FilterProps {
 	initialFilters: Filter[];
 	setData: React.Dispatch<React.SetStateAction<never[]>>;
 	page: number;
-	count: number;
 	filters: CommonObject;
 	setFilters: React.Dispatch<React.SetStateAction<CommonObject>>;
 	setTotalPages: React.Dispatch<React.SetStateAction<number>>;
@@ -39,7 +39,6 @@ export function Filter({
 	initialFilters,
 	setData,
 	page,
-	count,
 	filters,
 	setFilters,
 	setTotalPages
@@ -116,15 +115,15 @@ export function Filter({
 		try {
 			const res = await request.get(
 				Requests.CRIMINAL_FILTER +
-					`page=${page}&count=${count}&s={"key":"name","order":"${sort}"}&f=${JSON.stringify(
+					`page=${page}&count=${recordCount}&s={"key":"name","order":"${sort}"}&f=${JSON.stringify(
 						filters
 					)}&q=${search}`
 			);
 
-			if (Math.round(res.data.result.total / count) < 1) {
+			if (Math.round(res.data.result.total / recordCount) < 1) {
 				setTotalPages(1);
 			} else {
-				setTotalPages(Math.round(res.data.result.total / count));
+				setTotalPages(Math.round(res.data.result.total / recordCount));
 			}
 
 			const tableValues = res.data.result.criminals.map(
@@ -159,7 +158,6 @@ export function Filter({
 	const memoizedGetData = useCallback(getData, [
 		request,
 		page,
-		count,
 		sort,
 		filters,
 		search,
