@@ -1,7 +1,7 @@
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { useRequest } from '@kaiyeadu/hooks';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button, DropDownList, TextField } from '..';
@@ -56,28 +56,54 @@ export function Filter({
 	const [search, setSearch] = useState('');
 	const [sort, setSort] = useState('ASC');
 	const [isLoading, setIsLoading] = useState(false);
+	const firstTime = useRef(true);
 
-	finalFilters.forEach(({ label, value }, index) => {
-		if (value === 'All') {
-			checked[index] = false;
-			delete filters[label];
-		}
+	useEffect(() => {
+		setFilters(old => {
+			const temp = {
+				...old
+			};
+			finalFilters.forEach(({ label, value }, index) => {
+				if (value === 'All') {
+					setChecked(old => {
+						old[index] = false;
+						return [...old];
+					});
+					delete temp[label];
+				} else if (value !== '') {
+					if (value === 'A+') {
+						value = 'A_PLUS';
+					}
+					temp[label] = value;
+				} else if (Object.prototype.hasOwnProperty.call(temp, label)) {
+					delete temp[label];
+				}
+			});
 
-		if (value !== '' && value !== 'All') {
-			if (value === 'A+') {
-				value = 'A_PLUS';
-			}
-			filters[label] = value;
-		}
-	});
+			return temp;
+		});
+	}, [finalFilters, setFilters]);
+
+	useEffect(() => {
+		setFinalFilters(old => {
+			const temp = [...old];
+			checked.forEach((c, ind) => {
+				temp[ind] = {
+					...temp[ind],
+					value: c ? temp[ind].value : ''
+				};
+			});
+			return temp;
+		});
+	}, [checked, setFinalFilters]);
 
 	const { request } = useRequest();
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
 		const { name, value } = e.target;
 		const list = [...finalFilters];
-		// eslint-disable-next-line array-callback-return
-		list.map((val, i) => {
+
+		list.forEach((val, i) => {
 			if (val.type === name) {
 				list[i].value = value;
 			}
@@ -142,7 +168,10 @@ export function Filter({
 	]);
 
 	useLayoutEffect(() => {
-		memoizedGetData();
+		if (firstTime.current) {
+			memoizedGetData();
+			firstTime.current = false;
+		}
 	}, [memoizedGetData]);
 
 	return (
@@ -210,7 +239,7 @@ export function Filter({
 							);
 						})}
 					</FilterContainer>
-					<Button style={{ margin: '0 auto 2rem' }} onClick={getData}>
+					<Button style={{ margin: '0 auto 2rem' }} onClick={memoizedGetData}>
 						Filter
 					</Button>
 				</Container>

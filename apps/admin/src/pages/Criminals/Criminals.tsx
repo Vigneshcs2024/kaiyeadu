@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Layout } from '@kaiyeadu/ui/styles';
 import {
@@ -8,12 +8,11 @@ import {
 	BackgroundContainer,
 	Table,
 	Filter,
-	DeleteModal,
-	Loader
+	DeleteModal
 } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
-import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
-import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
+import { CommonObject } from '@kaiyeadu/ui/interface';
+import { useAuthApi } from '@kaiyeadu/hooks';
 
 interface FinalFilter {
 	type: string;
@@ -91,11 +90,9 @@ export default function Criminals() {
 	]);
 	const [id, setId] = useState('');
 	const [modal, setModal] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const [totalPages, setTotalPages] = useState(1);
 	const [page, setPage] = useState(1);
-	const { request } = useRequest();
 	const { session } = useAuthApi();
 	const navigate = useNavigate();
 	const [filters, setFilters] = useState<CommonObject>({});
@@ -106,58 +103,6 @@ export default function Criminals() {
 		setModal(true);
 		setId(id);
 	};
-
-	const getData = async () => {
-		setIsLoading(true);
-		setTimeout(async () => {
-			try {
-				const res = await request.get(
-					Requests.CRIMINAL_LIST +
-						`?page=${page}&count=${count}&s={"key":"name","order":"ASC"}&f=${JSON.stringify(
-							filters
-						)}`
-				);
-				let recordsCount = res.data.result.total / count;
-				if (recordsCount < 1) {
-					recordsCount = 1;
-				} else {
-					setTotalPages(recordsCount);
-				}
-				const tableValues = res.data.result.criminals.map(
-					(criminal: {
-						dob: string;
-						name: string;
-						gender: string;
-						hs_number: string;
-						id: string;
-					}) => {
-						return {
-							first_name: criminal.name.split(' ')[0]
-								? criminal.name.split(' ')[0]
-								: '-',
-							last_name: criminal.name.split(' ')[1]
-								? criminal.name.split(' ')[1]
-								: '-',
-							date_of_birth: criminal.dob.substring(0, 10),
-							gender: criminal.gender,
-							hs_number: criminal.hs_number,
-							id: criminal.id
-						};
-					}
-				);
-				setData(tableValues);
-			} catch (error) {
-				(error as CustomAxiosError).handleAxiosError?.();
-			}
-			setIsLoading(false);
-		}, 500);
-	};
-
-	const memoizedGetData = useCallback(getData, [filters, page, request]);
-
-	useLayoutEffect(() => {
-		memoizedGetData();
-	}, [memoizedGetData]);
 
 	const columns = useMemo(
 		() => [
@@ -231,7 +176,6 @@ export default function Criminals() {
 			style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 			pageTitle='Criminals'>
 			<Layout>
-				{isLoading && <Loader withOverlay={true} />}
 				<Filter
 					initialFilters={initialFilters}
 					finalFilters={finalFilters}
