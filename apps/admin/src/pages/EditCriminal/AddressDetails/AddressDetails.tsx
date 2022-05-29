@@ -157,7 +157,7 @@ export function AddressDetails({ formik, setStep }: FormikInterface) {
 	const handleRemoveClick = (index: number) => {
 		formik.values.addresses.splice(index, 1);
 
-		formik.setFieldValue('addresses', formik.values.family_members);
+		formik.setFieldValue('addresses', formik.values.addresses);
 	};
 
 	// handle click event of the Add button
