@@ -1,0 +1,21 @@
+{
+    arrayOfJson: repeat(1000, {
+            "name": firstname(),
+            "gpf": 'TUSER' + random(00001, 99999),
+            "police_station": choice('54e1d636-8fe9-4e59-84ce-c2b43a19ba49','61629eb8-c653-42f9-81a8-f66ac454fab8','94b60c77-12eb-45cd-8c32-3375cef711f0','a43c40cc-d10b-46e0-bcac-d4afbc4dc42c','b3bdd993-51e3-4e80-aaa2-8b9b8d297b30','b58c8866-5c3e-48f0-a3fe-12bf9fa5e541','c9066d17-cf16-4397-8bcd-870edbe8ecfa','d4024a32-9020-46e0-9ebf-a6b06e941d2b','d9176d88-e93e-4f00-8c3d-0c880ff67d93','e4737dd1-5e4a-47fa-876e-093b7375bd4a','eaf91712-d998-4647-a9e4-ff3f099ec24a'),
+            "email": firstname() + random(000001, 999999) + '@gmail.com',
+            "phone": random(6666666666, 9999999999),
+            "designation": choice('Gr II - PC',
+            'Gr I - PC',
+            'HC',
+            'SSI',
+            'SI',
+            'Inspr',
+            'DSP',
+            'ADSP',
+            'SP',
+            'DIG',
+            'IG'),
+            "role": choice('user', 'admin', 'master'),
+    })
+}
