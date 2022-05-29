@@ -87,47 +87,53 @@ export function Filter({
 
 	const getData = async () => {
 		setIsLoading(true);
-		try {
-			const res = await request.get(
-				Requests.CRIMINAL_FILTER +
-					`page=${page}&count=${count}&s={"key":"name","order":"${sort}"}&f=${JSON.stringify(
-						filters
-					)}&q=${search}`
-			);
+		setTimeout(async () => {
+			try {
+				const res = await request.get(
+					Requests.CRIMINAL_FILTER +
+						`page=${page}&count=${count}&s={"key":"name","order":"${sort}"}&f=${JSON.stringify(
+							filters
+						)}&q=${search}`
+				);
 
-			if (Math.round(res.data.result.total / count) < 1) {
-				setTotalPages(1);
-			} else {
-				setTotalPages(Math.round(res.data.result.total / count));
-			}
-
-			const tableValues = res.data.result.criminals.map(
-				(criminal: {
-					dob: string;
-					name: string;
-					gender: string;
-					hs_number: string;
-					present_status: string;
-					id: string;
-					image_url: string;
-				}) => {
-					return {
-						first_name: criminal.name.split(' ')[0] ? criminal.name.split(' ')[0] : '-',
-						last_name: criminal.name.split(' ')[1] ? criminal.name.split(' ')[1] : '-',
-						date_of_birth: criminal.dob.substring(0, 10),
-						gender: criminal.gender,
-						hs_number: criminal.hs_number,
-						present_status: criminal.present_status,
-						id: criminal.id,
-						image_url: criminal.image_url
-					};
+				if (Math.round(res.data.result.total / count) < 1) {
+					setTotalPages(1);
+				} else {
+					setTotalPages(Math.round(res.data.result.total / count));
 				}
-			);
-			setData(tableValues);
+
+				const tableValues = res.data.result.criminals.map(
+					(criminal: {
+						dob: string;
+						name: string;
+						gender: string;
+						hs_number: string;
+						present_status: string;
+						id: string;
+						image_url: string;
+					}) => {
+						return {
+							first_name: criminal.name.split(' ')[0]
+								? criminal.name.split(' ')[0]
+								: '-',
+							last_name: criminal.name.split(' ')[1]
+								? criminal.name.split(' ')[1]
+								: '-',
+							date_of_birth: criminal.dob.substring(0, 10),
+							gender: criminal.gender,
+							hs_number: criminal.hs_number,
+							present_status: criminal.present_status,
+							id: criminal.id,
+							image_url: criminal.image_url
+						};
+					}
+				);
+				setData(tableValues);
+			} catch (err) {
+				(err as CustomAxiosError).handleAxiosError?.();
+			}
 			setIsLoading(false);
-		} catch (err) {
-			(err as CustomAxiosError).handleAxiosError?.();
-		}
+		}, 500);
 	};
 
 	const memoizedGetData = useCallback(getData, [
