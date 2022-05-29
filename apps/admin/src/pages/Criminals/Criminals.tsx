@@ -8,8 +8,8 @@ import {
 	Table,
 	Filter,
 	DeleteModal,
-	Loader,
-	Pagination
+	Pagination,
+	Loader
 } from '@kaiyeadu/ui/components';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';

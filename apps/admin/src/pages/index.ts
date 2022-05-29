@@ -10,6 +10,7 @@ export { default as ResetPassword } from './ResetPassword/ResetPassword';
 export * from './AddUser';
 export * from './EditUser';
 export * from './AddPoliceStation';
+export * from './EditStation';
 export * from './AddCriminal';
 export * from './EditCriminal';
 export * from './Profile';
