@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import {
 	ModifyButton,
@@ -8,13 +9,13 @@ import {
 	Loader,
 	FlexLayoutWithSpace,
 	ActiveType,
-	DeleteModal
+	DeleteModal,
+	Pagination
 } from '@kaiyeadu/ui/components';
 import { useAuthApi, useRequest } from '@kaiyeadu/hooks';
 import { CommonObject, CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
 import { recordCount } from '@kaiyeadu/api-interfaces/constants';
-import styled from 'styled-components';
 
 export default function Users() {
 	const [id, setId] = useState('');
@@ -158,23 +159,7 @@ export default function Users() {
 					type={type}
 					values={['all', 'admin', 'master', 'user']}
 				/>
-				<PaginationContainer>
-					<p>
-						Page{' '}
-						<input
-							type='number'
-							name='page'
-							id='page'
-							min='1'
-							max={totalPages}
-							value={page}
-							onChange={e => {
-								setPage(Number(e.target.value));
-							}}
-						/>{' '}
-						of {totalPages}
-					</p>
-				</PaginationContainer>
+				<Pagination page={page} setPage={setPage} totalPages={totalPages} />
 				<Table
 					columns={session.getUserRole() === 'admin' ? adminColumns : columns}
 					data={data}
