@@ -175,19 +175,3 @@ export default function Users() {
 		</BackgroundContainer>
 	);
 }
-
-const PaginationContainer = styled.div`
-	margin: 0 0 2rem;
-	color: ${p => p.theme.white};
-
-	& > p > input {
-		margin: 0 1rem;
-		width: 4rem;
-		padding: 0.25rem;
-		text-align: center;
-		border: none;
-		outline: none;
-		font-family: inherit;
-		font-size: 1.8rem;
-	}
-`;
