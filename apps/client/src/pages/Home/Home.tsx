@@ -135,7 +135,6 @@ export default function Home() {
 					setFinalFilters={setFinalFilters}
 					setData={setData}
 					page={page}
-					count={recordCount}
 					filters={filters}
 					setFilters={setFilters}
 					setTotalPages={setTotalPages}
