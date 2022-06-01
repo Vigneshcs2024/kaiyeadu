@@ -18,7 +18,8 @@ import {
 	User,
 	Vehicle,
 	Associate,
-	Bond
+	Bond,
+	AccessLog
 } from '$api/modules/models';
 
 export async function initDb() {
@@ -47,6 +48,7 @@ export async function initDb() {
 	await OperationalPlace.sync({ alter: true });
 	await Proposal.sync({ alter: true });
 	await Vehicle.sync({ alter: true });
+	await AccessLog.sync({ alter: true });
 
 	logger.info(`Database synced ${pc.green('successfully')}`);
 }

@@ -1,3 +1,4 @@
+import { accessLogger } from '$api/tools/access-logger';
 import { ApiRequest } from '$api/types';
 import { Response } from 'express';
 import { Case, Criminal, PoliceStation, Proposal, User } from '../models';
@@ -10,6 +11,8 @@ export async function getStats(req: ApiRequest, res: Response) {
 	const noOfCases = await Case.count();
 	const noOfCriminals = await Criminal.count();
 	const noOfProposalReqs = await Proposal.count({ where: { status: 'pending' } });
+
+	accessLogger(req, `Stats fetched from DB`);
 
 	res.json({
 		message: 'Statistics fetched successfully',
