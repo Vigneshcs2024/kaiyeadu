@@ -1,13 +1,12 @@
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { BackgroundContainer, Loader, Pagination, Searchbar, Table } from '@kaiyeadu/ui/components';
 import { Layout } from '@kaiyeadu/ui/styles';
 import { CustomAxiosError } from '@kaiyeadu/ui/interface';
 import { useRequest } from '@kaiyeadu/hooks';
 import { Requests } from '@kaiyeadu/api-interfaces/constants/requests.enum';
-import toast from 'react-hot-toast';
 import { recordCount } from '@kaiyeadu/api-interfaces/constants';
-import { SortBy } from '@kaiyeadu/ui/components/Filter/SortBy';
 
 interface LogResponse {
 	id: string;
@@ -33,6 +32,21 @@ export default function Logs() {
 
 	const { request } = useRequest();
 
+	const countDecimals = function (value: number) {
+		const text = value.toString();
+		// verify if number 0.000005 is represented as "5e-6"
+		if (text.indexOf('e-') > -1) {
+			const [, trail] = text.split('e-');
+			const deg = parseInt(trail, 10);
+			return deg;
+		}
+		// count decimals for number in representation like "0.123456"
+		if (Math.floor(value) !== value) {
+			return value.toString().split('.')[1].length || 0;
+		}
+		return 0;
+	};
+
 	const getData = async () => {
 		setTimeout(async () => {
 			try {
@@ -43,10 +57,12 @@ export default function Logs() {
 						(search ? `&q=${search}` : '')
 				);
 
-				let totalPagesCalc = Math.round(res.data.result.total / recordCount);
+				let totalPagesCalc = res.data.result.total / recordCount;
 
+				if (countDecimals(totalPagesCalc) > 0) {
+					totalPagesCalc = Math.round(totalPagesCalc) + 1;
+				}
 				if (totalPagesCalc < 1) {
-					console.log(totalPagesCalc);
 					totalPagesCalc = 1;
 				} else {
 					setTotalPages(totalPagesCalc);
