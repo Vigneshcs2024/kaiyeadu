@@ -29,5 +29,7 @@ export enum Requests {
 	USER_UPDATE_PASSWORD = 'user/update-password',
 	USER_UPDATE_PROPOSAL = '/proposal/create',
 
-	COMMON_STATS = 'common/stats'
+	COMMON_STATS = 'common/stats',
+
+	LOGS_LIST = 'logs/list'
 }
