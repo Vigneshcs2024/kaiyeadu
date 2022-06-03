@@ -4,6 +4,6 @@ import * as accessLogService from './access-log.service';
 
 const router = express.Router();
 
-router.get('/getList', adminsOnly, parseAuthToken, accessLogService.listLogs);
+router.get('/list', adminsOnly, parseAuthToken, accessLogService.listLogs);
 
 export { router as accessLogRouter };
