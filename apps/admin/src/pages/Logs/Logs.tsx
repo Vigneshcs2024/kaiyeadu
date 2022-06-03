@@ -32,21 +32,6 @@ export default function Logs() {
 
 	const { request } = useRequest();
 
-	const countDecimals = function (value: number) {
-		const text = value.toString();
-		// verify if number 0.000005 is represented as "5e-6"
-		if (text.indexOf('e-') > -1) {
-			const [, trail] = text.split('e-');
-			const deg = parseInt(trail, 10);
-			return deg;
-		}
-		// count decimals for number in representation like "0.123456"
-		if (Math.floor(value) !== value) {
-			return value.toString().split('.')[1].length || 0;
-		}
-		return 0;
-	};
-
 	const getData = async () => {
 		setTimeout(async () => {
 			try {
@@ -59,14 +44,12 @@ export default function Logs() {
 
 				let totalPagesCalc = res.data.result.total / recordCount;
 
-				if (countDecimals(totalPagesCalc) > 0) {
-					totalPagesCalc = Math.round(totalPagesCalc) + 1;
-				}
-				if (totalPagesCalc < 1) {
-					totalPagesCalc = 1;
+				if (Number(totalPagesCalc.toString().split('.')[1]) < 5) {
+					totalPagesCalc = totalPagesCalc + 1;
 				} else {
-					setTotalPages(totalPagesCalc);
+					totalPagesCalc = Math.round(totalPagesCalc);
 				}
+				setTotalPages(totalPagesCalc);
 
 				const tableValues = res.data.result.logs.map((item: LogResponse) => {
 					return {
