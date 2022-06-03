@@ -106,7 +106,7 @@ export default function Logs() {
 	);
 
 	return (
-		<BackgroundContainer pageTitle='Admins'>
+		<BackgroundContainer pageTitle='Logs'>
 			<Layout>
 				{loading && <Loader withOverlay={true} />}
 				<Searchbar setSearch={setSearch} getData={getData} />
