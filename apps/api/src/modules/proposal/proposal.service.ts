@@ -1,4 +1,5 @@
 import { logger } from '$api/tools';
+import { accessLogger } from '$api/tools/access-logger';
 import { ApiRequest } from '$api/types';
 import { jsonPrettyPrint } from '$api/utilities';
 import { validateEnum, validateUUID } from '$api/utilities/validations';
@@ -18,6 +19,9 @@ export async function add(req: ApiRequest, res: Response) {
 		...details,
 		created_by
 	});
+
+	accessLogger(req, `Proposal created`);
+
 	return res
 		.status(StatusCodes.CREATED)
 		.json({ message: 'Proposal created successfully', result: id });
@@ -39,6 +43,8 @@ export async function list(req: ApiRequest, res: Response) {
 
 	const result = await proposalsRepo.list(options);
 
+	accessLogger(req, `Proposals fetched`);
+
 	return res.status(StatusCodes.OK).json({ message: 'Proposals fetched successfully', result });
 }
 
@@ -47,6 +53,9 @@ export async function getById(req: ApiRequest, res: Response) {
 	await validateUUID(id);
 
 	const proposal = await proposalsRepo.getProposal(id);
+
+	accessLogger(req, `Proposal with id: ${id} is fetched`);
+
 	return res
 		.status(StatusCodes.OK)
 		.json({ message: 'Proposal fetched successfully', result: proposal });
@@ -61,6 +70,8 @@ export async function updateStatus(req: ApiRequest, res: Response) {
 
 	const proposal = await proposalsRepo.updateStatus(id, status);
 
+	accessLogger(req, `Proposal with id: ${id} is updated`);
+
 	return res
 		.status(StatusCodes.OK)
 		.json({ message: 'Proposal updated successfully', result: proposal });
@@ -71,5 +82,8 @@ export async function remove(req: ApiRequest, res: Response) {
 	await validateUUID(id);
 
 	await proposalsRepo.remove(id);
+
+	accessLogger(req, `Proposal with id: ${id} is removed`);
+
 	return res.status(StatusCodes.OK).json({ message: 'Proposal removed successfully' });
 }

@@ -14,6 +14,7 @@ import {
 	validateUpdatePassword,
 	validateUpdateUser
 } from './user.validation';
+import { accessLogger } from '$api/tools/access-logger';
 
 export async function createUser(req: ApiRequest, res: Response) {
 	if (req.user.role === 'admin' && req.body.role !== 'user') {
@@ -47,6 +48,8 @@ export async function createUser(req: ApiRequest, res: Response) {
 	await validateCreateUser(userDetails);
 	const user = await userRepository.createUser(userDetails);
 
+	accessLogger(req, `User - & is created`);
+
 	return res
 		.status(StatusCodes.CREATED)
 		.json({ message: 'User was created', result: { id: user.id } });
@@ -78,6 +81,13 @@ export async function listUsers(req: ApiRequest, res: Response) {
 		}
 	});
 
+	accessLogger(
+		req,
+		`User list fetched from DB with ${
+			options.count
+		} users per page and with filters: ${jsonPrettyPrint(options.f)}`
+	);
+
 	return res.json({ message: 'Users fetched successfully', result });
 }
 
@@ -88,6 +98,8 @@ export async function updatePassword(req: ApiRequest, res: Response) {
 	await validateUpdatePassword({ currentPassword, newPassword });
 	await userRepository.updatePassword(userId, { currentPassword, newPassword });
 
+	accessLogger(req, `User - & updated password`);
+
 	res.status(StatusCodes.OK).json({ message: 'Password updated successfully' });
 }
 
@@ -95,6 +107,8 @@ export async function getUser(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 
 	const user = await userRepository.getUser(id);
+
+	accessLogger(req, `User - & is fetched from DB`);
 
 	return res.json({ message: 'User fetched successfully', result: user });
 }
@@ -109,6 +123,8 @@ export async function updateUser(req: ApiRequest, res: Response) {
 
 	await userRepository.updateUser(id, userDetails);
 
+	accessLogger(req, `User - & is updated`);
+
 	res.status(StatusCodes.OK).json({ message: 'User updated successfully', result: { id } });
 }
 
@@ -118,6 +134,8 @@ export async function removeUser(req: ApiRequest, res: Response) {
 	await validateUUID(id);
 
 	await userRepository.remove(id);
+
+	accessLogger(req, `User - & is removed`);
 
 	res.status(StatusCodes.OK).json({ message: 'User removed successfully' });
 }

@@ -1,9 +1,14 @@
 import { Model, DataTypes } from 'sequelize';
 import { db } from '$api/root/connections';
-import { User } from '../models';
+import { Criminal, PoliceStation, User } from '../models';
 
 export class AccessLog extends Model {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[x: string]: any;
+	id: string;
 	userId: string;
+	criminalId: string;
+	policeStationId: string;
 	log: string;
 
 	readonly createdAt: Date;
@@ -27,7 +32,16 @@ AccessLog.init(
 			type: DataTypes.STRING,
 			allowNull: false
 		},
-
+		criminalId: {
+			type: DataTypes.UUID,
+			defaultValue: DataTypes.UUIDV4,
+			allowNull: true
+		},
+		policeStationId: {
+			type: DataTypes.UUID,
+			defaultValue: DataTypes.UUIDV4,
+			allowNull: true
+		},
 		createdAt: {
 			type: DataTypes.DATE,
 			defaultValue: DataTypes.NOW
@@ -44,7 +58,6 @@ AccessLog.init(
 	}
 );
 
-AccessLog.belongsTo(User, {
-	foreignKey: 'userId',
-	as: 'user_id'
-});
+AccessLog.belongsTo(User, { foreignKey: 'userId', as: 'user_id' });
+AccessLog.belongsTo(Criminal, { foreignKey: 'criminalId', as: 'criminal_id' });
+AccessLog.belongsTo(PoliceStation, { foreignKey: 'policeStationId', as: 'police_station_id' });

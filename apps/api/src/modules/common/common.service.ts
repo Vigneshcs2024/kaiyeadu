@@ -28,7 +28,8 @@ export async function getStats(req: ApiRequest, res: Response) {
 	});
 }
 
-export function ping(_req: ApiRequest, res: Response) {
+export function ping(req: ApiRequest, res: Response) {
+	accessLogger(req, `Server pinged`);
 	res.json({
 		message: 'Pong!',
 		result: 'Server is up and running'

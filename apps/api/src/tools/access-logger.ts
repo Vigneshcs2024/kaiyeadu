@@ -1,15 +1,29 @@
 import { AccessLog } from '$api/modules/models';
-import { getUser } from '$api/modules/user/user.repository';
 import { ApiRequest } from '$api/types';
 
-export const accessLogger = async (req: ApiRequest, message: string) => {
+export const accessLogger = async (
+	req: ApiRequest,
+	message: string,
+	criminalId?: string,
+	policeStationId?: string
+) => {
 	const { id: userId } = req.user;
 
-	const { name } = await getUser(userId);
+	if (!criminalId) {
+		criminalId = null;
+	}
+	if (!policeStationId) {
+		policeStationId = null;
+	}
+	if (!criminalId && !policeStationId) {
+		criminalId = null;
+		policeStationId = null;
+	}
 
 	const logDetails = {
 		userId,
-		name,
+		criminalId,
+		policeStationId,
 		log: message
 	};
 
