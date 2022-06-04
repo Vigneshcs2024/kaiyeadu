@@ -15,6 +15,7 @@ import { validateBonds } from '../bond/bond.validation';
 import { validateAddAssociates } from '../associate/associate.validation';
 import { validateAddVehicles } from '../vehicle/vehicle.validation';
 import { validateCases } from '../case/case.validation';
+import { accessLogger } from '$api/tools/access-logger';
 
 export async function create(req: ApiRequest, res: Response) {
 	const {
@@ -47,6 +48,8 @@ export async function create(req: ApiRequest, res: Response) {
 
 	const criminal = await criminalRepo.create(req.body);
 
+	accessLogger(req, `Criminal $ is created by &`, criminal.id);
+
 	return res.status(StatusCodes.CREATED).json({
 		message: 'Criminal created successfully',
 		result: criminal.id
@@ -61,6 +64,8 @@ export async function getDetails(req: ApiRequest, res: Response) {
 	}
 
 	const criminal = await criminalRepo.getCompleteDetails(req.params.id);
+
+	accessLogger(req, `Details of Criminal $ fetched from DB by &`, criminal.id);
 
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminal details retrieved successfully',
@@ -94,6 +99,8 @@ export async function getMinimalList(req: ApiRequest, res: Response) {
 			sort: options.s
 		}
 	});
+
+	accessLogger(req, `Criminals fetched from DB by &`);
 
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminals retrieved successfully',
@@ -148,6 +155,8 @@ export async function updatePersonalDetails(req: ApiRequest, res: Response) {
 		...rest
 	});
 
+	accessLogger(req, `Criminal $ updated by &`, id);
+
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminal updated successfully'
 	});
@@ -159,6 +168,8 @@ export async function remove(req: ApiRequest, res: Response) {
 	await validateUUID(id);
 
 	await criminalRepo.remove(id);
+
+	accessLogger(req, `Criminal $ removed by &`, id);
 
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminal removed successfully'
@@ -193,6 +204,8 @@ export async function listByDistrict(req: ApiRequest, res: Response) {
 			sort: options.s
 		}
 	});
+
+	accessLogger(req, `Criminals fetched in-order of district by &`);
 
 	return res.status(StatusCodes.OK).json({ message: 'Criminals retrieved successfully', result });
 }

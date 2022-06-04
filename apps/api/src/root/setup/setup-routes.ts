@@ -3,6 +3,7 @@ import express, { Express } from 'express';
 import { adminsOnly, parseAuthToken } from '$api/middlewares/auth';
 import { errorHandler } from '$api/tools';
 import {
+	accessLogRouter,
 	activeCaseRouter,
 	addressRouter,
 	associateRouter,
@@ -36,6 +37,7 @@ export function setup_routes(app: Express) {
 	app.use('/family-member', parseAuthToken, familyMemberRouter);
 	app.use('/last-arrest', parseAuthToken, lastArrestRouter);
 	app.use('/link', parseAuthToken, linkRouter);
+	app.use('/logs', parseAuthToken, accessLogRouter);
 	app.use('/modus-operandi', parseAuthToken, moRouter);
 	app.use('/occupation', parseAuthToken, occupationRouter);
 	app.use('/operational-place', parseAuthToken, operationalPlacesRouter);

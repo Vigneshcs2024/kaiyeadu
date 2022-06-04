@@ -1,3 +1,4 @@
+export { accessLogRouter } from './access-log/access-log.router';
 export { activeCaseRouter } from './active-case/active-case.router';
 export { addressRouter } from './address/address.router';
 export { associateRouter } from './associate/associate.router';

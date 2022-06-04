@@ -117,12 +117,14 @@ export default function Criminals() {
 							filters
 						)}`
 				);
-				let totalPagesCalc = Math.round(res.data.result.total / recordCount);
-				if (totalPagesCalc < 1) {
-					totalPagesCalc = 1;
+				let totalPagesCalc = res.data.result.total / recordCount;
+
+				if (Number(totalPagesCalc.toString().split('.')[1]) < 5) {
+					totalPagesCalc = totalPagesCalc + 1;
 				} else {
-					setTotalPages(totalPagesCalc);
+					totalPagesCalc = Math.round(totalPagesCalc);
 				}
+				setTotalPages(totalPagesCalc);
 				const tableValues = res.data.result.criminals.map(
 					(criminal: {
 						dob: string;

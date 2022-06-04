@@ -7,12 +7,16 @@ import * as repo from './police-station.repository';
 import { validateCreatePS, validateListPs } from './police-station.validation';
 import { logger } from '$api/tools';
 import { jsonPrettyPrint } from '$api/utilities';
+import { accessLogger } from '$api/tools/access-logger';
 
 export async function findById(req: ApiRequest, res: Response) {
 	const { id } = req.params;
 	await validateUUID(id);
 
 	const policeStation = await repo.getById(id);
+
+	accessLogger(req, `/ Police Station is fetched by &`, null, id);
+
 	res.status(StatusCodes.OK).json({
 		message: 'Police Station fetched successfully',
 		result: policeStation
@@ -37,6 +41,8 @@ export async function getList(req: ApiRequest, res: Response) {
 	await validateListPs(options);
 	const result = await repo.getFilteredList(options);
 
+	accessLogger(req, `Police Stations fetched by &`);
+
 	res.json({
 		message: 'Stations fetched successfully',
 		result
@@ -46,6 +52,7 @@ export async function getList(req: ApiRequest, res: Response) {
 export async function getNames(req: ApiRequest, res: Response) {
 	const { q } = req.query || {};
 	const stations = await repo.getNames(q as string | undefined);
+	accessLogger(req, `Police Station fetched using name: ${q} by &`);
 	return res.status(StatusCodes.OK).json({ message: 'Fetched successfully', result: stations });
 }
 
@@ -54,6 +61,9 @@ export async function create(req: ApiRequest, res: Response) {
 	await validateCreatePS(details);
 
 	const station = await repo.create(details);
+
+	accessLogger(req, `/ Police Station created by &`, null, station.id);
+
 	return res
 		.status(StatusCodes.CREATED)
 		.json({ message: 'Station created successfully', result: station.id });
@@ -67,6 +77,9 @@ export async function update(req: ApiRequest, res: Response) {
 	await validateCreatePS(details);
 
 	const station = await repo.update(id, details);
+
+	accessLogger(req, `/ Police Station is updated by &`, null, id);
+
 	return res
 		.status(StatusCodes.OK)
 		.json({ message: 'Station updated successfully', result: station });
@@ -77,6 +90,9 @@ export async function remove(req: ApiRequest, res: Response) {
 	await validateUUID(id);
 
 	await repo.remove(id);
+
+	accessLogger(req, `/ Police Station is removed by &`, null, id);
+
 	return res
 		.status(StatusCodes.OK)
 		.json({ message: `Successfully deleted station of id: ${id}` });

@@ -11,6 +11,8 @@ import { sendEmail, sendSms } from '$api/root/connections';
 
 import * as authRepository from './auth.repository';
 import { validateLogin, validateLoginWithGPF } from './auth.validation';
+import { accessLogger } from '$api/tools/access-logger';
+import { ApiRequest } from '$api/types';
 
 const JWT_SECRET = (config.get('keys.jwt.secret') ?? process.env.JWT_SECRET) as string;
 
@@ -54,6 +56,8 @@ export async function login(req: Request, res: Response) {
 		expiresIn: isResetPassword ? '15m' : '1d'
 	});
 
+	// accessLogger(req, `User - ${name} has logged in`);
+
 	res.status(StatusCodes.CREATED).json({
 		message: 'Login successful',
 		token,
@@ -61,14 +65,24 @@ export async function login(req: Request, res: Response) {
 	});
 }
 
-export async function loginWithGPF(req: Request, res: Response) {
+export async function loginWithGPF(req: ApiRequest, res: Response) {
 	const { gpf, password } = req.body;
 
 	await validateLoginWithGPF({ gpf, password });
 	const { id, name, designation, role } = await authRepository.login({ gpf, password });
 
+	// For Access Log purpose only
+	req.user = {
+		id,
+		name,
+		designation,
+		role
+	};
+
 	const payload: PayloadObject = { id, name, designation, role };
 	const token = jwt.sign(payload, JWT_SECRET, { issuer: 'TNPOL', expiresIn: '1d' });
+
+	accessLogger(req, `User with GPF ID: ${gpf}(&) has logged in`);
 
 	res.status(StatusCodes.CREATED).json({
 		message: 'Login successful',
@@ -91,6 +105,11 @@ export async function resetPassword(req: Request, res: Response) {
 
 	logger.debug(
 		`User ${user.email} has been given a new temporary password: ${pc.yellow(resetValue)}`
+	);
+
+	accessLogger(
+		req,
+		`Temporary password has been sent to user ${user.name} with email: ${user.email} for password reset`
 	);
 
 	res.status(StatusCodes.OK).json({

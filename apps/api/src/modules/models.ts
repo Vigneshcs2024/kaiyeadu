@@ -14,3 +14,4 @@ export { PoliceStation } from './police-station/police-station.model';
 export { Proposal } from './proposal/proposal.model';
 export { User } from './user/user.model';
 export { Vehicle } from './vehicle/vehicle.model';
+export { AccessLog } from './access-log/access-log.model';
