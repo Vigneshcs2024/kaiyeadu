@@ -113,6 +113,13 @@ export default function Table({
 					);
 				})}
 			</tbody>
+			{data.length === 0 && (
+				<tfoot>
+					<tr>
+						<td colSpan={columns.length}>No Data found</td>
+					</tr>
+				</tfoot>
+			)}
 		</StyledTable>
 	);
 }

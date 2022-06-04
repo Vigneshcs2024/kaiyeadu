@@ -15,7 +15,7 @@ export async function findById(req: ApiRequest, res: Response) {
 
 	const policeStation = await repo.getById(id);
 
-	accessLogger(req, `/ Police Station is fetched`, null, id);
+	accessLogger(req, `/ Police Station is fetched by &`, null, id);
 
 	res.status(StatusCodes.OK).json({
 		message: 'Police Station fetched successfully',
@@ -41,7 +41,7 @@ export async function getList(req: ApiRequest, res: Response) {
 	await validateListPs(options);
 	const result = await repo.getFilteredList(options);
 
-	accessLogger(req, `Police Stations fetched by User - &`);
+	accessLogger(req, `Police Stations fetched by &`);
 
 	res.json({
 		message: 'Stations fetched successfully',
@@ -52,7 +52,7 @@ export async function getList(req: ApiRequest, res: Response) {
 export async function getNames(req: ApiRequest, res: Response) {
 	const { q } = req.query || {};
 	const stations = await repo.getNames(q as string | undefined);
-	accessLogger(req, `Police Station fetched using name: ${q}`);
+	accessLogger(req, `Police Station fetched using name: ${q} by &`);
 	return res.status(StatusCodes.OK).json({ message: 'Fetched successfully', result: stations });
 }
 
@@ -62,7 +62,7 @@ export async function create(req: ApiRequest, res: Response) {
 
 	const station = await repo.create(details);
 
-	accessLogger(req, `/ Police Station created`, null, station.id);
+	accessLogger(req, `/ Police Station created by &`, null, station.id);
 
 	return res
 		.status(StatusCodes.CREATED)
@@ -78,7 +78,7 @@ export async function update(req: ApiRequest, res: Response) {
 
 	const station = await repo.update(id, details);
 
-	accessLogger(req, `/ Police Station is updated`, null, id);
+	accessLogger(req, `/ Police Station is updated by &`, null, id);
 
 	return res
 		.status(StatusCodes.OK)
@@ -91,7 +91,7 @@ export async function remove(req: ApiRequest, res: Response) {
 
 	await repo.remove(id);
 
-	accessLogger(req, `/ Police Station is removed`, null, id);
+	accessLogger(req, `/ Police Station is removed by &`, null, id);
 
 	return res
 		.status(StatusCodes.OK)

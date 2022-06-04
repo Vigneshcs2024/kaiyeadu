@@ -1,5 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { BackgroundContainer, Loader, Pagination, Searchbar, Table } from '@kaiyeadu/ui/components';
 import { Layout } from '@kaiyeadu/ui/styles';
@@ -29,6 +28,7 @@ export default function Logs() {
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [search, setSearch] = useState('');
+	const first = useRef(true);
 
 	const { request } = useRequest();
 
@@ -42,13 +42,19 @@ export default function Logs() {
 						(search ? `&q=${search}` : '')
 				);
 
-				let totalPagesCalc = res.data.result.total / recordCount;
-
-				if (Number(totalPagesCalc.toString().split('.')[1]) < 5) {
-					totalPagesCalc = totalPagesCalc + 1;
+				let totalPagesCalc = 0;
+				if (res.data.result.total < recordCount) {
+					totalPagesCalc = 1;
 				} else {
-					totalPagesCalc = Math.round(totalPagesCalc);
+					totalPagesCalc = res.data.result.total / recordCount;
+
+					if (Number(totalPagesCalc.toString().split('.')[1]) < 5) {
+						totalPagesCalc = totalPagesCalc + 1;
+					} else {
+						totalPagesCalc = Math.round(totalPagesCalc);
+					}
 				}
+
 				setTotalPages(totalPagesCalc);
 
 				const tableValues = res.data.result.logs.map((item: LogResponse) => {
@@ -63,7 +69,6 @@ export default function Logs() {
 							: null
 					};
 				});
-				toast.success(res.data.message);
 				setData(tableValues);
 				setLoading(false);
 			} catch (error) {
@@ -72,34 +77,24 @@ export default function Logs() {
 		}, 500);
 	};
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const memoizedGetData = useCallback(getData, [page, request]);
+	const memoizedGetData = useCallback(getData, [page, request, search]);
 
 	useLayoutEffect(() => {
-		memoizedGetData();
+		if (first.current) {
+			memoizedGetData();
+			first.current = false;
+		}
 	}, [memoizedGetData]);
 
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'User Name',
-				accessor: 'user_name'
-			},
-			{
-				Header: 'Log Message',
-				accessor: 'log'
-			},
-			{
-				Header: 'Criminal Name',
-				accessor: 'criminal_name'
-			},
-			{
-				Header: 'Police Station Name',
-				accessor: 'police_station_name'
-			},
-			{
-				Header: 'Created At',
+				Header: 'Date & Time',
 				accessor: 'createdAt'
+			},
+			{
+				Header: 'Message',
+				accessor: 'log'
 			}
 		],
 		[]

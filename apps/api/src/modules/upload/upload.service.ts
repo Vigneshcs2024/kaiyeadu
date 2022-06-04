@@ -6,7 +6,7 @@ import { accessLogger } from '$api/tools/access-logger';
 
 export function uploadImage(req: ApiRequest, res: Response) {
 	const handler = (msg?: string) => {
-		accessLogger(req, `Image uploaded`);
+		accessLogger(req, `Image uploaded by &`);
 		res.status(StatusCodes.CREATED).json({
 			message: 'Image uploaded successfully',
 			result: { msg, path: req.file.filename }

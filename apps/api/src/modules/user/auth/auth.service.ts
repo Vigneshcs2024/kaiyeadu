@@ -82,7 +82,7 @@ export async function loginWithGPF(req: ApiRequest, res: Response) {
 	const payload: PayloadObject = { id, name, designation, role };
 	const token = jwt.sign(payload, JWT_SECRET, { issuer: 'TNPOL', expiresIn: '1d' });
 
-	accessLogger(req, `User with GPF ID: ${gpf} has logged in`);
+	accessLogger(req, `User with GPF ID: ${gpf}(&) has logged in`);
 
 	res.status(StatusCodes.CREATED).json({
 		message: 'Login successful',

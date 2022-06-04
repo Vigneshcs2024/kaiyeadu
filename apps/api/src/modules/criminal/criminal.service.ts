@@ -48,7 +48,7 @@ export async function create(req: ApiRequest, res: Response) {
 
 	const criminal = await criminalRepo.create(req.body);
 
-	accessLogger(req, `Criminal $ is created`, criminal.id);
+	accessLogger(req, `Criminal $ is created by &`, criminal.id);
 
 	return res.status(StatusCodes.CREATED).json({
 		message: 'Criminal created successfully',
@@ -65,7 +65,7 @@ export async function getDetails(req: ApiRequest, res: Response) {
 
 	const criminal = await criminalRepo.getCompleteDetails(req.params.id);
 
-	accessLogger(req, `Details of Criminal $ fetched from DB by User &`, criminal.id);
+	accessLogger(req, `Details of Criminal $ fetched from DB by &`, criminal.id);
 
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminal details retrieved successfully',
@@ -100,7 +100,7 @@ export async function getMinimalList(req: ApiRequest, res: Response) {
 		}
 	});
 
-	accessLogger(req, `Criminals fetched from DB`);
+	accessLogger(req, `Criminals fetched from DB by &`);
 
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminals retrieved successfully',
@@ -155,7 +155,7 @@ export async function updatePersonalDetails(req: ApiRequest, res: Response) {
 		...rest
 	});
 
-	accessLogger(req, `Criminal $ updated by User &`, id);
+	accessLogger(req, `Criminal $ updated by &`, id);
 
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminal updated successfully'
@@ -169,7 +169,7 @@ export async function remove(req: ApiRequest, res: Response) {
 
 	await criminalRepo.remove(id);
 
-	accessLogger(req, `Criminal $ removed by User &`, id);
+	accessLogger(req, `Criminal $ removed by &`, id);
 
 	return res.status(StatusCodes.OK).json({
 		message: 'Criminal removed successfully'
@@ -205,7 +205,7 @@ export async function listByDistrict(req: ApiRequest, res: Response) {
 		}
 	});
 
-	accessLogger(req, `Criminals fetched inorder of district by User &`);
+	accessLogger(req, `Criminals fetched in-order of district by &`);
 
 	return res.status(StatusCodes.OK).json({ message: 'Criminals retrieved successfully', result });
 }

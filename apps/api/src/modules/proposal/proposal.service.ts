@@ -20,7 +20,7 @@ export async function add(req: ApiRequest, res: Response) {
 		created_by
 	});
 
-	accessLogger(req, `Proposal created`);
+	accessLogger(req, `Proposal created by &`);
 
 	return res
 		.status(StatusCodes.CREATED)
@@ -43,7 +43,7 @@ export async function list(req: ApiRequest, res: Response) {
 
 	const result = await proposalsRepo.list(options);
 
-	accessLogger(req, `Proposals fetched`);
+	accessLogger(req, `Proposals fetched by &`);
 
 	return res.status(StatusCodes.OK).json({ message: 'Proposals fetched successfully', result });
 }
@@ -54,7 +54,7 @@ export async function getById(req: ApiRequest, res: Response) {
 
 	const proposal = await proposalsRepo.getProposal(id);
 
-	accessLogger(req, `Proposal with id: ${id} is fetched`);
+	accessLogger(req, `Proposal with id: ${id} is fetched by &`);
 
 	return res
 		.status(StatusCodes.OK)
@@ -70,7 +70,7 @@ export async function updateStatus(req: ApiRequest, res: Response) {
 
 	const proposal = await proposalsRepo.updateStatus(id, status);
 
-	accessLogger(req, `Proposal with id: ${id} is updated`);
+	accessLogger(req, `Proposal with id: ${id} is updated by &`);
 
 	return res
 		.status(StatusCodes.OK)
@@ -83,7 +83,7 @@ export async function remove(req: ApiRequest, res: Response) {
 
 	await proposalsRepo.remove(id);
 
-	accessLogger(req, `Proposal with id: ${id} is removed`);
+	accessLogger(req, `Proposal with id: ${id} is removed by &`);
 
 	return res.status(StatusCodes.OK).json({ message: 'Proposal removed successfully' });
 }

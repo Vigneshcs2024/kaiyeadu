@@ -48,7 +48,7 @@ export async function createUser(req: ApiRequest, res: Response) {
 	await validateCreateUser(userDetails);
 	const user = await userRepository.createUser(userDetails);
 
-	accessLogger(req, `User - & is created`);
+	accessLogger(req, `User with ${gpf} is created by &`);
 
 	return res
 		.status(StatusCodes.CREATED)
@@ -85,7 +85,7 @@ export async function listUsers(req: ApiRequest, res: Response) {
 		req,
 		`User list fetched from DB with ${
 			options.count
-		} users per page and with filters: ${jsonPrettyPrint(options.f)}`
+		} users per page and with filters: ${jsonPrettyPrint(options.f)} by &`
 	);
 
 	return res.json({ message: 'Users fetched successfully', result });
@@ -108,7 +108,7 @@ export async function getUser(req: ApiRequest, res: Response) {
 
 	const user = await userRepository.getUser(id);
 
-	accessLogger(req, `User - & is fetched from DB`);
+	accessLogger(req, `User with ${user.gpf} is fetched by &`);
 
 	return res.json({ message: 'User fetched successfully', result: user });
 }
@@ -123,7 +123,7 @@ export async function updateUser(req: ApiRequest, res: Response) {
 
 	await userRepository.updateUser(id, userDetails);
 
-	accessLogger(req, `User - & is updated`);
+	accessLogger(req, `User with ${gpf} is updated by &`);
 
 	res.status(StatusCodes.OK).json({ message: 'User updated successfully', result: { id } });
 }
@@ -135,7 +135,7 @@ export async function removeUser(req: ApiRequest, res: Response) {
 
 	await userRepository.remove(id);
 
-	accessLogger(req, `User - & is removed`);
+	accessLogger(req, `User with ID - ${id} is removed by &`);
 
 	res.status(StatusCodes.OK).json({ message: 'User removed successfully' });
 }

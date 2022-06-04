@@ -12,7 +12,7 @@ export async function getStats(req: ApiRequest, res: Response) {
 	const noOfCriminals = await Criminal.count();
 	const noOfProposalReqs = await Proposal.count({ where: { status: 'pending' } });
 
-	accessLogger(req, `Stats fetched from DB`);
+	accessLogger(req, ` Stats fetched by &`);
 
 	res.json({
 		message: 'Statistics fetched successfully',

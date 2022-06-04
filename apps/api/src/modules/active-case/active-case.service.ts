@@ -12,7 +12,7 @@ export async function getAll(req: ApiRequest, res: Response) {
 
 	const activeCases = await repo.getActiveCasesOf(criminal_id);
 
-	accessLogger(req, `Active Cases fetched`, criminal_id);
+	accessLogger(req, `Active Cases fetched by &`, criminal_id);
 
 	return res
 		.status(StatusCodes.OK)
