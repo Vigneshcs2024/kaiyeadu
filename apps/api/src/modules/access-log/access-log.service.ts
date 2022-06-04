@@ -73,12 +73,12 @@ export async function listLogs(req: ApiRequest, res: Response) {
 	logs.map(value => {
 		if (value.log.includes('$') && value.criminal_id !== null) {
 			value.log = value.log.replace('$', value.criminal_id.name);
-		} else if (value.log.includes('&') && value.user_id !== null) {
+		}
+		if (value.log.includes('&') && value.user_id !== null) {
 			value.log = value.log.replace('&', value.user_id.name);
-		} else if (value.log.includes('/') && value.police_station_id !== null) {
+		}
+		if (value.log.includes('/') && value.police_station_id !== null) {
 			value.log = value.log.replace('/', value.police_station_id.name);
-		} else {
-			return;
 		}
 		return value;
 	});
