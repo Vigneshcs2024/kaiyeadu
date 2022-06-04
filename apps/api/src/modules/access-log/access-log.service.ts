@@ -64,6 +64,7 @@ export async function listLogs(req: ApiRequest, res: Response) {
 				[Op.like]: `%${queryParams.params.search ?? ''}%`
 			}
 		},
+		order: [['createdAt', 'DESC']],
 		offset:
 			(queryParams.pagination.pageNumber - 1) * queryParams.pagination.resultsPerPage || 0,
 		limit: queryParams.pagination.resultsPerPage || 10
