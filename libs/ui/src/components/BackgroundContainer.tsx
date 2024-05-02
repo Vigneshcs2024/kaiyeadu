@@ -25,7 +25,7 @@ export default function BackgroundContainer({
 	return isLogin ? (
 		<Section
 			style={{
-				backgroundImage: `linear-gradient(130deg, rgba(226, 30, 36, 0.6) 0%,rgba(6, 0, 167, 0.79)  100%),
+				backgroundImage: `linear-gradient(130deg,  rgb(30 226 70 / 60%) 0%, rgb(0 167 164 / 79%) 100%),
 					url('${LogoLight}')`,
 				...style
 			}}>
@@ -35,7 +35,7 @@ export default function BackgroundContainer({
 		<SideBar content={session.getUserRole() === 'admin' ? admin : master} pageTitle={pageTitle}>
 			<Section
 				style={{
-					backgroundImage: `linear-gradient(130deg, rgba(226, 30, 36, 0.6) 0%,rgba(6, 0, 167, 0.79)  100%),
+					backgroundImage: `linear-gradient(130deg,  rgb(30 226 70 / 60%) 0%, rgb(0 167 164 / 79%) 100%),
 				url('${LogoLight}')`,
 					...style
 				}}>
@@ -47,7 +47,7 @@ export default function BackgroundContainer({
 			<Navbar pageTitle='Home' />
 			<Section
 				style={{
-					backgroundImage: `linear-gradient(130deg, rgba(226, 30, 36, 0.6) 0%,rgba(6, 0, 167, 0.79)  100%),
+					backgroundImage: `linear-gradient(130deg,  rgb(30 226 70 / 60%) 0%, rgb(0 167 164 / 79%) 100%),
 	url('${LogoLight}')`,
 					...style
 				}}>
@@ -59,7 +59,7 @@ export default function BackgroundContainer({
 
 const Section = styled.section`
 	min-height: calc(100vh - 55px);
-	background: linear-gradient(87deg, rgba(182, 110, 112, 0.5) 60%, rgba(43, 41, 115, 0.5) 100%),
+	background: linear-gradient(87deg, rgb(30 226 70 / 60%) 0%, rgb(0 167 164 / 79%) 100%),
 		url('/logo.png');
 	background-position: center;
 	background-repeat: no-repeat;

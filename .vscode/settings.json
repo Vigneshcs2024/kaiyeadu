@@ -1,3 +1,4 @@
 {
-	"cSpell.words": ["alphanum", "dtos", "kaiyeadu", "originalname", "picocolors", "twilio"]
+	"cSpell.words": ["alphanum", "dtos", "kaiyeadu", "originalname", "picocolors", "twilio"],
+	"vscode.tsc.compiler.alertTSConfigChanges": "never"
 }
